@@ -1,0 +1,25 @@
+{
+  "name": "signal-eal-adventure",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 0.0.0.0",
+    "build": "vite build",
+    "preview": "vite preview --host 0.0.0.0",
+    "test": "node --test --test-isolation=none --test-reporter=spec tests/*.test.js",
+    "test:browser": "node tests/browser.mjs",
+    "test:movement": "node tests/movement.mjs",
+    "build:demo": "npm run build && node scripts/package-demo.mjs"
+  },
+  "dependencies": {
+    "phaser": "3.90.0",
+    "react": "19.1.1",
+    "react-dom": "19.1.1",
+    "lucide-react": "0.468.0"
+  },
+  "devDependencies": {
+    "vite": "7.1.12",
+    "@playwright/test": "1.56.1"
+  }
+}

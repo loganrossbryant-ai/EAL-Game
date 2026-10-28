@@ -1,0 +1,69 @@
+import {chromium} from '@playwright/test';
+import assert from 'node:assert/strict';
+import {mkdir} from 'node:fs/promises';
+await mkdir('test-results',{recursive:true});
+const browser=await chromium.launch({executablePath:process.env.CHROMIUM_PATH||'/usr/bin/chromium',headless:true,args:['--no-sandbox']});
+const page=await browser.newPage({viewport:{width:1440,height:1000}});
+page.setDefaultTimeout(15000);
+const errors=[];page.on('pageerror',e=>errors.push(e.message));
+const base=process.env.BASE_URL||'http://127.0.0.1:5173';
+const scene=()=>page.locator('canvas');
+async function clickWorld(x,y){const box=await scene().boundingBox();await page.mouse.click(box.x+x/1280*box.width,box.y+y/780*box.height);}
+async function openObject(id,x,y){await clickWorld(x,y);await page.getByRole('dialog').waitFor({timeout:12000});assert.equal(await page.evaluate(()=>window.__gameScene.pausedByUI),true);}
+async function close(){await page.getByRole('button',{name:'Close interaction'}).click();await page.getByRole('dialog').waitFor({state:'hidden'});}
+try{
+ await page.goto(base);await page.waitForFunction(()=>window.__gameScene?.player);await page.waitForTimeout(200);
+ await page.screenshot({path:'test-results/newsroom-desktop.png',fullPage:true});
+ // Explore actual hotspots with mouse, so the pathfinding and trigger must work.
+ await openObject('editor',850,385);
+ await page.getByRole('button',{name:/What evidence supports/}).click();
+ await page.screenshot({path:'test-results/editor-conversation.png'});await close();
+ await openObject('noticeboard',260,220);
+ await page.getByRole('button',{name:'Keep as evidence'}).click();await close();
+ await openObject('laptop',440,300);
+ await page.getByRole('button',{name:'Transparency',exact:true}).click();
+ await page.getByRole('heading',{name:'Where does your donation go?'}).waitFor();
+ await page.screenshot({path:'test-results/campaign-website.png'});
+ await page.getByRole('button',{name:'Keep as evidence'}).click();await close();
+ await openObject('inbox',970,340);
+ await page.getByRole('heading',{name:'Before you share the appeal'}).waitFor();
+ await page.getByRole('button',{name:'Keep as evidence'}).click();await close();
+ await openObject('editor',850,385);
+ await page.getByRole('button',{name:'Write to Maya'}).click();
+ await page.getByRole('button',{name:'Send recommendation'}).click();
+ await page.getByText('Maya has a revision request.',{exact:true}).waitFor();
+ await page.getByLabel('Your recommendation',{exact:true}).selectOption('verify');
+ await page.getByLabel('The public campaign',{exact:false}).check();
+ await page.getByLabel('Behind the headline',{exact:false}).check();
+ const response='Maya, I recommend verifying the campaign before we share it. The campaign promotes 120 kits, but Ms Chen says 48 families requested blankets and school supplies. We should ask her to confirm the needs list tomorrow so our help has a useful impact.';
+ await page.getByLabel('Your note to Maya').fill(response);
+ await page.reload();await page.waitForFunction(()=>window.__gameScene?.player);
+ await openObject('editor',850,385);await page.getByRole('button',{name:'Write to Maya'}).click();
+ assert.equal(await page.getByLabel('Your note to Maya').inputValue(),response);
+ await page.getByRole('button',{name:'Send recommendation'}).click();
+ await page.getByText('Your recommendation is ready for Maya.',{exact:true}).waitFor();
+ await page.screenshot({path:'test-results/assessment-complete.png'});await close();
+ await openObject('door',1210,300);
+ await page.getByRole('heading',{name:/Better questions/}).waitFor();
+ assert.equal(await page.evaluate(()=>window.__gameScene.room),'courtyard');
+ await page.getByRole('button',{name:'Explore the courtyard'}).click();
+ await page.screenshot({path:'test-results/courtyard.png'});
+ await page.reload();await page.waitForFunction(()=>window.__gameScene?.room==='courtyard');
+ await clickWorld(184,332);await page.waitForFunction(()=>window.__gameScene?.room==='newsroom',{},{timeout:12000});
+ const saved=await page.evaluate(()=>JSON.parse(localStorage.getItem('signal-save-v1')));
+ assert.equal(saved.completed,true);assert.equal(saved.evidence.length,3);assert.equal(saved.responses.length,2);
+ await page.getByRole('button',{name:/Field notebook/}).click();
+ const downloadPromise=page.waitForEvent('download');await page.getByRole('button',{name:'Export learning record'}).click();
+ const download=await downloadPromise;assert.match(download.suggestedFilename(),/signal-learning-record.json/);await close();
+ await page.getByLabel('Language support level').selectOption('2');
+ await page.getByRole('button',{name:'Language companion'}).click();
+ await page.getByText('主张；声称',{exact:true}).waitFor();await close();
+ await page.setViewportSize({width:390,height:844});await page.waitForTimeout(250);
+ assert.equal(await page.evaluate(()=>document.body.scrollWidth<=innerWidth),true);
+ await page.screenshot({path:'test-results/newsroom-mobile.png',fullPage:true});
+ await page.getByRole('button',{name:'How to play'}).click();await page.getByRole('heading',{name:'You’re part of the newsroom.'}).waitFor();
+ assert.equal(await page.evaluate(()=>document.querySelector('[role=dialog]').scrollWidth<=document.querySelector('[role=dialog]').clientWidth),true);
+ await page.keyboard.press('Escape');await page.getByRole('dialog').waitFor({state:'hidden'});
+ assert.deepEqual(errors,[]);
+ console.log('PASS: physical exploration, dialogue branches, all 3 sources, site tabs, revision feedback, draft restore, successful recommendation, courtyard + return + reload, export, Chinese glossary, mobile layout, Escape dismissal. No browser runtime errors.');
+}finally{await browser.close();}

@@ -17,7 +17,9 @@ for(const name of ['media-room.webp','courtyard.webp']){
 }
 js=js.replaceAll('</script','<\\/script');
 html=html.replace(/<script type="module"[^>]*src="[^"]+"[^>]*><\/script>/g,'').replace(/<link rel="stylesheet"[^>]*>/g,'').replace(/<link rel="icon"[^>]*>/g,'');
-html=html.replace('</head>','<style>'+css+'</style></head>').replace('</body>','<script type="module">'+js+'</script></body>');
+// Replacement functions preserve literal dollar sequences inside bundled code.
+// Replacement strings would expand $$, $&, $`, and $' and corrupt React/Phaser.
+html=html.replace('</head>',()=>'<style>'+css+'</style></head>').replace('</body>',()=>'<script type="module">'+js+'</script></body>');
 await mkdir(path.join(root,'demo'),{recursive:true});
 await writeFile(path.join(root,'demo/Signal-Play.html'),html);
 console.log('Created demo/Signal-Play.html with code, styles, and artwork embedded.');

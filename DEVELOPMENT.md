@@ -31,6 +31,8 @@ npm run build
 # With the development server running, and Chromium installed:
 npm run test:movement
 npm run test:browser
+# Test the exact downloadable HTML (starts its own temporary test server):
+npm run test:demo
 ```
 
 Browser tests use `/usr/bin/chromium`; override `CHROMIUM_PATH` if needed. Override `BASE_URL` to test another served build. Screenshots are written to ignored `test-results/`. Tests run in fresh browser contexts and do not overwrite a learner's normal browser save.
@@ -59,3 +61,7 @@ The current narrative, glossary, and language functions are provisional thematic
 - `public/assets/`: original generated newsroom and courtyard environment art.
 
 Use the existing checkout for future tasks. This cloud task is already isolated; do not create a Git worktree unless the user explicitly requests one.
+
+## Downloadable demo
+
+`npm run build:demo` regenerates `demo/Signal-Play.html` with all code, styles, and artwork embedded. `npm test` parses the actual packaged JavaScript, and `npm run test:demo` exercises that exact artifact through the complete student journey. Run these checks before uploading a new downloadable file.

@@ -10,7 +10,8 @@
     "test": "node --test --test-isolation=none --test-reporter=spec tests/*.test.js",
     "test:browser": "node tests/browser.mjs",
     "test:movement": "node tests/movement.mjs",
-    "build:demo": "npm run build && node scripts/package-demo.mjs"
+    "build:demo": "npm run build && node scripts/package-demo.mjs",
+    "test:demo": "node tests/demo-browser.mjs"
   },
   "dependencies": {
     "phaser": "3.90.0",

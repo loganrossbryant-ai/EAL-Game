@@ -1,7 +1,8 @@
 import {chromium} from '@playwright/test';
 import assert from 'node:assert/strict';
 import {mkdir} from 'node:fs/promises';
-await mkdir('test-results',{recursive:true});
+const screenshotDir=process.env.SCREENSHOT_DIR||'test-results';
+await mkdir(screenshotDir,{recursive:true});
 const browser=await chromium.launch({executablePath:process.env.CHROMIUM_PATH||'/usr/bin/chromium',headless:true,args:['--no-sandbox']});
 const page=await browser.newPage({viewport:{width:1440,height:1000}});
 page.setDefaultTimeout(15000);
@@ -13,17 +14,17 @@ async function openObject(id,x,y){await clickWorld(x,y);await page.getByRole('di
 async function close(){await page.getByRole('button',{name:'Close interaction'}).click();await page.getByRole('dialog').waitFor({state:'hidden'});}
 try{
  await page.goto(base);await page.waitForFunction(()=>window.__gameScene?.player);await page.waitForTimeout(200);
- await page.screenshot({path:'test-results/newsroom-desktop.png',fullPage:true});
+ await page.screenshot({path:screenshotDir+'/newsroom-desktop.png',fullPage:true});
  // Explore actual hotspots with mouse, so the pathfinding and trigger must work.
  await openObject('editor',850,385);
  await page.getByRole('button',{name:/What evidence supports/}).click();
- await page.screenshot({path:'test-results/editor-conversation.png'});await close();
+ await page.screenshot({path:screenshotDir+'/editor-conversation.png'});await close();
  await openObject('noticeboard',260,220);
  await page.getByRole('button',{name:'Keep as evidence'}).click();await close();
  await openObject('laptop',440,300);
  await page.getByRole('button',{name:'Transparency',exact:true}).click();
  await page.getByRole('heading',{name:'Where does your donation go?'}).waitFor();
- await page.screenshot({path:'test-results/campaign-website.png'});
+ await page.screenshot({path:screenshotDir+'/campaign-website.png'});
  await page.getByRole('button',{name:'Keep as evidence'}).click();await close();
  await openObject('inbox',970,340);
  await page.getByRole('heading',{name:'Before you share the appeal'}).waitFor();
@@ -42,12 +43,12 @@ try{
  assert.equal(await page.getByLabel('Your note to Maya').inputValue(),response);
  await page.getByRole('button',{name:'Send recommendation'}).click();
  await page.getByText('Your recommendation is ready for Maya.',{exact:true}).waitFor();
- await page.screenshot({path:'test-results/assessment-complete.png'});await close();
+ await page.screenshot({path:screenshotDir+'/assessment-complete.png'});await close();
  await openObject('door',1210,300);
  await page.getByRole('heading',{name:/Better questions/}).waitFor();
  assert.equal(await page.evaluate(()=>window.__gameScene.room),'courtyard');
  await page.getByRole('button',{name:'Explore the courtyard'}).click();
- await page.screenshot({path:'test-results/courtyard.png'});
+ await page.screenshot({path:screenshotDir+'/courtyard.png'});
  await page.reload();await page.waitForFunction(()=>window.__gameScene?.room==='courtyard');
  await clickWorld(184,332);await page.waitForFunction(()=>window.__gameScene?.room==='newsroom',{},{timeout:12000});
  const saved=await page.evaluate(()=>JSON.parse(localStorage.getItem('signal-save-v1')));
@@ -60,7 +61,7 @@ try{
  await page.getByText('主张；声称',{exact:true}).waitFor();await close();
  await page.setViewportSize({width:390,height:844});await page.waitForTimeout(250);
  assert.equal(await page.evaluate(()=>document.body.scrollWidth<=innerWidth),true);
- await page.screenshot({path:'test-results/newsroom-mobile.png',fullPage:true});
+ await page.screenshot({path:screenshotDir+'/newsroom-mobile.png',fullPage:true});
  await page.getByRole('button',{name:'How to play'}).click();await page.getByRole('heading',{name:'You’re part of the newsroom.'}).waitFor();
  assert.equal(await page.evaluate(()=>document.querySelector('[role=dialog]').scrollWidth<=document.querySelector('[role=dialog]').clientWidth),true);
  await page.keyboard.press('Escape');await page.getByRole('dialog').waitFor({state:'hidden'});

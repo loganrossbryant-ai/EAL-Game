@@ -1,0 +1,10 @@
+{
+  "release_commit": "4537180a5d07fe74240e2674ee86d23074d60755",
+  "scan_run": "41218947705",
+  "scan_manifest_sha256": "91d34fe39ad8486e25258560a636c6c0d36233999b69059f77b6cbbf713bd27e",
+  "public_branch": "gh-pages",
+  "url": "https://loganrossbryant-ai.github.io/hello-earth-demo/",
+  "pages_enabled": "deployment verified via GitHub Actions",
+  "pages_run": "41219520253",
+  "pages_status": "Success"
+}

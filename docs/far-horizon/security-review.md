@@ -55,3 +55,5 @@ The user chose a normal browser play link. The standard separate-file Godot Web 
 The standard release also passed Chromium checks at 1280×720 without browser errors or unexpected network requests. Source and known-engine checks remain supplementary evidence. No verdict of false positive is being made for the old packed HTML; it stays withdrawn. No antivirus scan guarantees the absence of all malware.
 
 The public `gh-pages` branch contains the exact scanned game bytes and the actual scan report/manifest. Pages activation is a separate hosting step, not a malware fix or security clearance. This runtime cannot directly open the github.io site due to its network policy.
+
+GitHub Pages deployment was verified through public run `41219520253`: Success, source `gh-pages`, reviewed commit `4537180a5d07fe74240e2674ee86d23074d60755`, successful build/deploy jobs, recorded URL `https://loganrossbryant-ai.github.io/hello-earth-demo/`. Pages is active. Live website navigation could not be tested from this runtime; local tests and uploaded file hashes were checked.

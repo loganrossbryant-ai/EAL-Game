@@ -1,0 +1,40 @@
+name: Far Horizon Windows Defender review
+
+on:
+  push:
+    branches: [codex/far-horizon-defender-review]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  scan:
+    runs-on: windows-2022
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          sparse-checkout: |
+            tools/windows_defender_review.ps1
+            review-candidate
+          sparse-checkout-cone-mode: false
+      - name: Verify files and run active Windows Defender
+        shell: powershell
+        run: ./tools/windows_defender_review.ps1
+      - name: Preserve the actual scan result, including failures
+        if: always()
+        shell: powershell
+        run: |
+          $ErrorActionPreference = 'Stop'
+          if (-not (Test-Path 'security-reports/defender-review.json')) {
+            throw 'No scan report was produced. Release is not cleared.'
+          }
+          git config user.name 'Codex validation'
+          git config user.email 'codex@openai.com'
+          git add --sparse --force security-reports/defender-review.json
+          git commit -m "Record Defender validation run $env:GITHUB_RUN_ID attempt $env:GITHUB_RUN_ATTEMPT"
+          if ($LASTEXITCODE -ne 0) { throw 'Could not save the report.' }
+          $reportBranch = "codex/fh-defender-scan-$env:GITHUB_RUN_ID-$env:GITHUB_RUN_ATTEMPT"
+          git push origin "HEAD:refs/heads/$reportBranch"
+          if ($LASTEXITCODE -ne 0) { throw 'Could not publish the scan report to the private source repository.' }

@@ -8,9 +8,9 @@ The separate `godot/` Earth game is preserved. Only Session 1 is implemented her
 
 ## Playing
 
-The delivery build is a single `index.html` containing the engine, artwork,
-fonts, ambient sound, sound effects, and license notices. Use current Chrome or
-Edge and a keyboard/mouse. The hosted page needs no Godot installation.
+The reviewed delivery is the standard Godot Web export: an HTML entry page with separate JavaScript, WebAssembly, game data, and audio helpers. Use current Chrome or Edge and a keyboard/mouse. The hosted game needs no Godot installation.
+
+The earlier custom all-in-one HTML/ZIP was withdrawn after a Defender alert. Do not use that package or the old single-file packager for distribution. Its detection has not been declared a false positive.
 
 | Input | Action |
 | --- | --- |
@@ -46,14 +46,14 @@ Open `project.godot` for the editable project. From the repository root:
 godot --headless --path far-horizon --editor --import --quit
 mkdir -p builds/far-horizon-release
 godot --headless --path far-horizon --export-release Web ../builds/far-horizon-release/index.html
-python tools/package_fh_html.py
-python -m http.server 8071 --directory builds/far-horizon-delivery
+python tools/prepare_fh_review.py
+python -m http.server 8073 --directory review-candidate/far-horizon
 ```
 
-Open `http://localhost:8071`. The managed environment uses writable XDG paths
+Open `http://localhost:8073`. The managed environment uses writable XDG paths
 under `/workspace`; its web export templates are already installed.
 
-## Verified
+## Gameplay verification
 
 - A terminal vertical slice was tested and visually reviewed **before** the ship
   areas were added.
@@ -61,9 +61,7 @@ under `/workspace`; its web export templates are already installed.
   documents, writing, dialogue branches, modal movement lock, paper review,
   boarding, launch, saved cue restoration, four department choices, observation,
   screenplay capture, the exact ending, and JSON export.
-- `tests/browser_html.py`: the delivered release HTML at 1280×720, embedded audio
-  helpers, real movement/writing, save restoration, no debug globals, and a new
-  class. No browser errors or external game-asset requests.
+- `tests/browser_html.py` supports the standard release with `FH_STANDARD_BUILD=1`: startup, audio helpers, movement/writing, save restoration, no debug globals, and a new class. The standard build passed at 1280×720 without browser errors or unexpected network requests.
 - Direct `file://` navigation was not tested: managed Chromium blocks that
   protocol. The self-contained file was verified over HTTP.
 
@@ -88,3 +86,13 @@ Pines is the quality direction; commercial AA animation parity is not claimed.
 The numbered canonical deck map and M01/M02 recordings were not supplied. The
 six-area directory is provisional; ambience and effects are original procedural
 assets produced by `tools/synthesize_fh_audio.py`. No Silver Pines assets are used.
+
+## Windows validation and browser delivery
+
+The exact standard build passed Microsoft Defender on Windows Server 2022: active normal protection, script/archive scanning enabled, no exclusions, current signatures, exit code 0, and no detections. Hashes matched before and after scanning. The final report is from workflow run `41218947705`, source commit `fe242de394fd069263ad5793246e9eada51f0ec8`. This is evidence, not an absolute malware-free guarantee. The earlier packed file remains withdrawn.
+
+`tools/windows_defender_review.ps1` is restricted to ephemeral GitHub Actions runners and never runs the game or disables protection. It creates a report even when scanning is unavailable or fails. `.github/workflows/far-horizon-defender-review.yml` runs on pushes to the review branch. Keep `review-candidate/.gitattributes` so Windows checkout does not change the scanned bytes.
+
+For future releases, run `tools/prepare_fh_review.py`, validate the resulting exact files on Windows, and publish only a build with a matching successful scan report. Changing game files invalidates that clearance. Test the standard delivery with `FH_STANDARD_BUILD=1 FH_HTML_URL=http://127.0.0.1:8073/ python far-horizon/tests/browser_html.py`.
+
+The public `hello-earth-demo` repository has the reviewed build on `gh-pages`. Select that branch and `/(root)` in Pages settings to activate `https://loganrossbryant-ai.github.io/hello-earth-demo/`. The public repository does not need a paid Pages plan. The hosted URL cannot be checked directly through this runtime's network policy.

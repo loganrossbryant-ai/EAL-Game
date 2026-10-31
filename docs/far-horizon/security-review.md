@@ -1,8 +1,7 @@
 # Defender alert — unresolved, download withdrawn
 
 The user reported **Trojan:Script/Wacatac.B!ml**. Their Windows Security screenshot
-shows **Severe** and **Active**. The affected filename/path and whether the game
-was opened are not established. The user reported no further details in the UI.
+shows **Severe** and **Active**. The affected filename/path is not established. The user reported no further details in the UI and later clarified they did not download the package.
 
 The user was advised to use Defender's recommended quarantine/removal, keep
 protection enabled, and run a full scan if the HTML had been opened. Do not
@@ -48,3 +47,11 @@ replacement as clean on this evidence, or modify packaging simply to get past
 Defender. A Windows Defender investigation/validation is needed before another
 download is recommended. Do not upload the sample to third-party scanning
 services without authorization.
+
+## Replacement validation
+
+The user chose a normal browser play link. The standard separate-file Godot Web replacement passed a real Windows Defender custom scan, with active normal protection, script/archive scanning enabled, current signatures, no exclusions, native exit code 0, and no detections. Every game-file hash matched before and after scanning. Final run: `41218947705`, source commit `fe242de394fd069263ad5793246e9eada51f0ec8`; manifest SHA-256 `91d34fe39ad8486e25258560a636c6c0d36233999b69059f77b6cbbf713bd27e`. Engine `1.1.26100.4`, signatures `1.463.58.0`. Samples were not automatically uploaded for analysis.
+
+The standard release also passed Chromium checks at 1280×720 without browser errors or unexpected network requests. Source and known-engine checks remain supplementary evidence. No verdict of false positive is being made for the old packed HTML; it stays withdrawn. No antivirus scan guarantees the absence of all malware.
+
+The public `gh-pages` branch contains the exact scanned game bytes and the actual scan report/manifest. Pages activation is a separate hosting step, not a malware fix or security clearance. This runtime cannot directly open the github.io site due to its network policy.

@@ -1,8 +1,18 @@
-# SECURITY HOLD — READ FIRST
+# DELIVERY STATUS — REVIEWED STANDARD BUILD
 
-The user reports Microsoft Defender **Trojan:Script/Wacatac.B!ml**, marked Severe/Active, after the offline download. The affected path and whether the HTML was opened are not established. The user said no further details were shown. Advise recommended quarantine/removal; do not ask the user to restore, allow-list, or disable Defender. If opened, recommend a Defender full scan.
+The user clarified that they did not download the flagged package and accepted a normal browser play link. Keep the earlier packed single HTML and ZIP withdrawn; their original detection has not been declared a false positive.
 
-The current Far Horizon ZIP and embedded HTML have been withdrawn from the public main branch in commit `5923d19e5f6d7368224ca5f212d67decf76150f9`. Do not offer old links or silently republish a replacement. Local samples and source are retained for investigation. Official-file and build-integrity checks are NOT antivirus clearance. This is not a confirmed false positive. No Defender scanner is available in this Linux environment. Do not upload samples to third-party services without authorization.
+A standard Godot Web replacement passed real Microsoft Defender validation on Windows Server 2022 and browser checks. Exact game files were hashed before/after scanning. Report: private source branch `codex/fh-defender-scan-41218947705-1`, `security-reports/defender-review.json`; scan source commit `fe242de394fd069263ad5793246e9eada51f0ec8`. Status `scan_passed`, exit code 0, no detections, active normal protection, current signatures `1.463.58.0`, no exclusions. This is scan evidence, not a guarantee of absence of all malware.
+
+Final scan manifest SHA-256: `91d34fe39ad8486e25258560a636c6c0d36233999b69059f77b6cbbf713bd27e`. Standard export: `review-candidate/far-horizon/`; manifest: `review-candidate/manifest.json`. The exact validated game files are prepared in `builds/far-horizon-reviewed/` and the public repository's `gh-pages` branch. Release commit `4537180a5d07fe74240e2674ee86d23074d60755`. Public `main` still keeps the earlier offline package withdrawn.
+
+Browser checks passed at 1280×720: startup, audio helpers, movement, writing, local save restoration, release without debug globals, and new-class reset; no errors or unexpected network requests. See ignored `artifacts/far-horizon-tests/standard-result.json`. Core Session 1 story/interaction tests also passed before this delivery change.
+
+**Activation still needs confirmation:** public repository `loganrossbryant-ai/hello-earth-demo` → Settings → Pages → Deploy from a branch → `gh-pages` → `/(root)` → Save. The repository was verified public; this does not require the private-repo Pages upgrade. Browser URL after activation is `https://loganrossbryant-ai.github.io/hello-earth-demo/`. The runtime blocks github.io and GitHub API access, so do not claim the hosted URL was directly browser-tested here.
+
+The Windows validation workflow and scripts are in the private `codex/far-horizon-defender-review` branch. The runner normally disables Defender/excludes drives; our check enables protection and clears exclusions on that ephemeral runner only, verifies current signatures and scanner authenticity, then records exit code/detections and rechecks hashes. It never executes the game or auto-submits file samples. Failed/incomplete runs are not clearance.
+
+For changes: export Godot Web normally, run `tools/prepare_fh_review.py`, retain `review-candidate/.gitattributes` to preserve Windows checkout bytes, push the review branch, and wait for a matching successful Defender report. Run browser checks with `FH_STANDARD_BUILD=1 FH_HTML_URL=http://127.0.0.1:8073/ python far-horizon/tests/browser_html.py`. Do not change game files after scanning without rescanning. Do not use the withdrawn all-in-one packager for delivery.
 
 # Far Horizon continuation checkpoint
 
@@ -12,7 +22,7 @@ Session 1's first playable Godot/HTML draft is complete. The terminal vertical
 slice was tested visually before expansion. The complete Session 1 route and
 the final single-file release then passed browser tests.
 
-- Proposed hosted URL (inactive; Pages is NOT enabled): https://loganrossbryant-ai.github.io/hello-earth-demo/far-horizon/
+- Current browser URL after Pages activation: https://loganrossbryant-ai.github.io/hello-earth-demo/
 - Public repository: `loganrossbryant-ai/hello-earth-demo`, branch `main`.
 - Published game commit: `90614a9be3120e9b23e0a836da2e16449cf8aeb1`.
 - Editable source: `loganrossbryant-ai/EAL-Game`, branch
@@ -99,3 +109,5 @@ The user explicitly requested the HTML file for direct browser opening. The ZIP 
 Direct download: https://github.com/loganrossbryant-ai/hello-earth-demo/raw/refs/heads/main/far-horizon/Far-Horizon-Session-01.zip
 
 Download commit: `35030471e267db79072ec7ea7dd2da01bdf0a6bf`. The original embedded HTML bytes are unchanged. When updating the game, regenerate both the hosted HTML and the ZIP so the offline download stays current.
+
+The old offline-download instructions below are historical and superseded by the standard browser delivery at the top of this checkpoint. Do not offer that ZIP again.

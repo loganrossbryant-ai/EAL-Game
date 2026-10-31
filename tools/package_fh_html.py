@@ -1,4 +1,10 @@
-"""Embed a tested Godot export and both audio worklets in one distributable HTML.
+"""WITHDRAWN delivery method: retained for investigation/reproduction only.
+
+Do not distribute this all-in-one package. A previous output was flagged by
+Microsoft Defender; no false-positive verdict has been established. Use the
+standard Web export and Windows validation workflow for reviewed releases.
+
+Original purpose: embed a Godot export and both audio worklets in one HTML.
 
 Uses the pinned Godot 4.6.3 loader. Test the output over HTTP; this managed browser
 blocks file://. The file contains no external game-asset URLs.

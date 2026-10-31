@@ -1,0 +1,40 @@
+{
+    "status":  "not_cleared",
+    "source_commit":  "aa1ccada5f3588a52578e435d7ceee3fbdfa573b",
+    "run_id":  "41217965042",
+    "run_attempt":  "1",
+    "started_utc":  "2026-10-31T16:05:39.4424663Z",
+    "completed_utc":  "2026-10-31T16:06:27.1641566Z",
+    "files_verified_before_scan":  true,
+    "files_verified_after_scan":  false,
+    "defender":  {
+                     "AMRunningMode":  "Normal",
+                     "AMServiceEnabled":  true,
+                     "AntivirusEnabled":  true,
+                     "RealTimeProtectionEnabled":  true,
+                     "AMEngineVersion":  "1.1.26100.4",
+                     "AMProductVersion":  "4.18.26090.9",
+                     "AntivirusSignatureVersion":  "1.463.58.0",
+                     "AntivirusSignatureLastUpdated":  "\/Date(1793429119000)\/"
+                 },
+    "preferences":  {
+                        "DisableArchiveScanning":  false,
+                        "DisableScriptScanning":  false,
+                        "DisableRealtimeMonitoring":  false,
+                        "DisableAutoExclusions":  true,
+                        "ExclusionPath":  null,
+                        "ExclusionExtension":  null,
+                        "ExclusionProcess":  null,
+                        "MAPSReporting":  1,
+                        "SubmitSamplesConsent":  2
+                    },
+    "scan_exit_code":  null,
+    "detections":  [
+
+                   ],
+    "error":  "Defender scan failed; exit .",
+    "automatic_sample_submission":  "disabled; no file uploads for sample analysis",
+    "limitation":  "A clean scan is evidence, not a guarantee of absence of malware.",
+    "manifest_sha256":  "ca564f3c84d2f6a21f144a4910873c499a17d260ba0a74017fe531fb38e9750b",
+    "scan_output":  "Scan starting...\r\nScan finished.\r\nScanning D:\\a\\EAL-Game\\EAL-Game\\review-candidate\\far-horizon found no threats.\r\n"
+}

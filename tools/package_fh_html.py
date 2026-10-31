@@ -67,7 +67,7 @@ def package(build, output):
     names=['index.js','index.wasm','index.pck','index.audio.worklet.js','index.audio.position.worklet.js']
     assets={name:base64.b64encode(gzip.compress((build/name).read_bytes(),compresslevel=9,mtime=0)).decode('ascii') for name in names}
     notices=[]
-    for p in sorted((ROOT/'godot').glob('GODOT-*.txt'))+sorted((ROOT/'far-horizon/assets/fonts').glob('LICENSE-*.txt')):
+    for p in sorted((ROOT/'far-horizon').glob('GODOT-*.txt'))+sorted((ROOT/'far-horizon/assets/fonts').glob('LICENSE-*.txt')):
         notices.append(p.name+'\n\n'+p.read_text())
     notices.append('Far Horizon original game art generated from the user-supplied Session 1 visual references. Original ambient/SFX synthesis: tools/synthesize_fh_audio.py. No Silver Pines assets, source media M01/M02, raw GM bible, or later-session material are distributed.')
     page=SHELL.replace('__ASSETS__',json.dumps(assets,separators=(',',':'))).replace('__LICENSES__',html.escape('\n\n'.join(notices))).replace('__ICON__',base64.b64encode((ROOT/'far-horizon/assets/icon.svg').read_bytes()).decode('ascii'))

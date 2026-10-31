@@ -1,113 +1,75 @@
-# DELIVERY STATUS — REVIEWED STANDARD BUILD
+# Far Horizon — current animation revision
 
-The user clarified that they did not download the flagged package and accepted a normal browser play link. Keep the earlier packed single HTML and ZIP withdrawn; their original detection has not been declared a false positive.
+The current task is refinement of Session 1: smoother walking, environmental
+motion in each setting, and ElevenLabs NPC recordings. The visual revision is
+implemented and its full Session 1 route and motion checks pass. See
+[revision-quality.md](revision-quality.md) for changes, evidence and limits.
 
-A standard Godot Web replacement passed real Microsoft Defender validation on Windows Server 2022 and browser checks. Exact game files were hashed before/after scanning. Report: private source branch `codex/fh-defender-scan-41218947705-1`, `security-reports/defender-review.json`; scan source commit `fe242de394fd069263ad5793246e9eada51f0ec8`. Status `scan_passed`, exit code 0, no detections, active normal protection, current signatures `1.463.58.0`, no exclusions. This is scan evidence, not a guarantee of absence of all malware.
+## Active external dependency
 
-Final scan manifest SHA-256: `91d34fe39ad8486e25258560a636c6c0d36233999b69059f77b6cbbf713bd27e`. Standard export: `review-candidate/far-horizon/`; manifest: `review-candidate/manifest.json`. The exact validated game files are prepared in `builds/far-horizon-reviewed/` and the public repository's `gh-pages` branch. Release commit `4537180a5d07fe74240e2674ee86d23074d60755`. Public `main` still keeps the earlier offline package withdrawn.
+ElevenLabs is not connected. No ELEVENLABS_API_KEY is configured, and
+api.elevenlabs.io is outside the network policy. The user was asked to configure
+the secret privately and allow the host; their answer is pending. Do not put the
+key in chat/source/browser, substitute another service, or claim recordings are
+finished. The script contains 34 authored NPC lines / 3,435 characters / five
+speakers. The local player and generator are prepared but actual speech and
+voice-control QA remain blocked.
 
-Browser checks passed at 1280×720: startup, audio helpers, movement, writing, local save restoration, release without debug globals, and new-class reset; no errors or unexpected network requests. See ignored `artifacts/far-horizon-tests/standard-result.json`. Core Session 1 story/interaction tests also passed before this delivery change.
+## Build and verification
 
-**Deployment verified:** GitHub Pages run `41219520253` reports Success for reviewed commit `4537180a5d07fe74240e2674ee86d23074d60755` on `gh-pages`, including successful build/deploy jobs. The recorded deployment URL is `https://loganrossbryant-ai.github.io/hello-earth-demo/`. No further Pages setup is needed. This was observed through GitHub's public run page; this runtime still cannot directly open github.io because of network policy. Gameplay/browser tests ran against the exact build locally.
+Godot 4.6.3 and matching non-threaded Web templates are installed. Use:
+XDG_CACHE_HOME=/workspace/.cache XDG_DATA_HOME=/workspace/.local/share
+XDG_CONFIG_HOME=/workspace/.config.
 
-The Windows validation workflow and scripts are in the private `codex/far-horizon-defender-review` branch. The runner normally disables Defender/excludes drives; our check enables protection and clears exclusions on that ephemeral runner only, verifies current signatures and scanner authenticity, then records exit code/detections and rechecks hashes. It never executes the game or auto-submits file samples. Failed/incomplete runs are not clearance.
+- Debug server: builds/far-horizon-debug, port 8080.
+- Standard scan candidate: review-candidate/far-horizon, port 8081.
+- `FH_URL=http://127.0.0.1:8080 python far-horizon/tests/browser_slice.py --full`
+  traverses Session 1 with actual inputs and checks all story gates.
+- `python far-horizon/tests/browser_motion.py` checks contacts, follower speed,
+  staggered gaits, turns, and fixed-camera scene motion. Latest: 166 steady
+  contacts; maximum contact drift 0 pixels; all five scene states animate.
+- `FH_STANDARD_BUILD=1 FH_HTML_URL=http://127.0.0.1:8081/ python
+  far-horizon/tests/browser_html.py` checks the exact standard release.
+- Ignored reports/screenshots: artifacts/far-horizon-tests.
 
-For changes: export Godot Web normally, run `tools/prepare_fh_review.py`, retain `review-candidate/.gitattributes` to preserve Windows checkout bytes, push the review branch, and wait for a matching successful Defender report. Run browser checks with `FH_STANDARD_BUILD=1 FH_HTML_URL=http://127.0.0.1:8073/ python far-horizon/tests/browser_html.py`. Do not change game files after scanning without rescanning. Do not use the withdrawn all-in-one packager for delivery.
+## Release/security workflow
 
-# Far Horizon continuation checkpoint
+The earlier packed all-in-one HTML and ZIP remain withdrawn after the reported
+Wacatac alert. The detection was never declared a false positive. Use only the
+standard separate-file Godot Web export. See [security-review.md](security-review.md).
 
-## Current result
+After every game-byte change, export, run tools/prepare_fh_review.py, test those
+exact files, push codex/far-horizon-defender-review and wait for a matching
+scan_passed Windows report. Retain review-candidate/.gitattributes. Publish only
+matching hashed files, with current active Defender, no exclusions, exit 0, no
+detections, and before/after integrity checks. Never reuse old scan clearance.
 
-Session 1's first playable Godot/HTML draft is complete. The terminal vertical
-slice was tested visually before expansion. The complete Session 1 route and
-the final single-file release then passed browser tests.
+Public repository: loganrossbryant-ai/hello-earth-demo, branch gh-pages.
+Browser URL: https://loganrossbryant-ai.github.io/hello-earth-demo/.
+Pages is already enabled. The public main branch preserves the unrelated root
+Earth demo and the withdrawal notice. Do not publish private source history into
+the public branch. Use that public branch's current commit as release parent.
+Live github.io is blocked here; verify Pages through its public Actions page and
+test exact build files over local HTTP.
 
-- Current browser URL after Pages activation: https://loganrossbryant-ai.github.io/hello-earth-demo/
-- Public repository: `loganrossbryant-ai/hello-earth-demo`, branch `main`.
-- Published game commit: `90614a9be3120e9b23e0a836da2e16449cf8aeb1`.
-- Editable source: `loganrossbryant-ai/EAL-Game`, branch
-  `codex/far-horizon-session-01`, project `far-horizon/project.godot`.
-- Source implementation commit before this checkpoint:
-  `b9648a6fdbf0e98c0e3ee222ed404b4d9abcdb81`.
-- Final HTML: `builds/far-horizon-delivery/index.html`, 34,934,692 bytes.
-- HTML SHA-256:
-  `aae65757c483e136d1fcb9ab79683d2c2b1aabbd20e79f5a63cad3b3b7bf7e6e`.
+Editable source: loganrossbryant-ai/EAL-Game, branch
+codex/far-horizon-session-01. The workspace stays on main with unrelated dirty
+Earth-demo work/root README preserved. Prepare commits with temporary Git
+indexes and explicit paths. Do not reset or switch over those changes.
 
-Correction from the latest user message: GitHub Pages is NOT enabled. Deliver the standalone HTML for local browser opening; do not direct the user to the github.io play URL. The runtime network policy also blocks github.io and the GitHub API. The tested HTML is uploaded under `/far-horizon/`;
-the earlier root Hello, Earth! demo is preserved byte-for-byte.
+## Confirmed scope
 
-## Confirmed preferences and scope
+Session 1 only: healthy Earth, a deliberate second civilization, terminal,
+boarding performance, five manually cued launch beats, six-area orientation,
+observation, three screenplay lines and the exact route-log exchange. Four
+representatives travel together; the GM controls the shared screen. Keep all 18
+fictional identities and paper/live-performance options. No real student names.
+No combat, later-session reveals or automatic countdown.
 
-The teacher/GM controls a shared projected screen. Four department
-representatives travel together; the active leader/spokesperson can change.
-All 18 fictional crew identities are available for records. Student live
-performance and paper records remain supported. No real names are requested.
+The small 11-page packet resolved the oversized visual files. The GM bible was
+reviewed. The numbered canonical deck map and M01/M02 recordings were not
+supplied; the directory remains provisional and ambience/SFX are original.
+Silver Pines is the quality direction, not a claim of AA animation parity.
 
-Build **Session 1 only**. Earth is habitable. The mission deliberately creates a
-second civilization. The story runs terminal → boarding → launch → brief
-orientation → observation → three-line screenplay capture → route-log ending.
-End with Iris: “Route correction accepted.” Venn asks who entered it. Iris:
-“No correction was entered.” No later-story revelations or combat are in scope.
-
-The small 11-page Session 1 packet resolved the earlier inaccessible large
-deck/PDF. All 11 pages were viewed. The GM bible and six enemy dossier cards
-were reviewed earlier. Raw GM documents are outside the public game export.
-
-## Quality direction and remaining draft limits
-
-Silver Pines is the user's named animation/visual benchmark. Current artwork
-is original realistic generated art based on their packet. Characters currently
-use eight-frame walking sheets, separate idle/turn poses, acceleration, easing,
-contact shadows, reflections, and parallax. This is a prototype animation pass;
-do not claim finished AA parity or that Silver Pines footage was inspected.
-
-The numbered canonical deck map was not supplied; the six-area directory is
-provisional. M01/M02 recordings were not supplied; the game's ambient/SFX bed is
-original procedural audio. Do not request the large files again as blockers.
-
-After user feedback, the next useful work is refinement within Session 1,
-particularly character gait, turns, interaction staging, and atmospheric depth.
-Do not automatically expand into Session 2 or rebuild the published draft.
-
-## Verification and build
-
-Godot 4.6.3 and matching Web templates are installed. Use writable paths:
-`XDG_CACHE_HOME=/workspace/.cache XDG_DATA_HOME=/workspace/.local/share
-XDG_CONFIG_HOME=/workspace/.config`.
-
-- `far-horizon/tests/browser_slice.py --full`: actual keyboard/mouse input,
-  party movement/following, dialogue, writing, paper acknowledgements, boarding,
-  five launch cues, cue reload, four department choices/reasons, unclassified
-  anomaly, three screenplay lines, exact ending, JSON export, saved ending.
-- `far-horizon/tests/browser_html.py`: final release at 1280×720; sound helpers,
-  movement/writing, local save restoration, no debug globals, and a confirmed
-  new-class reset. No browser errors or external game-asset requests.
-- Reports/screenshots: ignored `artifacts/far-horizon-tests/`.
-- Direct file:// testing is blocked by managed Chromium; the standalone HTML
-  was tested over HTTP. Do not claim direct file opening was verified.
-- Export using `far-horizon/export_presets.cfg`; bundle using
-  `tools/package_fh_html.py`. See `far-horizon/README.md`.
-
-The workspace still has older uncommitted Earth-demo work and an edited root
-README. Preserve those changes. Source/public commits were prepared with
-separate temporary Git indexes; the workspace's main branch/index was not
-switched or reset.
-
-## Usage-reset request
-
-The user asked to schedule continuation whenever Work/Codex usage comes within
-5% of its limit, resuming after a reset. This session exposes **no usage/quota,
-reset-time, or task-scheduling tools**. No scheduled task was created. The user
-was told this limitation. Do not claim to monitor the allowance or promise an
-automatic background restart. Resume from this checkpoint when the user returns
-and asks to continue; recheck tool availability if it has changed.
-
-## Offline download
-
-The user explicitly requested the HTML file for direct browser opening. The ZIP download contains only `Far-Horizon-Session-01.html`, with all engine/art/audio/font data embedded. Unzip and open the HTML in Chrome or Edge. Direct file opening remains unverified here because managed Chromium blocks file URLs; the exact HTML was tested over HTTP. Raw GitHub HTML links display source text, so the ZIP is the reliable direct-download route.
-
-Direct download: https://github.com/loganrossbryant-ai/hello-earth-demo/raw/refs/heads/main/far-horizon/Far-Horizon-Session-01.zip
-
-Download commit: `35030471e267db79072ec7ea7dd2da01bdf0a6bf`. The original embedded HTML bytes are unchanged. When updating the game, regenerate both the hosted HTML and the ZIP so the offline download stays current.
-
-The old offline-download instructions below are historical and superseded by the standard browser delivery at the top of this checkpoint. Do not offer that ZIP again.
+No quota/reset monitoring or scheduled continuation tool exists in this session.
+No automated usage-reset task was created; resume when the user returns.

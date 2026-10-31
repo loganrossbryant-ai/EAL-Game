@@ -1,7 +1,7 @@
 extends Node2D
 
 const UI = preload("res://scripts/interface.gd")
-const SPEED = 160.0
+const SPEED = 145.0
 const WORLD_WIDTH = 2304.0
 const FLOOR = 686.0
 const LOCATIONS = {"terminal": "EARTH / DEPARTURE TERMINAL", "launch": "CSV-01 / LAUNCH CRADLE", "habitation": "PIONEER / STUDENT HABITATION", "bridge": "PIONEER / BRIDGE & OBSERVATION", "ending": "PIONEER / ROUTE LOG"}
@@ -35,6 +35,7 @@ var clock = 0.0
 var vignette: ColorRect
 var audio: PioneerAudio
 var sound_button: Button
+var camera_lead = 0.0
 
 func _ready() -> void:
 	_setup_input()
@@ -126,7 +127,8 @@ func _build_ui() -> void:
 	UI.title(top, "THE FAR HORIZON", Rect2(20, 11, 320, 30), 24)
 	UI.label(top, "01   /   WELCOME TO PIONEER", Rect2(20, 42, 330, 22), 13, UI.AMBER)
 	objective = UI.label(top, "", Rect2(365, 16, 530, 52), 16)
-	sound_button = UI.button(top, "SOUND OFF", Rect2(826, 15, 118, 45), _toggle_sound, 13)
+	sound_button = UI.button(top, "SFX OFF", Rect2(826, 15, 118, 45), _toggle_sound, 13)
+	sound_button.tooltip_text = "Ambience and movement effects. NPC voice controls are in each conversation."
 	UI.button(top, "CREW LOG  [L]", Rect2(955, 15, 157, 45), _open_log, 14)
 	UI.button(top, "GM CUES  [G]", Rect2(1123, 15, 168, 45), _open_gm, 14)
 	for i in range(4):
@@ -175,6 +177,7 @@ func _enter_room(room: String, reset_position: bool = true) -> void:
 		party[i].position = Vector2(clampf(float(state.data.position) - offset, 60, WORLD_WIDTH - 60), FLOOR)
 		party[i].velocity = Vector2.ZERO
 		party[i].desired_speed = 0
+		party[i].reset_contacts()
 		party[i].visible = room != "ending"
 	match room:
 		"terminal":
@@ -254,10 +257,18 @@ func _physics_process(delta: float) -> void:
 		var follower = party[order[rank]]
 		var ahead = party[order[rank - 1]]
 		var separation = ahead.position.x - follower.position.x
-		follower.desired_speed = clampf((separation - signf(separation) * 80) * 2.8, -SPEED * 1.06, SPEED * 1.06) if absf(separation) > 88 else 0.0
+		if absf(separation) > 24:
+			follower.follow_side = signf(separation)
+		var spacing_error = separation - follower.follow_side * 86
+		# Feed forward the person ahead's actual speed. The position correction
+		# settles spacing without repeatedly crossing a start/stop dead zone.
+		follower.desired_speed = clampf(ahead.velocity.x + spacing_error * 1.9, -SPEED * 1.08, SPEED * 1.08)
+		if absf(ahead.velocity.x) < 9 and absf(follower.desired_speed) < 9:
+			follower.desired_speed = 0
 		if held:
 			follower.desired_speed = 0
-	var camera_goal = clampf(leader.position.x + 90 * leader.facing, 683, WORLD_WIDTH - 683)
+	camera_lead = lerpf(camera_lead, clampf(leader.velocity.x / SPEED, -1, 1) * 55, 1 - exp(-delta * 2.8))
+	var camera_goal = clampf(leader.position.x + camera_lead, 683, WORLD_WIDTH - 683)
 	camera.position.x = lerpf(camera.position.x, camera_goal, 1 - exp(-delta * 3.8))
 	camera.position.y = 384.0
 	if scenery.effect in ["rumble", "ascent"] and not paused:
@@ -278,7 +289,7 @@ func _physics_process(delta: float) -> void:
 		state.data.position = leader.position.x
 		state.save()
 	snapshot_elapsed += delta
-	if snapshot_elapsed > 0.2:
+	if snapshot_elapsed > 0.05:
 		snapshot_elapsed = 0
 		_publish_snapshot()
 
@@ -382,6 +393,7 @@ func _new_modal(rect: Rect2 = Rect2(55, 125, 1256, 550)) -> Panel:
 	return UI.panel(modal, rect, 0.98)
 
 func _close_modal() -> void:
+	if audio: audio.stop_voice()
 	if is_instance_valid(modal):
 		modal.queue_free()
 	modal = null
@@ -392,7 +404,7 @@ func _open_conversation(who: String, reply: String = "") -> void:
 	var aboard = state.data.scene != "terminal"
 	var line = Conversations.opening(who, aboard) if reply.is_empty() else reply
 	if who == "iris" and state.data.flags.get("anomaly", false) and reply.is_empty():
-		line = "insufficient image duration for classification."
+		line = Conversations.ANOMALY_REPLY
 	var p = _new_modal(Rect2(38, 412, 1290, 326))
 	conversation = who
 	conversation_line = line
@@ -407,7 +419,9 @@ func _open_conversation(who: String, reply: String = "") -> void:
 		tex.atlas = preload("res://assets/art/officers.png")
 		tex.region = Rect2(205 if who == "venn" else 970, 0, 405, 570)
 		UI.portrait(p, tex, Rect2(17, 14, 180, 248))
-	UI.label(p, name_text, Rect2(218, 16, 1000, 26), 16, UI.CYAN)
+	UI.label(p, name_text, Rect2(218, 16, 790, 26), 16, UI.CYAN)
+	_voice_controls(p, who, line, Vector2(1044, 13))
+	if audio: audio.say(who, line)
 	UI.label(p, line, Rect2(218, 48, 1044, 100), 20)
 	var options = Conversations.choices(who, aboard)
 	var all_options: Array = options.duplicate()
@@ -446,7 +460,7 @@ func _open_improv(who: String) -> void:
 	p.add_child(field)
 	UI.button(p, "Keep the performance & continue", Rect2(28, 350, 470, 48), func():
 		state.record_event(state.data.representatives[state.data.leader], field.text.strip_edges() if not field.text.strip_edges().is_empty() else "Live improvised exchange acknowledged by GM.")
-		_open_conversation(who, "Take the time you need. We are listening.")
+		_open_conversation(who, Conversations.IMPROV_ACK)
 	)
 	UI.button(p, "Back to the conversation", Rect2(515, 350, 493, 48), _open_conversation.bind(who))
 
@@ -603,6 +617,8 @@ func _open_launch() -> void:
 	UI.button(p, "REPLAY THIS BEAT", Rect2(371, 196, 330, 42), _replay_launch, 15)
 	UI.button(p, "BEGIN THE SHIP TOUR" if index == 4 else "NEXT LAUNCH BEAT", Rect2(718, 196, 354, 42), _next_launch, 15)
 	scenery.effect = "rumble" if index == 1 else ("ascent" if index == 2 else ("float" if index >= 3 else ""))
+	if index == 4 and audio:
+		audio.say("venn", Conversations.WELCOME)
 	state.save()
 
 func _replay_launch() -> void:
@@ -634,11 +650,11 @@ func _open_tour() -> void:
 		var b = UI.button(p, text, Rect2(24 + i * 299, 116, 285, 41), _tour_department.bind(i), 16)
 		b.add_theme_color_override("font_color", CrewState.COLORS[i])
 	var areas = [
-		["Bridge & observation", "Flight / a shared direction", "Venn: Speak plainly. Tell the crew what you see before you tell them what it means."],
-		["Science & medical", "Science / questions and care", "Okafor: Your body is part of the mission equipment. Unlike the equipment, you are allowed to disagree with me."],
-		["Student habitation", "Rest / a place to belong", "Juno: This is your ship too. What would make a room feel like yours?"],
+		["Bridge & observation", "Flight / a shared direction", "Venn: " + Conversations.TOUR_LINES.venn],
+		["Science & medical", "Science / questions and care", "Okafor: " + Conversations.TOUR_LINES.okafor],
+		["Student habitation", "Rest / a place to belong", "Juno: " + Conversations.TOUR_LINES.juno],
 		["Colony commons", "Colony / a community taking shape", "A ship needs shared routines as much as working machinery. What should people be able to count on?"],
-		["Engineering", "Engineering / keeping a world working", "Rhee: Every ship is a collection of problems that have agreed not to happen at the same time."],
+		["Engineering", "Engineering / keeping a world working", "Rhee: " + Conversations.TOUR_LINES.rhee],
 		["Cargo & boarding", "Resources / what we carry", "Every crate takes space. Every object comes from somewhere. What is essential—and who decides?"]
 	]
 	for i in range(areas.size()):
@@ -661,6 +677,10 @@ func _choose_deck(area: Array) -> void:
 	UI.label(p, CrewState.DEPARTMENTS[state.data.leader].to_upper() + " / A PLACE THAT MIGHT MATTER", Rect2(26, 20, 1000, 25), 15, UI.CYAN)
 	UI.title(p, area[0], Rect2(26, 64, 1000, 43), 30)
 	UI.label(p, area[2], Rect2(26, 123, 1000, 92), 22)
+	var prefix = str(area[2]).get_slice(":", 0).to_lower()
+	if Conversations.TOUR_LINES.has(prefix):
+		_voice_controls(p, prefix, Conversations.TOUR_LINES[prefix], Vector2(800, 18))
+		if audio: audio.say(prefix, Conversations.TOUR_LINES[prefix])
 	UI.label(p, "We think this place will matter because…", Rect2(26, 233, 1000, 29), 18, UI.AMBER)
 	var reason = LineEdit.new()
 	reason.position = Vector2(26, 276)
@@ -794,10 +814,12 @@ func _show_ending() -> void:
 		UI.button(p, "Start a new class", Rect2(639, 205, 300, 43), _confirm_new_class, 16)
 		return
 	var names = ["IRIS", "CAPTAIN MARA VENN", "IRIS"]
-	var lines = ["Route correction accepted.", "Who entered that correction?", "No correction was entered."]
+	var lines = Conversations.FINAL_LINES
 	conversation = "ending"
 	conversation_line = lines[cue]
 	UI.label(p, "ROUTE LOG / " + names[cue], Rect2(27, 25, 912, 25), 15, UI.CYAN)
+	_voice_controls(p, "venn" if cue == 1 else "iris", lines[cue], Vector2(700, 20))
+	if audio: audio.say("venn" if cue == 1 else "iris", lines[cue])
 	UI.title(p, "“" + lines[cue] + "”", Rect2(27, 84, 912, 75), 34)
 	UI.button(p, "HOLD / LET THE CLASS REACT", Rect2(27, 207, 440, 42), func():
 		_close_modal()
@@ -814,7 +836,23 @@ func _next_ending() -> void:
 func _toggle_sound() -> void:
 	audio.enabled = not audio.enabled
 	audio.update_sound()
-	sound_button.text = "SOUND ON" if audio.enabled else "SOUND OFF"
+	sound_button.text = "SFX ON" if audio.enabled else "SFX OFF"
+
+func _voice_controls(parent: Control, who: String, line: String, point: Vector2) -> void:
+	if not audio: return
+	var available = audio.has_recording(who, line)
+	var replay = UI.button(parent, "REPLAY", Rect2(point, Vector2(94, 29)), func(): audio.say(who, line), 12)
+	replay.disabled = not available or not audio.speech_enabled
+	replay.tooltip_text = "Listen to this line again." if available else "A voice recording has not been added for this line."
+	var voice_toggle = UI.button(parent, "VOICE ON" if audio.speech_enabled else "VOICE OFF", Rect2(point + Vector2(101, 0), Vector2(112, 29)), func():
+		audio.toggle_voice(who, line)
+		for child in parent.get_children():
+			if child is Button and child.get_meta("voice_toggle", false): child.text = "VOICE ON" if audio.speech_enabled else "VOICE OFF"
+		replay.disabled = not available or not audio.speech_enabled
+	, 12)
+	voice_toggle.set_meta("voice_toggle", true)
+	voice_toggle.disabled = not available
+	if not available: voice_toggle.text = "CAPTIONS"
 
 func _confirm_new_class() -> void:
 	var p = _new_modal(Rect2(203, 200, 960, 365))
@@ -857,10 +895,11 @@ func _publish_snapshot() -> void:
 		return
 	var positions: Array = []
 	for member in party:
-		positions.append({"x": member.position.x, "y": member.position.y, "vx": member.velocity.x, "frame": member.walk_sprite.frame, "facing": member.facing})
+		positions.append({"x": member.position.x, "y": member.position.y, "vx": member.velocity.x, "frame": member.walk_sprite.frame, "facing": member.facing, "rig": member.has_rig, "gait": member.gait, "feet": member.feet, "turn": member.turn_time})
 	var editors = {}
 	for key in editor_fields:
 		if is_instance_valid(editor_fields[key]):
 			editors[key] = editor_fields[key].text
-	var snapshot = {"scene": state.data.scene, "leader": state.data.leader, "party": positions, "nearest": nearest, "modal": is_instance_valid(modal), "conversation": conversation, "line": conversation_line, "paused": paused, "camera": camera.position.x, "flags": state.data.flags, "records": state.data.records, "paper": state.data.paper, "performed": state.data.performed, "boarding_ready": state.boarding_ready(), "editors": editors, "storage_ok": state.storage_ok, "cue": state.data.cue, "deck_choices": state.data.deck_choices, "script": state.data.script, "script_paper": state.data.script_paper, "finished": state.data.finished, "sound": audio.enabled if audio else false}
+	var speech = {"recordings": audio.recordings.size(), "enabled": audio.speech_enabled, "playing": audio.voice.playing, "id": audio.current_id} if audio else {}
+	var snapshot = {"scene": state.data.scene, "leader": state.data.leader, "party": positions, "nearest": nearest, "modal": is_instance_valid(modal), "conversation": conversation, "line": conversation_line, "paused": paused, "camera": camera.position.x, "flags": state.data.flags, "records": state.data.records, "paper": state.data.paper, "performed": state.data.performed, "boarding_ready": state.boarding_ready(), "editors": editors, "storage_ok": state.storage_ok, "cue": state.data.cue, "deck_choices": state.data.deck_choices, "script": state.data.script, "script_paper": state.data.script_paper, "finished": state.data.finished, "sound": audio.enabled if audio else false, "speech": speech, "clock": clock}
 	JavaScriptBridge.eval("window.farHorizonTestState=" + JSON.stringify(snapshot) + ";", true)

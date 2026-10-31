@@ -12,6 +12,9 @@ var art: Sprite2D
 var orbit_plate: Sprite2D
 var foreground: Sprite2D
 var dust: Array[Vector3] = []
+var living: PioneerLivingDetails
+var moving_sky: Array[Polygon2D] = []
+var plants: Array[Polygon2D] = []
 
 func _ready() -> void:
 	var rng = RandomNumberGenerator.new()
@@ -27,6 +30,10 @@ func _ready() -> void:
 	orbit_plate.z_index = -14
 	orbit_plate.visible = false
 	add_child(orbit_plate)
+	living = PioneerLivingDetails.new()
+	living.z_index = -10
+	living.scale = Vector2(world_width / 2172.0, 768.0 / 724.0)
+	add_child(living)
 	configure(room)
 
 func configure(value: String) -> void:
@@ -43,6 +50,23 @@ func configure(value: String) -> void:
 	art.texture = load(path)
 	art.scale = Vector2(world_width / art.texture.get_width(), 768.0 / art.texture.get_height())
 	art.position = Vector2.ZERO
+	for item in moving_sky: item.queue_free()
+	for item in plants: item.queue_free()
+	moving_sky.clear()
+	plants.clear()
+	living.configure(room)
+	if room == "terminal":
+		_sky_patch(PackedVector2Array([Vector2(489, 103), Vector2(652, 103), Vector2(652, 233), Vector2(489, 233)]), 0.24)
+		_sky_patch(PackedVector2Array([Vector2(716, 103), Vector2(1012, 103), Vector2(1012, 238), Vector2(716, 238)]), 0.24)
+		_sky_patch(PackedVector2Array([Vector2(1070, 103), Vector2(1577, 103), Vector2(1577, 163), Vector2(1070, 205)]), 0.20)
+		_plant(Vector2(82, 753), 0.19, 0.0)
+		_plant(Vector2(2290, 755), 0.17, 2.0)
+	elif room == "habitation":
+		_plant(Vector2(105, 756), 0.20, 0.4)
+		_plant(Vector2(2035, 756), 0.18, 2.4)
+	elif room == "launch":
+		_sky_patch(PackedVector2Array([Vector2(517, 105), Vector2(790, 105), Vector2(790, 236), Vector2(505, 246)]), 0.14)
+		_sky_patch(PackedVector2Array([Vector2(853, 105), Vector2(1150, 105), Vector2(1150, 230), Vector2(853, 230)]), 0.13)
 	if foreground:
 		foreground.queue_free()
 	foreground = Sprite2D.new()
@@ -62,12 +86,69 @@ func configure(value: String) -> void:
 	orbit_plate.modulate.a = 0
 	queue_redraw()
 
+func _sky_patch(points: PackedVector2Array, strength: float) -> void:
+	var cloud = Polygon2D.new()
+	cloud.polygon = points
+	cloud.scale = Vector2(world_width / 2172.0, 768.0 / 724.0)
+	cloud.z_index = -11
+	var material = ShaderMaterial.new()
+	material.shader = preload("res://shaders/sky_motion.gdshader")
+	material.set_shader_parameter("strength", strength)
+	var bounds = Rect2(points[0], Vector2.ZERO)
+	for point in points: bounds = bounds.expand(point)
+	material.set_shader_parameter("mask_bounds", Vector4(bounds.position.x, bounds.position.y, bounds.end.x, bounds.end.y))
+	cloud.material = material
+	add_child(cloud)
+	moving_sky.append(cloud)
+
+func _plant(point: Vector2, size: float, phase: float) -> void:
+	var plant = Polygon2D.new()
+	plant.texture = preload("res://assets/art/foreground_plant.png")
+	var w = float(plant.texture.get_width())
+	var h = float(plant.texture.get_height())
+	var vertices = PackedVector2Array()
+	var uv = PackedVector2Array()
+	var cells: Array[PackedInt32Array] = []
+	for y in range(17):
+		for x in range(9):
+			var pixel = Vector2(w * x / 8, h * y / 16)
+			vertices.append(pixel - Vector2(w / 2, h))
+			uv.append(pixel)
+	for y in range(16):
+		for x in range(8):
+			var i = y * 9 + x
+			cells.append(PackedInt32Array([i, i + 1, i + 10, i + 9]))
+	plant.polygon = vertices
+	plant.uv = uv
+	plant.polygons = cells
+	plant.position = point
+	plant.scale = Vector2.ONE * size
+	plant.z_index = 22
+	var material = ShaderMaterial.new()
+	material.shader = preload("res://shaders/leaf_wind.gdshader")
+	material.set_shader_parameter("phase", phase)
+	plant.material = material
+	add_child(plant)
+	plants.append(plant)
+
 func _process(delta: float) -> void:
 	clock += delta
 	effect_time += delta
 	# Tiny independent drift on the far layer gives the camera a physical sense of depth.
 	art.position.x = (camera_x - 1152.0) * 0.014
 	orbit_plate.position = art.position
+	living.position = art.position
+	living.clock = clock
+	living.effect = effect
+	living.orbital = orbit_plate.visible and orbit_plate.modulate.a > 0.8
+	living.queue_redraw()
+	for cloud in moving_sky:
+		cloud.position = art.position
+		cloud.material.set_shader_parameter("clock", clock)
+		cloud.modulate.a = 1.0 - orbit_plate.modulate.a if room == "launch" else 1.0
+	for plant in plants:
+		plant.material.set_shader_parameter("clock", clock)
+		plant.offset.x = -(camera_x - 1152) * 0.055
 	if foreground:
 		foreground.position.x = -40 - (camera_x - 1152) * 0.055
 	if orbit_plate.visible:

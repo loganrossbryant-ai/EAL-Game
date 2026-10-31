@@ -1,6 +1,40 @@
 class_name Conversations
 extends RefCounted
 
+const IMPROV_ACK = "Take the time you need. We are listening."
+const ANOMALY_REPLY = "insufficient image duration for classification."
+const WELCOME = "Welcome aboard Pioneer."
+const FINAL_LINES = ["Route correction accepted.", "Who entered that correction?", "No correction was entered."]
+const TOUR_LINES = {
+	"venn": "Speak plainly. Tell the crew what you see before you tell them what it means.",
+	"okafor": "Your body is part of the mission equipment. Unlike the equipment, you are allowed to disagree with me.",
+	"juno": "This is your ship too. What would make a room feel like yours?",
+	"rhee": "Every ship is a collection of problems that have agreed not to happen at the same time."
+}
+
+static func line_id(who: String, text: String) -> String:
+	return who.to_lower() + "_" + text.sha256_text().substr(0, 16)
+
+# One source of truth for the recording script and in-game clip lookup.
+# Student writing is never sent to a speech service.
+static func recording_script() -> Array[Dictionary]:
+	var unique = {}
+	for who in ["venn", "juno", "iris"]:
+		for aboard in [false, true]:
+			var lines = [opening(who, aboard), IMPROV_ACK]
+			for option in choices(who, aboard): lines.append(option[1])
+			for text in lines:
+				var id = line_id(who, text)
+				unique[id] = {"id": id, "speaker": who, "text": text}
+	for who in TOUR_LINES:
+		var text: String = TOUR_LINES[who]
+		unique[line_id(who, text)] = {"id": line_id(who, text), "speaker": who, "text": text}
+	for line in [["iris", ANOMALY_REPLY], ["venn", WELCOME], ["iris", FINAL_LINES[0]], ["venn", FINAL_LINES[1]], ["iris", FINAL_LINES[2]]]:
+		unique[line_id(line[0], line[1])] = {"id": line_id(line[0], line[1]), "speaker": line[0], "text": line[1]}
+	var result: Array[Dictionary] = []
+	for id in unique: result.append(unique[id])
+	return result
+
 static func opening(who: String, aboard: bool) -> String:
 	match who:
 		"venn":

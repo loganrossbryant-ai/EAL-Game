@@ -1,0 +1,114 @@
+{
+  "parts": {
+    "body": {
+      "texture": "bodies.png",
+      "rect": [
+        72,
+        8,
+        438,
+        621
+      ],
+      "bottom_anchor": 0.5387,
+      "shoulder_x": 0.52,
+      "shoulder_y": 0.46
+    },
+    "near_upper_arm": {
+      "rect": [
+        567,
+        56,
+        141,
+        383
+      ],
+      "top_anchor": 0.4909,
+      "bottom_anchor": 0.676
+    },
+    "near_forearm": {
+      "rect": [
+        959,
+        65,
+        157,
+        371
+      ],
+      "top_anchor": 0.3171,
+      "bottom_anchor": 0.7355
+    },
+    "far_upper_arm": {
+      "rect": [
+        158,
+        488,
+        129,
+        366
+      ],
+      "top_anchor": 0.5258,
+      "bottom_anchor": 0.4248
+    },
+    "far_forearm": {
+      "rect": [
+        541,
+        487,
+        140,
+        366
+      ],
+      "top_anchor": 0.6246,
+      "bottom_anchor": 0.298
+    },
+    "near_thigh": {
+      "rect": [
+        959,
+        469,
+        166,
+        389
+      ],
+      "top_anchor": 0.4575,
+      "bottom_anchor": 0.4675
+    },
+    "near_shin": {
+      "rect": [
+        122,
+        872,
+        140,
+        187
+      ],
+      "top_anchor": 0.5838,
+      "bottom_anchor": 0.4084
+    },
+    "far_thigh": {
+      "rect": [
+        529,
+        876,
+        171,
+        361
+      ],
+      "top_anchor": 0.4802,
+      "bottom_anchor": 0.5427
+    },
+    "far_shin": {
+      "rect": [
+        979,
+        868,
+        124,
+        190
+      ],
+      "top_anchor": 0.5742,
+      "bottom_anchor": 0.4382
+    },
+    "near_boot": {
+      "rect": [
+        128,
+        1059,
+        217,
+        161
+      ],
+      "top_anchor": 0.2677
+    },
+    "far_boot": {
+      "rect": [
+        977,
+        1058,
+        218,
+        162
+      ],
+      "top_anchor": 0.2825
+    }
+  }
+}

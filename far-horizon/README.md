@@ -22,7 +22,8 @@ The earlier custom all-in-one HTML/ZIP was withdrawn after a Defender alert. Do 
 | G | GM cues |
 | Space | Hold/resume movement |
 | Escape | Close the current panel, including while writing |
-| Sound button | Enable/disable original ambience and effects |
+| SFX button | Enable/disable original ambience and effects |
+| Replay / Voice in dialogue | Replay or mute a recorded NPC line when the voice pack is installed |
 
 Speak with Venn, keep the characters' records, and perform each company's
 crossing. The GM can acknowledge paper sheets and performances in GM Cues.
@@ -62,11 +63,14 @@ under `/workspace`; its web export templates are already installed.
   boarding, launch, saved cue restoration, four department choices, observation,
   screenplay capture, the exact ending, and JSON export.
 - `tests/browser_html.py` supports the standard release with `FH_STANDARD_BUILD=1`: startup, audio helpers, movement/writing, save restoration, no debug globals, and a new class. The standard build passed at 1280×720 without browser errors or unexpected network requests.
-- Direct `file://` navigation was not tested: managed Chromium blocks that
-  protocol. The self-contained file was verified over HTTP.
+- `tests/browser_motion.py`: four continuous rigs, steady foot contact, staggered
+  strides, following, turns and visible independent motion in each scene.
+- Browser tests run over local HTTP. Live github.io navigation is blocked by the
+  managed environment network policy; deployment is verified through GitHub Actions.
 
 Run the tests with Python Playwright, Chromium at `/usr/bin/chromium`, and the
-debug export served on port 8070 or the delivery HTML on 8071. Reports and
+debug export served on port 8070 (`FH_URL` overrides it); the motion test defaults
+to port 8080. The standard delivery test uses `FH_HTML_URL`. Reports and
 screenshots are under ignored `artifacts/far-horizon-tests/`.
 
 ## Art and scope
@@ -78,10 +82,45 @@ later-session reveals are excluded from the game.
 
 Original AI-generated terminal, launch, orbit, habitation, bridge, party, and NPC
 assets follow the supplied realistic industrial science-fiction references.
-Walking uses eight sprite frames per department, separate idle/turn poses,
-acceleration/deceleration, contact shadows, floor reflections, camera easing,
-foreground trim, and atmospheric motion. These are prototype animations. Silver
-Pines is the quality direction; commercial AA animation parity is not claimed.
+Walking now uses original articulated cutout rigs with continuous two-bone leg
+motion, world-space foot contacts, independently level boots, staggered strides,
+arm counter-swing, breathing, planted turns, and separate front-facing conversation
+poses. Followers match the person ahead's speed without repeatedly starting and
+stopping; camera look-ahead eases with velocity. Contact shadows and faint floor
+reflections ground the party. Silver Pines remains the quality direction;
+commercial AA animation parity is not claimed.
+
+Each setting has independent motion: masked sky drift, exterior vapor and a
+service cart at the terminal; live launch telemetry, pad vapor, ignition movement,
+orbit transition and a floating pen; wind-driven foreground plants, warm light and
+motes in habitation; moving stars and console plots on the bridge and route log.
+
+## NPC recordings — connection pending
+
+The current revision has **no ElevenLabs recordings yet**. The environment has no
+ElevenLabs secret and does not allow `api.elevenlabs.io`. No other speech provider
+has been substituted. Captions and all dialogue choices remain playable.
+
+The authored recording script has **34 unique lines / 3,435 characters / five NPCs**:
+Venn, Juno, Iris, Rhee and Okafor. The dialogue player is prepared for local MP3
+clips, interruption on next line/close, replay, separate voice mute and ambience
+ducking. Playback with real ElevenLabs recordings still needs validation.
+
+To finish recording, configure `ELEVENLABS_API_KEY` privately and allow
+`api.elevenlabs.io` in the managed environment. Never put the key in source or the
+browser. Export the authored script and review the stock-voice plan:
+
+```sh
+godot --headless --path far-horizon --script res://tools/export_voice_script.gd
+python tools/generate_fh_elevenlabs.py
+python tools/generate_fh_elevenlabs.py --generate
+```
+
+The generator uses five distinct accessible premade ElevenLabs voices, checks
+included quota, and writes a catalog only after the complete MP3 set validates.
+It sends authored NPC dialogue only. It never reads or submits student records.
+Import the clips, test playback/interruption/replay/mute and coverage, rebuild,
+and repeat Windows validation before publishing a voiced revision.
 
 The numbered canonical deck map and M01/M02 recordings were not supplied. The
 six-area directory is provisional; ambience and effects are original procedural
@@ -95,4 +134,4 @@ The exact standard build passed Microsoft Defender on Windows Server 2022: activ
 
 For future releases, run `tools/prepare_fh_review.py`, validate the resulting exact files on Windows, and publish only a build with a matching successful scan report. Changing game files invalidates that clearance. Test the standard delivery with `FH_STANDARD_BUILD=1 FH_HTML_URL=http://127.0.0.1:8073/ python far-horizon/tests/browser_html.py`.
 
-The public `hello-earth-demo` repository has the reviewed build on `gh-pages`. Select that branch and `/(root)` in Pages settings to activate `https://loganrossbryant-ai.github.io/hello-earth-demo/`. The public repository does not need a paid Pages plan. The hosted URL cannot be checked directly through this runtime's network policy.
+The public `hello-earth-demo` repository has the reviewed build on `gh-pages`. Pages is already active at `https://loganrossbryant-ai.github.io/hello-earth-demo/`. The public repository does not need a paid Pages plan. The hosted URL cannot be checked directly through this runtime's network policy.

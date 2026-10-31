@@ -1,0 +1,2 @@
+# Scan and deliver the exact export bytes, including on Windows checkouts.
+** -text

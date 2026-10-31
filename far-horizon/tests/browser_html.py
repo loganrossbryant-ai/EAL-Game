@@ -5,6 +5,7 @@ from playwright.async_api import async_playwright
 ROOT=Path(__file__).resolve().parents[2]
 OUT=ROOT/'artifacts/far-horizon-tests'
 URL=os.environ.get('FH_HTML_URL','http://127.0.0.1:8071/')
+STANDARD=os.environ.get('FH_STANDARD_BUILD')=='1'
 async def run():
  async with async_playwright() as p:
   browser=await p.chromium.launch(executable_path='/usr/bin/chromium',args=['--no-sandbox','--use-angle=swiftshader','--enable-unsafe-swiftshader','--disable-dev-shm-usage'])
@@ -50,10 +51,14 @@ async def run():
   await click(920,454)
   await wait('s.scene==="terminal" && !s.finished && Object.keys(s.records).length===0')
   await page.screenshot(path=str(OUT/'20-new-class.png'))
-  external=[u for u in requests if u.startswith(('http:','https:')) and u.rstrip('/')!=URL.rstrip('/')]
+  allowed={URL.rstrip('/'),URL.rstrip('/')+'/'}
+  if STANDARD:
+   manifest=json.loads((ROOT/'review-candidate/manifest.json').read_text())
+   allowed.update(URL.rstrip('/')+'/'+entry['path'] for entry in manifest['files'])
+  external=[u for u in requests if u.startswith(('http:','https:')) and u not in allowed]
   assert not external,external
   assert not errors,errors
-  result={'passed':True,'viewport':'1280x720','checks':['single HTML startup','embedded audio worklets','real movement','crew writing','reload persistence','clean release without debug globals','new-class confirmation and reset'],'external_game_asset_requests':external,'browser_errors':errors,'file_protocol':'Not tested: managed Chromium blocks file://.'}
-  (OUT/'html-result.json').write_text(json.dumps(result,indent=2));print(json.dumps(result),flush=True)
+  result={'passed':True,'format':'standard Godot web export' if STANDARD else 'single embedded HTML','viewport':'1280x720','checks':['release startup','audio worklets','real movement','crew writing','reload persistence','release without debug globals','new-class confirmation and reset'],'unexpected_network_requests':external,'browser_errors':errors,'file_protocol':'Standard Godot web delivery requires an HTTP/HTTPS host.' if STANDARD else 'Not tested: managed Chromium blocks file://.'}
+  (OUT/('standard-result.json' if STANDARD else 'html-result.json')).write_text(json.dumps(result,indent=2));print(json.dumps(result),flush=True)
   await browser.close()
 asyncio.run(run())

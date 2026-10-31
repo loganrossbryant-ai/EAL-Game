@@ -57,8 +57,24 @@ Finish that connection, generate and review the clips, browser-test all recorded
 branches and voice controls, then rebuild and repeat Defender validation before
 publishing a voiced revision.
 
-## Release gate
+## Release validation
 
-The ordinary Godot Web export must pass the standard 1280×720 browser check and
-a new Windows Defender scan. Previous release clearance does not cover new game
-bytes. The earlier packed single HTML and ZIP remain withdrawn.
+The exact ordinary Godot Web export passed the standard 1280×720 browser check:
+startup, audio worklets, movement, writing, restoration, no debug observations,
+and confirmed new-class reset. No browser errors or unexpected network requests.
+One automated save check timed out; the identical build passed both an observed
+save run (all five written fields checked) and the unmodified test rerun.
+
+A new Microsoft Defender scan passed on Windows Server 2022, run 41227037912,
+source 81d1368b976c3ba4b345cbc23680f791d1522eea. Active normal protection,
+script/archive scanning enabled, current signatures 1.463.59.0, no exclusions,
+exit code 0, no detections, and matching hashes before/after scanning. Manifest:
+863db723d8df541ef0145bf21b469826fad3df797e48fe6e19a50047ee3656f3.
+This is actual scan evidence, not an absolute malware-free guarantee. The earlier
+packed single HTML and ZIP remain withdrawn.
+
+The ElevenLabs personal-secret requirement and api.elevenlabs.io destination are
+saved in the cloud configuration draft, with updated Godot startup instructions.
+The save did not apply/publish configuration or create a credential. The user must
+enter the key privately, save/review the draft and publish the environment changes.
+

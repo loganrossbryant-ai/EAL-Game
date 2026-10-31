@@ -8,8 +8,11 @@ implemented and its full Session 1 route and motion checks pass. See
 ## Active external dependency
 
 ElevenLabs is not connected. No ELEVENLABS_API_KEY is configured, and
-api.elevenlabs.io is outside the network policy. The user was asked to configure
-the secret privately and allow the host; their answer is pending. Do not put the
+api.elevenlabs.io is outside the network policy. The personal secret requirement and api.elevenlabs.io destination have now been
+saved in the cloud configuration draft, along with updated Godot startup
+instructions. No value was created and the configuration was not applied or
+published. The user must enter the key privately, save and publish the changes.
+Their connection answer is pending. Do not put the
 key in chat/source/browser, substitute another service, or claim recordings are
 finished. The script contains 34 authored NPC lines / 3,435 characters / five
 speakers. The local player and generator are prepared but actual speech and
@@ -73,3 +76,17 @@ Silver Pines is the quality direction, not a claim of AA animation parity.
 
 No quota/reset monitoring or scheduled continuation tool exists in this session.
 No automated usage-reset task was created; resume when the user returns.
+
+## Current animation release
+
+Public game commit: `07971c1af1de899ec831accf98b64e5ad15bccb2`.
+Source implementation: `9f62789093a057bcc2d42225789b3d894a0ddd28`.
+Review source: `81d1368b976c3ba4b345cbc23680f791d1522eea`.
+Defender run: `41227037912`, scan_passed, signatures `1.463.59.0`, no detections,
+exit 0, before/after hashes match. Manifest SHA-256:
+`863db723d8df541ef0145bf21b469826fad3df797e48fe6e19a50047ee3656f3`.
+The exact standard release passed at 1280×720 without errors or unexpected
+requests. NPC voices remain pending. Pages run `41227599343` reports Success for this exact release commit, with
+successful build/deploy jobs and the recorded browser URL. Verification was
+through GitHub's public run page; direct github.io navigation remains blocked
+here. No further Pages setup is needed.

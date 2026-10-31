@@ -57,3 +57,27 @@ The standard release also passed Chromium checks at 1280×720 without browser er
 The public `gh-pages` branch contains the exact scanned game bytes and the actual scan report/manifest. Pages activation is a separate hosting step, not a malware fix or security clearance. This runtime cannot directly open the github.io site due to its network policy.
 
 GitHub Pages deployment was verified through public run `41219520253`: Success, source `gh-pages`, reviewed commit `4537180a5d07fe74240e2674ee86d23074d60755`, successful build/deploy jobs, recorded URL `https://loganrossbryant-ai.github.io/hello-earth-demo/`. Pages is active. Live website navigation could not be tested from this runtime; local tests and uploaded file hashes were checked.
+
+## Animation revision validation
+
+The updated ordinary Web build passed a new scan: run `41227037912`, source
+`81d1368b976c3ba4b345cbc23680f791d1522eea`, manifest SHA-256
+`863db723d8df541ef0145bf21b469826fad3df797e48fe6e19a50047ee3656f3`.
+Status `scan_passed`, native exit 0, no detections/error, matching hashes before
+and after scanning. Active normal protection, script/archive scanning enabled,
+no exclusions, engine `1.1.26100.4`, signatures `1.463.59.0`. Actual report:
+`docs/far-horizon/defender-release-report.json` and private report branch
+`codex/fh-defender-scan-41227037912-1`.
+
+The exact standard animation build passed Chromium at 1280×720, including the
+five-field save/restoration and new-class reset, without browser errors or
+unexpected network requests. Separate checks passed all Session 1 story gates
+and 166 steady foot contacts, with visible independent motion in every setting.
+NPC recordings remain blocked on the ElevenLabs connection; no speech files
+are claimed complete. Adding them will require a new build and scan.
+
+Public animation release commit `07971c1af1de899ec831accf98b64e5ad15bccb2`
+was deployed by Pages run `41227599343`, Status Success, on `gh-pages`.
+The run records successful build/deploy jobs and the existing browser URL.
+Verification used the public GitHub Actions summary, with exact-byte browser
+checks locally; direct github.io access is still blocked by this runtime policy.

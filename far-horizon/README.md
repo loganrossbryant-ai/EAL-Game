@@ -128,7 +128,7 @@ assets produced by `tools/synthesize_fh_audio.py`. No Silver Pines assets are us
 
 ## Windows validation and browser delivery
 
-The exact standard build passed Microsoft Defender on Windows Server 2022: active normal protection, script/archive scanning enabled, no exclusions, current signatures, exit code 0, and no detections. Hashes matched before and after scanning. The final report is from workflow run `41218947705`, source commit `fe242de394fd069263ad5793246e9eada51f0ec8`. This is evidence, not an absolute malware-free guarantee. The earlier packed file remains withdrawn.
+The animation revision's exact standard build passed Microsoft Defender on Windows Server 2022: active normal protection, script/archive scanning enabled, no exclusions, current signatures, exit code 0, and no detections. Hashes matched before and after scanning. The final report is from workflow run `41227037912`, source commit `81d1368b976c3ba4b345cbc23680f791d1522eea`. This is evidence, not an absolute malware-free guarantee. The earlier packed file remains withdrawn.
 
 `tools/windows_defender_review.ps1` is restricted to ephemeral GitHub Actions runners and never runs the game or disables protection. It creates a report even when scanning is unavailable or fails. `.github/workflows/far-horizon-defender-review.yml` runs on pushes to the review branch. Keep `review-candidate/.gitattributes` so Windows checkout does not change the scanned bytes.
 

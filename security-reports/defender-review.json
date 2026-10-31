@@ -1,0 +1,19 @@
+{
+    "status":  "not_cleared",
+    "source_commit":  "daf5c2429623bc320a96fd866b7065ccaeaa88c2",
+    "run_id":  "41217315150",
+    "run_attempt":  "1",
+    "started_utc":  "2026-10-31T15:57:56.0410018Z",
+    "completed_utc":  "2026-10-31T15:57:57.8256392Z",
+    "files_verified_before_scan":  false,
+    "files_verified_after_scan":  false,
+    "defender":  null,
+    "preferences":  null,
+    "scan_exit_code":  null,
+    "detections":  [
+
+                   ],
+    "error":  "File size mismatch: index.audio.position.worklet.js",
+    "automatic_sample_submission":  "disabled; no file uploads for sample analysis",
+    "limitation":  "A clean scan is evidence, not a guarantee of absence of malware."
+}

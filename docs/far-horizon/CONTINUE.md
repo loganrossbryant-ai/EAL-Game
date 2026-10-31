@@ -1,3 +1,9 @@
+# SECURITY HOLD — READ FIRST
+
+The user reports Microsoft Defender **Trojan:Script/Wacatac.B!ml**, marked Severe/Active, after the offline download. The affected path and whether the HTML was opened are not established. The user said no further details were shown. Advise recommended quarantine/removal; do not ask the user to restore, allow-list, or disable Defender. If opened, recommend a Defender full scan.
+
+The current Far Horizon ZIP and embedded HTML have been withdrawn from the public main branch in commit `5923d19e5f6d7368224ca5f212d67decf76150f9`. Do not offer old links or silently republish a replacement. Local samples and source are retained for investigation. Official-file and build-integrity checks are NOT antivirus clearance. This is not a confirmed false positive. No Defender scanner is available in this Linux environment. Do not upload samples to third-party services without authorization.
+
 # Far Horizon continuation checkpoint
 
 ## Current result

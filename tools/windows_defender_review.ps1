@@ -107,19 +107,28 @@ try {
     if ($signature.Status -ne "Valid" -or $signature.SignerCertificate.Subject -notmatch "Microsoft") {
         throw "Cannot verify the installed Microsoft scan executable."
     }
-    $outLog = Join-Path $env:RUNNER_TEMP "fh-defender-out.txt"
-    $errLog = Join-Path $env:RUNNER_TEMP "fh-defender-err.txt"
-    $process = Start-Process -FilePath $program `
-        -ArgumentList @("-Scan", "-ScanType", "3", "-File", "`"$target`"") `
-        -NoNewWindow -PassThru -RedirectStandardOutput $outLog -RedirectStandardError $errLog
+    # Own the process handle directly. Windows PowerShell's Start-Process can
+    # return a null ExitCode after WaitForExit, which must never mean success.
+    $startInfo = New-Object Diagnostics.ProcessStartInfo
+    $startInfo.FileName = $program
+    $startInfo.Arguments = "-Scan -ScanType 3 -File `"$target`""
+    $startInfo.UseShellExecute = $false
+    $startInfo.CreateNoWindow = $true
+    $startInfo.RedirectStandardOutput = $true
+    $startInfo.RedirectStandardError = $true
+    $process = New-Object Diagnostics.Process
+    $process.StartInfo = $startInfo
+    if (-not $process.Start()) { throw "Could not start the installed Defender scanner." }
+    $outputTask = $process.StandardOutput.ReadToEndAsync()
+    $errorTask = $process.StandardError.ReadToEndAsync()
     if (-not $process.WaitForExit(300000)) {
         $process.Kill()
         throw "Defender scan timed out. No scan clearance."
     }
     $process.WaitForExit()
     $result.scan_exit_code = $process.ExitCode
-    $result.scan_output = ((Get-Content -Raw -LiteralPath $outLog -ErrorAction SilentlyContinue) +
-        (Get-Content -Raw -LiteralPath $errLog -ErrorAction SilentlyContinue))
+    if ($null -eq $result.scan_exit_code) { throw "No scanner exit code was returned. No clearance." }
+    $result.scan_output = $outputTask.GetAwaiter().GetResult() + $errorTask.GetAwaiter().GetResult()
     $detections = @(Get-MpThreatDetection -ErrorAction SilentlyContinue | Where-Object {
         (@($_.Resources) -join " ").IndexOf($target, [StringComparison]::OrdinalIgnoreCase) -ge 0
     })
@@ -136,7 +145,7 @@ try {
         $result.status = "detected"
         throw "Defender reported detections in the candidate. Release remains blocked."
     }
-    if ($process.ExitCode -ne 0) { throw "Defender scan failed; exit $($process.ExitCode)." }
+    if ($result.scan_exit_code -ne 0) { throw "Defender scan failed; exit $($result.scan_exit_code)." }
     Test-CandidateHashes $manifestData
     $result.files_verified_after_scan = $true
     $result.status = "scan_passed"

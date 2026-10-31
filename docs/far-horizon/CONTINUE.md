@@ -6,7 +6,7 @@ Session 1's first playable Godot/HTML draft is complete. The terminal vertical
 slice was tested visually before expansion. The complete Session 1 route and
 the final single-file release then passed browser tests.
 
-- Play: https://loganrossbryant-ai.github.io/hello-earth-demo/far-horizon/
+- Proposed hosted URL (inactive; Pages is NOT enabled): https://loganrossbryant-ai.github.io/hello-earth-demo/far-horizon/
 - Public repository: `loganrossbryant-ai/hello-earth-demo`, branch `main`.
 - Published game commit: `90614a9be3120e9b23e0a836da2e16449cf8aeb1`.
 - Editable source: `loganrossbryant-ai/EAL-Game`, branch
@@ -17,9 +17,7 @@ the final single-file release then passed browser tests.
 - HTML SHA-256:
   `aae65757c483e136d1fcb9ab79683d2c2b1aabbd20e79f5a63cad3b3b7bf7e6e`.
 
-The user confirmed Pages is enabled on the public repository. The runtime's
-network policy blocks the github.io site and GitHub API, so public site loading
-cannot be verified here. The tested HTML is uploaded under `/far-horizon/`;
+Correction from the latest user message: GitHub Pages is NOT enabled. Deliver the standalone HTML for local browser opening; do not direct the user to the github.io play URL. The runtime network policy also blocks github.io and the GitHub API. The tested HTML is uploaded under `/far-horizon/`;
 the earlier root Hello, Earth! demo is preserved byte-for-byte.
 
 ## Confirmed preferences and scope
@@ -87,3 +85,11 @@ reset-time, or task-scheduling tools**. No scheduled task was created. The user
 was told this limitation. Do not claim to monitor the allowance or promise an
 automatic background restart. Resume from this checkpoint when the user returns
 and asks to continue; recheck tool availability if it has changed.
+
+## Offline download
+
+The user explicitly requested the HTML file for direct browser opening. The ZIP download contains only `Far-Horizon-Session-01.html`, with all engine/art/audio/font data embedded. Unzip and open the HTML in Chrome or Edge. Direct file opening remains unverified here because managed Chromium blocks file URLs; the exact HTML was tested over HTTP. Raw GitHub HTML links display source text, so the ZIP is the reliable direct-download route.
+
+Direct download: https://github.com/loganrossbryant-ai/hello-earth-demo/raw/refs/heads/main/far-horizon/Far-Horizon-Session-01.zip
+
+Download commit: `35030471e267db79072ec7ea7dd2da01bdf0a6bf`. The original embedded HTML bytes are unchanged. When updating the game, regenerate both the hosted HTML and the ZIP so the offline download stays current.

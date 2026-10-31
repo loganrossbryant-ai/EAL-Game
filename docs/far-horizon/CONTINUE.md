@@ -56,8 +56,8 @@ Live github.io is blocked here; verify Pages through its public Actions page and
 test exact build files over local HTTP.
 
 Editable source: loganrossbryant-ai/EAL-Game, branch
-codex/far-horizon-session-01. The workspace stays on main with unrelated dirty
-Earth-demo work/root README preserved. Prepare commits with temporary Git
+codex/far-horizon-session-01. The existing workspace branch and unrelated dirty
+Earth-demo work/root README are preserved. Prepare commits with temporary Git
 indexes and explicit paths. Do not reset or switch over those changes.
 
 ## Confirmed scope

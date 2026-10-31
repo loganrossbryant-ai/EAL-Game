@@ -1,0 +1,27 @@
+; Far Horizon is a separate Godot project; the existing Earth demo is preserved.
+config_version=5
+
+[application]
+config/name="The Far Horizon — Welcome to Pioneer"
+run/main_scene="res://scenes/main.tscn"
+config/features=PackedStringArray("4.6", "GL Compatibility")
+config/description="A GM-operated classroom adventure. Session 01."
+
+[display]
+window/size/viewport_width=1366
+window/size/viewport_height=768
+window/size/window_width_override=1366
+window/size/window_height_override=768
+window/stretch/mode="canvas_items"
+
+[rendering]
+renderer/rendering_method="gl_compatibility"
+renderer/rendering_method.mobile="gl_compatibility"
+textures/default_filters/use_nearest_mipmap_filter=false
+environment/defaults/default_clear_color=Color(0.018, 0.035, 0.05, 1)
+
+[audio]
+driver/enable_input=false
+
+[physics]
+common/physics_ticks_per_second=60

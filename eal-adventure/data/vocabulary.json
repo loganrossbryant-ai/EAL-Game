@@ -1,0 +1,2450 @@
+[
+  {
+    "id": "animals_dog",
+    "topic": "animals",
+    "en": "dog",
+    "zh": "狗",
+    "source_page": 34,
+    "illustration": "assets/art/dog.png",
+    "chunks": [
+      "My favorite",
+      "animal",
+      "is",
+      "a dog."
+    ],
+    "sentence": "My favorite animal is a dog.",
+    "question": "What's your favorite animal?",
+    "mission_item": "picture"
+  },
+  {
+    "id": "animals_cat",
+    "topic": "animals",
+    "en": "cat",
+    "zh": "猫",
+    "source_page": 34,
+    "illustration": "assets/art/cat.png",
+    "chunks": [
+      "My favorite",
+      "animal",
+      "is",
+      "a cat."
+    ],
+    "sentence": "My favorite animal is a cat.",
+    "question": "What's your favorite animal?",
+    "mission_item": "picture"
+  },
+  {
+    "id": "animals_rabbit",
+    "topic": "animals",
+    "en": "rabbit",
+    "zh": "兔子",
+    "source_page": 34,
+    "illustration": "assets/art/rabbit.png",
+    "chunks": [
+      "My favorite",
+      "animal",
+      "is",
+      "a rabbit."
+    ],
+    "sentence": "My favorite animal is a rabbit.",
+    "question": "What's your favorite animal?",
+    "mission_item": "picture"
+  },
+  {
+    "id": "animals_penguin",
+    "topic": "animals",
+    "en": "penguin",
+    "zh": "企鹅",
+    "source_page": 34,
+    "illustration": "assets/art/penguin.png",
+    "chunks": [
+      "My favorite",
+      "animal",
+      "is",
+      "a penguin."
+    ],
+    "sentence": "My favorite animal is a penguin.",
+    "question": "What's your favorite animal?",
+    "mission_item": "picture"
+  },
+  {
+    "id": "animals_giraffe",
+    "topic": "animals",
+    "en": "giraffe",
+    "zh": "长颈鹿",
+    "source_page": 34,
+    "illustration": "assets/art/giraffe.png",
+    "chunks": [
+      "My favorite",
+      "animal",
+      "is",
+      "a giraffe."
+    ],
+    "sentence": "My favorite animal is a giraffe.",
+    "question": "What's your favorite animal?",
+    "mission_item": "picture"
+  },
+  {
+    "id": "animals_elephant",
+    "topic": "animals",
+    "en": "elephant",
+    "zh": "大象",
+    "source_page": 34,
+    "illustration": "assets/art/elephant.png",
+    "chunks": [
+      "My favorite",
+      "animal",
+      "is",
+      "an elephant."
+    ],
+    "sentence": "My favorite animal is an elephant.",
+    "question": "What's your favorite animal?",
+    "mission_item": "picture"
+  },
+  {
+    "id": "animals_lion",
+    "topic": "animals",
+    "en": "lion",
+    "zh": "狮子",
+    "source_page": 34,
+    "illustration": "assets/art/lion.png",
+    "chunks": [
+      "My favorite",
+      "animal",
+      "is",
+      "a lion."
+    ],
+    "sentence": "My favorite animal is a lion.",
+    "question": "What's your favorite animal?",
+    "mission_item": "picture"
+  },
+  {
+    "id": "animals_tiger",
+    "topic": "animals",
+    "en": "tiger",
+    "zh": "老虎",
+    "source_page": 34,
+    "illustration": "assets/vocabulary/animals_tiger.svg",
+    "chunks": [
+      "My favorite",
+      "animal",
+      "is",
+      "a tiger."
+    ],
+    "sentence": "My favorite animal is a tiger.",
+    "question": "What's your favorite animal?",
+    "mission_item": "picture"
+  },
+  {
+    "id": "animals_bear",
+    "topic": "animals",
+    "en": "bear",
+    "zh": "熊",
+    "source_page": 34,
+    "illustration": "assets/vocabulary/animals_bear.svg",
+    "chunks": [
+      "My favorite",
+      "animal",
+      "is",
+      "a bear."
+    ],
+    "sentence": "My favorite animal is a bear.",
+    "question": "What's your favorite animal?",
+    "mission_item": "picture"
+  },
+  {
+    "id": "animals_panda",
+    "topic": "animals",
+    "en": "panda",
+    "zh": "熊猫",
+    "source_page": 34,
+    "illustration": "assets/art/panda.png",
+    "chunks": [
+      "My favorite",
+      "animal",
+      "is",
+      "a panda."
+    ],
+    "sentence": "My favorite animal is a panda.",
+    "question": "What's your favorite animal?",
+    "mission_item": "picture"
+  },
+  {
+    "id": "animals_monkey",
+    "topic": "animals",
+    "en": "monkey",
+    "zh": "猴子",
+    "source_page": 34,
+    "illustration": "assets/vocabulary/animals_monkey.svg",
+    "chunks": [
+      "My favorite",
+      "animal",
+      "is",
+      "a monkey."
+    ],
+    "sentence": "My favorite animal is a monkey.",
+    "question": "What's your favorite animal?",
+    "mission_item": "picture"
+  },
+  {
+    "id": "animals_zebra",
+    "topic": "animals",
+    "en": "zebra",
+    "zh": "斑马",
+    "source_page": 34,
+    "illustration": "assets/vocabulary/animals_zebra.svg",
+    "chunks": [
+      "My favorite",
+      "animal",
+      "is",
+      "a zebra."
+    ],
+    "sentence": "My favorite animal is a zebra.",
+    "question": "What's your favorite animal?",
+    "mission_item": "picture"
+  },
+  {
+    "id": "animals_horse",
+    "topic": "animals",
+    "en": "horse",
+    "zh": "马",
+    "source_page": 34,
+    "illustration": "assets/vocabulary/animals_horse.svg",
+    "chunks": [
+      "My favorite",
+      "animal",
+      "is",
+      "a horse."
+    ],
+    "sentence": "My favorite animal is a horse.",
+    "question": "What's your favorite animal?",
+    "mission_item": "picture"
+  },
+  {
+    "id": "animals_cow",
+    "topic": "animals",
+    "en": "cow",
+    "zh": "奶牛",
+    "source_page": 34,
+    "illustration": "assets/vocabulary/animals_cow.svg",
+    "chunks": [
+      "My favorite",
+      "animal",
+      "is",
+      "a cow."
+    ],
+    "sentence": "My favorite animal is a cow.",
+    "question": "What's your favorite animal?",
+    "mission_item": "picture"
+  },
+  {
+    "id": "animals_sheep",
+    "topic": "animals",
+    "en": "sheep",
+    "zh": "绵羊",
+    "source_page": 34,
+    "illustration": "assets/vocabulary/animals_sheep.svg",
+    "chunks": [
+      "My favorite",
+      "animal",
+      "is",
+      "a sheep."
+    ],
+    "sentence": "My favorite animal is a sheep.",
+    "question": "What's your favorite animal?",
+    "mission_item": "picture"
+  },
+  {
+    "id": "animals_duck",
+    "topic": "animals",
+    "en": "duck",
+    "zh": "鸭子",
+    "source_page": 34,
+    "illustration": "assets/vocabulary/animals_duck.svg",
+    "chunks": [
+      "My favorite",
+      "animal",
+      "is",
+      "a duck."
+    ],
+    "sentence": "My favorite animal is a duck.",
+    "question": "What's your favorite animal?",
+    "mission_item": "picture"
+  },
+  {
+    "id": "animals_turtle",
+    "topic": "animals",
+    "en": "turtle",
+    "zh": "龟",
+    "source_page": 34,
+    "illustration": "assets/vocabulary/animals_turtle.svg",
+    "chunks": [
+      "My favorite",
+      "animal",
+      "is",
+      "a turtle."
+    ],
+    "sentence": "My favorite animal is a turtle.",
+    "question": "What's your favorite animal?",
+    "mission_item": "picture"
+  },
+  {
+    "id": "animals_dolphin",
+    "topic": "animals",
+    "en": "dolphin",
+    "zh": "海豚",
+    "source_page": 34,
+    "illustration": "assets/vocabulary/animals_dolphin.svg",
+    "chunks": [
+      "My favorite",
+      "animal",
+      "is",
+      "a dolphin."
+    ],
+    "sentence": "My favorite animal is a dolphin.",
+    "question": "What's your favorite animal?",
+    "mission_item": "picture"
+  },
+  {
+    "id": "food_rice",
+    "topic": "food",
+    "en": "rice",
+    "zh": "米饭",
+    "source_page": 34,
+    "illustration": "assets/art/rice.png",
+    "sentence_value": "rice",
+    "sentence": "My favorite food is rice.",
+    "meaning": "我最喜欢的食物是米饭。",
+    "milestone": true,
+    "chunks": [
+      "My favorite",
+      "food",
+      "is",
+      "rice."
+    ],
+    "question": "What's your favorite food?",
+    "mission_item": "food"
+  },
+  {
+    "id": "food_noodles",
+    "topic": "food",
+    "en": "noodles",
+    "zh": "面条",
+    "source_page": 34,
+    "illustration": "assets/art/noodles.svg",
+    "sentence_value": "noodles",
+    "sentence": "My favorite food is noodles.",
+    "meaning": "我最喜欢的食物是面条。",
+    "milestone": true,
+    "chunks": [
+      "My favorite",
+      "food",
+      "is",
+      "noodles."
+    ],
+    "question": "What's your favorite food?",
+    "mission_item": "food"
+  },
+  {
+    "id": "food_dumplings",
+    "topic": "food",
+    "en": "dumplings",
+    "zh": "饺子",
+    "source_page": 34,
+    "illustration": "assets/art/dumplings.svg",
+    "sentence_value": "dumplings",
+    "sentence": "My favorite food is dumplings.",
+    "meaning": "我最喜欢的食物是饺子。",
+    "milestone": true,
+    "chunks": [
+      "My favorite",
+      "food",
+      "is",
+      "dumplings."
+    ],
+    "question": "What's your favorite food?",
+    "mission_item": "food"
+  },
+  {
+    "id": "food_pizza",
+    "topic": "food",
+    "en": "pizza",
+    "zh": "比萨饼",
+    "source_page": 34,
+    "illustration": "assets/art/pizza.png",
+    "sentence_value": "pizza",
+    "sentence": "My favorite food is pizza.",
+    "meaning": "我最喜欢的食物是比萨饼。",
+    "milestone": true,
+    "chunks": [
+      "My favorite",
+      "food",
+      "is",
+      "pizza."
+    ],
+    "question": "What's your favorite food?",
+    "mission_item": "food"
+  },
+  {
+    "id": "food_chicken",
+    "topic": "food",
+    "en": "chicken",
+    "zh": "鸡肉",
+    "source_page": 34,
+    "illustration": "assets/vocabulary/food_chicken.svg",
+    "sentence_value": "chicken",
+    "sentence": "My favorite food is chicken.",
+    "meaning": "我最喜欢的食物是鸡肉。",
+    "milestone": false,
+    "chunks": [
+      "My favorite",
+      "food",
+      "is",
+      "chicken."
+    ],
+    "question": "What's your favorite food?",
+    "mission_item": "food"
+  },
+  {
+    "id": "food_ice_cream",
+    "topic": "food",
+    "en": "ice cream",
+    "zh": "冰淇淋",
+    "source_page": 34,
+    "illustration": "assets/art/ice-cream.png",
+    "sentence_value": "ice cream",
+    "sentence": "My favorite food is ice cream.",
+    "meaning": "我最喜欢的食物是冰淇淋。",
+    "milestone": true,
+    "chunks": [
+      "My favorite",
+      "food",
+      "is",
+      "ice cream."
+    ],
+    "question": "What's your favorite food?",
+    "mission_item": "food"
+  },
+  {
+    "id": "food_bread",
+    "topic": "food",
+    "en": "bread",
+    "zh": "面包",
+    "source_page": 34,
+    "illustration": "assets/art/bread.svg",
+    "sentence_value": "bread",
+    "sentence": "My favorite food is bread.",
+    "meaning": "我最喜欢的食物是面包。",
+    "milestone": true,
+    "chunks": [
+      "My favorite",
+      "food",
+      "is",
+      "bread."
+    ],
+    "question": "What's your favorite food?",
+    "mission_item": "food"
+  },
+  {
+    "id": "food_eggs",
+    "topic": "food",
+    "en": "eggs",
+    "zh": "鸡蛋",
+    "source_page": 34,
+    "illustration": "assets/art/eggs.svg",
+    "sentence_value": "eggs",
+    "sentence": "My favorite food is eggs.",
+    "meaning": "我最喜欢的食物是鸡蛋。",
+    "milestone": true,
+    "chunks": [
+      "My favorite",
+      "food",
+      "is",
+      "eggs."
+    ],
+    "question": "What's your favorite food?",
+    "mission_item": "food"
+  },
+  {
+    "id": "food_fish",
+    "topic": "food",
+    "en": "fish",
+    "zh": "鱼肉",
+    "source_page": 34,
+    "illustration": "assets/vocabulary/food_fish.svg",
+    "sentence_value": "fish",
+    "sentence": "My favorite food is fish.",
+    "meaning": "我最喜欢的食物是鱼肉。",
+    "milestone": false,
+    "chunks": [
+      "My favorite",
+      "food",
+      "is",
+      "fish."
+    ],
+    "question": "What's your favorite food?",
+    "mission_item": "food"
+  },
+  {
+    "id": "food_soup",
+    "topic": "food",
+    "en": "soup",
+    "zh": "汤",
+    "source_page": 34,
+    "illustration": "assets/vocabulary/food_soup.svg",
+    "sentence_value": "soup",
+    "sentence": "My favorite food is soup.",
+    "meaning": "我最喜欢的食物是汤。",
+    "milestone": false,
+    "chunks": [
+      "My favorite",
+      "food",
+      "is",
+      "soup."
+    ],
+    "question": "What's your favorite food?",
+    "mission_item": "food"
+  },
+  {
+    "id": "food_cheese",
+    "topic": "food",
+    "en": "cheese",
+    "zh": "奶酪",
+    "source_page": 34,
+    "illustration": "assets/vocabulary/food_cheese.svg",
+    "sentence_value": "cheese",
+    "sentence": "My favorite food is cheese.",
+    "meaning": "我最喜欢的食物是奶酪。",
+    "milestone": false,
+    "chunks": [
+      "My favorite",
+      "food",
+      "is",
+      "cheese."
+    ],
+    "question": "What's your favorite food?",
+    "mission_item": "food"
+  },
+  {
+    "id": "food_sandwich",
+    "topic": "food",
+    "en": "sandwich",
+    "zh": "三明治",
+    "source_page": 34,
+    "illustration": "assets/art/sandwich.png",
+    "sentence_value": "sandwiches",
+    "sentence": "My favorite food is sandwiches.",
+    "meaning": "我最喜欢的食物是三明治。",
+    "milestone": true,
+    "chunks": [
+      "My favorite",
+      "food",
+      "is",
+      "sandwiches."
+    ],
+    "question": "What's your favorite food?",
+    "mission_item": "food"
+  },
+  {
+    "id": "food_apple",
+    "topic": "food",
+    "en": "apple",
+    "zh": "苹果",
+    "source_page": 34,
+    "illustration": "assets/art/apple.png",
+    "sentence_value": "apples",
+    "sentence": "My favorite food is apples.",
+    "meaning": "我最喜欢的食物是苹果。",
+    "milestone": true,
+    "chunks": [
+      "My favorite",
+      "food",
+      "is",
+      "apples."
+    ],
+    "question": "What's your favorite food?",
+    "mission_item": "food"
+  },
+  {
+    "id": "food_banana",
+    "topic": "food",
+    "en": "banana",
+    "zh": "香蕉",
+    "source_page": 34,
+    "illustration": "assets/art/banana.png",
+    "sentence_value": "bananas",
+    "sentence": "My favorite food is bananas.",
+    "meaning": "我最喜欢的食物是香蕉。",
+    "milestone": true,
+    "chunks": [
+      "My favorite",
+      "food",
+      "is",
+      "bananas."
+    ],
+    "question": "What's your favorite food?",
+    "mission_item": "food"
+  },
+  {
+    "id": "food_orange",
+    "topic": "food",
+    "en": "orange",
+    "zh": "橙子",
+    "source_page": 34,
+    "illustration": "assets/art/orange-fruit.png",
+    "sentence_value": "oranges",
+    "sentence": "My favorite food is oranges.",
+    "meaning": "我最喜欢的食物是橙子。",
+    "milestone": true,
+    "chunks": [
+      "My favorite",
+      "food",
+      "is",
+      "oranges."
+    ],
+    "question": "What's your favorite food?",
+    "mission_item": "food"
+  },
+  {
+    "id": "food_strawberry",
+    "topic": "food",
+    "en": "strawberry",
+    "zh": "草莓",
+    "source_page": 34,
+    "illustration": "assets/art/strawberry.png",
+    "sentence_value": "strawberries",
+    "sentence": "My favorite food is strawberries.",
+    "meaning": "我最喜欢的食物是草莓。",
+    "milestone": true,
+    "chunks": [
+      "My favorite",
+      "food",
+      "is",
+      "strawberries."
+    ],
+    "question": "What's your favorite food?",
+    "mission_item": "food"
+  },
+  {
+    "id": "food_watermelon",
+    "topic": "food",
+    "en": "watermelon",
+    "zh": "西瓜",
+    "source_page": 34,
+    "illustration": "assets/vocabulary/food_watermelon.svg",
+    "sentence_value": "watermelon",
+    "sentence": "My favorite food is watermelon.",
+    "meaning": "我最喜欢的食物是西瓜。",
+    "milestone": false,
+    "chunks": [
+      "My favorite",
+      "food",
+      "is",
+      "watermelon."
+    ],
+    "question": "What's your favorite food?",
+    "mission_item": "food"
+  },
+  {
+    "id": "food_carrot",
+    "topic": "food",
+    "en": "carrot",
+    "zh": "胡萝卜",
+    "source_page": 34,
+    "illustration": "assets/vocabulary/food_carrot.svg",
+    "sentence_value": "carrot",
+    "sentence": "My favorite food is carrot.",
+    "meaning": "我最喜欢的食物是胡萝卜。",
+    "milestone": false,
+    "chunks": [
+      "My favorite",
+      "food",
+      "is",
+      "carrot."
+    ],
+    "question": "What's your favorite food?",
+    "mission_item": "food"
+  },
+  {
+    "id": "sports_soccer",
+    "topic": "sports",
+    "en": "soccer",
+    "zh": "足球",
+    "source_page": 35,
+    "illustration": "assets/art/soccer.png",
+    "chunks": [
+      "My favorite",
+      "sport",
+      "is",
+      "soccer."
+    ],
+    "sentence": "My favorite sport is soccer.",
+    "question": "What's your favorite sport?",
+    "mission_item": "picture"
+  },
+  {
+    "id": "sports_basketball",
+    "topic": "sports",
+    "en": "basketball",
+    "zh": "篮球",
+    "source_page": 35,
+    "illustration": "assets/art/basketball.png",
+    "chunks": [
+      "My favorite",
+      "sport",
+      "is",
+      "basketball."
+    ],
+    "sentence": "My favorite sport is basketball.",
+    "question": "What's your favorite sport?",
+    "mission_item": "picture"
+  },
+  {
+    "id": "sports_swimming",
+    "topic": "sports",
+    "en": "swimming",
+    "zh": "游泳",
+    "source_page": 35,
+    "illustration": "assets/vocabulary/sports_swimming.svg",
+    "chunks": [
+      "My favorite",
+      "sport",
+      "is",
+      "swimming."
+    ],
+    "sentence": "My favorite sport is swimming.",
+    "question": "What's your favorite sport?",
+    "mission_item": "picture"
+  },
+  {
+    "id": "sports_badminton",
+    "topic": "sports",
+    "en": "badminton",
+    "zh": "羽毛球",
+    "source_page": 35,
+    "illustration": "assets/vocabulary/sports_badminton.svg",
+    "chunks": [
+      "My favorite",
+      "sport",
+      "is",
+      "badminton."
+    ],
+    "sentence": "My favorite sport is badminton.",
+    "question": "What's your favorite sport?",
+    "mission_item": "picture"
+  },
+  {
+    "id": "sports_skating",
+    "topic": "sports",
+    "en": "skating",
+    "zh": "滑冰",
+    "source_page": 35,
+    "illustration": "assets/vocabulary/sports_skating.svg",
+    "chunks": [
+      "My favorite",
+      "sport",
+      "is",
+      "skating."
+    ],
+    "sentence": "My favorite sport is skating.",
+    "question": "What's your favorite sport?",
+    "mission_item": "picture"
+  },
+  {
+    "id": "sports_tennis",
+    "topic": "sports",
+    "en": "tennis",
+    "zh": "网球",
+    "source_page": 35,
+    "illustration": "assets/vocabulary/sports_tennis.svg",
+    "chunks": [
+      "My favorite",
+      "sport",
+      "is",
+      "tennis."
+    ],
+    "sentence": "My favorite sport is tennis.",
+    "question": "What's your favorite sport?",
+    "mission_item": "picture"
+  },
+  {
+    "id": "sports_baseball",
+    "topic": "sports",
+    "en": "baseball",
+    "zh": "棒球",
+    "source_page": 35,
+    "illustration": "assets/art/baseball.png",
+    "chunks": [
+      "My favorite",
+      "sport",
+      "is",
+      "baseball."
+    ],
+    "sentence": "My favorite sport is baseball.",
+    "question": "What's your favorite sport?",
+    "mission_item": "picture"
+  },
+  {
+    "id": "sports_table_tennis",
+    "topic": "sports",
+    "en": "table tennis",
+    "zh": "乒乓球",
+    "source_page": 35,
+    "illustration": "assets/art/table-tennis.png",
+    "chunks": [
+      "My favorite",
+      "sport",
+      "is",
+      "table tennis."
+    ],
+    "sentence": "My favorite sport is table tennis.",
+    "question": "What's your favorite sport?",
+    "mission_item": "picture"
+  },
+  {
+    "id": "sports_volleyball",
+    "topic": "sports",
+    "en": "volleyball",
+    "zh": "排球",
+    "source_page": 35,
+    "illustration": "assets/vocabulary/sports_volleyball.svg",
+    "chunks": [
+      "My favorite",
+      "sport",
+      "is",
+      "volleyball."
+    ],
+    "sentence": "My favorite sport is volleyball.",
+    "question": "What's your favorite sport?",
+    "mission_item": "picture"
+  },
+  {
+    "id": "sports_running",
+    "topic": "sports",
+    "en": "running",
+    "zh": "跑步",
+    "source_page": 35,
+    "illustration": "assets/vocabulary/sports_running.svg",
+    "chunks": [
+      "My favorite",
+      "sport",
+      "is",
+      "running."
+    ],
+    "sentence": "My favorite sport is running.",
+    "question": "What's your favorite sport?",
+    "mission_item": "picture"
+  },
+  {
+    "id": "sports_cycling",
+    "topic": "sports",
+    "en": "cycling",
+    "zh": "骑自行车",
+    "source_page": 35,
+    "illustration": "assets/vocabulary/sports_cycling.svg",
+    "chunks": [
+      "My favorite",
+      "sport",
+      "is",
+      "cycling."
+    ],
+    "sentence": "My favorite sport is cycling.",
+    "question": "What's your favorite sport?",
+    "mission_item": "picture"
+  },
+  {
+    "id": "sports_gymnastics",
+    "topic": "sports",
+    "en": "gymnastics",
+    "zh": "体操",
+    "source_page": 35,
+    "illustration": "assets/vocabulary/sports_gymnastics.svg",
+    "chunks": [
+      "My favorite",
+      "sport",
+      "is",
+      "gymnastics."
+    ],
+    "sentence": "My favorite sport is gymnastics.",
+    "question": "What's your favorite sport?",
+    "mission_item": "picture"
+  },
+  {
+    "id": "sports_boxing",
+    "topic": "sports",
+    "en": "boxing",
+    "zh": "拳击",
+    "source_page": 35,
+    "illustration": "assets/vocabulary/sports_boxing.svg",
+    "chunks": [
+      "My favorite",
+      "sport",
+      "is",
+      "boxing."
+    ],
+    "sentence": "My favorite sport is boxing.",
+    "question": "What's your favorite sport?",
+    "mission_item": "picture"
+  },
+  {
+    "id": "sports_skiing",
+    "topic": "sports",
+    "en": "skiing",
+    "zh": "滑雪",
+    "source_page": 35,
+    "illustration": "assets/vocabulary/sports_skiing.svg",
+    "chunks": [
+      "My favorite",
+      "sport",
+      "is",
+      "skiing."
+    ],
+    "sentence": "My favorite sport is skiing.",
+    "question": "What's your favorite sport?",
+    "mission_item": "picture"
+  },
+  {
+    "id": "sports_surfing",
+    "topic": "sports",
+    "en": "surfing",
+    "zh": "冲浪",
+    "source_page": 35,
+    "illustration": "assets/vocabulary/sports_surfing.svg",
+    "chunks": [
+      "My favorite",
+      "sport",
+      "is",
+      "surfing."
+    ],
+    "sentence": "My favorite sport is surfing.",
+    "question": "What's your favorite sport?",
+    "mission_item": "picture"
+  },
+  {
+    "id": "sports_skateboarding",
+    "topic": "sports",
+    "en": "skateboarding",
+    "zh": "滑板运动",
+    "source_page": 35,
+    "illustration": "assets/vocabulary/sports_skateboarding.svg",
+    "chunks": [
+      "My favorite",
+      "sport",
+      "is",
+      "skateboarding."
+    ],
+    "sentence": "My favorite sport is skateboarding.",
+    "question": "What's your favorite sport?",
+    "mission_item": "picture"
+  },
+  {
+    "id": "sports_golf",
+    "topic": "sports",
+    "en": "golf",
+    "zh": "高尔夫球",
+    "source_page": 35,
+    "illustration": "assets/vocabulary/sports_golf.svg",
+    "chunks": [
+      "My favorite",
+      "sport",
+      "is",
+      "golf."
+    ],
+    "sentence": "My favorite sport is golf.",
+    "question": "What's your favorite sport?",
+    "mission_item": "picture"
+  },
+  {
+    "id": "sports_ice_hockey",
+    "topic": "sports",
+    "en": "ice hockey",
+    "zh": "冰球",
+    "source_page": 35,
+    "illustration": "assets/vocabulary/sports_ice_hockey.svg",
+    "chunks": [
+      "My favorite",
+      "sport",
+      "is",
+      "ice hockey."
+    ],
+    "sentence": "My favorite sport is ice hockey.",
+    "question": "What's your favorite sport?",
+    "mission_item": "picture"
+  },
+  {
+    "id": "entertainment_movie",
+    "topic": "entertainment",
+    "en": "movie",
+    "zh": "电影",
+    "source_page": 35,
+    "illustration": "assets/vocabulary/entertainment_movie.svg",
+    "chunks": [
+      "I",
+      "like",
+      "movies."
+    ],
+    "sentence": "I like movies.",
+    "question": "What do you like?",
+    "mission_item": "picture"
+  },
+  {
+    "id": "entertainment_tv_show",
+    "topic": "entertainment",
+    "en": "TV show",
+    "zh": "电视节目",
+    "source_page": 35,
+    "illustration": "assets/vocabulary/entertainment_tv_show.svg",
+    "chunks": [
+      "I",
+      "like",
+      "TV shows."
+    ],
+    "sentence": "I like TV shows.",
+    "question": "What do you like?",
+    "mission_item": "picture"
+  },
+  {
+    "id": "entertainment_video_game",
+    "topic": "entertainment",
+    "en": "video game",
+    "zh": "电子游戏",
+    "source_page": 35,
+    "illustration": "assets/vocabulary/entertainment_video_game.svg",
+    "chunks": [
+      "I",
+      "like",
+      "video games."
+    ],
+    "sentence": "I like video games.",
+    "question": "What do you like?",
+    "mission_item": "picture"
+  },
+  {
+    "id": "entertainment_app",
+    "topic": "entertainment",
+    "en": "app",
+    "zh": "应用程序",
+    "source_page": 35,
+    "illustration": "assets/vocabulary/entertainment_app.svg",
+    "chunks": [
+      "I",
+      "like",
+      "apps."
+    ],
+    "sentence": "I like apps.",
+    "question": "What do you like?",
+    "mission_item": "picture"
+  },
+  {
+    "id": "entertainment_song",
+    "topic": "entertainment",
+    "en": "song",
+    "zh": "歌曲",
+    "source_page": 35,
+    "illustration": "assets/vocabulary/entertainment_song.svg",
+    "chunks": [
+      "I",
+      "like",
+      "songs."
+    ],
+    "sentence": "I like songs.",
+    "question": "What do you like?",
+    "mission_item": "picture"
+  },
+  {
+    "id": "entertainment_cartoon",
+    "topic": "entertainment",
+    "en": "cartoon",
+    "zh": "动画片",
+    "source_page": 35,
+    "illustration": "assets/vocabulary/entertainment_cartoon.svg",
+    "chunks": [
+      "I",
+      "like",
+      "cartoons."
+    ],
+    "sentence": "I like cartoons.",
+    "question": "What do you like?",
+    "mission_item": "picture"
+  },
+  {
+    "id": "entertainment_comic_book",
+    "topic": "entertainment",
+    "en": "comic book",
+    "zh": "漫画书",
+    "source_page": 35,
+    "illustration": "assets/vocabulary/entertainment_comic_book.svg",
+    "chunks": [
+      "I",
+      "like",
+      "comic books."
+    ],
+    "sentence": "I like comic books.",
+    "question": "What do you like?",
+    "mission_item": "picture"
+  },
+  {
+    "id": "entertainment_storybook",
+    "topic": "entertainment",
+    "en": "storybook",
+    "zh": "故事书",
+    "source_page": 35,
+    "illustration": "assets/vocabulary/entertainment_storybook.svg",
+    "chunks": [
+      "I",
+      "like",
+      "storybooks."
+    ],
+    "sentence": "I like storybooks.",
+    "question": "What do you like?",
+    "mission_item": "picture"
+  },
+  {
+    "id": "entertainment_music",
+    "topic": "entertainment",
+    "en": "music",
+    "zh": "音乐",
+    "source_page": 35,
+    "illustration": "assets/vocabulary/entertainment_music.svg",
+    "chunks": [
+      "I",
+      "like",
+      "music."
+    ],
+    "sentence": "I like music.",
+    "question": "What do you like?",
+    "mission_item": "picture"
+  },
+  {
+    "id": "entertainment_dance",
+    "topic": "entertainment",
+    "en": "dance",
+    "zh": "舞蹈",
+    "source_page": 35,
+    "illustration": "assets/vocabulary/entertainment_dance.svg",
+    "chunks": [
+      "I",
+      "like",
+      "dancing."
+    ],
+    "sentence": "I like dancing.",
+    "question": "What do you like?",
+    "mission_item": "picture"
+  },
+  {
+    "id": "entertainment_puppet_show",
+    "topic": "entertainment",
+    "en": "puppet show",
+    "zh": "木偶剧",
+    "source_page": 35,
+    "illustration": "assets/vocabulary/entertainment_puppet_show.svg",
+    "chunks": [
+      "I",
+      "like",
+      "puppet shows."
+    ],
+    "sentence": "I like puppet shows.",
+    "question": "What do you like?",
+    "mission_item": "picture"
+  },
+  {
+    "id": "entertainment_magic_show",
+    "topic": "entertainment",
+    "en": "magic show",
+    "zh": "魔术表演",
+    "source_page": 35,
+    "illustration": "assets/vocabulary/entertainment_magic_show.svg",
+    "chunks": [
+      "I",
+      "like",
+      "magic shows."
+    ],
+    "sentence": "I like magic shows.",
+    "question": "What do you like?",
+    "mission_item": "picture"
+  },
+  {
+    "id": "entertainment_concert",
+    "topic": "entertainment",
+    "en": "concert",
+    "zh": "音乐会",
+    "source_page": 35,
+    "illustration": "assets/vocabulary/entertainment_concert.svg",
+    "chunks": [
+      "I",
+      "like",
+      "concerts."
+    ],
+    "sentence": "I like concerts.",
+    "question": "What do you like?",
+    "mission_item": "picture"
+  },
+  {
+    "id": "entertainment_board_game",
+    "topic": "entertainment",
+    "en": "board game",
+    "zh": "桌游",
+    "source_page": 35,
+    "illustration": "assets/vocabulary/entertainment_board_game.svg",
+    "chunks": [
+      "I",
+      "like",
+      "board games."
+    ],
+    "sentence": "I like board games.",
+    "question": "What do you like?",
+    "mission_item": "picture"
+  },
+  {
+    "id": "entertainment_card_game",
+    "topic": "entertainment",
+    "en": "card game",
+    "zh": "纸牌游戏",
+    "source_page": 35,
+    "illustration": "assets/vocabulary/entertainment_card_game.svg",
+    "chunks": [
+      "I",
+      "like",
+      "card games."
+    ],
+    "sentence": "I like card games.",
+    "question": "What do you like?",
+    "mission_item": "picture"
+  },
+  {
+    "id": "entertainment_puzzle",
+    "topic": "entertainment",
+    "en": "puzzle",
+    "zh": "拼图",
+    "source_page": 35,
+    "illustration": "assets/vocabulary/entertainment_puzzle.svg",
+    "chunks": [
+      "I",
+      "like",
+      "puzzles."
+    ],
+    "sentence": "I like puzzles.",
+    "question": "What do you like?",
+    "mission_item": "picture"
+  },
+  {
+    "id": "entertainment_toy",
+    "topic": "entertainment",
+    "en": "toy",
+    "zh": "玩具",
+    "source_page": 35,
+    "illustration": "assets/vocabulary/entertainment_toy.svg",
+    "chunks": [
+      "I",
+      "like",
+      "toys."
+    ],
+    "sentence": "I like toys.",
+    "question": "What do you like?",
+    "mission_item": "picture"
+  },
+  {
+    "id": "entertainment_building_blocks",
+    "topic": "entertainment",
+    "en": "building blocks",
+    "zh": "积木",
+    "source_page": 35,
+    "illustration": "assets/vocabulary/entertainment_building_blocks.svg",
+    "chunks": [
+      "I",
+      "like",
+      "building blocks."
+    ],
+    "sentence": "I like building blocks.",
+    "question": "What do you like?",
+    "mission_item": "picture"
+  },
+  {
+    "id": "people_singer",
+    "topic": "people",
+    "en": "singer",
+    "zh": "歌手",
+    "source_page": 36,
+    "illustration": "assets/vocabulary/people_singer.svg",
+    "chunks": [
+      "I",
+      "like",
+      "the singer."
+    ],
+    "sentence": "I like the singer.",
+    "question": "Who do you like?",
+    "mission_item": "picture"
+  },
+  {
+    "id": "people_teacher",
+    "topic": "people",
+    "en": "teacher",
+    "zh": "老师",
+    "source_page": 36,
+    "illustration": "assets/vocabulary/people_teacher.svg",
+    "chunks": [
+      "I",
+      "like",
+      "my teacher."
+    ],
+    "sentence": "I like my teacher.",
+    "question": "Who do you like?",
+    "mission_item": "picture"
+  },
+  {
+    "id": "people_friend",
+    "topic": "people",
+    "en": "friend",
+    "zh": "朋友",
+    "source_page": 36,
+    "illustration": "assets/vocabulary/people_friend.svg",
+    "chunks": [
+      "I",
+      "like",
+      "my friend."
+    ],
+    "sentence": "I like my friend.",
+    "question": "Who do you like?",
+    "mission_item": "picture"
+  },
+  {
+    "id": "people_writer",
+    "topic": "people",
+    "en": "writer",
+    "zh": "作家",
+    "source_page": 36,
+    "illustration": "assets/vocabulary/people_writer.svg",
+    "chunks": [
+      "I",
+      "like",
+      "the writer."
+    ],
+    "sentence": "I like the writer.",
+    "question": "Who do you like?",
+    "mission_item": "picture"
+  },
+  {
+    "id": "people_actor",
+    "topic": "people",
+    "en": "actor",
+    "zh": "演员",
+    "source_page": 36,
+    "illustration": "assets/vocabulary/people_actor.svg",
+    "chunks": [
+      "I",
+      "like",
+      "the actor."
+    ],
+    "sentence": "I like the actor.",
+    "question": "Who do you like?",
+    "mission_item": "picture"
+  },
+  {
+    "id": "people_soccer_player",
+    "topic": "people",
+    "en": "soccer player",
+    "zh": "足球运动员",
+    "source_page": 36,
+    "illustration": "assets/vocabulary/people_soccer_player.svg",
+    "chunks": [
+      "I",
+      "like",
+      "the soccer player."
+    ],
+    "sentence": "I like the soccer player.",
+    "question": "Who do you like?",
+    "mission_item": "picture"
+  },
+  {
+    "id": "people_mother",
+    "topic": "people",
+    "en": "mother",
+    "zh": "妈妈",
+    "source_page": 36,
+    "illustration": "assets/vocabulary/people_mother.svg",
+    "chunks": [
+      "I",
+      "like",
+      "my mother."
+    ],
+    "sentence": "I like my mother.",
+    "question": "Who do you like?",
+    "mission_item": "picture"
+  },
+  {
+    "id": "people_father",
+    "topic": "people",
+    "en": "father",
+    "zh": "爸爸",
+    "source_page": 36,
+    "illustration": "assets/vocabulary/people_father.svg",
+    "chunks": [
+      "I",
+      "like",
+      "my father."
+    ],
+    "sentence": "I like my father.",
+    "question": "Who do you like?",
+    "mission_item": "picture"
+  },
+  {
+    "id": "people_sister",
+    "topic": "people",
+    "en": "sister",
+    "zh": "姐姐／妹妹",
+    "source_page": 36,
+    "illustration": "assets/vocabulary/people_sister.svg",
+    "chunks": [
+      "I",
+      "like",
+      "my sister."
+    ],
+    "sentence": "I like my sister.",
+    "question": "Who do you like?",
+    "mission_item": "picture"
+  },
+  {
+    "id": "people_brother",
+    "topic": "people",
+    "en": "brother",
+    "zh": "哥哥／弟弟",
+    "source_page": 36,
+    "illustration": "assets/vocabulary/people_brother.svg",
+    "chunks": [
+      "I",
+      "like",
+      "my brother."
+    ],
+    "sentence": "I like my brother.",
+    "question": "Who do you like?",
+    "mission_item": "picture"
+  },
+  {
+    "id": "people_grandmother",
+    "topic": "people",
+    "en": "grandmother",
+    "zh": "奶奶／外婆",
+    "source_page": 36,
+    "illustration": "assets/vocabulary/people_grandmother.svg",
+    "chunks": [
+      "I",
+      "like",
+      "my grandmother."
+    ],
+    "sentence": "I like my grandmother.",
+    "question": "Who do you like?",
+    "mission_item": "picture"
+  },
+  {
+    "id": "people_grandfather",
+    "topic": "people",
+    "en": "grandfather",
+    "zh": "爷爷／外公",
+    "source_page": 36,
+    "illustration": "assets/vocabulary/people_grandfather.svg",
+    "chunks": [
+      "I",
+      "like",
+      "my grandfather."
+    ],
+    "sentence": "I like my grandfather.",
+    "question": "Who do you like?",
+    "mission_item": "picture"
+  },
+  {
+    "id": "people_doctor",
+    "topic": "people",
+    "en": "doctor",
+    "zh": "医生",
+    "source_page": 36,
+    "illustration": "assets/vocabulary/people_doctor.svg",
+    "chunks": [
+      "I",
+      "like",
+      "my doctor."
+    ],
+    "sentence": "I like my doctor.",
+    "question": "Who do you like?",
+    "mission_item": "picture"
+  },
+  {
+    "id": "people_nurse",
+    "topic": "people",
+    "en": "nurse",
+    "zh": "护士",
+    "source_page": 36,
+    "illustration": "assets/vocabulary/people_nurse.svg",
+    "chunks": [
+      "I",
+      "like",
+      "the nurse."
+    ],
+    "sentence": "I like the nurse.",
+    "question": "Who do you like?",
+    "mission_item": "picture"
+  },
+  {
+    "id": "people_firefighter",
+    "topic": "people",
+    "en": "firefighter",
+    "zh": "消防员",
+    "source_page": 36,
+    "illustration": "assets/vocabulary/people_firefighter.svg",
+    "chunks": [
+      "I",
+      "like",
+      "the firefighter."
+    ],
+    "sentence": "I like the firefighter.",
+    "question": "Who do you like?",
+    "mission_item": "picture"
+  },
+  {
+    "id": "people_police_officer",
+    "topic": "people",
+    "en": "police officer",
+    "zh": "警察",
+    "source_page": 36,
+    "illustration": "assets/vocabulary/people_police_officer.svg",
+    "chunks": [
+      "I",
+      "like",
+      "the police officer."
+    ],
+    "sentence": "I like the police officer.",
+    "question": "Who do you like?",
+    "mission_item": "picture"
+  },
+  {
+    "id": "people_chef",
+    "topic": "people",
+    "en": "chef",
+    "zh": "厨师",
+    "source_page": 36,
+    "illustration": "assets/vocabulary/people_chef.svg",
+    "chunks": [
+      "I",
+      "like",
+      "the chef."
+    ],
+    "sentence": "I like the chef.",
+    "question": "Who do you like?",
+    "mission_item": "picture"
+  },
+  {
+    "id": "people_artist",
+    "topic": "people",
+    "en": "artist",
+    "zh": "艺术家",
+    "source_page": 36,
+    "illustration": "assets/vocabulary/people_artist.svg",
+    "chunks": [
+      "I",
+      "like",
+      "the artist."
+    ],
+    "sentence": "I like the artist.",
+    "question": "Who do you like?",
+    "mission_item": "picture"
+  },
+  {
+    "id": "colors_red",
+    "topic": "colors",
+    "en": "red",
+    "zh": "红色",
+    "source_page": 36,
+    "illustration": "assets/vocabulary/colors_red.svg",
+    "chunks": [
+      "My favorite",
+      "color",
+      "is",
+      "red."
+    ],
+    "sentence": "My favorite color is red.",
+    "question": "What's your favorite color?",
+    "mission_item": "picture"
+  },
+  {
+    "id": "colors_blue",
+    "topic": "colors",
+    "en": "blue",
+    "zh": "蓝色",
+    "source_page": 36,
+    "illustration": "assets/vocabulary/colors_blue.svg",
+    "chunks": [
+      "My favorite",
+      "color",
+      "is",
+      "blue."
+    ],
+    "sentence": "My favorite color is blue.",
+    "question": "What's your favorite color?",
+    "mission_item": "picture"
+  },
+  {
+    "id": "colors_green",
+    "topic": "colors",
+    "en": "green",
+    "zh": "绿色",
+    "source_page": 36,
+    "illustration": "assets/vocabulary/colors_green.svg",
+    "chunks": [
+      "My favorite",
+      "color",
+      "is",
+      "green."
+    ],
+    "sentence": "My favorite color is green.",
+    "question": "What's your favorite color?",
+    "mission_item": "picture"
+  },
+  {
+    "id": "colors_yellow",
+    "topic": "colors",
+    "en": "yellow",
+    "zh": "黄色",
+    "source_page": 36,
+    "illustration": "assets/vocabulary/colors_yellow.svg",
+    "chunks": [
+      "My favorite",
+      "color",
+      "is",
+      "yellow."
+    ],
+    "sentence": "My favorite color is yellow.",
+    "question": "What's your favorite color?",
+    "mission_item": "picture"
+  },
+  {
+    "id": "colors_purple",
+    "topic": "colors",
+    "en": "purple",
+    "zh": "紫色",
+    "source_page": 36,
+    "illustration": "assets/vocabulary/colors_purple.svg",
+    "chunks": [
+      "My favorite",
+      "color",
+      "is",
+      "purple."
+    ],
+    "sentence": "My favorite color is purple.",
+    "question": "What's your favorite color?",
+    "mission_item": "picture"
+  },
+  {
+    "id": "colors_orange",
+    "topic": "colors",
+    "en": "orange",
+    "zh": "橙色",
+    "source_page": 36,
+    "illustration": "assets/vocabulary/colors_orange.svg",
+    "chunks": [
+      "My favorite",
+      "color",
+      "is",
+      "orange."
+    ],
+    "sentence": "My favorite color is orange.",
+    "question": "What's your favorite color?",
+    "mission_item": "picture"
+  },
+  {
+    "id": "colors_pink",
+    "topic": "colors",
+    "en": "pink",
+    "zh": "粉红色",
+    "source_page": 36,
+    "illustration": "assets/vocabulary/colors_pink.svg",
+    "chunks": [
+      "My favorite",
+      "color",
+      "is",
+      "pink."
+    ],
+    "sentence": "My favorite color is pink.",
+    "question": "What's your favorite color?",
+    "mission_item": "picture"
+  },
+  {
+    "id": "colors_brown",
+    "topic": "colors",
+    "en": "brown",
+    "zh": "棕色",
+    "source_page": 36,
+    "illustration": "assets/vocabulary/colors_brown.svg",
+    "chunks": [
+      "My favorite",
+      "color",
+      "is",
+      "brown."
+    ],
+    "sentence": "My favorite color is brown.",
+    "question": "What's your favorite color?",
+    "mission_item": "picture"
+  },
+  {
+    "id": "colors_black",
+    "topic": "colors",
+    "en": "black",
+    "zh": "黑色",
+    "source_page": 36,
+    "illustration": "assets/vocabulary/colors_black.svg",
+    "chunks": [
+      "My favorite",
+      "color",
+      "is",
+      "black."
+    ],
+    "sentence": "My favorite color is black.",
+    "question": "What's your favorite color?",
+    "mission_item": "picture"
+  },
+  {
+    "id": "colors_white",
+    "topic": "colors",
+    "en": "white",
+    "zh": "白色",
+    "source_page": 36,
+    "illustration": "assets/vocabulary/colors_white.svg",
+    "chunks": [
+      "My favorite",
+      "color",
+      "is",
+      "white."
+    ],
+    "sentence": "My favorite color is white.",
+    "question": "What's your favorite color?",
+    "mission_item": "picture"
+  },
+  {
+    "id": "colors_gray",
+    "topic": "colors",
+    "en": "gray",
+    "zh": "灰色",
+    "source_page": 36,
+    "illustration": "assets/vocabulary/colors_gray.svg",
+    "chunks": [
+      "My favorite",
+      "color",
+      "is",
+      "gray."
+    ],
+    "sentence": "My favorite color is gray.",
+    "question": "What's your favorite color?",
+    "mission_item": "picture"
+  },
+  {
+    "id": "colors_light_blue",
+    "topic": "colors",
+    "en": "light blue",
+    "zh": "浅蓝色",
+    "source_page": 36,
+    "illustration": "assets/vocabulary/colors_light_blue.svg",
+    "chunks": [
+      "My favorite",
+      "color",
+      "is",
+      "light blue."
+    ],
+    "sentence": "My favorite color is light blue.",
+    "question": "What's your favorite color?",
+    "mission_item": "picture"
+  },
+  {
+    "id": "colors_dark_blue",
+    "topic": "colors",
+    "en": "dark blue",
+    "zh": "深蓝色",
+    "source_page": 36,
+    "illustration": "assets/vocabulary/colors_dark_blue.svg",
+    "chunks": [
+      "My favorite",
+      "color",
+      "is",
+      "dark blue."
+    ],
+    "sentence": "My favorite color is dark blue.",
+    "question": "What's your favorite color?",
+    "mission_item": "picture"
+  },
+  {
+    "id": "colors_light_green",
+    "topic": "colors",
+    "en": "light green",
+    "zh": "浅绿色",
+    "source_page": 36,
+    "illustration": "assets/vocabulary/colors_light_green.svg",
+    "chunks": [
+      "My favorite",
+      "color",
+      "is",
+      "light green."
+    ],
+    "sentence": "My favorite color is light green.",
+    "question": "What's your favorite color?",
+    "mission_item": "picture"
+  },
+  {
+    "id": "colors_dark_green",
+    "topic": "colors",
+    "en": "dark green",
+    "zh": "深绿色",
+    "source_page": 36,
+    "illustration": "assets/vocabulary/colors_dark_green.svg",
+    "chunks": [
+      "My favorite",
+      "color",
+      "is",
+      "dark green."
+    ],
+    "sentence": "My favorite color is dark green.",
+    "question": "What's your favorite color?",
+    "mission_item": "picture"
+  },
+  {
+    "id": "colors_gold",
+    "topic": "colors",
+    "en": "gold",
+    "zh": "金色",
+    "source_page": 36,
+    "illustration": "assets/vocabulary/colors_gold.svg",
+    "chunks": [
+      "My favorite",
+      "color",
+      "is",
+      "gold."
+    ],
+    "sentence": "My favorite color is gold.",
+    "question": "What's your favorite color?",
+    "mission_item": "picture"
+  },
+  {
+    "id": "colors_silver",
+    "topic": "colors",
+    "en": "silver",
+    "zh": "银色",
+    "source_page": 36,
+    "illustration": "assets/vocabulary/colors_silver.svg",
+    "chunks": [
+      "My favorite",
+      "color",
+      "is",
+      "silver."
+    ],
+    "sentence": "My favorite color is silver.",
+    "question": "What's your favorite color?",
+    "mission_item": "picture"
+  },
+  {
+    "id": "colors_beige",
+    "topic": "colors",
+    "en": "beige",
+    "zh": "米色",
+    "source_page": 36,
+    "illustration": "assets/vocabulary/colors_beige.svg",
+    "chunks": [
+      "My favorite",
+      "color",
+      "is",
+      "beige."
+    ],
+    "sentence": "My favorite color is beige.",
+    "question": "What's your favorite color?",
+    "mission_item": "picture"
+  },
+  {
+    "id": "places_park",
+    "topic": "places",
+    "en": "park",
+    "zh": "公园",
+    "source_page": 37,
+    "illustration": "assets/vocabulary/places_park.svg",
+    "chunks": [
+      "I",
+      "like",
+      "the park."
+    ],
+    "sentence": "I like the park.",
+    "question": "What place do you like?",
+    "mission_item": "picture"
+  },
+  {
+    "id": "places_beach",
+    "topic": "places",
+    "en": "beach",
+    "zh": "海滩",
+    "source_page": 37,
+    "illustration": "assets/vocabulary/places_beach.svg",
+    "chunks": [
+      "I",
+      "like",
+      "the beach."
+    ],
+    "sentence": "I like the beach.",
+    "question": "What place do you like?",
+    "mission_item": "picture"
+  },
+  {
+    "id": "places_zoo",
+    "topic": "places",
+    "en": "zoo",
+    "zh": "动物园",
+    "source_page": 37,
+    "illustration": "assets/vocabulary/places_zoo.svg",
+    "chunks": [
+      "I",
+      "like",
+      "the zoo."
+    ],
+    "sentence": "I like the zoo.",
+    "question": "What place do you like?",
+    "mission_item": "picture"
+  },
+  {
+    "id": "places_library",
+    "topic": "places",
+    "en": "library",
+    "zh": "图书馆",
+    "source_page": 37,
+    "illustration": "assets/vocabulary/places_library.svg",
+    "chunks": [
+      "I",
+      "like",
+      "the library."
+    ],
+    "sentence": "I like the library.",
+    "question": "What place do you like?",
+    "mission_item": "picture"
+  },
+  {
+    "id": "places_playground",
+    "topic": "places",
+    "en": "playground",
+    "zh": "游乐场",
+    "source_page": 37,
+    "illustration": "assets/vocabulary/places_playground.svg",
+    "chunks": [
+      "I",
+      "like",
+      "the playground."
+    ],
+    "sentence": "I like the playground.",
+    "question": "What place do you like?",
+    "mission_item": "picture"
+  },
+  {
+    "id": "places_home",
+    "topic": "places",
+    "en": "home",
+    "zh": "家",
+    "source_page": 37,
+    "illustration": "assets/vocabulary/places_home.svg",
+    "chunks": [
+      "I",
+      "like",
+      "home."
+    ],
+    "sentence": "I like home.",
+    "question": "What place do you like?",
+    "mission_item": "picture"
+  },
+  {
+    "id": "places_school",
+    "topic": "places",
+    "en": "school",
+    "zh": "学校",
+    "source_page": 37,
+    "illustration": "assets/vocabulary/places_school.svg",
+    "chunks": [
+      "I",
+      "like",
+      "school."
+    ],
+    "sentence": "I like school.",
+    "question": "What place do you like?",
+    "mission_item": "picture"
+  },
+  {
+    "id": "places_classroom",
+    "topic": "places",
+    "en": "classroom",
+    "zh": "教室",
+    "source_page": 37,
+    "illustration": "assets/vocabulary/places_classroom.svg",
+    "chunks": [
+      "I",
+      "like",
+      "the classroom."
+    ],
+    "sentence": "I like the classroom.",
+    "question": "What place do you like?",
+    "mission_item": "picture"
+  },
+  {
+    "id": "places_supermarket",
+    "topic": "places",
+    "en": "supermarket",
+    "zh": "超市",
+    "source_page": 37,
+    "illustration": "assets/vocabulary/places_supermarket.svg",
+    "chunks": [
+      "I",
+      "like",
+      "the supermarket."
+    ],
+    "sentence": "I like the supermarket.",
+    "question": "What place do you like?",
+    "mission_item": "picture"
+  },
+  {
+    "id": "places_restaurant",
+    "topic": "places",
+    "en": "restaurant",
+    "zh": "餐馆",
+    "source_page": 37,
+    "illustration": "assets/vocabulary/places_restaurant.svg",
+    "chunks": [
+      "I",
+      "like",
+      "the restaurant."
+    ],
+    "sentence": "I like the restaurant.",
+    "question": "What place do you like?",
+    "mission_item": "picture"
+  },
+  {
+    "id": "places_hospital",
+    "topic": "places",
+    "en": "hospital",
+    "zh": "医院",
+    "source_page": 37,
+    "illustration": "assets/vocabulary/places_hospital.svg",
+    "chunks": [
+      "I",
+      "like",
+      "the hospital."
+    ],
+    "sentence": "I like the hospital.",
+    "question": "What place do you like?",
+    "mission_item": "picture"
+  },
+  {
+    "id": "places_swimming_pool",
+    "topic": "places",
+    "en": "swimming pool",
+    "zh": "游泳池",
+    "source_page": 37,
+    "illustration": "assets/vocabulary/places_swimming_pool.svg",
+    "chunks": [
+      "I",
+      "like",
+      "the swimming pool."
+    ],
+    "sentence": "I like the swimming pool.",
+    "question": "What place do you like?",
+    "mission_item": "picture"
+  },
+  {
+    "id": "places_movie_theater",
+    "topic": "places",
+    "en": "movie theater",
+    "zh": "电影院",
+    "source_page": 37,
+    "illustration": "assets/vocabulary/places_movie_theater.svg",
+    "chunks": [
+      "I",
+      "like",
+      "the movie theater."
+    ],
+    "sentence": "I like the movie theater.",
+    "question": "What place do you like?",
+    "mission_item": "picture"
+  },
+  {
+    "id": "places_museum",
+    "topic": "places",
+    "en": "museum",
+    "zh": "博物馆",
+    "source_page": 37,
+    "illustration": "assets/vocabulary/places_museum.svg",
+    "chunks": [
+      "I",
+      "like",
+      "the museum."
+    ],
+    "sentence": "I like the museum.",
+    "question": "What place do you like?",
+    "mission_item": "picture"
+  },
+  {
+    "id": "places_farm",
+    "topic": "places",
+    "en": "farm",
+    "zh": "农场",
+    "source_page": 37,
+    "illustration": "assets/vocabulary/places_farm.svg",
+    "chunks": [
+      "I",
+      "like",
+      "the farm."
+    ],
+    "sentence": "I like the farm.",
+    "question": "What place do you like?",
+    "mission_item": "picture"
+  },
+  {
+    "id": "places_aquarium",
+    "topic": "places",
+    "en": "aquarium",
+    "zh": "水族馆",
+    "source_page": 37,
+    "illustration": "assets/vocabulary/places_aquarium.svg",
+    "chunks": [
+      "I",
+      "like",
+      "the aquarium."
+    ],
+    "sentence": "I like the aquarium.",
+    "question": "What place do you like?",
+    "mission_item": "picture"
+  },
+  {
+    "id": "places_toy_store",
+    "topic": "places",
+    "en": "toy store",
+    "zh": "玩具店",
+    "source_page": 37,
+    "illustration": "assets/vocabulary/places_toy_store.svg",
+    "chunks": [
+      "I",
+      "like",
+      "the toy store."
+    ],
+    "sentence": "I like the toy store.",
+    "question": "What place do you like?",
+    "mission_item": "picture"
+  },
+  {
+    "id": "places_bakery",
+    "topic": "places",
+    "en": "bakery",
+    "zh": "面包店",
+    "source_page": 37,
+    "illustration": "assets/vocabulary/places_bakery.svg",
+    "chunks": [
+      "I",
+      "like",
+      "the bakery."
+    ],
+    "sentence": "I like the bakery.",
+    "question": "What place do you like?",
+    "mission_item": "picture"
+  },
+  {
+    "id": "activities_drawing",
+    "topic": "activities",
+    "en": "drawing",
+    "zh": "画画",
+    "source_page": 37,
+    "illustration": "assets/vocabulary/activities_drawing.svg",
+    "chunks": [
+      "My favorite",
+      "activity",
+      "is",
+      "drawing."
+    ],
+    "sentence": "My favorite activity is drawing.",
+    "question": "What's your favorite activity?",
+    "mission_item": "picture"
+  },
+  {
+    "id": "activities_reading",
+    "topic": "activities",
+    "en": "reading",
+    "zh": "阅读",
+    "source_page": 37,
+    "illustration": "assets/vocabulary/activities_reading.svg",
+    "chunks": [
+      "My favorite",
+      "activity",
+      "is",
+      "reading."
+    ],
+    "sentence": "My favorite activity is reading.",
+    "question": "What's your favorite activity?",
+    "mission_item": "picture"
+  },
+  {
+    "id": "activities_dancing",
+    "topic": "activities",
+    "en": "dancing",
+    "zh": "跳舞",
+    "source_page": 37,
+    "illustration": "assets/vocabulary/activities_dancing.svg",
+    "chunks": [
+      "My favorite",
+      "activity",
+      "is",
+      "dancing."
+    ],
+    "sentence": "My favorite activity is dancing.",
+    "question": "What's your favorite activity?",
+    "mission_item": "picture"
+  },
+  {
+    "id": "activities_singing",
+    "topic": "activities",
+    "en": "singing",
+    "zh": "唱歌",
+    "source_page": 37,
+    "illustration": "assets/vocabulary/activities_singing.svg",
+    "chunks": [
+      "My favorite",
+      "activity",
+      "is",
+      "singing."
+    ],
+    "sentence": "My favorite activity is singing.",
+    "question": "What's your favorite activity?",
+    "mission_item": "picture"
+  },
+  {
+    "id": "activities_cooking",
+    "topic": "activities",
+    "en": "cooking",
+    "zh": "做饭",
+    "source_page": 37,
+    "illustration": "assets/vocabulary/activities_cooking.svg",
+    "chunks": [
+      "My favorite",
+      "activity",
+      "is",
+      "cooking."
+    ],
+    "sentence": "My favorite activity is cooking.",
+    "question": "What's your favorite activity?",
+    "mission_item": "picture"
+  },
+  {
+    "id": "activities_riding_a_bike",
+    "topic": "activities",
+    "en": "riding a bike",
+    "zh": "骑自行车",
+    "source_page": 37,
+    "illustration": "assets/vocabulary/activities_riding_a_bike.svg",
+    "chunks": [
+      "My favorite",
+      "activity",
+      "is",
+      "riding a bike."
+    ],
+    "sentence": "My favorite activity is riding a bike.",
+    "question": "What's your favorite activity?",
+    "mission_item": "picture"
+  },
+  {
+    "id": "activities_painting",
+    "topic": "activities",
+    "en": "painting",
+    "zh": "绘画（用颜料）",
+    "source_page": 37,
+    "illustration": "assets/vocabulary/activities_painting.svg",
+    "chunks": [
+      "My favorite",
+      "activity",
+      "is",
+      "painting."
+    ],
+    "sentence": "My favorite activity is painting.",
+    "question": "What's your favorite activity?",
+    "mission_item": "picture"
+  },
+  {
+    "id": "activities_writing",
+    "topic": "activities",
+    "en": "writing",
+    "zh": "写字",
+    "source_page": 37,
+    "illustration": "assets/vocabulary/activities_writing.svg",
+    "chunks": [
+      "My favorite",
+      "activity",
+      "is",
+      "writing."
+    ],
+    "sentence": "My favorite activity is writing.",
+    "question": "What's your favorite activity?",
+    "mission_item": "picture"
+  },
+  {
+    "id": "activities_taking_photos",
+    "topic": "activities",
+    "en": "taking photos",
+    "zh": "拍照",
+    "source_page": 37,
+    "illustration": "assets/vocabulary/activities_taking_photos.svg",
+    "chunks": [
+      "My favorite",
+      "activity",
+      "is",
+      "taking photos."
+    ],
+    "sentence": "My favorite activity is taking photos.",
+    "question": "What's your favorite activity?",
+    "mission_item": "picture"
+  },
+  {
+    "id": "activities_listening_to_music",
+    "topic": "activities",
+    "en": "listening to music",
+    "zh": "听音乐",
+    "source_page": 37,
+    "illustration": "assets/vocabulary/activities_listening_to_music.svg",
+    "chunks": [
+      "My favorite",
+      "activity",
+      "is",
+      "listening to music."
+    ],
+    "sentence": "My favorite activity is listening to music.",
+    "question": "What's your favorite activity?",
+    "mission_item": "picture"
+  },
+  {
+    "id": "activities_watching_tv",
+    "topic": "activities",
+    "en": "watching TV",
+    "zh": "看电视",
+    "source_page": 37,
+    "illustration": "assets/vocabulary/activities_watching_tv.svg",
+    "chunks": [
+      "My favorite",
+      "activity",
+      "is",
+      "watching TV."
+    ],
+    "sentence": "My favorite activity is watching TV.",
+    "question": "What's your favorite activity?",
+    "mission_item": "picture"
+  },
+  {
+    "id": "activities_playing_video_games",
+    "topic": "activities",
+    "en": "playing video games",
+    "zh": "玩电子游戏",
+    "source_page": 37,
+    "illustration": "assets/vocabulary/activities_playing_video_games.svg",
+    "chunks": [
+      "My favorite",
+      "activity",
+      "is",
+      "playing video games."
+    ],
+    "sentence": "My favorite activity is playing video games.",
+    "question": "What's your favorite activity?",
+    "mission_item": "picture"
+  },
+  {
+    "id": "activities_building_with_blocks",
+    "topic": "activities",
+    "en": "building with blocks",
+    "zh": "搭积木",
+    "source_page": 37,
+    "illustration": "assets/vocabulary/activities_building_with_blocks.svg",
+    "chunks": [
+      "My favorite",
+      "activity",
+      "is",
+      "building with blocks."
+    ],
+    "sentence": "My favorite activity is building with blocks.",
+    "question": "What's your favorite activity?",
+    "mission_item": "picture"
+  },
+  {
+    "id": "activities_flying_a_kite",
+    "topic": "activities",
+    "en": "flying a kite",
+    "zh": "放风筝",
+    "source_page": 37,
+    "illustration": "assets/vocabulary/activities_flying_a_kite.svg",
+    "chunks": [
+      "My favorite",
+      "activity",
+      "is",
+      "flying a kite."
+    ],
+    "sentence": "My favorite activity is flying a kite.",
+    "question": "What's your favorite activity?",
+    "mission_item": "picture"
+  },
+  {
+    "id": "activities_doing_puzzles",
+    "topic": "activities",
+    "en": "doing puzzles",
+    "zh": "拼拼图",
+    "source_page": 37,
+    "illustration": "assets/vocabulary/activities_doing_puzzles.svg",
+    "chunks": [
+      "My favorite",
+      "activity",
+      "is",
+      "doing puzzles."
+    ],
+    "sentence": "My favorite activity is doing puzzles.",
+    "question": "What's your favorite activity?",
+    "mission_item": "picture"
+  },
+  {
+    "id": "activities_gardening",
+    "topic": "activities",
+    "en": "gardening",
+    "zh": "园艺活动",
+    "source_page": 37,
+    "illustration": "assets/vocabulary/activities_gardening.svg",
+    "chunks": [
+      "My favorite",
+      "activity",
+      "is",
+      "gardening."
+    ],
+    "sentence": "My favorite activity is gardening.",
+    "question": "What's your favorite activity?",
+    "mission_item": "picture"
+  },
+  {
+    "id": "activities_fishing",
+    "topic": "activities",
+    "en": "fishing",
+    "zh": "钓鱼",
+    "source_page": 37,
+    "illustration": "assets/vocabulary/activities_fishing.svg",
+    "chunks": [
+      "My favorite",
+      "activity",
+      "is",
+      "fishing."
+    ],
+    "sentence": "My favorite activity is fishing.",
+    "question": "What's your favorite activity?",
+    "mission_item": "picture"
+  },
+  {
+    "id": "activities_camping",
+    "topic": "activities",
+    "en": "camping",
+    "zh": "露营",
+    "source_page": 37,
+    "illustration": "assets/vocabulary/activities_camping.svg",
+    "chunks": [
+      "My favorite",
+      "activity",
+      "is",
+      "camping."
+    ],
+    "sentence": "My favorite activity is camping.",
+    "question": "What's your favorite activity?",
+    "mission_item": "picture"
+  }
+]

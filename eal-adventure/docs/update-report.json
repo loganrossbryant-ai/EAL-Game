@@ -1,0 +1,13 @@
+{
+  "checks": [
+    "Historical offline pack is fully installed",
+    "Installed old game has a real saved personal choice",
+    "Previously installed app receives the new game bytes",
+    "Old vocabulary pack is replaced",
+    "Unrelated classroom data is preserved",
+    "Saved favorite and speaking history survive the update",
+    "Existing Chinese-help setting is retained under the new policy"
+  ],
+  "new_cache": "alan-island-01c96f919e4f8253",
+  "pck_sha256": "f67d83608069de14aed0851c8145137900f98f256ca211788c3a94ea1330917a"
+}

@@ -1,0 +1,127 @@
+"""Play the café with real keyboard/mouse/touch input; debug bridge is read-only."""
+from pathlib import Path
+import json, math, os
+from playwright.sync_api import sync_playwright
+
+ROOT=Path(__file__).resolve().parents[2]
+OUT=ROOT/'artifacts/alan-tests';OUT.mkdir(parents=True,exist_ok=True)
+URL=os.environ.get('ALAN_URL','http://127.0.0.1:8092/')
+report={'checks':[],'errors':[]}
+def check(name,condition):
+    assert condition,name
+    report['checks'].append(name)
+    print('PASS',name,flush=True)
+
+with sync_playwright() as p:
+    browser=p.chromium.launch(executable_path='/usr/bin/chromium',headless=True,args=['--no-sandbox','--use-angle=swiftshader','--enable-webgl'])
+    page=browser.new_page(viewport={'width':1440,'height':960})
+    page.on('pageerror',lambda e:report['errors'].append(str(e)))
+    page.on('console',lambda m:report['errors'].append(m.text) if m.type=='error' else None)
+    requests=[]
+    page.on('request',lambda req:requests.append(req.url))
+    page.goto(URL)
+    page.wait_for_function('window.__alanTest',timeout=60000)
+    def snap():return page.evaluate('window.__alanTest')
+    def save():return page.evaluate("JSON.parse(localStorage.getItem('alan-favorites-island-v1'))")
+    def button(label=None,semantic=None):
+        matches=[b for b in snap()['buttons'] if not b['disabled'] and (b['text']==label if semantic is None else b['semantic']==semantic)]
+        assert matches,(label,semantic,snap())
+        fingerprint="(s)=>JSON.stringify([s.modal,s.labels,s.buttons,s.selected,s.stage,s.voice_count])"
+        before=page.evaluate('('+fingerprint+')(window.__alanTest)')
+        x,y,w,h=matches[-1]['rect']
+        page.mouse.click(x+w/2,y+h/2)
+        if label!='Export summary':
+            page.wait_for_function('(old)=>('+fingerprint+')(window.__alanTest)!==old',arg=before,timeout=30000)
+    def modal(value,timeout=15000):page.wait_for_function('(v)=>window.__alanTest.modal===v',arg=value,timeout=timeout)
+    def stage(value):page.wait_for_function('(v)=>window.__alanTest.stage===v',arg=value,timeout=10000)
+    button("Let's go!");modal('name');button('We said it');modal('')
+    page.screenshot(path=str(OUT/'01-explore.png'))
+    start=snap()['position'];page.keyboard.down('ArrowRight');page.wait_for_timeout(700);page.keyboard.up('ArrowRight');page.wait_for_timeout(350)
+    check('Keyboard moves Alan',snap()['position'][0]>start[0]+100)
+    page.mouse.click(660,660);page.wait_for_timeout(2500)
+    check('Tap to walk reaches the path',math.dist(snap()['position'],[660,660])<12)
+    check('Pip follows Alan',math.dist(snap()['position'],snap()['pip'])<120)
+    button('Mina');modal('resident')
+    before=snap()['position'];page.keyboard.down('ArrowLeft');page.wait_for_timeout(500);page.keyboard.up('ArrowLeft');page.wait_for_timeout(300)
+    check('Movement pauses during dialogue',math.dist(before,snap()['position'])<1)
+    button('操作');modal('resident')
+    check('Chinese support is saved',save()['settings']['chinese'])
+    page.screenshot(path=str(OUT/'02-mina-chinese.png'))
+    count=snap()['voice_count'];button('▶  Replay')
+    check('Replay starts a bundled Jesse clip',snap()['voice_playing'] and snap()['voice_count']>count)
+    button("I'll find it!");stage(1);modal('')
+    button('Meals');modal('menu');button(semantic='food:rice');modal('')
+    button('Mina');modal('resident');button('Give rice')
+    check('Wrong delivery gently preserves the mission',snap()['stage']==1 and not save()['tasks'][-1]['correct'])
+    button('Close');button('Meals');modal('menu');button(semantic='food:pizza')
+    button('Mina');modal('resident');button('Give pizza');modal('sentence');stage(2)
+    check('Correct delivery unlocks sentence building',save()['stage']==2)
+    for text in ['My favorite','food','are','pizza.']:button(text)
+    button('Check sentence');stage(2)
+    check('Sentence order and grammar are checked',not save()['tasks'][-1]['correct'])
+    button('Start again')
+    for text in ['My favorite','food','is','pizza.']:button(text)
+    page.screenshot(path=str(OUT/'03-sentence.png'))
+    button('Check sentence');modal('speak');stage(3)
+    before_tasks=len(save()['tasks']);button('We said it');modal('album');stage(4)
+    button(semantic='favorite:rice');modal('favorite');stage(5)
+    check('Personal favorite has no accuracy score',len(save()['tasks'])==before_tasks and save()['favorite']=='rice')
+    check('Personal sentence uses approved recorded audio',snap()['voice_playing'])
+    page.screenshot(path=str(OUT/'04-personal-favorite.png'))
+    button('Hear “I like…”');check('I like pattern is practised','I like ___.' in save()['patterns'])
+    button('Ask Pip');modal('ask');button('We said it');modal('ask_answer');button('Back to the island');modal('')
+    button('Festival');modal('festival',20000);stage(6)
+    check('Festival completion saves a mission',save()['completed_missions']==['cafe'] and save()['rounds_completed']==1)
+    check('Festival changes the world',snap()['festival'])
+    button('See our table');modal('');page.wait_for_timeout(800)
+    page.screenshot(path=str(OUT/'05-festival-ready.png'))
+    page.reload();page.wait_for_function('window.__alanTest',timeout=60000)
+    check('Mission and personal choice survive reload',snap()['stage']==6 and snap()['festival'] and save()['favorite']=='rice')
+    button("Let's go!");modal('')
+    for index,label in enumerate(['Meals','Fruit','Kitchen']):
+        button(label);modal('menu')
+        visible=[b for b in snap()['buttons'] if b['semantic'].startswith('food:')]
+        check(label+' has four distinct food pictures',len(visible)==4)
+        if index==2:
+            page.screenshot(path=str(OUT/'06-bakery-menu.png'))
+            button('Picture + word');modal('practice')
+            answer=snap()['practice_target'];button(answer)
+            check('Picture to word task is graded',save()['tasks'][-1]['correct'])
+            button('Back to the stall');modal('menu');button('Translate');modal('practice')
+            answer=snap()['practice_target'];button(answer)
+            check('Chinese to English task is graded',save()['tasks'][-1]['correct'])
+            button('Back to the stall');modal('menu')
+        if index==0:
+            button('Picture + word');modal('practice')
+            # Four picture-only answers use real rendered locations. The debug value
+            # identifies the request, while the visual food order comes from metadata.
+            button(snap()['practice_target']);check('Meal picture-word task accepts its matching answer',save()['tasks'][-1]['correct'])
+            button('Back to the stall');modal('menu')
+        button('More food');modal('menu');button('Close');modal('')
+    check('All eighteen food items were encountered',len([v for v in save()['words'] if v in ['rice','noodles','dumplings','pizza','chicken','ice cream','bread','eggs','fish','soup','cheese','sandwich','apple','banana','orange','strawberry','watermelon','carrot']])==18)
+    button('Menu');modal('settings');button('Mute all')
+    check('Master mute is saved',save()['settings']['muted'])
+    button('Unmute all');button('Replay voice')
+    check('Voice can replay after unmuting',snap()['voice_playing'])
+    button('Teacher');modal('teacher');page.screenshot(path=str(OUT/'07-teacher-summary.png'))
+    with page.expect_download() as download:button('Export summary')
+    download.value.save_as(str(OUT/'progress-export.json'))
+    exported=json.loads((OUT/'progress-export.json').read_text())
+    first=[t for t in exported['tasks'] if t['first_attempt']]
+    check('First-attempt errors remain in the record',sum(not t['correct'] for t in first)==2)
+    check('Speaking is stored as participation',exported['speaking_participation']==3)
+    button('Reset progress');modal('reset');button('Keep progress');modal('teacher')
+    check('Reset cancellation preserves progress',save()['stage']==6)
+    button('Close');button('Festival');modal('festival');button('Help Mina again');modal('resident')
+    check('Independent replay rotates the resident favorite',save()['stage']==0 and save()['target']!='pizza')
+    check('Replay preserves the completed festival contribution',save()['festival'] and save()['festival_food']=='pizza' and save()['rounds_completed']==1)
+    button('Close');button('Menu');modal('settings');button('Teacher');modal('teacher')
+    button('Reset progress');modal('reset');button('Reset everything');modal('welcome')
+    check('Confirmed reset clears progress',save()['stage']==0 and not save()['tasks'] and not save()['completed_missions'])
+    check('No external runtime requests',all(url.startswith(URL.rstrip('/')) or url.startswith('blob:') for url in requests))
+    check('No browser or Godot errors',not report['errors'])
+    report['requests']=sorted(set(requests))
+    report['first_attempts_before_reset']=first
+    (OUT/'milestone-report.json').write_text(json.dumps(report,indent=2))
+    browser.close()
+print('COMPLETED',len(report['checks']),'checks',flush=True)

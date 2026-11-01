@@ -1,0 +1,38 @@
+name: Alan Island milestone validation
+
+on:
+  push:
+    branches: [codex/alan-favorites-cafe]
+    paths: ['alan-review/**', '.github/workflows/alan-island-review.yml']
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  scan:
+    runs-on: windows-2022
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          sparse-checkout: |
+            tools/windows_defender_review.ps1
+            alan-review
+          sparse-checkout-cone-mode: false
+      - name: Verify exact milestone files and run active Defender
+        shell: powershell
+        run: ./tools/windows_defender_review.ps1 -Candidate alan-review/candidate -Manifest alan-review/manifest.json -Report security-reports/alan-island.json
+      - name: Preserve the actual result
+        if: always()
+        shell: powershell
+        run: |
+          $ErrorActionPreference = 'Stop'
+          if (-not (Test-Path 'security-reports/alan-island.json')) { throw 'No report was produced.' }
+          git config user.name 'Codex validation'
+          git config user.email 'codex@openai.com'
+          git add --sparse --force security-reports/alan-island.json
+          git commit -m "Record Alan Island validation $env:GITHUB_RUN_ID attempt $env:GITHUB_RUN_ATTEMPT"
+          if ($LASTEXITCODE -ne 0) { throw 'Could not save report.' }
+          git push origin "HEAD:refs/heads/codex/alan-scan-$env:GITHUB_RUN_ID-$env:GITHUB_RUN_ATTEMPT"
+          if ($LASTEXITCODE -ne 0) { throw 'Could not preserve report.' }

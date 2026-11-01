@@ -20,8 +20,8 @@
   ],
   "errors": [],
   "runtime": "Chromium; actual iOS Safari still requires device verification",
-  "build_version": "bdc52fd0e348c6d3",
-  "jesse_pcm_peak": 0.3644747335697019,
+  "build_version": "01c96f919e4f8253",
+  "jesse_pcm_peak": 0.32228143234036893,
   "offline_cache_entries": [
     "http://127.0.0.1:8093/",
     "http://127.0.0.1:8093/Body.ttf",

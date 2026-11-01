@@ -66,16 +66,29 @@ replay worked, the separate music control reached zero and master mute suppresse
 actual output samples. The production export exposes no debug bridge and logged
 no browser/Godot errors. See [offline-report.json](offline-report.json).
 
-Only the setup instructions, offline cache writer and cache metadata changed after the game checks.
-Every game/asset byte, including the PCK and game HTML, remains identical. The
-final offline and installed-pack upgrade checks are rerunning for this entry
-revision. Updated reports and Windows validation will be recorded before delivery.
+**Seven installed-pack upgrade checks passed.** The test started from a copy of
+an actual installed v1 browser profile created from the previous published pack.
+It confirmed the old saved choice, loaded `update.html`, verified the cached new
+PCK against the exact current SHA-256, waited for old-cache cleanup, preserved an
+unrelated classroom cache/save, and restored the favorite, speaking history and
+Chinese-help setting. The new policy then applies to that retained help setting.
+See [update-report.json](update-report.json).
 
-The exact candidate passed [Windows validation run 41299138392](https://github.com/loganrossbryant-ai/EAL-Game/actions/runs/41299138392):
-active normal protection, signatures `1.463.70.0`, native exit 0, no detections,
+The cache writer fully consumes each download before writing its response. This
+fixes the observed streaming `Cache.put` failure during an installed-pack upgrade.
+The installer checks the controlling worker's version before enabling updated
+play. Every game/asset byte, including the PCK and game HTML, remains identical
+to the 268-check gameplay run. Final offline and upgrade checks use cache revision
+**01c96f919e4f8253**. iOS instructions require confirming Offline ready inside the
+Home Screen app while online before testing Airplane Mode.
+
+The exact final candidate passed [Windows validation run 41301196187, attempt 2](https://github.com/loganrossbryant-ai/EAL-Game/actions/runs/41301196187/attempts/2):
+active normal protection, signatures `1.463.72.0`, native exit 0, no detections,
 no error, and matching before/after file hashes. Candidate manifest SHA-256:
-`a24bfc530a48dbddff3a95b790164dfb6d7eb0b453b55b5a0a09ef58ff6fa4c4`.
-The actual result is [defender-report.json](defender-report.json).
+`12237c5ba64d48141b092864d98d235d32587f952ac7288e524e6cbfba3d903d`.
+The actual result is [defender-report.json](defender-report.json). The first runner
+attempt had an RPC service failure before a scan; the successful retry used the
+same unchanged candidate.
 
 ## Remaining limits
 
@@ -100,3 +113,14 @@ Interactive checks use exact release files over local HTTP. Publication is
 verified through GitHub Pages deployment status and exact remote blob hashes.
 The existing Windows release process is applied to a separate `alan-review/`
 candidate, preserving the Far Horizon release candidate and report.
+
+## Published review build
+
+[Open the expanded island / update an existing installation](https://loganrossbryant-ai.github.io/hello-earth-demo/alan-island/update.html).
+The fresh entry avoids the previous worker's cached landing page. Public commit
+`a4712a30ab6494f2deab78a9253b30beb806e806` deployed successfully in
+[Pages run 41301865394](https://github.com/loganrossbryant-ai/hello-earth-demo/actions/runs/41301865394).
+All **31 public Alan file objects** match the checked local release, including
+the backup ZIP, full classroom materials and actual validation evidence. All
+**15 existing root/Far Horizon file objects** are unchanged from the prior public
+commit. Identifiers and delivery links are in [deployment.json](deployment.json).

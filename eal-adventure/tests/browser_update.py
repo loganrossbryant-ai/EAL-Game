@@ -1,6 +1,6 @@
 """Upgrade a genuinely installed v1 pack; retain the learner's saved choices."""
 from pathlib import Path
-import io,tarfile,subprocess,shutil,tempfile,json,hashlib,threading
+import io,tarfile,subprocess,shutil,tempfile,json,hashlib,threading,os
 from http.server import ThreadingHTTPServer,SimpleHTTPRequestHandler
 from functools import partial
 from playwright.sync_api import sync_playwright
@@ -8,6 +8,10 @@ ROOT=Path(__file__).resolve().parents[2]
 OUT=ROOT/'artifacts/expanded-tests';OUT.mkdir(parents=True,exist_ok=True)
 fixture=Path(tempfile.mkdtemp(prefix='alan-update-site-',dir=ROOT.parent))
 profile=Path(tempfile.mkdtemp(prefix='alan-update-browser-',dir=ROOT.parent))
+# An existing real v1 installation may be supplied to isolate upgrade behavior
+# from the historical installer's streaming-cache bug. Never mutate that profile.
+if os.environ.get('ALAN_LEGACY_PROFILE'):
+    shutil.copytree(os.environ['ALAN_LEGACY_PROFILE'],profile,dirs_exist_ok=True)
 old_commit='afa83513b3b2cd7618eea2f35032beaa7b4c5bde'
 raw=subprocess.check_output(['git','archive',old_commit,'alan-review/candidate/web'],cwd=ROOT)
 with tarfile.open(fileobj=io.BytesIO(raw)) as archive:
@@ -29,12 +33,23 @@ def check(name,value):
 with sync_playwright() as p:
     def launch():return p.chromium.launch_persistent_context(str(profile),executable_path='/usr/bin/chromium',headless=True,viewport={'width':960,'height':640},args=['--no-sandbox','--use-angle=swiftshader','--enable-webgl'])
     context=launch();page=context.pages[0]
-    page.goto(url);page.get_by_role('button',name='Save for offline').click()
-    page.wait_for_function("document.getElementById('status').textContent.startsWith('Offline ready')",timeout=120000)
+    page.goto(url)
+    # Set up the historical fixture, whose old streaming cache writer can fail.
+    # Retry that setup only; the new updater below must succeed on its first try.
+    for attempt in range(3):
+        if page.locator('#status').inner_text().startswith('Offline ready'):break
+        page.locator('#save').click()
+        page.wait_for_function("/^(Offline ready|The offline save did not finish|Open this page in Safari)/.test(document.getElementById('status').textContent)",timeout=120000)
+        if page.locator('#status').inner_text().startswith('Offline ready'):break
+    check('Historical offline pack is fully installed',page.locator('#status').inner_text().startswith('Offline ready'))
     page.get_by_role('link',name='Play with Pip').click()
     page.wait_for_function("!document.getElementById('status')",timeout=60000);page.wait_for_timeout(700)
     def tap(x,y):page.mouse.click(x*2/3,y*2/3);page.wait_for_timeout(500)
-    tap(1125,749);tap(300,749);tap(1044,77);tap(1193,77);tap(559,462)
+    tap(1125,749)
+    prior=page.evaluate("JSON.parse(localStorage.getItem('alan-favorites-island-v1'))")
+    if 'My name is Alan.' not in prior['patterns']:tap(300,749)
+    if not prior['settings']['chinese']:tap(1044,77)
+    tap(1193,77);tap(559,462)
     old_save=page.evaluate("JSON.parse(localStorage.getItem('alan-favorites-island-v1'))")
     check('Installed old game has a real saved personal choice',old_save['favorite']=='rice' and old_save['settings']['chinese'])
     page.evaluate("async()=>{const c=await caches.open('unrelated-classroom-cache');await c.put('/keep-this',new Response('keep'));localStorage.setItem('unrelated-classroom-save','keep')}")
@@ -55,6 +70,9 @@ with sync_playwright() as p:
     cache='alan-island-'+manifest['version']
     live_hash=page.evaluate("""async({cache,url})=>{const c=await caches.open(cache);const r=await c.match(url+'index.pck');const h=await crypto.subtle.digest('SHA-256',await r.arrayBuffer());return Array.from(new Uint8Array(h)).map(x=>x.toString(16).padStart(2,'0')).join('')}""",{'cache':cache,'url':url})
     check('Previously installed app receives the new game bytes',live_hash==expected_hash)
+    # Claiming clients and deleting the old cache are asynchronous activation
+    # steps. Wait for cleanup rather than sampling it during that transition.
+    page.wait_for_function("async(cache)=>(await caches.keys()).filter(x=>x.startsWith('alan-island-')).every(x=>x===cache)",arg=cache,timeout=30000)
     keys=page.evaluate('caches.keys()')
     check('Old vocabulary pack is replaced',keys==[cache,'unrelated-classroom-cache'] or set(keys)=={cache,'unrelated-classroom-cache'})
     check('Unrelated classroom data is preserved',page.evaluate("localStorage.getItem('unrelated-classroom-save')")=='keep')

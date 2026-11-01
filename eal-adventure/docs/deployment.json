@@ -1,17 +1,36 @@
 {
-  "source_implementation": "afa83513b3b2cd7618eea2f35032beaa7b4c5bde",
-  "public_commit": "d41dde064de9f76a2b2e2f352a00f374f15b0f2e",
-  "pages_run_id": 41284961339,
+  "source_implementation": "60557677a0f39de6b0ca7ff4a0992e601ec26c20",
+  "public_commit": "a4712a30ab6494f2deab78a9253b30beb806e806",
+  "pages_run_id": 41301865394,
   "pages_status": "success",
-  "play_url": "https://loganrossbryant-ai.github.io/hello-earth-demo/alan-island/",
+  "play_url": "https://loganrossbryant-ai.github.io/hello-earth-demo/alan-island/update.html",
   "offline_backup_url": "https://loganrossbryant-ai.github.io/hello-earth-demo/alan-island/downloads/Alan-Favorites-Island-Offline.zip",
-  "classroom_cards_url": "https://loganrossbryant-ai.github.io/hello-earth-demo/alan-island/teacher/Cafe-Classroom-Cards.pdf",
-  "defender_run_id": 41284755359,
+  "classroom_cards_url": "https://loganrossbryant-ai.github.io/hello-earth-demo/alan-island/teacher/Festival-Classroom-Cards.pdf",
+  "defender_run_id": 41301196187,
+  "defender_run_attempt": 2,
   "defender_status": "scan_passed",
-  "candidate_manifest_sha256": "eef1f18aad983b68e2822d684348cf5f977bf7f254b66ece8b2c89508c4fda2a",
-  "pwa_cache": "fe0882f1feb43ff1",
-  "remote_files_verified": 28,
+  "candidate_manifest_sha256": "12237c5ba64d48141b092864d98d235d32587f952ac7288e524e6cbfba3d903d",
+  "pwa_cache": "01c96f919e4f8253",
+  "remote_files_verified": 31,
+  "existing_public_files_verified": 15,
   "far_horizon_unchanged": true,
+  "browser_checks": {
+    "expanded": 268,
+    "cafe_regression": 32,
+    "touch_layouts": 3,
+    "cold_offline_release": 17,
+    "installed_v1_upgrade": 7
+  },
+  "vocabulary": {
+    "topics": 8,
+    "entries_per_topic": 18,
+    "entries_reachable": 144,
+    "distinct_illustrations": 144
+  },
+  "voice": {
+    "approved_jesse_clips_preserved": 117,
+    "new_recordings": "pending sample approval; unrecorded words use written English notes and pictures"
+  },
   "interactive_qa": "exact release files over local HTTP; direct github.io navigation outside environment policy",
   "physical_ios_safari_test": "pending"
 }

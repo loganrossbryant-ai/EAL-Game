@@ -1,5 +1,5 @@
 'use strict';
-const CACHE = 'alan-island-651bdc26e421acc7';
+const CACHE = 'alan-island-01c96f919e4f8253';
 const ASSETS = ["./", "Body.ttf", "Chinese.otf", "app-icon.png", "cover.png", "game.html", "index.apple-touch-icon.png", "index.audio.position.worklet.js", "index.audio.worklet.js", "index.html", "index.icon.png", "index.js", "index.pck", "index.png", "index.wasm", "licenses/GODOT-LICENSE.txt", "licenses/GODOT-THIRD-PARTY-NOTICES.txt", "licenses/LICENSE-Noto.txt", "licenses/LICENSE-OpenSans.txt", "manifest.webmanifest", "pip.png", "update.html"];
 const URLS = ASSETS.map(path => new URL(path, self.registration.scope).href);
 async function tell(message) {
@@ -13,7 +13,14 @@ self.addEventListener('install', event => {
         await tell({type:'saving',done:i,total:URLS.length});
         const response=await fetch(new Request(URLS[i],{cache:'reload'}));
         if (!response.ok) throw new Error('Incomplete offline pack');
-        await cache.put(URLS[i],response);
+        // Fully consume each download before the cache write. Streaming a changed
+        // PCK directly into Cache.put can fail when upgrading an installed pack.
+        const bytes=await response.arrayBuffer();
+        const headers=new Headers(response.headers);
+        // Fetch has already decoded transport compression for this new Response.
+        headers.delete('Content-Length');
+        headers.delete('Content-Encoding');
+        await cache.put(URLS[i],new Response(bytes,{status:response.status,statusText:response.statusText,headers}));
       }
       await cache.put(new URL('_offline_complete', self.registration.scope).href,new Response(CACHE));
       await self.skipWaiting();

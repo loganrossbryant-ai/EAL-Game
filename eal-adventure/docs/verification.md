@@ -28,7 +28,7 @@ café was built. This update connects the complete agreed collection to play.
   files match the final build, and the complete backup ZIP passes CRC checking.
 
 The frozen production export is Godot **4.6.3**, non-threaded Web / GL
-Compatibility. Its complete offline cache revision is **651bdc26e421acc7**
+Compatibility. Its complete offline cache revision is **01c96f919e4f8253**
 (22 bundled web files, approximately 59.3 MiB). The fresh `update.html` entry
 replaces an old installed pack while retaining the existing local save key.
 A completion marker and controlling-worker version check gate updated play.
@@ -66,7 +66,7 @@ replay worked, the separate music control reached zero and master mute suppresse
 actual output samples. The production export exposes no debug bridge and logged
 no browser/Godot errors. See [offline-report.json](offline-report.json).
 
-Only the setup instructions and cache metadata changed after the game checks.
+Only the setup instructions, offline cache writer and cache metadata changed after the game checks.
 Every game/asset byte, including the PCK and game HTML, remains identical. The
 final offline and installed-pack upgrade checks are rerunning for this entry
 revision. Updated reports and Windows validation will be recorded before delivery.

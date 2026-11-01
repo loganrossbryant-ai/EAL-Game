@@ -1,5 +1,5 @@
 {
-  "version": "651bdc26e421acc7",
+  "version": "01c96f919e4f8253",
   "engine": "Godot 4.6.3 non-threaded Web",
   "files": [
     {
@@ -45,7 +45,7 @@
     {
       "path": "index.html",
       "bytes": 6736,
-      "sha256": "508bcadad039828e4e535f095446d1a08f205eb765d99f976928813a4eec5621"
+      "sha256": "1f2faf4147c6452ee31e46ee33455a272e980f9a6b37aaceb0fa48bd42e21d13"
     },
     {
       "path": "index.icon.png",
@@ -104,13 +104,13 @@
     },
     {
       "path": "sw.js",
-      "bytes": 2583,
-      "sha256": "2740207d0c40d3cb6bd8ba2ff154d2b2e895afdb7d9ec6dc4e1ec213aeac4caa"
+      "bytes": 3094,
+      "sha256": "b76671d618c33df1a4d0af7ec03e47643f21f9594f0d19974f010b3ef2f29e0d"
     },
     {
       "path": "update.html",
       "bytes": 6736,
-      "sha256": "508bcadad039828e4e535f095446d1a08f205eb765d99f976928813a4eec5621"
+      "sha256": "1f2faf4147c6452ee31e46ee33455a272e980f9a6b37aaceb0fa48bd42e21d13"
     }
   ]
 }

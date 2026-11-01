@@ -13,7 +13,14 @@ self.addEventListener('install', event => {
         await tell({type:'saving',done:i,total:URLS.length});
         const response=await fetch(new Request(URLS[i],{cache:'reload'}));
         if (!response.ok) throw new Error('Incomplete offline pack');
-        await cache.put(URLS[i],response);
+        // Fully consume each download before the cache write. Streaming a changed
+        // PCK directly into Cache.put can fail when upgrading an installed pack.
+        const bytes=await response.arrayBuffer();
+        const headers=new Headers(response.headers);
+        // Fetch has already decoded transport compression for this new Response.
+        headers.delete('Content-Length');
+        headers.delete('Content-Encoding');
+        await cache.put(URLS[i],new Response(bytes,{status:response.status,statusText:response.statusText,headers}));
       }
       await cache.put(new URL('_offline_complete', self.registration.scope).href,new Response(CACHE));
       await self.skipWaiting();

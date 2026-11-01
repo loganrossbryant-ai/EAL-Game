@@ -2,8 +2,8 @@
   "files": [
     {
       "path": "Alan-Favorites-Island-Offline.zip",
-      "bytes": 43264736,
-      "sha256": "1e029fdc7302e0c082cfc148d3acf9ef8229752c248ff54e24977b182f60d4dc"
+      "bytes": 43264953,
+      "sha256": "7c85fa515cecf0ad3b185195ae03c133a4d2c80e90816b9878dfff45dd2db3d9"
     },
     {
       "path": "OFFLINE-READ-ME.txt",
@@ -48,7 +48,7 @@
     {
       "path": "web/asset-manifest.json",
       "bytes": 3439,
-      "sha256": "df82ffb7bff44c9078c09649f77b8af587bfc45c29b72c7cd35b8da60c9b9d29"
+      "sha256": "12bec03d982465d5382b59ef8290fd9fd43a84c49a32319146bb430c8c8a49a4"
     },
     {
       "path": "web/cover.png",
@@ -78,7 +78,7 @@
     {
       "path": "web/index.html",
       "bytes": 6736,
-      "sha256": "508bcadad039828e4e535f095446d1a08f205eb765d99f976928813a4eec5621"
+      "sha256": "1f2faf4147c6452ee31e46ee33455a272e980f9a6b37aaceb0fa48bd42e21d13"
     },
     {
       "path": "web/index.icon.png",
@@ -137,13 +137,13 @@
     },
     {
       "path": "web/sw.js",
-      "bytes": 2583,
-      "sha256": "2740207d0c40d3cb6bd8ba2ff154d2b2e895afdb7d9ec6dc4e1ec213aeac4caa"
+      "bytes": 3094,
+      "sha256": "b76671d618c33df1a4d0af7ec03e47643f21f9594f0d19974f010b3ef2f29e0d"
     },
     {
       "path": "web/update.html",
       "bytes": 6736,
-      "sha256": "508bcadad039828e4e535f095446d1a08f205eb765d99f976928813a4eec5621"
+      "sha256": "1f2faf4147c6452ee31e46ee33455a272e980f9a6b37aaceb0fa48bd42e21d13"
     }
   ]
 }

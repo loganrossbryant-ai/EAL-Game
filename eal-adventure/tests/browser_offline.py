@@ -1,13 +1,14 @@
 """Test final release bytes, cold browser restart, disabled networking and PCM output."""
 from pathlib import Path
-import json, tempfile, time, io
+import json, tempfile, time, io, os
 from PIL import Image
 from playwright.sync_api import sync_playwright
 ROOT=Path(__file__).resolve().parents[2]
 OUT=ROOT/'artifacts/alan-tests'
-URL='http://127.0.0.1:8073/'
+URL=os.environ.get('ALAN_RELEASE_URL','http://127.0.0.1:8093/')
 PROFILE=Path(tempfile.mkdtemp(prefix='alan-offline-',dir=ROOT.parent))
 report={'checks':[],'errors':[],'runtime':'Chromium; actual iOS Safari still requires device verification'}
+report['build_version']=json.loads((ROOT/'builds/alan-island/asset-manifest.json').read_text())['version']
 METER=r"""
 window.__audioMeter={peak:0,rms:0,contexts:[]};
 if(window.AudioNode){
@@ -28,7 +29,7 @@ if(window.AudioNode){
 def wait_panel(opened=True):
     end=time.monotonic()+30
     while time.monotonic()<end:
-        rgb=Image.open(io.BytesIO(page.screenshot(clip={'x':100,'y':200,'width':1,'height':1}))).convert('RGB').getpixel((0,0))
+        rgb=Image.open(io.BytesIO(page.screenshot(clip={'x':800,'y':780,'width':1,'height':1}))).convert('RGB').getpixel((0,0))
         visible=sum(abs(a-b) for a,b in zip(rgb,(255,249,232)))<12
         if visible==opened:return
         page.wait_for_timeout(220)
@@ -89,13 +90,28 @@ with sync_playwright() as p:
     page.wait_for_timeout(500)
     check('Offline sentence logic works',saved()['stage']==3)
     page.mouse.click(1125,745);page.wait_for_timeout(400)
-    page.mouse.click(559,462);page.wait_for_timeout(500)
+    page.mouse.click(248,462);page.wait_for_timeout(500)
     check('Offline personal choice works',saved()['favorite']=='rice' and saved()['stage']==5)
     page.mouse.click(1261,224);page.wait_for_timeout(400)
     page.mouse.click(363,298);wait_panel()
     check('Offline mission reaches its visible ending',saved()['stage']==6 and saved()['festival'])
     page.mouse.click(300,745);page.wait_for_timeout(500)
     page.screenshot(path=str(OUT/'09-offline-festival.png'))
+    # Reach a newly added topic using only cached assets and real input.
+    page.mouse.click(145,200);page.wait_for_timeout(1000)
+    page.mouse.click(408,310)
+    page.wait_for_function("JSON.parse(localStorage.getItem('alan-favorites-island-v1')).topic_quests.animals",timeout=30000)
+    page.mouse.click(1117,219);wait_panel()
+    page.mouse.click(1125,749);wait_panel(False)
+    page.mouse.click(612,323);wait_panel()
+    page.mouse.click(248,480);wait_panel(False)
+    check('New dolphin picture is available offline',saved()['topic_quests']['animals']['carrying']=='animals_dolphin')
+    page.mouse.click(1117,219);wait_panel()
+    page.mouse.click(1075,749);page.wait_for_timeout(600)
+    check('New NPC delivery works offline',saved()['topic_quests']['animals']['stage']==2)
+    page.screenshot(path=str(OUT/'expanded-offline.png'))
+    page.mouse.click(1261,227);wait_panel(False)
+    page.mouse.click(1352,77);page.wait_for_timeout(1000)
     # Isolate the voice channel: music volume zero, then listen, then master mute.
     page.mouse.click(1346,77);page.wait_for_timeout(400)
     page.mouse.click(513,491);page.wait_for_timeout(500)

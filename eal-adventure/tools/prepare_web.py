@@ -28,12 +28,13 @@ manifest={'name':"Alan's Favorites Island",'short_name':'Alan + Pip','id':'./','
 # Ignore generated files left by a prior export; they must not affect revision IDs.
 digest=hashlib.sha256()
 for p in sorted(out.rglob('*')):
-    if p.is_file() and p.name not in ['index.html','sw.js','asset-manifest.json']:
+    if p.is_file() and p.name not in ['index.html','update.html','sw.js','asset-manifest.json']:
         digest.update(p.relative_to(out).as_posix().encode());digest.update(p.read_bytes())
 for name in ['install.html','sw.js']:digest.update((ROOT/'web'/name).read_bytes())
 revision=digest.hexdigest()[:16]
 landing=(ROOT/'web/install.html').read_text().replace('__VERSION__',revision)
 (out/'index.html').write_text(landing)
+(out/'update.html').write_text(landing)
 assets=['./']+[p.relative_to(out).as_posix() for p in sorted(out.rglob('*')) if p.is_file() and p.name not in ['sw.js','asset-manifest.json']]
 worker=(ROOT/'web/sw.js').read_text().replace('__VERSION__',revision).replace('__ASSETS__',json.dumps(assets))
 (out/'sw.js').write_text(worker)

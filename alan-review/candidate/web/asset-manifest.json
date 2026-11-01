@@ -1,5 +1,5 @@
 {
-  "version": "fe0882f1feb43ff1",
+  "version": "bdc52fd0e348c6d3",
   "engine": "Godot 4.6.3 non-threaded Web",
   "files": [
     {
@@ -9,8 +9,8 @@
     },
     {
       "path": "Chinese.otf",
-      "bytes": 202404,
-      "sha256": "a0d61021e53ceeb5f343099ffa7556987fe7844c45cf58d9b24bfa3d2f348ff1"
+      "bytes": 221588,
+      "sha256": "5f18fb149f9b162392abd18443bc6b7ba941180c722a358e7424c5dc42a7a2dd"
     },
     {
       "path": "app-icon.png",
@@ -24,8 +24,8 @@
     },
     {
       "path": "game.html",
-      "bytes": 5856,
-      "sha256": "60551a75617bcfe076d1d0db19649f641759ef74079242a97b2625c4be664f2f"
+      "bytes": 5857,
+      "sha256": "acb54a47f85fcb91d0215a5fe2398059e7ffb79982603ffa73bb3dc53a3d26a6"
     },
     {
       "path": "index.apple-touch-icon.png",
@@ -44,8 +44,8 @@
     },
     {
       "path": "index.html",
-      "bytes": 5579,
-      "sha256": "c194038eaebb3bbdf7427f0589608fee3cbac2e227eda7f10f846cd2b6cd8a73"
+      "bytes": 6504,
+      "sha256": "a7db6710dfe839b61bcb8f8d5d2365cb6350b0993e613b56639e7f4fadfb0ef0"
     },
     {
       "path": "index.icon.png",
@@ -59,8 +59,8 @@
     },
     {
       "path": "index.pck",
-      "bytes": 9925220,
-      "sha256": "40ff24c12ef739102c132dc6c27ab27b2c95b6e90a700002d2624a01743c2c8d"
+      "bytes": 19354236,
+      "sha256": "f67d83608069de14aed0851c8145137900f98f256ca211788c3a94ea1330917a"
     },
     {
       "path": "index.png",
@@ -104,8 +104,13 @@
     },
     {
       "path": "sw.js",
-      "bytes": 2102,
-      "sha256": "754b8485b408f76e33b5b3336c4789feaef3d558e4eac3a0d2a6dc113b3e0248"
+      "bytes": 2583,
+      "sha256": "8ebdc4fb02ab021a8a9a205fea185ef4d937076a44857a957a70969d005f9800"
+    },
+    {
+      "path": "update.html",
+      "bytes": 6504,
+      "sha256": "a7db6710dfe839b61bcb8f8d5d2365cb6350b0993e613b56639e7f4fadfb0ef0"
     }
   ]
 }

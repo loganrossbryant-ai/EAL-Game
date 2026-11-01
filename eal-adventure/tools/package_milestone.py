@@ -11,16 +11,19 @@ candidate=REPO/'alan-review/candidate'
 candidate.mkdir(parents=True,exist_ok=True)
 shutil.copytree(REPO/'builds/alan-island',candidate/'web',dirs_exist_ok=True)
 materials=candidate/'materials';materials.mkdir(exist_ok=True)
-shutil.copy2(args.classroom_html,materials/'Cafe-Classroom-Cards.html')
-shutil.copy2(args.classroom_pdf,materials/'Cafe-Classroom-Cards.pdf')
-guide='''ALAN'S FAVORITES ISLAND — CAFE MILESTONE
+shutil.copy2(args.classroom_html,materials/'Festival-Classroom-Cards.html')
+shutil.copy2(args.classroom_pdf,materials/'Festival-Classroom-Cards.pdf')
+guide='''ALAN'S FAVORITES ISLAND — FAVORITES FESTIVAL
 
 iPAD / iPHONE: INSTALL THE OFFLINE WEB APP
 1. Open https://loganrossbryant-ai.github.io/hello-earth-demo/alan-island/ in Safari.
 2. Tap Save for offline. Keep the page open until Offline ready appears.
 3. Safari Share > Add to Home Screen.
 4. Open the island icon, enable Airplane Mode, then try Play with Pip.
-All pictures, fonts, music and Jesse speech are saved on that device.
+For an existing installation, open
+https://loganrossbryant-ai.github.io/hello-earth-demo/alan-island/update.html
+once while online, and wait for Offline ready before playing. Saved progress stays.
+All 144 vocabulary illustrations, fonts, music and existing Jesse speech are saved on that device.
 The initial download needs access to the play site. Play after installation
 needs no network, VPN, account, API key or voice service.
 This ZIP is a complete backup, not an iOS app. Opening game.html directly in
@@ -42,18 +45,29 @@ help. Menu provides voice/music controls, mute, teacher summary, export and rese
 Personal favorites have no wrong answer. We said it is manual participation,
 not automatic pronunciation scoring.
 
-CLASSROOM PREVIEW
-materials/Cafe-Classroom-Cards.pdf is eight A4 pages of black-and-white picture
-cards, separate English/Chinese cards, sentence strips and drawing prompts.
-The HTML version is self-contained and can be printed from a browser.
+CLASSROOM MATERIALS
+materials/Festival-Classroom-Cards.pdf contains the complete 144-picture,
+English-word and Chinese-word decks, plus sentence strips and drawing prompts.
+Use the Chinese decks and bilingual strips for explicit translation activities.
+For color meanings on black-and-white pages, use crayons or real objects.
+The earlier Cafe-Classroom-Cards subset is retained separately.
+
+LANGUAGE SUPPORT
+The 操作 button explains navigation and controls only. Target vocabulary and
+sentence meanings are never translated in requests, English matching, sentence
+building or personal choices. Chinese target words appear only in a clearly
+labelled Translation game.
 
 VOICE SCOPE
-Eight foods have approved Jesse word and sentence recordings reused unchanged
-from the supplied HTML. Noodles, dumplings, bread and eggs have visual matching;
-their new voice samples could not start because ElevenLabs was busy. No new
-dialogue batch or substitute voice was produced. New speech awaits sample review.
+Approved Jesse recordings are reused wherever an exact clip exists. The expanded
+word collection is not filtered to those recordings. New words also appear in
+written NPC notes, picture matching, translation and sentence building. Additional
+Jesse recordings remain pending: the small sample could not start because the
+service was busy. No substitute voice, artificial splicing or silent replay
+control is used for an unrecorded line. Heard counts reflect actual recordings.
 
-This delivery is the cafe scene for review. Further island locations are pending.
+All eight topics have 18 illustrated entries in playable activities. Finish one
+mission per team to prepare the festival, then replay for further vocabulary.
 '''
 (candidate/'OFFLINE-READ-ME.txt').write_text(guide)
 server='''from pathlib import Path

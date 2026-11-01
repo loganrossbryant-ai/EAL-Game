@@ -5,7 +5,7 @@ from playwright.sync_api import sync_playwright
 
 ROOT=Path(__file__).resolve().parents[2]
 OUT=ROOT/'artifacts/alan-tests';OUT.mkdir(parents=True,exist_ok=True)
-URL=os.environ.get('ALAN_URL','http://127.0.0.1:8072/')
+URL=os.environ.get('ALAN_URL','http://127.0.0.1:8092/')
 report={'checks':[],'errors':[]}
 def check(name,condition):
     assert condition,name
@@ -26,9 +26,12 @@ with sync_playwright() as p:
     def button(label=None,semantic=None):
         matches=[b for b in snap()['buttons'] if not b['disabled'] and (b['text']==label if semantic is None else b['semantic']==semantic)]
         assert matches,(label,semantic,snap())
+        fingerprint="(s)=>JSON.stringify([s.modal,s.labels,s.buttons,s.selected,s.stage,s.voice_count])"
+        before=page.evaluate('('+fingerprint+')(window.__alanTest)')
         x,y,w,h=matches[-1]['rect']
         page.mouse.click(x+w/2,y+h/2)
-        page.wait_for_timeout(330)
+        if label!='Export summary':
+            page.wait_for_function('(old)=>('+fingerprint+')(window.__alanTest)!==old',arg=before,timeout=30000)
     def modal(value,timeout=15000):page.wait_for_function('(v)=>window.__alanTest.modal===v',arg=value,timeout=timeout)
     def stage(value):page.wait_for_function('(v)=>window.__alanTest.stage===v',arg=value,timeout=10000)
     button("Let's go!");modal('name');button('We said it');modal('')
@@ -41,7 +44,7 @@ with sync_playwright() as p:
     button('Mina');modal('resident')
     before=snap()['position'];page.keyboard.down('ArrowLeft');page.wait_for_timeout(500);page.keyboard.up('ArrowLeft');page.wait_for_timeout(300)
     check('Movement pauses during dialogue',math.dist(before,snap()['position'])<1)
-    button('中文');modal('resident')
+    button('操作');modal('resident')
     check('Chinese support is saved',save()['settings']['chinese'])
     page.screenshot(path=str(OUT/'02-mina-chinese.png'))
     count=snap()['voice_count'];button('▶  Replay')
@@ -75,7 +78,7 @@ with sync_playwright() as p:
     page.reload();page.wait_for_function('window.__alanTest',timeout=60000)
     check('Mission and personal choice survive reload',snap()['stage']==6 and snap()['festival'] and save()['favorite']=='rice')
     button("Let's go!");modal('')
-    for index,label in enumerate(['Meals','Fruit','Bakery']):
+    for index,label in enumerate(['Meals','Fruit','Kitchen']):
         button(label);modal('menu')
         visible=[b for b in snap()['buttons'] if b['semantic'].startswith('food:')]
         check(label+' has four distinct food pictures',len(visible)==4)
@@ -84,18 +87,18 @@ with sync_playwright() as p:
             button('Picture + word');modal('practice')
             answer=snap()['practice_target'];button(answer)
             check('Picture to word task is graded',save()['tasks'][-1]['correct'])
-            button('Back to the stall');modal('menu');button('中文 + English');modal('practice')
+            button('Back to the stall');modal('menu');button('Translate');modal('practice')
             answer=snap()['practice_target'];button(answer)
             check('Chinese to English task is graded',save()['tasks'][-1]['correct'])
             button('Back to the stall');modal('menu')
         if index==0:
-            button('Listen + find');modal('practice')
+            button('Picture + word');modal('practice')
             # Four picture-only answers use real rendered locations. The debug value
             # identifies the request, while the visual food order comes from metadata.
-            check('Listen task starts a local Jesse request',snap()['voice_playing'])
+            button(snap()['practice_target']);check('Meal picture-word task accepts its matching answer',save()['tasks'][-1]['correct'])
             button('Back to the stall');modal('menu')
-        button('Close');modal('')
-    check('All twelve food items were encountered',sum(1 for en in ['pizza','rice','sandwich','ice cream','apple','banana','orange','strawberry','noodles','dumplings','bread','eggs'] if en in save()['words'])==12)
+        button('More food');modal('menu');button('Close');modal('')
+    check('All eighteen food items were encountered',len([v for v in save()['words'] if v in ['rice','noodles','dumplings','pizza','chicken','ice cream','bread','eggs','fish','soup','cheese','sandwich','apple','banana','orange','strawberry','watermelon','carrot']])==18)
     button('Menu');modal('settings');button('Mute all')
     check('Master mute is saved',save()['settings']['muted'])
     button('Unmute all');button('Replay voice')

@@ -1,86 +1,63 @@
-# Café milestone verification — 1 November 2026
+# Expanded festival verification — 1 November 2026
 
-Source starts from Far Horizon `66e5f5ac63b2da147a4f4f8baea36e94a0bc46ff`.
-The actual Godot source, scenery, articulated-character code, dialogue, UI,
-exports and existing release process were inspected. Its standard Web build was
-opened in Chromium at 1366×768. No Far Horizon file was edited.
+Far Horizon source, reviewed build, and public root game remain preserved.
+The separate project starts from `66e5f5ac63b2da147a4f4f8baea36e94a0bc46ff`.
+Its actual Godot source and standard browser export were inspected before the
+café was built. This update connects the complete agreed collection to play.
 
-## Observed results
+## Current candidate
 
-- **32 gameplay checks passed** with real inputs, including movement, tap
-  navigation, following, dialogue movement lock, Chinese reveal, local Jesse
-  replay, incorrect and correct deliveries, sentence grammar/order, personal
-  choices excluded from accuracy, manual speaking participation, festival
-  changes, saved restoration, twelve illustrated foods, three menu activity
-  types, sound controls, teacher export, reset, rotating orders and preserved
-  festival contributions. No browser or Godot errors, or external runtime
-  requests, were recorded.
-- **15 exact-release / offline checks passed.** The complete app was cached,
-  the browser process closed, and a fresh process opened using the same
-  disk-backed profile with networking disabled. The cached entry page and game
-  loaded, the delivery/sentence/personal-choice sequence reached the festival
-  ending, and progress persisted. A Web Audio analyser measured decoded Jesse
-  PCM samples; replay worked offline, the separate music control reached zero,
-  and master mute suppressed actual output samples. The release exposes no
-  test bridge.
-- **Three touch layouts passed**: iPad landscape 1024×768, iPad portrait
-  768×1024 and iPhone landscape 844×390. Real emulated touch moved Alan,
-  approached Mina and revealed Chinese without browser errors. Screenshots
-  were visually inspected. Landscape is recommended.
-- The **eight-page A4 classroom preview** was rendered as a PDF and its card
-  layout visually inspected. Pictures are black-and-white; English and Chinese
-  decks are separate and have no matching numbers.
-- All **117 extracted Jesse MP3s are byte-identical** to the supplied HTML.
-  The data has exactly 18 entries in each of eight topics, matching the supplied
-  PDF key. All twelve café illustrations resolve to distinct local assets.
-- The backup ZIP passes its CRC check and includes every ordinary export file,
-  all licenses, the classroom preview and offline instructions. Candidate file
-  sizes and SHA-256 hashes are recorded in `alan-review/manifest.json`.
+- Exactly **144 entries, eighteen per topic**, retain the supplied PDF wording,
+  Chinese meanings and source references. All entries have distinct resolving
+  local illustrations. No unrelated words share a picture file or image hash.
+- Five settings connect the café, sanctuary, park, story square and art garden.
+  Resident requests, illustrated collections, delivery, sentence building,
+  personal choices and manual speaking confirmation contribute eight stamps.
+  Ordinary rounds show four choices. Replays and catalogue pages expose all
+  eighteen entries in each topic without a mastery gate.
+- General Chinese support explains controls only. Target-word Chinese is rendered
+  only inside the explicitly labelled translation games. Translation support is
+  logged separately from navigation help. Preferences remain ungraded.
+- **117 approved Jesse MP3 files are byte-identical** to the supplied HTML.
+  Vocabulary selection no longer depends on available recordings. Missing clips
+  have no silent replay control and do not increment heard counts.
+- The full classroom PDF has **fifty A4 pages**: black-and-white pictures,
+  separate English/Chinese decks, sentence strips and drawing prompts. Use color
+  materials or real objects when using the color cards in black and white.
+- All **29 candidate files** match their SHA-256 manifest, all ordinary export
+  files match the final build, and the complete backup ZIP passes CRC checking.
 
-The tested offline pack's cache revision is **fe0882f1feb43ff1**. The export is
-Godot 4.6.3, GL Compatibility, non-threaded Web; its JavaScript, WebAssembly,
-PCK and audio helpers remain separate files. A completion marker is written
-only after every cache entry has been saved. The installer and worker templates
-participate in the cache revision so future updates receive a new complete pack.
+The frozen production export is Godot **4.6.3**, non-threaded Web / GL
+Compatibility. Its complete offline cache revision is **bdc52fd0e348c6d3**
+(22 bundled web files, approximately 59.3 MiB). The fresh `update.html` entry
+replaces an old installed pack while retaining the existing local save key.
+A completion marker and controlling-worker version check gate updated play.
 
-## Limits that remain
+The full final browser suite and exact-file Windows validation are in progress
+for this candidate. Reports and public deployment identifiers will be recorded
+here before delivery. Earlier reports in this directory describe the preceding
+café release until replaced by the expanded verification run.
 
-Physical iOS Safari / Add to Home Screen testing was not available. Chromium
-touch emulation and a cold offline restart do not establish real-device Safari
-compatibility. An adult should perform the documented Airplane Mode check on
-Alan's device. This is an offline web app, not a signed native iOS binary. The
-ZIP itself does not run directly in iOS Files.
+## Remaining limits
 
-Eight café foods have fully voiced approved word and preference clips. Noodles,
-dumplings, bread and eggs use visual matching while new speech awaits a Jesse
-sample. The attempted sample did not start because ElevenLabs reported busy;
-nothing was charged. No substantial new dialogue or substitute voice was made.
-The name sentence and “That's my favorite, too!” have text models but no new
-recording is claimed. Manual “We said it” is participation, not pronunciation
-assessment.
+Additional Jesse speech awaits sample approval. The attempted small sample did
+not start because ElevenLabs reported busy; no substantial new dialogue,
+alternate voice, browser synthesis or fragment splicing was used. Existing exact
+clips are reused. New unrecorded entries use written English resident notes and
+picture activities. Manual “We said it” confirms participation, not pronunciation.
 
-The remaining locations, broader activity types and third-person “his/her”
-progression await review of this café milestone. Future animal sentences must
-use number agreement, such as “My favorite animals are dogs.”
+Physical iOS Safari / Add to Home Screen testing is unavailable. Chromium touch
+emulation and a cold offline restart cannot establish actual device behavior.
+An adult should run the documented Airplane Mode check on Alan's iPad/iPhone.
+The delivery is an offline web app and complete backup ZIP, not a signed native
+iOS binary or an archive that runs directly in Files.
 
-Direct github.io navigation is outside this environment's network policy.
-Public hosting is verified through GitHub Pages deployment status and exact
-published file hashes; interactive browser checks use those exact files locally.
-Windows release validation follows the existing project workflow in an isolated
-`alan-review/` candidate, preserving the Far Horizon candidate and report.
+Third-person his/her progression, richer clue and arrangement activities, and
+full newly recorded listening coverage remain later work. The current review
+specifically fixes playable vocabulary breadth and the Chinese-support policy.
 
-## Published review build
-
-[Play the café](https://loganrossbryant-ai.github.io/hello-earth-demo/alan-island/).
-Public commit `d41dde064de9f76a2b2e2f352a00f374f15b0f2e` was deployed by
-[Pages run 41284961339](https://github.com/loganrossbryant-ai/hello-earth-demo/actions/runs/41284961339),
-completed with status **success**. All 28 published file objects match the local
-release. Every existing Far Horizon public file is byte-for-byte unchanged.
-
-[Windows validation run 41284755359](https://github.com/loganrossbryant-ai/EAL-Game/actions/runs/41284755359)
-reports `scan_passed`, native exit 0, no detections, no errors, and matching
-before/after hashes. Active normal protection used signatures `1.463.68.0`.
-The candidate manifest SHA-256 is
-`eef1f18aad983b68e2822d684348cf5f977bf7f254b66ece8b2c89508c4fda2a`.
-The actual report is [defender-report.json](defender-report.json); the delivery
-links and identifiers are in [deployment.json](deployment.json).
+Direct github.io navigation is outside the environment's network policy.
+Interactive checks use exact release files over local HTTP. Publication is
+verified through GitHub Pages deployment status and exact remote blob hashes.
+The existing Windows release process is applied to a separate `alan-review/`
+candidate, preserving the Far Horizon release candidate and report.

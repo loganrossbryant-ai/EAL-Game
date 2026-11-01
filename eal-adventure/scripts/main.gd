@@ -5,11 +5,11 @@ const Progress = preload("res://scripts/progress.gd")
 const Audio = preload("res://scripts/island_audio.gd")
 const Actor = preload("res://scripts/actor.gd")
 const Scenery = preload("res://scripts/scenery.gd")
-const GROUPS = [["pizza", "rice", "sandwich", "ice cream"], ["apple", "banana", "orange", "strawberry"], ["noodles", "dumplings", "bread", "eggs"]]
+const GROUPS = [["pizza", "rice", "noodles", "dumplings", "chicken", "fish"], ["apple", "banana", "orange", "strawberry", "watermelon"], ["ice cream", "bread", "eggs", "soup", "cheese", "sandwich", "carrot"]]
 const COUNTERS = [Vector2(577, 425), Vector2(788, 425), Vector2(987, 425)]
 const WALK = [Vector2(275, 330), Vector2(440, 330), Vector2(495, 390), Vector2(1130, 390), Vector2(1195, 465), Vector2(1210, 540), Vector2(1240, 590), Vector2(1160, 745), Vector2(1100, 825), Vector2(1040, 916), Vector2(410, 916), Vector2(350, 810), Vector2(315, 695), Vector2(290, 610), Vector2(235, 550), Vector2(260, 440)]
 const GOALS = ["Meet Mina at the café.", "Find Mina's favorite food.", "Build Mina's sentence.", "Say it with Pip.", "Choose your own favorite.", "Visit the festival table.", "The café is ready!"]
-const GOALS_ZH = ["去咖啡馆认识米娜。", "找到米娜最喜欢的食物。", "拼出米娜说的句子。", "和皮普一起说。", "选你自己最喜欢的食物。", "去节日餐桌看看。", "咖啡馆准备好了！"]
+const GOALS_ZH = ["点击人物，走近后交谈。", "看便条或听录音，去拿东西，再交回来。", "点选词块，排好后检查。", "跟读后，请大人点确认。", "选一张你喜欢的图。", "点击左上方桌子，走近后查看。", "完成了！还可以去岛上看看。"]
 
 var progress = Progress.new()
 var sound: IslandAudio
@@ -47,6 +47,7 @@ var selected_chunks: Array[String] = []
 var sentence_label: Label
 var chunk_buttons: Array[Button] = []
 var favorite_page = 0
+var counter_page = 0
 var practice_group = 0
 var practice_kind = "word"
 var practice_target = ""
@@ -97,13 +98,14 @@ func _build_hud() -> void:
 	var quest = UI.panel(hud, Rect2(430, 20, 535, 114), Color("fff7de"))
 	objective = UI.label(quest, "", Rect2(20, 5, 496, 65), 33)
 	objective_zh = UI.label(quest, "", Rect2(20, 72, 496, 30), 25, UI.TEAL)
-	zh_button = UI.button(hud, "中文", Rect2(978, 20, 133, 114), _toggle_chinese, false, 34)
+	zh_button = UI.button(hud, "操作", Rect2(978, 20, 133, 114), _toggle_chinese, false, 34)
 	UI.button(hud, "Album", Rect2(1121, 20, 144, 114), func(): _album(false), false, 31)
 	settings_button = UI.button(hud, "Menu", Rect2(1275, 20, 143, 114), _settings, false, 31)
 	for i in range(3):
-		var value = ["Meals", "Fruit", "Bakery"][i]
+		var value = ["Meals", "Fruit", "Kitchen"][i]
 		var rect = Rect2(COUNTERS[i].x - 90, 328, 180, 81)
 		UI.button(hud, value, rect, _approach.bind("counter" + str(i)), false, 30)
+	UI.button(hud, "Island trail", Rect2(22, 150, 245, 100), _open_island, false, 30)
 	UI.button(hud, "Festival", Rect2(255, 256, 215, 83), _approach.bind("festival"), false, 30)
 	UI.button(hud, "Mina", Rect2(1085, 208, 165, 84), _approach.bind("mina"), false, 32)
 	var bottom = UI.panel(hud, Rect2(334, 824, 1084, 114), Color("fff7de"))
@@ -118,7 +120,7 @@ func _refresh() -> void:
 	var stage = int(progress.data.stage)
 	objective.text = GOALS[stage]
 	objective_zh.text = GOALS_ZH[stage] if progress.data.settings.chinese else ""
-	zh_button.text = "中文"
+	zh_button.text = "操作"
 	zh_button.add_theme_stylebox_override("normal", UI.box(Color("d8eee1") if progress.data.settings.chinese else UI.CREAM))
 	tray.text = "Carrying: " + progress.data.carrying if not progress.data.carrying.is_empty() else "Tap the path to walk."
 	alan.carried_texture = _food_texture(progress.data.carrying) if not progress.data.carrying.is_empty() else null
@@ -185,7 +187,7 @@ func _dialog(title: String, subtitle: String, kind: String) -> Panel:
 	UI.label(panel, title, Rect2(32, 10, 865, 66), 43)
 	overlay_hint = UI.label(panel, subtitle, Rect2(32, 80, 1050, 80), 31, UI.TEAL)
 	UI.button(panel, "Close", Rect2(1110, 16, 162, 104), _clear_modal, false, 30)
-	UI.button(panel, "中文 ✓" if progress.data.settings.chinese else "中文", Rect2(930, 16, 162, 104), _toggle_chinese, false, 30)
+	UI.button(panel, "操作", Rect2(930, 16, 162, 104), _toggle_chinese, false, 30)
 	feedback = UI.label(panel, "", Rect2(32, 494, 1210, 54), 31, UI.TEAL)
 	return panel
 
@@ -194,11 +196,12 @@ func _voice_button(panel: Node, line: String, at: Rect2 = Rect2(32, 538, 245, 10
 	UI.button(panel, "▶  Replay", at, func(): sound.say(line), false, 32)
 
 func _welcome() -> void:
-	var p = _dialog("Hello, Alan! I'm Pip.", _hint("Let's help Mina get ready for the Favorites Festival.", "帮米娜准备喜好节吧。"), "welcome")
+	var p = _dialog("Hello, Alan! I'm Pip.", _hint("Our island friends need help with the Favorites Festival.", "点人物接任务，或者点下方按钮去岛上探索。"), "welcome")
 	UI.picture(p, preload("res://assets/art/pip.png"), Rect2(70, 173, 230, 330))
-	UI.label(p, "Walk. Listen. Help.\nFind what makes us smile.", Rect2(360, 191, 805, 170), 47)
+	UI.label(p, "Walk. Listen. Help.\nEveryone has a favorite.", Rect2(360, 191, 805, 170), 47)
 	UI.label(p, _hint("Tap a path or use the arrow keys.", "点击小路，也可以用方向键移动。"), Rect2(360, 360, 800, 103), 33)
 	_voice_button(p, "Hello, Allen! I am Pip. Let us explore the island together.")
+	UI.button(p, "Island trail", Rect2(355, 538, 450, 110), func(): started = true; _open_island(), false, 35)
 	UI.button(p, "Let's go!", Rect2(850, 538, 410, 102), func():
 		started = true
 		sound.begin()
@@ -213,7 +216,6 @@ func _name_card() -> void:
 	var p = _dialog("Alan meets Pip", _hint("Say hello together.", "一起打个招呼吧。"), "name")
 	UI.picture(p, preload("res://assets/art/pip.png"), Rect2(54, 170, 205, 300))
 	UI.label(p, "My name is Alan.", Rect2(330, 202, 880, 140), 58)
-	if progress.data.settings.chinese: UI.label(p, "我叫艾伦。", Rect2(330, 345, 880, 62), 37, UI.TEAL)
 	UI.label(p, _hint("Now let's meet Mina.", "现在去认识米娜。"), Rect2(330, 415, 880, 80), 32)
 	UI.button(p, "We said it", Rect2(32, 538, 390, 102), func():
 		progress.data.speaking_participation += 1
@@ -242,21 +244,19 @@ func _resident() -> void:
 		_album(true)
 		return
 	if stage >= 5:
-		var p = _dialog("Mina", _hint("Our festival table is waiting!", "节日餐桌在等我们！"), "resident")
+		var p = _dialog("Mina", _hint("Our festival table is waiting!", "点下方按钮，走近后查看。"), "resident")
 		UI.picture(p, _food_texture(progress.data.target), Rect2(70, 175, 310, 270))
 		UI.label(p, _sentence(progress.data.target), Rect2(430, 187, 760, 180), 48)
 		_voice_button(p, _sentence(progress.data.target))
 		UI.button(p, "To the festival table", Rect2(750, 538, 510, 102), func(): _clear_modal(); _approach("festival"), true)
 		return
-	var p = _dialog("Mina's festival order", _hint("Listen to Mina. Find her favorite.", "听米娜说，找到她最喜欢的食物。"), "resident")
+	var p = _dialog("Mina's festival order", _hint("Read Mina's order.", "看便条，或者播放录音。到摊位选图，再交回来。"), "resident")
 	UI.label(p, _sentence(progress.data.target), Rect2(52, 190, 1180, 140), 50)
-	if progress.data.settings.chinese: UI.label(p, foods[progress.data.target].meaning, Rect2(52, 347, 1180, 67), 35, UI.TEAL)
 	_voice_button(p, _sentence(progress.data.target))
 	if stage == 0:
 		UI.button(p, "I'll find it!", Rect2(850, 538, 410, 102), func():
 			progress.data.stage = 1
 			progress.pattern("My favorite food is ___.")
-			progress.word(progress.data.target, "heard")
 			progress.save()
 			_clear_modal()
 			_refresh()
@@ -266,10 +266,10 @@ func _resident() -> void:
 	else:
 		UI.label(p, "Your tray: " + progress.data.carrying, Rect2(52, 424, 1180, 64), 36)
 		UI.button(p, "Give " + progress.data.carrying, Rect2(700, 538, 560, 102), _deliver, true)
-	sound.say(_sentence(progress.data.target))
+	if sound.say(_sentence(progress.data.target)): progress.word(progress.data.target, "heard")
 
 func _deliver() -> void:
-	var correct = progress.assess("delivery_" + str(progress.data.rounds_completed), "listen_and_deliver", progress.data.carrying, progress.data.target, hint_used)
+	var correct = progress.assess("delivery_" + str(progress.data.rounds_completed), "listen_and_deliver", progress.data.carrying, progress.data.target, bool(progress.data.cafe_translation_help))
 	if not correct:
 		feedback.text = _hint("Listen again. You can change your tray.", "再听一遍，可以换一种食物。")
 		sound.say("Try again.")
@@ -282,24 +282,23 @@ func _deliver() -> void:
 	_sentence_board()
 
 func _counter(index: int) -> void:
+	if practice_group != index: counter_page = 0
 	practice_group = index
-	var p = _dialog(["Mina's meal stall", "Mina's fruit stall", "Mina's bakery stall"][index], _hint("Pick something for your tray, or try a menu game.", "给托盘选食物，或者玩菜单游戏。"), "menu")
-	for i in range(4):
-		var en: String = GROUPS[index][i]
+	var p = _dialog(["Mina's meal stall", "Mina's fruit stall", "Mina's kitchen stall"][index], _hint("Pick something for your tray, or try a menu game.", "点图放进托盘；也可以先做配对练习。"), "menu")
+	var visible_words: Array = GROUPS[index].slice(counter_page * 4, mini(counter_page * 4 + 4, GROUPS[index].size()))
+	for i in range(visible_words.size()):
+		var en: String = visible_words[i]
 		var x = 30 + i * 311
 		var b = UI.button(p, "", Rect2(x, 170, 295, 272), _pick_food.bind(en))
 		b.set_meta("semantic", "food:" + en)
 		UI.picture(b, _food_texture(en), Rect2(40, 7, 215, 145))
-		var value = en + ("\n" + foods[en].zh if progress.data.settings.chinese else "")
+		var value = en
 		var l = UI.label(b, value, Rect2(8, 154, 279, 112), 38)
 		l.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		progress.word(en)
 	UI.button(p, "Picture + word", Rect2(30, 538, 390, 102), _practice_start.bind(index, "word"), false, 32)
-	UI.button(p, "中文 + English", Rect2(450, 538, 390, 102), _practice_start.bind(index, "meaning"), false, 31)
-	if index != 2:
-		UI.button(p, "Listen + find", Rect2(870, 538, 390, 102), _practice_start.bind(index, "listen"), true, 32)
-	else:
-		UI.label(p, _hint("Look, match, and say together.", "看一看，配一配，一起说。"), Rect2(870, 538, 390, 102), 29)
+	UI.button(p, "Translate", Rect2(450, 538, 390, 102), _practice_start.bind(index, "meaning"), false, 31)
+	UI.button(p, "More food", Rect2(870, 538, 390, 102), func(): counter_page = 1 - counter_page; _counter(index), true, 32)
 
 func _pick_food(en: String) -> void:
 	progress.data.carrying = en
@@ -308,10 +307,10 @@ func _pick_food(en: String) -> void:
 	_clear_modal()
 	_refresh()
 	_toast("On your tray: " + en)
-	if sound.has_line(en): sound.say(en); progress.word(en, "heard")
+	if sound.say(en): progress.word(en, "heard")
 
 func _sentence_board() -> void:
-	var p = _dialog("Mina's order card", _hint("Build the sentence Mina said.", "拼出米娜说的句子。"), "sentence")
+	var p = _dialog("Mina's order card", _hint("Build the sentence Mina said.", "点词块排顺序，再点检查。"), "sentence")
 	UI.picture(p, _food_texture(progress.data.target), Rect2(30, 156, 190, 170))
 	sentence_label = UI.label(p, "Tap the word pieces.", Rect2(245, 172, 1000, 127), 45)
 	var choices = ["food", "My favorite", foods[progress.data.target].sentence_value + ".", "are", "is", "sport"]
@@ -339,9 +338,9 @@ func _reset_chunks() -> void:
 
 func _check_sentence() -> void:
 	var answer = " ".join(selected_chunks)
-	var correct = progress.assess("sentence_" + str(progress.data.rounds_completed), "sentence_building", answer, _sentence(progress.data.target), hint_used)
+	var correct = progress.assess("sentence_" + str(progress.data.rounds_completed), "sentence_building", answer, _sentence(progress.data.target), bool(progress.data.cafe_translation_help))
 	if not correct:
-		feedback.text = _hint("Listen, then try another order.", "听一听，再换个顺序试试。")
+		feedback.text = _hint("Read the note, then try another order.", "看便条，再换个顺序试试。")
 		sound.say("Try again.")
 		return
 	progress.data.stage = 3
@@ -352,10 +351,9 @@ func _check_sentence() -> void:
 	_speak()
 
 func _speak() -> void:
-	var p = _dialog("Say it with Pip", _hint("Listen. Say the sentence together.", "听一听，一起说这句话。"), "speak")
+	var p = _dialog("Say it with Pip", _hint("Say the sentence together.", "看词卡一起说，说完后请大人确认。"), "speak")
 	UI.picture(p, _food_texture(progress.data.target), Rect2(60, 185, 240, 260))
 	UI.label(p, _sentence(progress.data.target), Rect2(360, 180, 845, 158), 47)
-	if progress.data.settings.chinese: UI.label(p, foods[progress.data.target].meaning, Rect2(360, 350, 840, 80), 34, UI.TEAL)
 	_voice_button(p, _sentence(progress.data.target))
 	UI.button(p, "We said it", Rect2(850, 538, 410, 102), func():
 		progress.data.speaking_participation += 1
@@ -367,18 +365,19 @@ func _speak() -> void:
 	sound.say(_sentence(progress.data.target))
 
 func _album(_choosing: bool) -> void:
-	var p = _dialog("My favorites album", _hint("What's your favorite food? Every choice is yours.", "你最喜欢什么食物？选你喜欢的，都可以。"), "album")
-	var group: Array = GROUPS[favorite_page]
-	for i in range(4):
+	var p = _dialog("My favorites album", _hint("What's your favorite food? Every choice is yours.", "点选一张图，这是你自己的选择，不计对错。"), "album")
+	var all_foods: Array = foods.keys()
+	var group: Array = all_foods.slice(favorite_page * 4, mini(favorite_page * 4 + 4, all_foods.size()))
+	for i in range(group.size()):
 		var en: String = group[i]
 		var b = UI.button(p, "", Rect2(30 + i * 311, 170, 295, 272), _choose_favorite.bind(en))
 		b.set_meta("semantic", "favorite:" + en)
 		UI.picture(b, _food_texture(en), Rect2(40, 7, 215, 145))
-		var l = UI.label(b, en + ("\n" + foods[en].zh if progress.data.settings.chinese else ""), Rect2(8, 154, 279, 112), 38)
+		var l = UI.label(b, en, Rect2(8, 154, 279, 112), 38)
 		l.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		if en == progress.data.favorite: b.add_theme_stylebox_override("normal", UI.box(Color("d8eee1"), UI.TEAL))
 	_voice_button(p, "What's your favorite food?")
-	UI.button(p, "More foods", Rect2(850, 538, 410, 102), func(): favorite_page = 1 - favorite_page; _album(false), false, 34)
+	UI.button(p, "More foods", Rect2(850, 538, 410, 102), func(): favorite_page = (favorite_page + 1) % 5; _album(false), false, 34)
 	sound.say("What's your favorite food?")
 
 func _choose_favorite(en: String) -> void:
@@ -393,28 +392,27 @@ func _choose_favorite(en: String) -> void:
 
 func _favorite_card() -> void:
 	var en: String = progress.data.favorite
-	var p = _dialog("Alan's favorite", _hint("Your choice belongs in the festival!", "把你喜欢的食物带到喜好节！"), "favorite")
+	var p = _dialog("Alan's favorite", _hint("Your choice belongs in the festival!", "点下方按钮继续，或者关闭后重选。"), "favorite")
 	UI.picture(p, _food_texture(en), Rect2(55, 160, 280, 300))
 	UI.label(p, _sentence(en), Rect2(380, 180, 825, 155), 48)
-	if progress.data.settings.chinese: UI.label(p, foods[en].meaning, Rect2(380, 335, 825, 78), 34, UI.TEAL)
 	if en == progress.data.target: UI.label(p, "That's my favorite, too!", Rect2(380, 420, 825, 65), 36, UI.CORAL)
 	_voice_button(p, _sentence(en), Rect2(30, 538, 300, 102))
-	UI.button(p, "Hear “I like…”", Rect2(355, 538, 390, 102), func():
-		sound.say("I like " + foods[en].sentence_value + ".")
-		progress.pattern("I like ___.")
-	, false, 32)
+	var like_line = "I like " + foods[en].sentence_value + "."
+	if sound.has_line(like_line):
+		UI.button(p, "Hear “I like…”", Rect2(355, 538, 390, 102), func(): sound.say(like_line); progress.pattern("I like ___."), false, 32)
+	else:
+		UI.button(p, "Choose again", Rect2(355, 538, 390, 102), func(): _album(false), false, 32)
 	UI.button(p, "Ask Pip", Rect2(780, 538, 480, 102), _ask_pip, true, 36)
-	sound.say(_sentence(en))
-	progress.word(en, "heard")
+	if sound.say(_sentence(en)): progress.word(en, "heard")
 
 func _ask_pip() -> void:
-	var p = _dialog("Ask Pip", _hint("Ask together, then hear Pip's favorite.", "一起问，再听皮普最喜欢的食物。"), "ask")
+	var p = _dialog("Ask Pip", _hint("Ask together, then hear Pip's favorite.", "看词卡，和大人一起问。说完后请大人确认。"), "ask")
 	UI.label(p, "What's your favorite food?", Rect2(70, 178, 1150, 150), 52)
 	_voice_button(p, "What's your favorite food?")
 	UI.button(p, "We said it", Rect2(850, 538, 410, 102), func():
 		progress.data.speaking_participation += 1
 		progress.pattern("What's your favorite food?")
-		var q = _dialog("Pip's favorite", _hint("Let's bring our favorites to the festival table.", "一起把喜欢的食物带到节日餐桌。"), "ask_answer")
+		var q = _dialog("Pip's favorite", _hint("Let's bring our favorites to the festival table.", "关闭后，点击左上方桌子继续。"), "ask_answer")
 		UI.picture(q, _food_texture(progress.data.target), Rect2(80, 166, 265, 295))
 		UI.label(q, _sentence(progress.data.target), Rect2(400, 180, 800, 180), 48)
 		_voice_button(q, _sentence(progress.data.target))
@@ -425,7 +423,7 @@ func _ask_pip() -> void:
 
 func _festival_card() -> void:
 	if int(progress.data.stage) < 5:
-		var q = _dialog("Favorites Festival", _hint("Help Mina fill this table with favorite foods.", "帮米娜把喜欢的食物摆上节日餐桌。"), "festival")
+		var q = _dialog("Favorites Festival", _hint("Help Mina fill this table with favorite foods.", "先完成当前任务，再点这里继续。"), "festival")
 		UI.picture(q, preload("res://assets/art/pip.png"), Rect2(70, 176, 200, 300))
 		UI.label(q, GOALS[int(progress.data.stage)], Rect2(360, 200, 830, 150), 49)
 		UI.button(q, "Let's help Mina", Rect2(750, 538, 510, 102), func(): _clear_modal(); _approach("mina"), true)
@@ -434,6 +432,7 @@ func _festival_card() -> void:
 		progress.data.stage = 6
 		progress.data.festival = true
 		progress.data.festival_food = progress.data.target
+		if not "food" in progress.data.festival_stamps: progress.data.festival_stamps.append("food")
 		if not "cafe" in progress.data.completed_missions: progress.data.completed_missions.append("cafe")
 		progress.data.rounds_completed += 1
 		progress.save()
@@ -451,12 +450,14 @@ func _festival_card() -> void:
 	sound.say("Yes!")
 
 func _new_round() -> void:
-	var options: Array = GROUPS[0] + GROUPS[1]
+	var options: Array = foods.keys()
 	var previous: String = progress.data.target
 	options.erase(previous)
-	progress.data.target = options.pick_random()
+	var fresh: Array = options.filter(func(en): return not progress.data.words.has(en))
+	progress.data.target = fresh.pick_random() if not fresh.is_empty() else options.pick_random()
 	progress.data.stage = 0
 	progress.data.carrying = ""
+	progress.data.cafe_translation_help = false
 	hint_used = false
 	progress.save()
 	_clear_modal()
@@ -467,6 +468,7 @@ func _practice_start(index: int, kind: String) -> void:
 	practice_group = index
 	practice_kind = kind
 	practice_target = GROUPS[index].pick_random()
+	if kind == "meaning" and practice_target == progress.data.target: progress.data.cafe_translation_help = true
 	progress.data.practice_serial += 1
 	practice_id = "menu_" + str(progress.data.practice_serial)
 	practice_done = false
@@ -475,9 +477,12 @@ func _practice_start(index: int, kind: String) -> void:
 	_show_practice()
 
 func _show_practice() -> void:
-	var prompt_text = {"word": "Which word matches?", "meaning": "Match the menu meaning.", "listen": "Listen and find."}[practice_kind]
-	var p = _dialog("Mina's menu game", _hint(prompt_text, {"word": "哪个单词配这张图？", "meaning": "把中文和英文配起来。", "listen": "听一听，找到食物。"}[practice_kind]), "practice")
-	var question = GROUPS[practice_group].duplicate()
+	var prompt_text = {"word": "Which word matches?", "meaning": "Translation game: Chinese → English", "listen": "Listen and find."}[practice_kind]
+	var p = _dialog("Mina's menu game", _hint(prompt_text, {"word": "看图，点选英文词卡。", "meaning": "把中文和英文配起来。", "listen": "听录音，点相应图片。"}[practice_kind]), "practice")
+	var others = GROUPS[practice_group].duplicate()
+	others.erase(practice_target)
+	others.shuffle()
+	var question = [practice_target] + others.slice(0, 3)
 	question.shuffle()
 	if practice_kind == "word":
 		UI.picture(p, _food_texture(practice_target), Rect2(70, 169, 300, 285))
@@ -492,8 +497,7 @@ func _show_practice() -> void:
 		if practice_kind == "listen": UI.picture(b, _food_texture(en), Rect2(120, 3, 155, 125))
 	if practice_kind == "listen":
 		_voice_button(p, "Find " + practice_target + ".")
-		sound.say("Find " + practice_target + ".")
-		progress.word(practice_target, "heard")
+		if sound.say("Find " + practice_target + "."): progress.word(practice_target, "heard")
 	UI.button(p, "Back to the stall", Rect2(750, 538, 510, 102), _counter.bind(practice_group), false, 34)
 	if practice_done:
 		feedback.text = _hint("Yes! They match.", "对了，配对成功！")
@@ -501,7 +505,7 @@ func _show_practice() -> void:
 
 func _practice_answer(en: String) -> void:
 	if practice_done: return
-	var correct = progress.assess(practice_id, practice_kind + "_matching", en, practice_target, hint_used)
+	var correct = progress.assess(practice_id, practice_kind + "_matching", en, practice_target, false)
 	if correct:
 		practice_done = true
 		_show_practice()
@@ -539,17 +543,37 @@ func _teacher() -> void:
 	var p = _dialog("Teacher summary", "Saved on this device only. No learner account.", "teacher")
 	var stats = progress.first_attempt_stats()
 	var summary = "Missions: %d     Café rounds: %d\nFirst attempts: %d / %d correct\nSpeaking participation: %d confirmations\n" % [progress.data.completed_missions.size(), progress.data.rounds_completed, stats.x, stats.y, progress.data.speaking_participation]
+	var translation_assists = 0
+	for task in progress.data.tasks:
+		if task.first_attempt and bool(task.get("hinted", false)): translation_assists += 1
+	summary += "First attempts supported by translation: %d\n" % translation_assists
+	summary += "Navigation help is logged separately from translation support.\n"
 	summary += "Speaking is participation, not verified pronunciation.\n"
 	summary += "Patterns: " + (", ".join(progress.data.patterns.keys()) if not progress.data.patterns.is_empty() else "None yet") + "\n"
 	summary += "Further practice: " + (", ".join(progress.data.needs_practice.keys()) if not progress.data.needs_practice.is_empty() else "None recorded") + "\n"
+	summary += "Available / encountered / practised:\n"
+	for topic_name in ["animals", "food", "sports", "entertainment", "people", "colors", "places", "activities"]:
+		var encountered = 0
+		var practised = 0
+		for entry in vocabulary:
+			if entry.topic != topic_name: continue
+			var key: String = entry.id
+			if not progress.data.words.has(key) and topic_name == "food": key = entry.en
+			if progress.data.words.has(key):
+				var record: Dictionary = progress.data.words[key]
+				if int(record.seen) > 0: encountered += 1
+				if int(record.practised) > 0: practised += 1
+		summary += "%s: 18 / %d / %d\n" % [topic_name.capitalize(), encountered, practised]
 	var words: Array[String] = []
 	for en in progress.data.words:
 		var value: Dictionary = progress.data.words[en]
-		words.append(en + "  [seen %d / heard %d / practised %d]" % [value.seen, value.heard, value.practised])
+		words.append(_word_label(en) + "  [seen %d / heard %d / practised %d]" % [value.seen, value.heard, value.practised])
 	summary += "Words:\n" + "\n".join(words) + "\n\n"
 	summary += "Personal favorites are never graded. Hints are logged separately.\n"
-	summary += "12 food pictures; 8 fully voiced foods. Bakery words await Jesse sample approval.\n"
-	summary += "Eight topics × 18 card-verified entries are in the data. Other island locations await café review.\n"
+	summary += "Available in activities: 144 illustrated words; 18 per topic.\n"
+	summary += "Festival teams helped: %d / 8.\n" % progress.data.festival_stamps.size()
+	summary += "New Jesse recordings remain pending; heard counts include actual existing clips only.\n"
+	summary += "Chinese help explains controls only; vocabulary Chinese is limited to explicit translation games.\n"
 	if not progress.storage_ok: summary += "Storage is unavailable. This session cannot be saved.\n"
 	var scroll = ScrollContainer.new()
 	scroll.position = Vector2(32, 166)
@@ -572,6 +596,7 @@ func _reset_confirm() -> void:
 		progress.reset()
 		sound.settings = progress.data.settings
 		favorite_page = 0
+		welcome_name = false
 		hint_used = false
 		alan.position = Vector2(720, 780)
 		pip.position = Vector2(625, 800)
@@ -667,7 +692,7 @@ func _physics_process(delta: float) -> void:
 		if d < distance: distance = d; nearest = id
 	var title = "Talk to Mina"
 	if nearest == "festival": title = "Visit festival table"
-	elif nearest.begins_with("counter"): title = "Explore " + ["meals", "fruit", "bakery"][int(nearest.right(1))]
+	elif nearest.begins_with("counter"): title = "Explore " + ["meals", "fruit", "kitchen"][int(nearest.right(1))]
 	elif nearest.is_empty() and int(progress.data.stage) >= 5: title = "To the festival table"
 	interact.text = title
 	toast_time = maxf(0, toast_time - delta)
@@ -708,5 +733,30 @@ func _publish_snapshot() -> void:
 		if node.is_visible_in_tree():
 			var r: Rect2 = node.get_global_rect()
 			buttons.append({"text": node.text, "semantic": node.get_meta("semantic", ""), "rect": [r.position.x, r.position.y, r.size.x, r.size.y], "disabled": node.disabled})
-	var snapshot = {"position": [alan.position.x, alan.position.y], "pip": [pip.position.x, pip.position.y], "modal": modal_id, "stage": progress.data.stage, "target": progress.data.target, "practice_target": practice_target, "voice_playing": sound.voice.playing, "voice_count": sound.played, "voice_volume": sound.voice.volume_db, "music_volume": sound.music.volume_db, "buttons": buttons, "festival": scenery.festival, "storage_ok": progress.storage_ok, "selected": selected_chunks}
+	var snapshot = {"tick": clock, "position": [alan.position.x, alan.position.y], "pip": [pip.position.x, pip.position.y], "modal": modal_id, "stage": progress.data.stage, "target": progress.data.target, "practice_target": practice_target, "voice_playing": sound.voice.playing, "voice_count": sound.played, "voice_volume": sound.voice.volume_db, "music_volume": sound.music.volume_db, "buttons": buttons, "festival": scenery.festival, "storage_ok": progress.storage_ok, "selected": selected_chunks, "labels": _debug_labels()}
 	JavaScriptBridge.eval("window.__alanTest=" + JSON.stringify(snapshot))
+
+func _open_island() -> void:
+	_clear_modal()
+	sound.stop()
+	sound.music.stop()
+	hide()
+	ui.hide()
+	set_physics_process(false)
+	set_process_input(false)
+	set_process_unhandled_input(false)
+	var trail = load("res://scripts/festival_trail.gd").new()
+	trail.host = self
+	trail.progress = progress
+	get_parent().add_child(trail)
+
+func _debug_labels() -> Array:
+	var values: Array = []
+	for node in ui.find_children("*", "Label", true, false):
+		if node.is_visible_in_tree(): values.append(node.text)
+	return values
+
+func _word_label(key: String) -> String:
+	for entry in vocabulary:
+		if entry.id == key: return entry.en + " (" + entry.topic + ")"
+	return key

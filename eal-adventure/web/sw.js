@@ -17,7 +17,6 @@ self.addEventListener('install', event => {
       }
       await cache.put(new URL('_offline_complete', self.registration.scope).href,new Response(CACHE));
       await self.skipWaiting();
-      await tell({type:'ready',cache:CACHE});
     } catch(error) {
       await caches.delete(CACHE);
       await tell({type:'failed'});
@@ -31,6 +30,7 @@ self.addEventListener('activate', event => {
     for (const name of await caches.keys()) {
       if (name.startsWith('alan-island-') && name !== CACHE) await caches.delete(name);
     }
+    await tell({type:'ready',cache:CACHE});
   })());
 });
 self.addEventListener('fetch', event => {
@@ -42,6 +42,12 @@ self.addEventListener('fetch', event => {
   event.respondWith((async () => {
     const cache=await caches.open(CACHE);
     const response=await cache.match(url.href);
+    // Refresh entry pages online; the fully cached pack remains the offline fallback.
+    if (url.href===new URL('./',self.registration.scope).href || /\/(index|update)\.html$/.test(url.pathname)) {
+      try { const fresh=await fetch(new Request(event.request,{cache:'no-store'}));if(fresh.ok)return fresh; } catch(error) {}
+    }
     return response || fetch(event.request);
   })());
 });
+
+self.addEventListener('message',event=>{if(event.data?.type==='VERSION'&&event.ports[0])event.ports[0].postMessage({cache:CACHE});});

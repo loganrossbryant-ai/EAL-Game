@@ -7,7 +7,7 @@ var data: Dictionary
 var storage_ok = true
 
 func defaults() -> Dictionary:
-	return {"version": 1, "stage": 0, "target": "pizza", "carrying": "", "favorite": "", "festival": false, "festival_food": "", "completed_missions": [], "rounds_completed": 0, "words": {}, "patterns": {}, "tasks": [], "needs_practice": {}, "speaking_participation": 0, "practice_serial": 0, "settings": {"chinese": false, "voice": 0.85, "music": 0.24, "muted": false}}
+	return {"version": 1, "stage": 0, "target": "pizza", "carrying": "", "favorite": "", "festival": false, "festival_food": "", "completed_missions": [], "rounds_completed": 0, "words": {}, "patterns": {}, "tasks": [], "needs_practice": {}, "speaking_participation": 0, "practice_serial": 0, "topic_quests": {}, "festival_stamps": [], "cafe_translation_help": false, "settings": {"chinese": false, "voice": 0.85, "music": 0.24, "muted": false}}
 
 func _init() -> void:
 	data = defaults()
@@ -25,7 +25,9 @@ func _init() -> void:
 				data[key] = int(parsed[key])
 			elif typeof(parsed[key]) == typeof(data[key]): data[key] = parsed[key]
 	data.stage = clampi(int(data.stage), 0, 6)
-	var valid = ["pizza", "rice", "sandwich", "ice cream", "apple", "banana", "orange", "strawberry"]
+	var valid: Array = []
+	for word_entry in JSON.parse_string(FileAccess.get_file_as_string("res://data/vocabulary.json")):
+		if word_entry.topic == "food": valid.append(word_entry.en)
 	if not data.target in valid: data.target = "pizza"
 	if not data.favorite.is_empty() and not data.favorite in valid: data.favorite = ""
 	if not data.carrying.is_empty() and not data.carrying in valid + ["noodles", "dumplings", "bread", "eggs"]: data.carrying = ""
@@ -50,15 +52,15 @@ func pattern(value: String) -> void:
 	data.patterns[value] = int(data.patterns.get(value, 0)) + 1
 	save()
 
-func assess(task_id: String, kind: String, answer: String, expected: String, hinted: bool = false) -> bool:
+func assess(task_id: String, kind: String, answer: String, expected: String, hinted: bool = false, practice_word: String = "") -> bool:
 	var correct = answer == expected
 	var prior = 0
 	for task in data.tasks:
 		if task.task_id == task_id: prior += 1
-	data.tasks.append({"task_id": task_id, "kind": kind, "word": expected, "answer": answer, "correct": correct, "first_attempt": prior == 0, "hinted": hinted})
+	data.tasks.append({"task_id": task_id, "kind": kind, "word": expected, "answer": answer, "correct": correct, "first_attempt": prior == 0, "hinted": hinted, "navigation_help": bool(data.settings.chinese), "translation_activity": kind.contains("translation") or kind.contains("meaning")})
 	if not correct: data.needs_practice[expected] = true
 	elif prior == 0 and data.needs_practice.has(expected): data.needs_practice.erase(expected)
-	word(data.target if kind == "sentence_building" else expected, "practised")
+	word(practice_word if not practice_word.is_empty() else (data.target if kind == "sentence_building" else expected), "practised")
 	save()
 	return correct
 

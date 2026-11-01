@@ -1,120 +1,119 @@
-# Alan’s Favorites Island — café milestone
+# Alan’s Favorites Island — expanded festival collection
 
-A separate Godot **4.6.3** project in `eal-adventure/`, based on
-`codex/far-horizon-session-01` at `66e5f5a`. Far Horizon, its release candidate,
-notes, scripts and public root game are preserved.
+Separate Godot 4.6.3 project in `eal-adventure/`, based on Far Horizon `66e5f5a`.
+Far Horizon source, reviewed build and existing public root game are preserved.
 
-This is the first playable scene for review. Other island locations have not
-been built. The café has a controllable Alan, following teal robot Pip, Mina,
-three food stalls, a festival table, animated characters and scenery, local
-progress, optional Simplified Chinese and approved prerecorded Jesse audio.
+## What is playable
 
-## Play
+**All 144 agreed entries are reachable in activities: 18 per topic.** The bank is
+connected to real scene controls and resident requests rather than just stored
+in JSON. Five settings link the eight topics:
 
-Tap the terrace to walk, tap a stall or resident to approach and interact, or
-use arrows / WASD and E / Enter. The lower-left stick also moves Alan. Dialogue
-pauses movement. The Chinese button reveals short meanings and instructions.
+| Setting | Resident | Topics | Festival purpose |
+| --- | --- | --- | --- |
+| Seaside café | Mina | Food | Prepare the festival table |
+| Animal sanctuary | Ari | Animals | Prepare the animal parade display |
+| Sports park | Max | Sports, activities | Plan games and activity choices |
+| Story square | Luna | Entertainment, people | Build the festival story wall |
+| Art garden | Zoe | Colors, places | Decorate lanterns and the festival map |
 
-Help Mina by listening to her favorite, collecting food, delivering it and
-building the matching sentence. “We said it” records speaking participation.
-Choose a personal favorite, hear its sentence, ask Pip, then visit the festival
-table. The table gains food, bunting, lights and balloons. Another order rotates
-through eight voiced foods without requiring mastery of the vocabulary bank.
+The **Island trail** button is visible in the opening greeting and café. Alan
+walks to a location on the island map, explores its setting, reads a resident’s
+note, collects and delivers an illustrated card, builds a matching sentence and
+makes his own choice. Four choices appear in an ordinary round. The picture
+shelves and personal pages also let him browse all eighteen words in that topic,
+with four per page. Resident replays cycle through all eighteen entries. One
+helpful mission per topic earns a festival stamp; mastering all 144 is not a gate.
 
-Food stalls also provide picture–word, Chinese–English and listen-and-find
-practice. Personal choices never contribute to comprehension accuracy.
+Controls: tap paths / residents / shelves, use the touch stick, or arrows / WASD
+and E / Enter. Dialogue pauses movement. Wrong comprehension matches allow gentle
+retries. Personal preferences have no wrong answer. “We said it” records manual
+participation, never pronunciation accuracy.
 
-## iPad / iPhone offline delivery
+## Chinese policy
 
-Use the **single-threaded Godot Web export as an installable offline web app**.
-No Apple signing account, learner account, API key or runtime service is used.
+The **操作** button supplies navigation and control instructions only. It cannot
+reveal Chinese meanings of target words or preference sentences in resident
+notes, collecting, ordinary picture–word matching, sentence building, speaking
+or personal albums. This applies even when a saved Chinese-help setting is on.
 
-1. Open the public café entry in **Safari** while connected.
-2. Tap **Save for offline** and wait for **Offline ready**. All game bytes,
-   pictures, fonts, music and speech are copied to that device.
-3. Use **Share → Add to Home Screen**.
-4. Open the island icon, enable Airplane Mode, and verify **Play with Pip**.
+Target-word Chinese appears only in a clearly labelled **Translation game**.
+Translation support used before a comprehension attempt is logged separately
+from navigation help, so the teacher can interpret accuracy correctly. Classroom
+Chinese decks and bilingual strips are intended for explicit translation work.
 
-Landscape is recommended. The first installation requires access to the play
-site; after installation no VPN or internet is needed. Website data can be
-removed by the user or operating system, so check Airplane Mode before relying
-on the installation. This is an offline web app, not a signed native iOS app.
-An HTML file or ZIP opened directly in iOS Files is not the delivery route.
+## Vocabulary and artwork
 
-The backup ZIP contains the ordinary separate-file export and a Python standard
-library local server for desktop recovery. It is not a directly installable iOS
-application. Physical Safari / Home Screen verification remains necessary;
-Chromium touch emulation does not establish actual iOS compatibility.
+`data/vocabulary.json` keeps the exact 144 English/Chinese entries and source-page
+references from the supplied word-card PDF. Stable IDs distinguish, for example,
+food orange from color orange. Every entry has a resolving, distinct local
+illustration, sentence form and word chunks. The original approved pictures are
+retained where appropriate; new scalable SVG illustrations cover the expanded
+collection. Four new scenic environments and four resident sprites complement
+the existing café, Alan and Pip.
 
-## Vocabulary, art and classroom reuse
+`tools/draw_vocabulary.py` builds the additional SVGs and grammar data.
+`tools/export_classroom.py OUTPUT.html --all-topics` produces the complete
+self-contained printable decks. The full PDF has fifty A4 pages. Use crayons or
+real colored objects for color meanings when printing in black and white.
 
-`data/vocabulary.json` has **144 entries / 18 in each of eight topics**, imported
-from pages 34–37 of the supplied Alan word cards. It stores stable IDs, exact
-English and Chinese, source page, and illustration paths. Food entries include
-the sentence form; the café uses these fields for words and meanings.
+## Voice coverage
 
-The café illustrates rice, noodles, dumplings, pizza, ice cream, bread, eggs,
-sandwich, apple, banana, orange and strawberry in groups of four. There are 12
-distinct food illustrations, including four scalable SVGs. The eight supplied
-food pictures and Pip are reused from the approved HTML. New café scenery and
-Alan / Mina artwork were generated for this scene. No unrelated word shares a
-food illustration. The other 132 pictures are not claimed complete.
+The 117 approved Jesse clips from the supplied HTML remain byte-identical.
+The voice is Jesse, `rLl4PSDTzX3VHL4wjSFI`. Existing exact clips are reused for
+words, preference sentences and common feedback. Vocabulary selection is **not
+restricted to those clips**.
 
-`tools/export_classroom.py` creates a self-contained black-and-white printable
-café preview: separate picture, English and Chinese decks, bilingual sentence
-strips, matching sets and “I say, you draw” prompts. It reads the same vocabulary
-and illustrations. The supplied 144-word PDF remains the full agreed word deck.
-Future illustrations can be added by stable vocabulary ID without changing the
-learning records or printable workflow.
+New words also appear in written resident notes, picture–word matching,
+translation and sentence building. Additional Jesse recordings remain pending:
+the approval-sample generation did not start because ElevenLabs reported busy.
+No bulk dialogue was generated, no alternate voice or browser speech synthesis
+was substituted, and no word fragments were spliced. Unrecorded lines have no
+silent replay button and do not increment “heard” counts. Voice and music have
+separate controls, with replay, master mute and music ducking.
 
-## Voice and sound
+## Offline iPad / iPhone
 
-The supplied HTML contains 117 Jesse recordings. They are imported unchanged;
-`data/voice.json` maps exact text to bundled MP3 files. The approved voice is
-Jesse, `rLl4PSDTzX3VHL4wjSFI`. No browser speech synthesis or runtime voice API
-exists in this game. The eight reusable foods have word, listen request, “My
-favorite food…” and “I like…” recordings. Personal album and resident tasks use
-these fully voiced foods.
+Open the entry in Safari, choose **Save for offline**, wait for **Offline ready**,
+then **Share → Add to Home Screen**. Open the island icon and test Airplane Mode.
+The non-threaded Godot Web export bundles every image, font, recording and music
+file. No learner account, API key, CDN or runtime voice service is required.
 
-Noodles, dumplings, bread and eggs are available for visual matching. A small
-Jesse sample for those words and two additional lines was requested; ElevenLabs
-reported busy and did not start or charge it. New recordings remain pending
-sample approval. The name model and “That’s my favorite, too!” have text support
-but no new recording is claimed. No substitute voice or artificial word splicing
-was used. Voice/music levels and master mute are separate; replay interrupts
-the previous clip, and music ducks while Jesse speaks. Music and chime are
-original instrumental WAV files, generated during asset preparation and bundled.
+For an already installed old build, use the `update.html` entry once. It downloads
+the complete new pack, checks that the new worker controls the page, then enables
+play. Saved progress is retained. Old Alan caches are removed only after the new
+pack is complete; other classroom data is untouched. A backup ZIP includes the
+ordinary separate-file export and Python standard-library desktop recovery
+server. It is not a signed native iOS app or a ZIP that runs directly in Files.
 
-## Progress and teacher summary
+Physical iOS Safari/Home Screen behavior remains unverified. Browser touch
+emulation and a cold offline restart are tested separately and do not replace
+an adult’s Airplane Mode check on Alan’s actual device.
 
-`Menu → Teacher` shows completed missions, rounds, words seen/heard/practised,
-patterns, first-attempt results and items needing further practice. Speaking is
-manual participation, never verified pronunciation. JSON export and a confirmed
-reset are available. The browser save key is `alan-favorites-island-v1`; native
-development uses `user://alan-favorites-island-v1.json`. Nothing is uploaded.
+## Progress and teacher review
 
-## Build and verify
+Menu → Teacher shows available / encountered / practised vocabulary by topic,
+completed missions, festival stamps, patterns, first-attempt accuracy, translation
+support, further practice and manual speaking participation. Export and confirmed
+reset are local. The existing `alan-favorites-island-v1` save key is migrated
+without deleting the learner’s favorites or past practice.
 
-From the repository root, with matching Godot Web templates installed:
+## Build
 
 ```sh
 godot --headless --path eal-adventure --editor --import --quit
 mkdir -p builds/alan-island
 godot --headless --path eal-adventure --export-release Web ../builds/alan-island/index.html
 python3 eal-adventure/tools/prepare_web.py builds/alan-island
-python3 -m http.server 8073 --directory builds/alan-island
+python3 -m http.server 8093 --directory builds/alan-island
 ```
 
-The managed environment uses writable XDG cache, data and config paths under
-`/workspace`. Use a fresh standard export before `prepare_web.py`; do not pack
-Godot JavaScript or WebAssembly into a custom all-in-one HTML file.
+Use matching Godot 4.6.3 Web templates. The managed runtime uses writable XDG
+paths under `/workspace`. Always start `prepare_web.py` with a fresh standard
+export. JavaScript, WebAssembly, game data and audio helpers stay separate.
 
-`tests/browser_milestone.py` plays the debug export on port 8072. It verifies
-actual movement, dialogue locking, retries, grammar, personal choices, Chinese,
-speaking participation, saved completion, mini-games, controls and reset.
-`tests/browser_touch.py` uses Chromium touch and viewport emulation for landscape
-iPad, portrait iPad and landscape iPhone. `tests/browser_offline.py` tests the
-exact release on port 8073, caches the full app, closes the browser process,
-restarts with networking disabled, completes the mission and checks real decoded
-PCM audio, separate music control and master mute. No physical iOS test is
-claimed. Evidence and limitations are in `docs/verification.md`.
+Current browser tests are `browser_expanded.py` (all 144 reachable entries,
+Chinese boundaries and all topic missions), `browser_milestone.py` (café negative
+cases and reset), `browser_offline.py` (exact release and cold offline play),
+`browser_touch.py` (iPad/iPhone emulation) and `browser_update.py` (real old-pack
+installation upgraded without losing its save). Reports are in `docs/`.

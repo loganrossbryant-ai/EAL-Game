@@ -23,13 +23,14 @@ func begin() -> void:
 func has_line(line: String) -> bool:
 	return recordings.has(line)
 
-func say(line: String) -> void:
+func say(line: String) -> bool:
 	stop()
 	last_line = line
-	if not has_line(line) or settings.muted or float(settings.voice) <= 0: return
+	if not has_line(line) or settings.muted or float(settings.voice) <= 0: return false
 	voice.stream = load("res://" + recordings[line])
 	voice.play()
 	played += 1
+	return true
 
 func stop() -> void:
 	voice.stop()

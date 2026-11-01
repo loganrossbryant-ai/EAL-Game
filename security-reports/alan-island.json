@@ -1,0 +1,40 @@
+{
+    "status":  "scan_passed",
+    "source_commit":  "60557677a0f39de6b0ca7ff4a0992e601ec26c20",
+    "run_id":  "41301196187",
+    "run_attempt":  "2",
+    "started_utc":  "2026-11-01T11:21:00.5064918Z",
+    "completed_utc":  "2026-11-01T11:21:50.5552749Z",
+    "files_verified_before_scan":  true,
+    "files_verified_after_scan":  true,
+    "defender":  {
+                     "AMRunningMode":  "Normal",
+                     "AMServiceEnabled":  true,
+                     "AntivirusEnabled":  true,
+                     "RealTimeProtectionEnabled":  true,
+                     "AMEngineVersion":  "1.1.26100.4",
+                     "AMProductVersion":  "4.18.26090.9",
+                     "AntivirusSignatureVersion":  "1.463.72.0",
+                     "AntivirusSignatureLastUpdated":  "\/Date(1793505590000)\/"
+                 },
+    "preferences":  {
+                        "DisableArchiveScanning":  false,
+                        "DisableScriptScanning":  false,
+                        "DisableRealtimeMonitoring":  false,
+                        "DisableAutoExclusions":  true,
+                        "ExclusionPath":  null,
+                        "ExclusionExtension":  null,
+                        "ExclusionProcess":  null,
+                        "MAPSReporting":  1,
+                        "SubmitSamplesConsent":  2
+                    },
+    "scan_exit_code":  0,
+    "detections":  [
+
+                   ],
+    "error":  null,
+    "automatic_sample_submission":  "disabled; no file uploads for sample analysis",
+    "limitation":  "A clean scan is evidence, not a guarantee of absence of malware.",
+    "manifest_sha256":  "12237c5ba64d48141b092864d98d235d32587f952ac7288e524e6cbfba3d903d",
+    "scan_output":  "Scan starting...\r\nScan finished.\r\nScanning D:\\a\\EAL-Game\\EAL-Game\\alan-review\\candidate found no threats.\r\n"
+}

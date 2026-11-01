@@ -24,6 +24,7 @@ var walk_sprite: Sprite2D
 var idle_sprite: Sprite2D
 var visual: Node2D
 var last_position = Vector2.ZERO
+var render_puppet = true
 signal footstep
 
 func setup(index: int) -> void:
@@ -116,7 +117,7 @@ func _physics_process(delta: float) -> void:
 	var near_foot = Vector2((feet[0].world_x - global_position.x) * facing, feet[0].height)
 	var far_foot = Vector2((feet[1].world_x - global_position.x) * facing, feet[1].height)
 	visual.scale.x = facing
-	if has_rig:
+	if has_rig and render_puppet:
 		puppet.pose(near_foot, far_foot, gait, motion_weight, breath, lean)
 		mirror.pose(near_foot, far_foot, gait, motion_weight, breath, lean)
 	var turn_blend = sin(clampf(turn_time / 0.20, 0, 1) * PI) if turn_time > 0 else 0.0

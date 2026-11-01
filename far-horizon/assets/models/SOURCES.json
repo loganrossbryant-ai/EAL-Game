@@ -1,0 +1,9 @@
+{
+  "assets": "MakeHuman / MPFB base mesh, morph targets and game-engine rig",
+  "license": "CC0 1.0 Universal",
+  "sources": [
+    "https://github.com/makehumancommunity/makehuman",
+    "https://github.com/makehumancommunity/mpfb2"
+  ],
+  "adaptation": "Original Pioneer uniforms, hair meshes, accessories, IK-baked idle/walk/use animation; no upstream program code distributed."
+}

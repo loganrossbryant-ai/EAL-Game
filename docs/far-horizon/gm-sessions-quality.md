@@ -1,50 +1,89 @@
-# Sessions 1–3 GM draft — verification record
+# Far Horizon — Sessions 1–3, 3D foreground revision
 
-Status: implementation prepared; browser integration checks in progress.
-No new public deployment or Windows Defender clearance is claimed for this draft.
-ElevenLabs recordings remain blocked on the corrected private API-key binding.
+**Local browser QA passed. Not newly published. Fresh Windows Defender review is
+still required for these new bytes. ElevenLabs voices are deferred by the user.**
 
-## Story coverage
+## Scope and story
 
-| Session | Playable beats and essential evidence |
+The GM operates one projected game and a separate same-browser control window.
+There are no student accounts, response forms, emails, Word documents or servers.
+Four department representatives travel together. NPC dialogue stays selectable.
+Optional paper/live-performance prompts support the class without gating progress.
+Academic vocabulary glosses cover 21 terms in Simplified Chinese, Korean and
+Japanese; the GM can print a separate handout for WIDA 1–3 support.
+
+| Session | Story and evidence retained |
 | --- | --- |
-| 1 — Welcome to Pioneer | Healthy Earth / deliberate second civilization; character wants, needs, fear and Earth object; physical boarding ensemble; five manually cued launch beats; introduction and six-area orientation after launch; sub-second unclassified lensing seed; optional three screenplay lines; exact route-log exchange |
-| 2 — The Pioneer | Ordinary recreation friction; functional door welded shut; Rhee and M-77; two threat boxes plus two one-box drones; three GM-advanced rounds at the door/life-support panel/student; shutdown, retreat or containment; intact tomorrow maintenance record; “Nobody deletes the record”; optional event/choice/consequence work; restricted access boundary |
-| 3 — The First Anomaly | Synchronized four-department inquiry; 37 / 102 days without route change; incompatible K-17 measurements; working but unsynchronized clocks; biological timing drift; fact/inference/question council; manually paused “Both” exchange; slightly longer ambiguous lensing recurrence; voice/evidence reflection before the sealed +103 DAYS header; immediate stop before contents |
+| 1 | Healthy Earth / deliberate second civilization; wants, needs, fear, Earth object; boarding; five manual launch beats; crew introduction and six-area orientation after launch; fleeting unclassified lensing; optional screenplay lines; exact route-correction exchange |
+| 2 | Ordinary ship friction; M-77 welding a functional door; Rhee; two threat boxes and two one-box minor drones; three manual encounter rounds; shutdown/retreat/containment; intact tomorrow maintenance clue; “Nobody deletes the record”; restricted-access boundary |
+| 3 | Four-department observations; 37 / 102 days without a route change; incompatible K-17 measurements; unsynchronized working clocks; biological timing drift; fact/inference/question council; “Both”; second ambiguous lensing; reflection before the sealed +103 DAYS header; stop before contents |
 
-The teacher's two confirmations resolve the PPT/bible conflicts: M-77 is canonical
-and launch precedes the tour. The v14 painted P-73 / MT-4487 ticket is not used.
-The M-77 note is exactly “Collision with unrecorded passenger resolved.”
+The teacher confirmed **board → launch → crew introduction/tour** and the bible's
+full **M-77 / TOMORROW 14:32 / TECHNICIAN COHORT 01 / “Collision with unrecorded
+passenger resolved.”** record, styled like the PPT. The conflicting P-73 ticket
+is excluded. Campaign integrity checks confirm 18 scenes, 64 beats and 13 clues.
+Only v14 slides 1–28 and bible pp.4–11 inform the shipped campaign.
 
-The 18 scenes contain 64 beats and 13 readable evidence cards. NPC options are
-filtered by session and revealed evidence; neutral conversations remain available
-before the anomalies. Connective dialogue is authored for this adaptation; it is
-not all quoted verbatim from the bible. Essential quoted exchanges retain their
-wording. Paper/performance suggestions are optional presented prompts, not forms.
+## Implemented and checked
 
-## Current checks
+The default game has skinned 3D crew/NPC models with idle, walk and use clips,
+head motion, eyelid geometry, gestures and gradual turns. Moving solid props use
+geometry. Raised galleries and paths into depth have accessible junctions; each
+follower passes through the junction before changing routes. Using a gallery
+terminal turns the leader's back toward the camera, reaches toward the device,
+then zooms onto its actual screen. Escape returns to movement. Transcript/source
+cards remain available, and the GM can reveal them instantly without walking.
 
-- Godot 4.6.3 import and native startup: completed without script/runtime errors.
-- Initial terminal/recreation browser slice: movement, separate GM desk, scene
-  jump and selectable NPC dialogue; zero browser errors. Screenshots inspected.
-- Initial visual review corrected overlapping evidence labels and moved animated
-  actors into the starting view. Full traversal and movement checks follow.
-- The former walking pelvis varied with foot reach. Its height is now stable,
-  with a deliberate sub-pixel gait motion. A coordinated direction signal also
-  prevents a slow turn sequence cascading from the leader to the last follower.
+Each setting has relevant moving subjects: terminal traffic and a service drone;
+launch ventilation, orbit blending and a pen only after cutoff; habitation foliage;
+a recreation orrery; M-77's joints/wheels/welding and two drones; restricted-area
+ventilation; bridge/K-17 navigation gimbals and ship interfaces. Lensing is manually
+cued, fleeting and unclassified. No later plot explanation is shown.
 
-## Remaining before voiced public delivery
+| Check | Result |
+| --- | --- |
+| Godot 4.6.3 import / native startup | Passed; no script/runtime errors |
+| Default-game 3D browser check, 1366×768 | Passed; zero browser errors |
+| Actual raised/depth route, independent gaits, turn/use, zoom/return, movement lock, returning followers, physical onward travel, picture hold | Passed |
+| Visible scene motion in all eight settings | Passed; changing 3D transforms and rendered pixels |
+| Sampled actual skeletal pelvis variation during steady flat walking | 0.000000 m observed |
+| Exact standard release, 1280×720 | Passed all 64 beats across 18 scenes; zero browser errors |
+| Clues, scene jumps, selectable dialogue, local save/reload, Chinese/Korean/Japanese glosses | Passed |
+| Session reset: location, cue, evidence, threats; preservation of other sessions | Passed |
+| External runtime network requests | None observed; game/desk assets were same-origin |
+| Production debug global | Absent |
+| NPC voice pack | Deferred; 0 recordings, readable/selectable dialogue available |
 
-1. Complete the GM integration/browser traversal and inspect its screenshots.
-2. Bind a replacement private `ELEVENLABS_API_KEY`; never reuse the exposed,
-   incorrectly named configuration entry. The API domain is now allowed.
-3. Generate seven distinct NPC voices, check complete coverage and listen to
-   pronunciation/character fit; test playback, mute, replay and interruption.
-4. Build the standard release, test those exact bytes at 1280×720, and obtain a
-   fresh matching active Windows Defender report before any new public release.
-5. Respect the latest user no-publish instruction; only update the site when
-   publication is authorized. No raw reference campaign files or secrets ship.
+The recorded input-driven interaction was also sampled visually: the leader
+turns his back, reaches toward the terminal, then the camera moves onto the screen.
+The final close-up has no foreground bodies obscuring its text. The first full
+GM run caught an unused 2D orrery null-texture error; the unused renderer is now
+disabled and its optional texture handling is guarded. The final new 3D and exact
+release runs both have zero browser errors.
 
-No automated usage-reset scheduler exists in this environment. No scheduled task
-has been created. The published Session 1 scan and deployment are historical
-and do not certify the new files.
+## Practical limits and delivery
+
+This remains a prototype with original Pioneer artwork and model/animation work.
+It does not match commercial AA character-detail or animation production values.
+Chromium used software graphics here and reported 3fps during inspection; that
+verifies behavior/rendering, not classroom GPU smoothness. Test the shared build
+on the actual projecting laptop before a lesson. Older 2D planted-foot statistics
+do not validate the new 3D characters; the new pelvis result measures their skeleton.
+
+The release candidate contains **18 separate files, about 93 MiB**, with exact
+SHA-256 hashes and Godot/font/CC0 model licenses. No packed single HTML or ZIP is
+used. No fresh Defender clearance or new deployment is claimed. The older live
+Session 1 scan does not apply to these bytes. Respect the earlier no-publication
+instruction before uploading the new candidate or replacing the shared demo.
+
+Versioned machine-readable evidence and file hashes:
+`docs/far-horizon/3d-release-local-verification.json`.
+Local detailed artifacts (ignored by Git):
+
+- `artifacts/far-horizon-tests/stage3d/results.json`
+- `artifacts/far-horizon-tests/gm-release/results.json`
+- `artifacts/far-horizon-tests/stage3d/turn-and-reach-review.jpg`
+- `artifacts/far-horizon-tests/stage3d/04-item-closeup.png`
+- `artifacts/far-horizon-tests/interaction-video/terminal-interaction.mp4`
+
+No automatic usage-reset scheduler is available; none was created.

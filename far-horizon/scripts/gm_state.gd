@@ -4,7 +4,7 @@ extends RefCounted
 const KEY = "far-horizon-gm-v2"
 var data: Dictionary = {
 	"version": 2, "scene": "s1_terminal", "cues": {}, "revealed": {},
-	"leader": 0, "positions": {}, "language": "zh", "clean": false,
+	"leader": 0, "positions": {}, "routes": {}, "language": "zh", "clean": false,
 	"seen": {}, "threats": [2, 1, 1], "sound": false, "voice": true
 }
 var storage_ok = true

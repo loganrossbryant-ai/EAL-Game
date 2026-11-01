@@ -26,7 +26,7 @@ def prepare():
     licenses.mkdir(exist_ok=True)
     for p in sorted((ROOT / "far-horizon").glob("GODOT-*.txt")) + sorted(
         (ROOT / "far-horizon/assets/fonts").glob("LICENSE-*.txt")
-    ):
+    ) + sorted((ROOT / "far-horizon/assets/models").glob("LICENSE-*.txt")):
         shutil.copy2(p, licenses / p.name)
     expected = {Path(n) for n in NAMES} | {
         Path("licenses") / p.name for p in licenses.iterdir() if p.is_file()

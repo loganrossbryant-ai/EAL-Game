@@ -22,8 +22,8 @@
   function render(){
     const s=latest,scene=campaign.scenes.find(x=>x.id===s.scene);if(!scene)return;
     $('connection').textContent='● Connected to the stage';$('session').textContent='SESSION '+String(s.session).padStart(2,'0')+' / BEAT '+(s.cue+1)+' OF '+s.cue_count;$('scene-title').textContent=scene.title;$('focus').textContent=scene.focus;
-    $('freeze').textContent=s.paused?'Resume picture':'Hold picture';$('clean').textContent=s.clean?'Show stage controls':'Hide stage controls';$('sound').textContent=s.sound?'SFX on':'SFX off';$('voice').textContent=s.voice?'Voices on':'Voices off';$('language').value=s.language;
-    $('audio-status').textContent=s.recordings ? s.recordings+' NPC recordings installed'+(s.voice_playing?' · voice playing':'') : 'ElevenLabs voices pending: no recordings are installed. Text dialogue is complete.';
+    $('freeze').textContent=s.paused?'Resume picture':'Hold picture';$('clean').textContent=s.clean?'Show stage controls':'Hide stage controls';$('sound').textContent=s.sound?'SFX on':'SFX off';$('voice').textContent=s.recordings?(s.voice?'Voices on':'Voices off'):'NPC text dialogue';$('voice').disabled=!s.recordings;$('language').value=s.language;
+    $('audio-status').textContent=s.recordings ? s.recordings+' NPC recordings installed'+(s.voice_playing?' · voice playing':'') : 'NPC dialogue uses readable captions and selectable responses. This draft has no voice pack.';
     if(renderedScene!==s.scene){
       renderedScene=s.scene;$('gm-notes').textContent=scene.gm;$('cue-list').replaceChildren();$('npc-list').replaceChildren();
       scene.cues.forEach((c,i)=>{const b=button(String(i+1).padStart(2,'0')+' / '+c.title,'cue',{index:i},'cue');b.dataset.cue=i;$('cue-list').append(b);});

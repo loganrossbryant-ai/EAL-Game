@@ -28,7 +28,7 @@ if the notes must remain off the projector.
 | --- | --- |
 | A/D or arrows; click the floor | Walk |
 | 1–4 or department buttons | Select the party leader |
-| E | Talk to a nearby NPC or inspect a terminal |
+| E | Take the marked access path, talk, use a terminal, or travel at a room exit |
 | Enter / Page Down | Next beat, then next scene |
 | Page Up | Previous beat, then previous scene |
 | G | Open the separate GM desk |
@@ -42,7 +42,7 @@ The desk jumps directly to any of 18 scenes and 64 beats, previews all 13 clues
 privately, reveals/hides cards, opens NPC dialogue, controls sound/voice and tracks
 M-77's two threat boxes and the minor drones' one each. All encounter rounds are
 manually advanced. No combat result or writing task can prevent a clue reveal.
-Progress and scene positions autosave locally under a new GM-only storage key.
+Progress, scene positions and chosen paths autosave locally under a new GM-only storage key.
 Resetting one session preserves other sessions; the desk asks before resetting.
 
 Optional Chinese, Korean and Japanese glosses cover **21 drama/evidence terms**,
@@ -61,7 +61,6 @@ export XDG_DATA_HOME=/workspace/.local/share
 export XDG_CONFIG_HOME=/workspace/.config
 python tools/build_fh_campaign.py
 godot --headless --editor --path far-horizon --import
-godot --headless --path far-horizon --script tools/export_voice_script.gd
 godot --headless --path far-horizon --export-debug Web ../builds/far-horizon-debug/index.html
 python tools/export_fh_web_assets.py builds/far-horizon-debug
 python -m http.server 8090 --bind 127.0.0.1 --directory builds/far-horizon-debug
@@ -69,8 +68,12 @@ python -m http.server 8090 --bind 127.0.0.1 --directory builds/far-horizon-debug
 
 In another terminal: `python far-horizon/tests/browser_gm.py`. The test uses real
 keyboard/mouse/GM controls and reads debug snapshots without setting game state.
-It traverses all scenes/beats/cards, checks the desk, selection dialogue, language
-support, movement, contacts, followers, independent scene motion and local save.
+It traverses all scenes/beats/cards, checks the desk, selectable dialogue, language
+support, skeletal pelvis stability, followers, scene motion and local save.
+`python far-horizon/tests/browser_stage3d.py` checks the default game's depth path,
+staggered skeletal walks, turn-and-reach, real item zoom, return camera, returning
+followers, physical onward travel and picture hold. Tests use Chromium's software
+renderer; those frame rates are not measurements of school laptop GPU performance.
 Reports/screenshots: `artifacts/far-horizon-tests/gm/` (ignored by Git).
 
 The previous `browser_slice.py`, `browser_motion.py` and `browser_html.py` files
@@ -82,22 +85,31 @@ what actually passed; this README does not certify an untested build.
 
 The local sound effects and ambience are original procedural audio. The new
 NPC script has **44 distinct authored lines / 3,102 characters / seven speakers**.
-ElevenLabs recording is blocked until a valid private `ELEVENLABS_API_KEY` is bound.
-The API domain is now permitted. No replacement speech provider is used. Text
-and selectable dialogue work without recordings, and the GM desk reports their
-absence. No API key belongs in the game, source repository or browser.
+**ElevenLabs is deferred at the teacher's request.** No NPC voice pack is included.
+Text and selectable dialogue work without recordings, and the GM desk reports their
+absence. Original ambience and effects remain available. No API key belongs in
+the game, source repository or browser.
 
-After the key is configured, run `python tools/generate_fh_elevenlabs.py` to inspect
+If voices are requested in a future revision, configure the private key and run
+`python tools/generate_fh_elevenlabs.py` to inspect
 the seven distinct premade voice choices and quota, then `--generate` to record.
 The generator publishes a catalog only after every MP3 passes duration/codec/
 non-silence/hash checks. Browser playback, interruption, replay and mute still
 need testing with actual ElevenLabs clips before a voiced release.
 
-Original generated backgrounds and cutout actors follow the supplied references;
-see `assets/ART.md`. The continuous crew rig uses fixed world-space foot contacts,
-level boots, a nearly fixed pelvis, staggered walking, gradual turns and follower
-speed matching. Terminal shuttles, hovering drones, repair sparks, plants, steam,
-telemetry, orbit blending and the post-cutoff pen are separate moving subjects.
+Original generated backgrounds follow the supplied references; see `assets/ART.md`.
+The foreground now uses actual skinned 3D characters, original Pioneer uniforms,
+idle/walk/use clips, head motion, eyelid geometry, gradual turns and separate gait
+phases. CC0 MakeHuman/MPFB asset data supplies the human mesh and rig; its program
+code is not shipped. Original procedural 3D machines have rounded hulls and moving
+subassemblies. Raised galleries, stairs and paths into depth are traversable.
+Using a gallery terminal turns the leader toward its controls, then moves the
+camera onto its actual screen. Escape returns to exploration; a transcript/source
+button provides the large accessible evidence card. The GM can reveal cards
+instantly from the desk, without walking or completing another activity.
+Shuttles, hovering drones, M-77's joints and welding, foliage, ventilation rotors,
+an orrery, instrument gimbals, orbit blending and the post-cutoff pen animate in
+their appropriate rooms. Solid moving subjects use geometry, not cutout sprites.
 The lensing seeds are GM-cued and fleeting. Silver Pines guides the ambition;
 this is a custom prototype, not a claim of commercial AA animation parity.
 

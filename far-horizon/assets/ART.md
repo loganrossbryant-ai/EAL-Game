@@ -57,3 +57,29 @@ The Noto CJK subset in `fonts/Academic.otf` and `web/academic.otf` was made from
 Google's official NotoSansCJKsc-Regular.otf, obtained from the notofonts/noto-cjk
 repository. Required Chinese/Korean/Japanese glyph coverage was checked. The
 unmodified license is included as `fonts/LICENSE-NotoCJK.txt`.
+
+## Volumetric foreground revision
+
+The default GM game now uses `assets/models/*.glb` for its foreground characters
+and moving machines. The earlier transparent human/machine sheets above remain
+portrait/reference assets; they are not the new moving world characters.
+
+- Human base mesh, morphs, fitted eyes, eyelid targets, weights and the 53-bone
+  game rig are CC0 asset data from MakeHuman and MPFB2. Sources and license are in
+  `models/SOURCES.json` and `models/LICENSE-MakeHuman-CC0.txt`. No upstream program
+  code is executed or shipped by the game.
+- `tools/build_fh_crew3d.py` builds the original Pioneer uniforms, raised seams,
+  collars, hair, packs, tablets and boots and bakes analytical limb poses into
+  Idle / Walk / Use clips. Nine fictional characters have independent models.
+- `tools/build_fh_props3d.py` creates the original rounded construction kit,
+  articulated utility drone, tracked M-77 and small shuttle. These are generated
+  geometry, not converted Silver Pines assets.
+- `uniform_fabric.png`, `ship_alloy.png` and `crew_face_atlas.png` are original AI
+  material images, viewed and copied unchanged from the generation results.
+  The face atlas provides nine fictional faces. `data/face_fit.json` contains
+  measured UV fitting coordinates; no source image pixels were edited.
+- Stairs, raised galleries, screens, planters/leaves, rotors, rings, pen and sparks
+  are runtime 3D geometry. The scenic background plates remain static scenic art.
+
+The real-time material lighting, animation and geometry are prototype work.
+These assets are not motion capture or a claim of commercial AA production quality.

@@ -42,7 +42,7 @@ func configure(value: String) -> void:
 func _add(kind: String, texture: Texture2D, point: Vector2, width: float, parent: Node = self) -> void:
 	var sprite = Sprite2D.new()
 	sprite.texture = texture
-	sprite.scale = Vector2.ONE * width / texture.get_width()
+	if texture:sprite.scale = Vector2.ONE * width / texture.get_width()
 	if kind == "m77": sprite.offset.y = -texture.get_height() * 0.5
 	parent.add_child(sprite)
 	actors.append({"kind":kind,"sprite":sprite,"base":point,"width":width})

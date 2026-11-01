@@ -41,8 +41,17 @@ var current_clue = ""
 var conversation = ""
 var conversation_line = ""
 var gallery = false
+var stage: PioneerStage3D
+var avatars: Array[CinematicAvatar] = []
+var upper_route = false
+var branch_pending = false
+var physical_inspection = false
+var member_routes: Array[bool] = [false,false,false,false]
 
 func _ready() -> void:
+	if OS.is_debug_build() and OS.has_feature("web") and bool(JavaScriptBridge.eval("new URLSearchParams(location.search).get('preview')==='depth'",true)):
+		get_tree().change_scene_to_file.call_deferred("res://scenes/depth_slice.tscn")
+		return
 	state.restore(story)
 	_setup_input()
 	_setup_bridge()
@@ -74,6 +83,7 @@ func _build_world() -> void:
 	world = Node2D.new()
 	add_child(world)
 	scenery = PioneerScenery.new()
+	scenery.rendering_enabled=false
 	world.add_child(scenery)
 	var ground = StaticBody2D.new()
 	ground.collision_layer = 1
@@ -98,6 +108,7 @@ func _build_world() -> void:
 	for i in range(4):
 		var member = PartyMember.new()
 		member.setup(i)
+		member.render_puppet=false
 		member.position = Vector2(520 - i * 86, FLOOR)
 		member.z_index = 5 + i
 		party.append(member)
@@ -106,6 +117,27 @@ func _build_world() -> void:
 	camera.position = Vector2(683, 384)
 	camera.position_smoothing_enabled = false
 	add_child(camera)
+	# Retain the tested collision/follower controllers; render actual skinned
+	# 3D people and geometry in a fixed viewport behind the presentation UI.
+	world.visible = false
+	scenery.set_process(false)
+	var layer = CanvasLayer.new()
+	layer.layer = -1
+	add_child(layer)
+	var container = SubViewportContainer.new()
+	container.size = Vector2(1366,768)
+	container.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	container.stretch = true
+	layer.add_child(container)
+	var viewport = SubViewport.new()
+	viewport.size = Vector2i(1366,768)
+	viewport.own_world_3d = true
+	viewport.msaa_3d = Viewport.MSAA_2X
+	container.add_child(viewport)
+	stage = PioneerStage3D.new()
+	viewport.add_child(stage)
+	for id in ["flight","science","engineering","colony"]:
+		avatars.append(stage.add_actor(id))
 
 func _build_ui() -> void:
 	var layer = CanvasLayer.new()
@@ -160,12 +192,20 @@ func _enter_scene(index: int, restoring: bool = false) -> void:
 	if index < 0 or index >= story.scenes.size(): return
 	if scene and not restoring:
 		state.data.positions[scene.id] = party[int(state.data.leader)].position.x
+		state.data.routes[scene.id] = upper_route
 	_close_modal()
 	move_target = -1
 	scene_index = index
 	scene = story.scenes[index]
 	state.data.scene = scene.id
 	scenery.configure(str(scene.room))
+	stage.configure(str(scene.room))
+	upper_route = bool(state.data.routes.get(scene.id,false))
+	member_routes.fill(upper_route)
+	branch_pending = false
+	for person in stage.people.values():
+		person.visible=false
+		person.process_mode=Node.PROCESS_MODE_DISABLED
 	for n in npcs:
 		if is_instance_valid(n.node): n.node.queue_free()
 	npcs.clear()
@@ -182,12 +222,14 @@ func _enter_scene(index: int, restoring: bool = false) -> void:
 		party[i].reset_contacts()
 		party[i].visible = not scene.id in ["s1_route", "s3_packet"]
 	for i in range(scene.npcs.size()):
-		var x = 1060 + i * 330
-		if scene.room == "corridor": x = 1660 if str(scene.npcs[i]) != "m77" else 1040
+		var x = 1088 + i * 300
+		if scene.room == "corridor": x = 1770 if str(scene.npcs[i]) != "m77" else 1024
 		_add_person(str(scene.npcs[i]), x)
-	if not scene.clues.is_empty(): _add_station(str(scene.clues[0]), 2060)
+	if not scene.clues.is_empty(): _add_station(str(scene.clues[0]), 1587)
 	camera.position = Vector2(clampf(start, 683, WORLD_WIDTH - 683), 384)
 	camera_lead = 0
+	stage.view_x = clampf(start/128.0,5.335,12.665)
+	stage.reset_view(stage.view_x)
 	audio.set_room(str(scene.room))
 	_apply_cue(not restoring)
 
@@ -198,30 +240,28 @@ func _add_person(id: String, x: float) -> void:
 	node.position = Vector2(x, FLOOR)
 	node.z_index = 3
 	world.add_child(node)
-	if id != "iris" and id != "m77":
-		var spr = Sprite2D.new()
-		var path = "res://assets/art/" + str(p.sheet)
-		if ResourceLoader.exists(path):
-			spr.texture = load(path)
-			var parts = 3 if p.sheet == "officers_s23.png" else 2
-			spr.hframes = parts
-			spr.frame = int(p.region)
-			spr.scale = Vector2.ONE * (235.0 / spr.texture.get_height())
-			spr.position.y = -117.5
-			node.add_child(spr)
-			npcs.append({"kind": "person", "id": id, "x": x, "node": node, "sprite": spr})
-		else:
-			npcs.append({"kind": "person", "id": id, "x": x, "node": node})
-	elif id == "iris":
-		var sign = UI.panel(node, Rect2(-90, -153, 180, 61), 0.9)
-		UI.label(sign, "IRIS / VOICE LINK", Rect2(12, 15, 160, 40), 13, UI.CYAN)
-		npcs.append({"kind": "person", "id": id, "x": x, "node": node})
-	else:
-		npcs.append({"kind": "person", "id": id, "x": x, "node": node})
-	var label = UI.label(node, str(p.name).to_upper(), Rect2(-135, -277, 270, 32), 13)
-	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	label.add_theme_color_override("font_shadow_color", Color("06131b"))
-	label.add_theme_constant_override("shadow_outline_size", 5)
+	var upper = id == "venn" or (id not in ["m77","juno"] and x>1350)
+	if id=="iris":
+		x=2010
+		upper=true
+	elif id!="m77":
+		var actor: CinematicAvatar = stage.people.get(id)
+		if not actor:actor=stage.add_actor(id,true)
+		actor.visible=true
+		actor.process_mode=Node.PROCESS_MODE_INHERIT
+		actor.position=stage.floor_point(x/128.0,upper)+Vector3(0,0,-.26)
+		actor.gesture_time=0
+		if not actor.has_node("Name"):
+			var nameplate=Label3D.new()
+			nameplate.name="Name"
+			nameplate.text=str(p.name).to_upper()
+			nameplate.position=Vector3(0,2.02,0)
+			nameplate.font_size=27
+			nameplate.pixel_size=.002
+			nameplate.billboard=BaseMaterial3D.BILLBOARD_ENABLED
+			nameplate.modulate=Color("cedddf")
+			actor.add_child(nameplate)
+	npcs.append({"kind":"person","id":id,"x":x,"node":node,"upper":upper})
 
 func _add_station(id: String, x: float) -> void:
 	var node = Node2D.new()
@@ -230,7 +270,8 @@ func _add_station(id: String, x: float) -> void:
 	world.add_child(node)
 	var plate = UI.panel(node, Rect2(-91, -171, 182, 69), 0.9)
 	UI.label(plate, str(story.clues[id].title).to_upper(), Rect2(13, 11, 157, 52), 13, UI.PAPER)
-	npcs.append({"kind": "clue", "id": id, "x": x, "node": node})
+	npcs.append({"kind": "clue", "id": id, "x": x, "node": node,"upper":true})
+	stage.show_clue(story.clues[id])
 
 func _cue_index() -> int:
 	return int(state.data.cues.get(scene.id, 0))
@@ -241,6 +282,7 @@ func _apply_cue(play: bool = true) -> void:
 	state.data.seen[scene.id + ":" + str(_cue_index())] = true
 	scenery.effect = str(cue.get("effect", ""))
 	scenery.effect_time = 0
+	stage.set_effect(scenery.effect)
 	camera_focus = 1250.0 if scenery.effect == "round2" else -1.0
 	blackout.visible = bool(cue.get("blackout", false))
 	conversation_line = str(cue.text)
@@ -252,6 +294,7 @@ func _apply_cue(play: bool = true) -> void:
 	if play and cue.has("sfx"): audio.launch(int(cue.sfx))
 	var speaker = str(cue.get("speaker", ""))
 	if play and story.characters.has(speaker): audio.say(speaker, str(cue.text))
+	if stage.people.has(speaker):stage.people[speaker].gesture()
 	_update_chrome()
 	state.save()
 	_publish()
@@ -290,6 +333,18 @@ func _physics_process(delta: float) -> void:
 		member.attending = is_instance_valid(modal)
 		member.set_physics_process(not paused)
 	var direction = 0.0 if held else Input.get_axis("walk_left", "walk_right")
+	if branch_pending and not held:
+		var junction = 6.2*128.0
+		if absf(leader.position.x-junction)<4:
+			leader.position.x=junction
+			leader.velocity.x=0
+			upper_route=not upper_route
+			member_routes[int(state.data.leader)]=upper_route
+			branch_pending=false
+			state.data.routes[scene.id]=upper_route
+			state.save()
+			direction=0
+		else:direction=signf(junction-leader.position.x)
 	if not held and move_target >= 0:
 		if absf(leader.position.x - move_target) < 9 or direction != 0: move_target = -1
 		else: direction = signf(move_target - leader.position.x)
@@ -310,6 +365,11 @@ func _physics_process(delta: float) -> void:
 		if not held and direction != 0 and follower.facing != direction:
 			follower.desired_speed = direction * SPEED
 		if held or (absf(ahead.velocity.x) < 9 and absf(follower.desired_speed) < 9): follower.desired_speed = 0
+		# Each follower crosses the junction before changing paths. This also
+		# handles a leader reversing direction halfway up the access ramp.
+		if member_routes[order[rank]]!=upper_route:
+			if follower.position.x<=6.2*128.0+2:member_routes[order[rank]]=upper_route
+			elif not held:follower.desired_speed=-minf(SPEED,(follower.position.x-6.2*128.0)*2)
 	if not paused:
 		camera_lead = lerpf(camera_lead, clampf(leader.velocity.x / SPEED, -1, 1) * 50, 1 - exp(-delta * 2.8))
 		var goal = clampf(leader.position.x + camera_lead, 683, WORLD_WIDTH - 683)
@@ -320,23 +380,41 @@ func _physics_process(delta: float) -> void:
 			camera.position += Vector2(sin(clock * 57) * 1.6, cos(clock * 49) * 1.1)
 	scenery.camera_x = camera.position.x
 	scenery.animating = not paused
+	scenery.effect_time = stage.effect_time
+	stage.view_x = camera.position.x/128.0
+	stage.held = paused
+	stage.active_actor = int(state.data.leader)
+	for i in range(4):
+		avatars[i].position = stage.floor_point(party[i].position.x/128.0,member_routes[i])
+		avatars[i].speed = party[i].velocity.x/128.0
+		avatars[i].facing = party[i].facing
+		avatars[i].visible = party[i].visible
+	for actor in stage.people.values():actor.look_x=leader.position.x/128.0
 	nearest = ""
 	var distance = 145.0
 	for n in npcs:
+		if bool(n.get("upper",false))!=upper_route:continue
 		if absf(n.x - leader.position.x) < distance:
 			distance = absf(n.x - leader.position.x)
 			nearest = n.kind + ":" + n.id
-		if n.has("sprite"):
-			n.sprite.position.y = -117.5 - sin(clock * 1.3 + n.x) * 0.25
+	if absf(leader.position.x-6.2*128.0)<76:nearest="route:change"
+	elif leader.position.x>2180:nearest="travel:next"
+	elif leader.position.x<110:nearest="travel:previous"
 	var hint = ""
 	if nearest != "" and not held:
 		var parts = nearest.split(":")
-		hint = "[ E ]  " + (str(story.characters[parts[1]].name) if parts[0] == "person" else str(story.clues[parts[1]].title))
+		match parts[0]:
+			"route":hint="[ E ]  LOWER WALKWAY  ↙" if upper_route else "[ E ]  "+stage.route_name+"  ↗"
+			"travel":hint="[ E ]  NEXT LOCATION" if parts[1]=="next" else "[ E ]  PREVIOUS LOCATION"
+			"person":hint="[ E ]  "+str(story.characters[parts[1]].name)
+			"clue":hint="[ E ]  USE "+str(story.clues[parts[1]].title).to_upper()
+	if branch_pending:hint="APPROACHING THE ACCESS PATH"
 	prompt.text = "PICTURE HELD  /  SPACE TO RESUME" if paused else hint
 	save_elapsed += delta
 	if save_elapsed > 2:
 		save_elapsed = 0
 		state.data.positions[scene.id] = leader.position.x
+		state.data.routes[scene.id] = upper_route
 		state.save()
 	publish_elapsed += delta
 	if publish_elapsed > 0.1:
@@ -372,7 +450,9 @@ func _unhandled_input(event: InputEvent) -> void:
 				if not paused and not is_instance_valid(modal) and nearest != "":
 					var parts = nearest.split(":")
 					if parts[0] == "person": _talk(parts[1])
-					else: _open_clue(parts[1])
+					elif parts[0] == "clue": _inspect_world_clue(parts[1])
+					elif parts[0] == "route":branch_pending=true
+					elif parts[0] == "travel":_enter_scene(clampi(scene_index+(1 if parts[1]=="next" else -1),0,story.scenes.size()-1))
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed and not is_instance_valid(modal) and not paused:
 		var point = get_viewport().get_mouse_position()
 		if point.y > 530 and point.y < 690: move_target = clampf(get_global_mouse_position().x, 65, WORLD_WIDTH - 65)
@@ -425,10 +505,11 @@ func _command(command: Dictionary) -> void:
 				if int(s.session) == session:
 					state.data.cues[s.id] = 0
 					state.data.positions.erase(s.id)
+					state.data.routes.erase(s.id)
 			for id in story.clues:
 				if int(story.clues[id].session) == session: state.data.revealed.erase(id)
 			if session == 2: state.data.threats = [2, 1, 1]
-			_enter_scene(scene_index)
+			_enter_scene(scene_index,true)
 	_publish()
 
 func _next() -> void:
@@ -447,7 +528,9 @@ func _previous() -> void:
 
 func _select_leader(index: int) -> void:
 	state.data.leader = index
+	upper_route=member_routes[index]
 	move_target = -1
+	branch_pending=false
 	_update_chrome()
 	state.save()
 
@@ -487,6 +570,32 @@ func _close_modal() -> void:
 	current_clue = ""
 	conversation = ""
 	gallery = false
+	if stage:stage.close_inspection()
+	physical_inspection=false
+	if is_instance_valid(cue_panel):cue_panel.visible=true
+	if chrome:chrome.visible=not bool(state.data.clean)
+
+func _inspect_world_clue(id: String) -> void:
+	if not story.clues.has(id):return
+	_close_modal()
+	move_target=-1
+	physical_inspection=true
+	current_clue=id
+	state.data.revealed[id]=true
+	state.save()
+	stage.active_actor=int(state.data.leader)
+	stage.inspect(story.clues[id])
+	modal=Control.new()
+	modal.mouse_filter=Control.MOUSE_FILTER_IGNORE
+	overlay.add_child(modal)
+	chrome.visible=false
+	cue_panel.visible=false
+	UI.button(modal,"RETURN TO THE SCENE  [ESC]",Rect2(32,704,410,40),_close_modal,15)
+	UI.button(modal,"READABLE TRANSCRIPT / SOURCE",Rect2(850,704,484,40),_open_clue.bind(id),15)
+	var options: Array=scene.clues
+	for i in range(options.size()):
+		UI.button(modal,str(story.clues[options[i]].title),Rect2(32,22+i*43,300,36),_inspect_world_clue.bind(str(options[i])),13)
+	_publish()
 
 func _open_clue(id: String, image_only: bool = false) -> void:
 	if not story.clues.has(id): return
@@ -544,6 +653,7 @@ func _talk(who: String, reply: String = "") -> void:
 	var p = _new_modal(Rect2(38, 423, 1290, 315))
 	conversation = who
 	conversation_line = line
+	if stage.people.has(who):stage.people[who].gesture()
 	var tex: Texture2D
 	if who == "iris":
 		var portrait = AtlasTexture.new()
@@ -622,9 +732,7 @@ func _publish() -> void:
 	var positions: Array = []
 	for member in party:
 		positions.append({"x": member.position.x, "y": member.position.y, "vx": member.velocity.x, "facing": member.facing, "rig": member.has_rig, "gait": member.gait, "hip_y": member.puppet.hip_y, "feet": member.feet})
-	var subjects: Array = []
-	for actor in scenery.props.actors:
-		subjects.append({"kind":actor.kind,"x":actor.sprite.position.x,"y":actor.sprite.position.y,"rotation":actor.sprite.rotation})
+	var subjects: Array = stage.animated_snapshot()
 	var payload = {
 		"scene": scene.id, "scene_index": scene_index, "session": scene.session, "title": scene.title,
 		"cue": _cue_index(), "cue_count": scene.cues.size(), "cue_title": scene.cues[_cue_index()].title,
@@ -636,6 +744,27 @@ func _publish() -> void:
 		"sound": audio.enabled, "voice": audio.speech_enabled, "recordings": audio.recordings.size(),
 		"voice_playing": audio.voice.playing, "clock": clock, "camera": camera.position.x
 	}
+	payload.upper_route=upper_route
+	payload.branch_pending=branch_pending
+	payload.physical_inspection=physical_inspection
+	payload.stage_camera_size=stage.camera.size
+	payload.stage_clock=stage.clock
+	payload.volumetric=true
+	payload.inspection_time=stage.inspection_time
+	payload.render_fps=Engine.get_frames_per_second()
+	if OS.is_debug_build():
+		var rigs: Array=[]
+		for actor in avatars:
+			var hips=actor.skeleton.find_bone("pelvis")
+			rigs.append({"x":actor.position.x,"y":actor.position.y,"z":actor.position.z,"yaw":actor.rotation.y,"animation":actor.current_animation,"time":actor.animator.current_animation_position,"hip_height":actor.skeleton.get_bone_global_pose(hips).origin.y if hips>=0 else -1})
+		payload.avatars=rigs
+		var poses: Dictionary={}
+		for id in stage.people:
+			var actor: CinematicAvatar=stage.people[id]
+			if actor.visible:
+				var head=actor.skeleton.find_bone("head")
+				poses[id]={"yaw":actor.rotation.y,"time":actor.animator.current_animation_position,"head":actor.skeleton.get_bone_pose_rotation(head) if head>=0 else Quaternion.IDENTITY}
+		payload.npc_poses=poses
 	if OS.is_debug_build():
 		payload.subjects = subjects
 		payload.effect = scenery.effect

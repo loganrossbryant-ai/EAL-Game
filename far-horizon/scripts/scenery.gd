@@ -1,6 +1,8 @@
 class_name PioneerScenery
 extends Node2D
 
+var rendering_enabled = true
+
 var room = "terminal"
 var world_width = 2304.0
 var floor_y = 686.0
@@ -19,6 +21,9 @@ var moving_sky: Array[Polygon2D] = []
 var plants: Array[Polygon2D] = []
 
 func _ready() -> void:
+	if not rendering_enabled:
+		set_process(false)
+		return
 	var rng = RandomNumberGenerator.new()
 	rng.seed = 2247
 	for i in range(44):

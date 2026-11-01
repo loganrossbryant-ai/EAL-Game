@@ -1,0 +1,176 @@
+{
+  "verified_at_utc": "2026-11-01T15:15:31.766309+00:00",
+  "engine": "Godot 4.6.3, non-threaded standard Web release",
+  "campaign": {
+    "sessions": 3,
+    "scenes": 18,
+    "beats": 64,
+    "clues": 13,
+    "npc_characters": 7,
+    "academic_terms": 21
+  },
+  "default_3d_browser": {
+    "default_gm_game": true,
+    "two_connected_settings": true,
+    "depth_route": {
+      "animation": "Walk",
+      "hip_height": 0.909517467021942,
+      "time": 0.783831282669225,
+      "x": 8.62143421173096,
+      "y": 0.669080495834351,
+      "yaw": 1.57079637050629,
+      "z": -1.14699518680573
+    },
+    "independent_walk_phases": [
+      0.78,
+      0.81,
+      0.39,
+      0.93
+    ],
+    "skeletal_hip_peak_to_peak_m": 0.0,
+    "turn_animation": {
+      "animation": "Use",
+      "hip_height": 0.934895098209381,
+      "time": 0.681062762626012,
+      "x": 12.3221559524536,
+      "y": 1.04999995231628,
+      "yaw": 3.13344049453735,
+      "z": -1.79999995231628
+    },
+    "terminal_closeup": 1.62540209293365,
+    "back_facing_yaw": 3.14159250259399,
+    "movement_lock_return_camera_followers": "passed",
+    "hold_picture": "passed",
+    "eight_room_motion": {
+      "s1_terminal": 0.03273,
+      "s1_launch": 0.02173,
+      "s1_habitation": 0.02347,
+      "s1_observation": 0.0238,
+      "s2_recreation": 0.02973,
+      "s2_malfunction": 0.07272,
+      "s2_restricted": 0.01886,
+      "s3_observation": 0.02174
+    },
+    "browser_errors": [],
+    "software_renderer_fps": 3
+  },
+  "exact_release_browser": {
+    "viewport": "1280x720",
+    "standard_release": true,
+    "debug_global": false,
+    "checked_beats": 64,
+    "scene_jump_save_clues_dialogue_support": "passed",
+    "session_reset_and_preservation": "passed",
+    "voice_recordings": 0,
+    "browser_errors": [],
+    "requests": [
+      "blob:http://127.0.0.1:8091/2ebcfe58-e550-4bed-805e-3ffd339037f9",
+      "blob:http://127.0.0.1:8091/9ab48a98-98e3-4672-b543-c1bc15c1d31e",
+      "http://127.0.0.1:8091/",
+      "http://127.0.0.1:8091/academic.otf",
+      "http://127.0.0.1:8091/campaign.json",
+      "http://127.0.0.1:8091/gm.css",
+      "http://127.0.0.1:8091/gm.js",
+      "http://127.0.0.1:8091/index.js",
+      "http://127.0.0.1:8091/index.pck",
+      "http://127.0.0.1:8091/index.png",
+      "http://127.0.0.1:8091/index.wasm"
+    ]
+  },
+  "candidate_manifest_sha256": "7262a02110008aae988a0595c9afbdb3a9c1cd83c8890dbec3f632a4ce3e757b",
+  "candidate_files": [
+    {
+      "path": "academic.otf",
+      "bytes": 53832,
+      "sha256": "d77166d61536c0e6e030232fa537fb06a63243607632cbf4b07ebe6f27911ee2"
+    },
+    {
+      "path": "campaign.json",
+      "bytes": 42563,
+      "sha256": "bb456ac97f65dc41cae5463fd379164bd0101dee483a39b37d299fb2fa11f04c"
+    },
+    {
+      "path": "gm.css",
+      "bytes": 4182,
+      "sha256": "e864f3b9c4f3cd3e280ce6a45e61b33f2279c5b026e8f09ec8e89742368d0658"
+    },
+    {
+      "path": "gm.html",
+      "bytes": 3810,
+      "sha256": "3b94c0c3c738d4ae3cf0068b800f6d69a50c541e28c3fc496cf4b5dacdb364e3"
+    },
+    {
+      "path": "gm.js",
+      "bytes": 5987,
+      "sha256": "6f748a7ec7ba3cc0c9375195bad320282d3f954ec06e5f9568e0cab128c92955"
+    },
+    {
+      "path": "index.audio.position.worklet.js",
+      "bytes": 2973,
+      "sha256": "be33985bc7160d6bf9646f259cd86b259cd67b02ccb297ee5c44f8ac84327bc8"
+    },
+    {
+      "path": "index.audio.worklet.js",
+      "bytes": 7298,
+      "sha256": "5b476a9c9ce642c0ee4256436d1bc31d9c38f868aca0f9a8e2a57c18d2dec2a3"
+    },
+    {
+      "path": "index.html",
+      "bytes": 5477,
+      "sha256": "8f4c84547fa24416549475ff07110e802ad1570c43ea5bf6714b8afff29ff1b5"
+    },
+    {
+      "path": "index.js",
+      "bytes": 315759,
+      "sha256": "e3f56ee40e6f84371053db06692cfac15e2c8659547b11c6b2dfa1996dabd981"
+    },
+    {
+      "path": "index.pck",
+      "bytes": 59490456,
+      "sha256": "bea116dcbafa0eb8f7aac739c743a96705ad764a092728aee1b9a7a46fef4f2c"
+    },
+    {
+      "path": "index.png",
+      "bytes": 21443,
+      "sha256": "3cb4495c0b98dfbe4b663cbf2b6836473572339beb66d902367893162a70be0e"
+    },
+    {
+      "path": "index.wasm",
+      "bytes": 37700666,
+      "sha256": "26b61ce95247012ab3dca3ff51e96d1cdbff44ee91a8c20a83e150afca83f1b6"
+    },
+    {
+      "path": "licenses/GODOT-LICENSE.txt",
+      "bytes": 1149,
+      "sha256": "b0435e3b3e4e55238f05f4b306f30524a1b2e20147810d436eaa554fa6855c80"
+    },
+    {
+      "path": "licenses/GODOT-THIRD-PARTY-NOTICES.txt",
+      "bytes": 99790,
+      "sha256": "b3330849267d56ddd3d62a513817506606c2195034411fe05859f0140bff9d8a"
+    },
+    {
+      "path": "licenses/LICENSE-DejaVu.txt",
+      "bytes": 3859,
+      "sha256": "63d3ba759d12804c5b31a9d5940d855c1820d1f5999e6b0872eb1c7ff045fbc9"
+    },
+    {
+      "path": "licenses/LICENSE-MakeHuman-CC0.txt",
+      "bytes": 6962,
+      "sha256": "f6089cba01cb570a24712b41ab8a586ccd3cc5ef53dc266ca50b95c288956d2c"
+    },
+    {
+      "path": "licenses/LICENSE-NotoCJK.txt",
+      "bytes": 14712,
+      "sha256": "849f4ea9c214fa4ac3593b770c699f387534b11ce671264c1b10d85bdcb5997b"
+    },
+    {
+      "path": "licenses/LICENSE-OpenSans.txt",
+      "bytes": 1031,
+      "sha256": "94d4b78643f99d7cfa872145b38da578299f401405ca5cba66a5c95bf13933b0"
+    }
+  ],
+  "voices": "deferred by user; no NPC voice pack",
+  "fresh_defender_scan": "not run; earlier S1 scan does not clear these bytes",
+  "published": false
+}

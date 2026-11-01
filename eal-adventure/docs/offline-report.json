@@ -1,0 +1,114 @@
+{
+  "checks": [
+    "Offline installer caches every Godot dependency",
+    "Production export has no test bridge",
+    "Jesse MP3 produces actual decoded audio samples",
+    "Release mission begins through real input",
+    "Home Screen entry loads after a cold offline restart",
+    "Bundled game starts with networking disabled",
+    "Offline food pickup works",
+    "Offline delivery works",
+    "Offline sentence logic works",
+    "Offline personal choice works",
+    "Offline mission reaches its visible ending",
+    "Separate music control saves a zero level",
+    "Jesse audio replays while offline",
+    "Master mute suppresses actual audio output",
+    "Final release has no browser or Godot errors"
+  ],
+  "errors": [],
+  "runtime": "Chromium; actual iOS Safari still requires device verification",
+  "jesse_pcm_peak": 0.219299543835547,
+  "offline_cache_entries": [
+    "http://127.0.0.1:8073/",
+    "http://127.0.0.1:8073/Body.ttf",
+    "http://127.0.0.1:8073/Chinese.otf",
+    "http://127.0.0.1:8073/app-icon.png",
+    "http://127.0.0.1:8073/cover.png",
+    "http://127.0.0.1:8073/game.html",
+    "http://127.0.0.1:8073/index.apple-touch-icon.png",
+    "http://127.0.0.1:8073/index.audio.position.worklet.js",
+    "http://127.0.0.1:8073/index.audio.worklet.js",
+    "http://127.0.0.1:8073/index.html",
+    "http://127.0.0.1:8073/index.icon.png",
+    "http://127.0.0.1:8073/index.js",
+    "http://127.0.0.1:8073/index.pck",
+    "http://127.0.0.1:8073/index.png",
+    "http://127.0.0.1:8073/index.wasm",
+    "http://127.0.0.1:8073/licenses/GODOT-LICENSE.txt",
+    "http://127.0.0.1:8073/licenses/GODOT-THIRD-PARTY-NOTICES.txt",
+    "http://127.0.0.1:8073/licenses/LICENSE-Noto.txt",
+    "http://127.0.0.1:8073/licenses/LICENSE-OpenSans.txt",
+    "http://127.0.0.1:8073/manifest.webmanifest",
+    "http://127.0.0.1:8073/pip.png",
+    "http://127.0.0.1:8073/_offline_complete"
+  ],
+  "saved_progress": {
+    "carrying": "",
+    "completed_missions": [
+      "cafe"
+    ],
+    "favorite": "rice",
+    "festival": true,
+    "festival_food": "pizza",
+    "needs_practice": {},
+    "patterns": {
+      "My favorite food is ___.": 3,
+      "My name is Alan.": 1
+    },
+    "practice_serial": 0,
+    "rounds_completed": 1,
+    "settings": {
+      "chinese": false,
+      "music": 0,
+      "muted": true,
+      "voice": 0.85
+    },
+    "speaking_participation": 2,
+    "stage": 6,
+    "target": "pizza",
+    "tasks": [
+      {
+        "answer": "pizza",
+        "correct": true,
+        "first_attempt": true,
+        "hinted": false,
+        "kind": "listen_and_deliver",
+        "task_id": "delivery_0",
+        "word": "pizza"
+      },
+      {
+        "answer": "My favorite food is pizza.",
+        "correct": true,
+        "first_attempt": true,
+        "hinted": false,
+        "kind": "sentence_building",
+        "task_id": "sentence_0",
+        "word": "My favorite food is pizza."
+      }
+    ],
+    "version": 1,
+    "words": {
+      "ice cream": {
+        "heard": 0,
+        "practised": 0,
+        "seen": 1
+      },
+      "pizza": {
+        "heard": 2,
+        "practised": 3,
+        "seen": 1
+      },
+      "rice": {
+        "heard": 1,
+        "practised": 1,
+        "seen": 1
+      },
+      "sandwich": {
+        "heard": 0,
+        "practised": 0,
+        "seen": 1
+      }
+    }
+  }
+}

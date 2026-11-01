@@ -1,0 +1,41 @@
+ALAN'S FAVORITES ISLAND — CAFE MILESTONE
+
+iPAD / iPHONE: INSTALL THE OFFLINE WEB APP
+1. Open https://loganrossbryant-ai.github.io/hello-earth-demo/alan-island/ in Safari.
+2. Tap Save for offline. Keep the page open until Offline ready appears.
+3. Safari Share > Add to Home Screen.
+4. Open the island icon, enable Airplane Mode, then try Play with Pip.
+All pictures, fonts, music and Jesse speech are saved on that device.
+The initial download needs access to the play site. Play after installation
+needs no network, VPN, account, API key or voice service.
+This ZIP is a complete backup, not an iOS app. Opening game.html directly in
+iOS Files is not supported. Keep the app icon and website data. Confirm real
+iOS Safari/Home Screen behavior on Alan's device; physical iOS was not available
+for the automated tests.
+
+DESKTOP OFFLINE RECOVERY
+Unzip the whole folder. With Python 3 installed, run:
+    python3 Start-local.py
+Then open http://127.0.0.1:8079/ in a modern browser.
+This local server uses only Python's standard library and binds to this computer.
+It does not fetch anything from the internet. Keep the play folder intact.
+
+PLAY
+Tap the terrace to walk. Tap Mina, a food stall or the festival table to approach
+and interact. Alternatively use arrows/WASD and E/Enter. Chinese reveals short
+help. Menu provides voice/music controls, mute, teacher summary, export and reset.
+Personal favorites have no wrong answer. We said it is manual participation,
+not automatic pronunciation scoring.
+
+CLASSROOM PREVIEW
+materials/Cafe-Classroom-Cards.pdf is eight A4 pages of black-and-white picture
+cards, separate English/Chinese cards, sentence strips and drawing prompts.
+The HTML version is self-contained and can be printed from a browser.
+
+VOICE SCOPE
+Eight foods have approved Jesse word and sentence recordings reused unchanged
+from the supplied HTML. Noodles, dumplings, bread and eggs have visual matching;
+their new voice samples could not start because ElevenLabs was busy. No new
+dialogue batch or substitute voice was produced. New speech awaits sample review.
+
+This delivery is the cafe scene for review. Further island locations are pending.

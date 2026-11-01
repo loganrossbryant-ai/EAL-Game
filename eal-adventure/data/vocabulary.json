@@ -1,0 +1,1226 @@
+[
+  {
+    "id": "animals_dog",
+    "topic": "animals",
+    "en": "dog",
+    "zh": "狗",
+    "source_page": 34,
+    "illustration": ""
+  },
+  {
+    "id": "animals_cat",
+    "topic": "animals",
+    "en": "cat",
+    "zh": "猫",
+    "source_page": 34,
+    "illustration": ""
+  },
+  {
+    "id": "animals_rabbit",
+    "topic": "animals",
+    "en": "rabbit",
+    "zh": "兔子",
+    "source_page": 34,
+    "illustration": ""
+  },
+  {
+    "id": "animals_penguin",
+    "topic": "animals",
+    "en": "penguin",
+    "zh": "企鹅",
+    "source_page": 34,
+    "illustration": ""
+  },
+  {
+    "id": "animals_giraffe",
+    "topic": "animals",
+    "en": "giraffe",
+    "zh": "长颈鹿",
+    "source_page": 34,
+    "illustration": ""
+  },
+  {
+    "id": "animals_elephant",
+    "topic": "animals",
+    "en": "elephant",
+    "zh": "大象",
+    "source_page": 34,
+    "illustration": ""
+  },
+  {
+    "id": "animals_lion",
+    "topic": "animals",
+    "en": "lion",
+    "zh": "狮子",
+    "source_page": 34,
+    "illustration": ""
+  },
+  {
+    "id": "animals_tiger",
+    "topic": "animals",
+    "en": "tiger",
+    "zh": "老虎",
+    "source_page": 34,
+    "illustration": ""
+  },
+  {
+    "id": "animals_bear",
+    "topic": "animals",
+    "en": "bear",
+    "zh": "熊",
+    "source_page": 34,
+    "illustration": ""
+  },
+  {
+    "id": "animals_panda",
+    "topic": "animals",
+    "en": "panda",
+    "zh": "熊猫",
+    "source_page": 34,
+    "illustration": ""
+  },
+  {
+    "id": "animals_monkey",
+    "topic": "animals",
+    "en": "monkey",
+    "zh": "猴子",
+    "source_page": 34,
+    "illustration": ""
+  },
+  {
+    "id": "animals_zebra",
+    "topic": "animals",
+    "en": "zebra",
+    "zh": "斑马",
+    "source_page": 34,
+    "illustration": ""
+  },
+  {
+    "id": "animals_horse",
+    "topic": "animals",
+    "en": "horse",
+    "zh": "马",
+    "source_page": 34,
+    "illustration": ""
+  },
+  {
+    "id": "animals_cow",
+    "topic": "animals",
+    "en": "cow",
+    "zh": "奶牛",
+    "source_page": 34,
+    "illustration": ""
+  },
+  {
+    "id": "animals_sheep",
+    "topic": "animals",
+    "en": "sheep",
+    "zh": "绵羊",
+    "source_page": 34,
+    "illustration": ""
+  },
+  {
+    "id": "animals_duck",
+    "topic": "animals",
+    "en": "duck",
+    "zh": "鸭子",
+    "source_page": 34,
+    "illustration": ""
+  },
+  {
+    "id": "animals_turtle",
+    "topic": "animals",
+    "en": "turtle",
+    "zh": "龟",
+    "source_page": 34,
+    "illustration": ""
+  },
+  {
+    "id": "animals_dolphin",
+    "topic": "animals",
+    "en": "dolphin",
+    "zh": "海豚",
+    "source_page": 34,
+    "illustration": ""
+  },
+  {
+    "id": "food_rice",
+    "topic": "food",
+    "en": "rice",
+    "zh": "米饭",
+    "source_page": 34,
+    "illustration": "assets/art/rice.png",
+    "sentence_value": "rice",
+    "sentence": "My favorite food is rice.",
+    "meaning": "我最喜欢的食物是米饭。",
+    "milestone": true
+  },
+  {
+    "id": "food_noodles",
+    "topic": "food",
+    "en": "noodles",
+    "zh": "面条",
+    "source_page": 34,
+    "illustration": "assets/art/noodles.svg",
+    "sentence_value": "noodles",
+    "sentence": "My favorite food is noodles.",
+    "meaning": "我最喜欢的食物是面条。",
+    "milestone": true
+  },
+  {
+    "id": "food_dumplings",
+    "topic": "food",
+    "en": "dumplings",
+    "zh": "饺子",
+    "source_page": 34,
+    "illustration": "assets/art/dumplings.svg",
+    "sentence_value": "dumplings",
+    "sentence": "My favorite food is dumplings.",
+    "meaning": "我最喜欢的食物是饺子。",
+    "milestone": true
+  },
+  {
+    "id": "food_pizza",
+    "topic": "food",
+    "en": "pizza",
+    "zh": "比萨饼",
+    "source_page": 34,
+    "illustration": "assets/art/pizza.png",
+    "sentence_value": "pizza",
+    "sentence": "My favorite food is pizza.",
+    "meaning": "我最喜欢的食物是比萨饼。",
+    "milestone": true
+  },
+  {
+    "id": "food_chicken",
+    "topic": "food",
+    "en": "chicken",
+    "zh": "鸡肉",
+    "source_page": 34,
+    "illustration": "",
+    "sentence_value": "chicken",
+    "sentence": "My favorite food is chicken.",
+    "meaning": "我最喜欢的食物是鸡肉。",
+    "milestone": false
+  },
+  {
+    "id": "food_ice_cream",
+    "topic": "food",
+    "en": "ice cream",
+    "zh": "冰淇淋",
+    "source_page": 34,
+    "illustration": "assets/art/ice-cream.png",
+    "sentence_value": "ice cream",
+    "sentence": "My favorite food is ice cream.",
+    "meaning": "我最喜欢的食物是冰淇淋。",
+    "milestone": true
+  },
+  {
+    "id": "food_bread",
+    "topic": "food",
+    "en": "bread",
+    "zh": "面包",
+    "source_page": 34,
+    "illustration": "assets/art/bread.svg",
+    "sentence_value": "bread",
+    "sentence": "My favorite food is bread.",
+    "meaning": "我最喜欢的食物是面包。",
+    "milestone": true
+  },
+  {
+    "id": "food_eggs",
+    "topic": "food",
+    "en": "eggs",
+    "zh": "鸡蛋",
+    "source_page": 34,
+    "illustration": "assets/art/eggs.svg",
+    "sentence_value": "eggs",
+    "sentence": "My favorite food is eggs.",
+    "meaning": "我最喜欢的食物是鸡蛋。",
+    "milestone": true
+  },
+  {
+    "id": "food_fish",
+    "topic": "food",
+    "en": "fish",
+    "zh": "鱼肉",
+    "source_page": 34,
+    "illustration": "",
+    "sentence_value": "fish",
+    "sentence": "My favorite food is fish.",
+    "meaning": "我最喜欢的食物是鱼肉。",
+    "milestone": false
+  },
+  {
+    "id": "food_soup",
+    "topic": "food",
+    "en": "soup",
+    "zh": "汤",
+    "source_page": 34,
+    "illustration": "",
+    "sentence_value": "soup",
+    "sentence": "My favorite food is soup.",
+    "meaning": "我最喜欢的食物是汤。",
+    "milestone": false
+  },
+  {
+    "id": "food_cheese",
+    "topic": "food",
+    "en": "cheese",
+    "zh": "奶酪",
+    "source_page": 34,
+    "illustration": "",
+    "sentence_value": "cheese",
+    "sentence": "My favorite food is cheese.",
+    "meaning": "我最喜欢的食物是奶酪。",
+    "milestone": false
+  },
+  {
+    "id": "food_sandwich",
+    "topic": "food",
+    "en": "sandwich",
+    "zh": "三明治",
+    "source_page": 34,
+    "illustration": "assets/art/sandwich.png",
+    "sentence_value": "sandwiches",
+    "sentence": "My favorite food is sandwiches.",
+    "meaning": "我最喜欢的食物是三明治。",
+    "milestone": true
+  },
+  {
+    "id": "food_apple",
+    "topic": "food",
+    "en": "apple",
+    "zh": "苹果",
+    "source_page": 34,
+    "illustration": "assets/art/apple.png",
+    "sentence_value": "apples",
+    "sentence": "My favorite food is apples.",
+    "meaning": "我最喜欢的食物是苹果。",
+    "milestone": true
+  },
+  {
+    "id": "food_banana",
+    "topic": "food",
+    "en": "banana",
+    "zh": "香蕉",
+    "source_page": 34,
+    "illustration": "assets/art/banana.png",
+    "sentence_value": "bananas",
+    "sentence": "My favorite food is bananas.",
+    "meaning": "我最喜欢的食物是香蕉。",
+    "milestone": true
+  },
+  {
+    "id": "food_orange",
+    "topic": "food",
+    "en": "orange",
+    "zh": "橙子",
+    "source_page": 34,
+    "illustration": "assets/art/orange-fruit.png",
+    "sentence_value": "oranges",
+    "sentence": "My favorite food is oranges.",
+    "meaning": "我最喜欢的食物是橙子。",
+    "milestone": true
+  },
+  {
+    "id": "food_strawberry",
+    "topic": "food",
+    "en": "strawberry",
+    "zh": "草莓",
+    "source_page": 34,
+    "illustration": "assets/art/strawberry.png",
+    "sentence_value": "strawberries",
+    "sentence": "My favorite food is strawberries.",
+    "meaning": "我最喜欢的食物是草莓。",
+    "milestone": true
+  },
+  {
+    "id": "food_watermelon",
+    "topic": "food",
+    "en": "watermelon",
+    "zh": "西瓜",
+    "source_page": 34,
+    "illustration": "",
+    "sentence_value": "watermelon",
+    "sentence": "My favorite food is watermelon.",
+    "meaning": "我最喜欢的食物是西瓜。",
+    "milestone": false
+  },
+  {
+    "id": "food_carrot",
+    "topic": "food",
+    "en": "carrot",
+    "zh": "胡萝卜",
+    "source_page": 34,
+    "illustration": "",
+    "sentence_value": "carrot",
+    "sentence": "My favorite food is carrot.",
+    "meaning": "我最喜欢的食物是胡萝卜。",
+    "milestone": false
+  },
+  {
+    "id": "sports_soccer",
+    "topic": "sports",
+    "en": "soccer",
+    "zh": "足球",
+    "source_page": 35,
+    "illustration": ""
+  },
+  {
+    "id": "sports_basketball",
+    "topic": "sports",
+    "en": "basketball",
+    "zh": "篮球",
+    "source_page": 35,
+    "illustration": ""
+  },
+  {
+    "id": "sports_swimming",
+    "topic": "sports",
+    "en": "swimming",
+    "zh": "游泳",
+    "source_page": 35,
+    "illustration": ""
+  },
+  {
+    "id": "sports_badminton",
+    "topic": "sports",
+    "en": "badminton",
+    "zh": "羽毛球",
+    "source_page": 35,
+    "illustration": ""
+  },
+  {
+    "id": "sports_skating",
+    "topic": "sports",
+    "en": "skating",
+    "zh": "滑冰",
+    "source_page": 35,
+    "illustration": ""
+  },
+  {
+    "id": "sports_tennis",
+    "topic": "sports",
+    "en": "tennis",
+    "zh": "网球",
+    "source_page": 35,
+    "illustration": ""
+  },
+  {
+    "id": "sports_baseball",
+    "topic": "sports",
+    "en": "baseball",
+    "zh": "棒球",
+    "source_page": 35,
+    "illustration": ""
+  },
+  {
+    "id": "sports_table_tennis",
+    "topic": "sports",
+    "en": "table tennis",
+    "zh": "乒乓球",
+    "source_page": 35,
+    "illustration": ""
+  },
+  {
+    "id": "sports_volleyball",
+    "topic": "sports",
+    "en": "volleyball",
+    "zh": "排球",
+    "source_page": 35,
+    "illustration": ""
+  },
+  {
+    "id": "sports_running",
+    "topic": "sports",
+    "en": "running",
+    "zh": "跑步",
+    "source_page": 35,
+    "illustration": ""
+  },
+  {
+    "id": "sports_cycling",
+    "topic": "sports",
+    "en": "cycling",
+    "zh": "骑自行车",
+    "source_page": 35,
+    "illustration": ""
+  },
+  {
+    "id": "sports_gymnastics",
+    "topic": "sports",
+    "en": "gymnastics",
+    "zh": "体操",
+    "source_page": 35,
+    "illustration": ""
+  },
+  {
+    "id": "sports_boxing",
+    "topic": "sports",
+    "en": "boxing",
+    "zh": "拳击",
+    "source_page": 35,
+    "illustration": ""
+  },
+  {
+    "id": "sports_skiing",
+    "topic": "sports",
+    "en": "skiing",
+    "zh": "滑雪",
+    "source_page": 35,
+    "illustration": ""
+  },
+  {
+    "id": "sports_surfing",
+    "topic": "sports",
+    "en": "surfing",
+    "zh": "冲浪",
+    "source_page": 35,
+    "illustration": ""
+  },
+  {
+    "id": "sports_skateboarding",
+    "topic": "sports",
+    "en": "skateboarding",
+    "zh": "滑板运动",
+    "source_page": 35,
+    "illustration": ""
+  },
+  {
+    "id": "sports_golf",
+    "topic": "sports",
+    "en": "golf",
+    "zh": "高尔夫球",
+    "source_page": 35,
+    "illustration": ""
+  },
+  {
+    "id": "sports_ice_hockey",
+    "topic": "sports",
+    "en": "ice hockey",
+    "zh": "冰球",
+    "source_page": 35,
+    "illustration": ""
+  },
+  {
+    "id": "entertainment_movie",
+    "topic": "entertainment",
+    "en": "movie",
+    "zh": "电影",
+    "source_page": 35,
+    "illustration": ""
+  },
+  {
+    "id": "entertainment_tv_show",
+    "topic": "entertainment",
+    "en": "TV show",
+    "zh": "电视节目",
+    "source_page": 35,
+    "illustration": ""
+  },
+  {
+    "id": "entertainment_video_game",
+    "topic": "entertainment",
+    "en": "video game",
+    "zh": "电子游戏",
+    "source_page": 35,
+    "illustration": ""
+  },
+  {
+    "id": "entertainment_app",
+    "topic": "entertainment",
+    "en": "app",
+    "zh": "应用程序",
+    "source_page": 35,
+    "illustration": ""
+  },
+  {
+    "id": "entertainment_song",
+    "topic": "entertainment",
+    "en": "song",
+    "zh": "歌曲",
+    "source_page": 35,
+    "illustration": ""
+  },
+  {
+    "id": "entertainment_cartoon",
+    "topic": "entertainment",
+    "en": "cartoon",
+    "zh": "动画片",
+    "source_page": 35,
+    "illustration": ""
+  },
+  {
+    "id": "entertainment_comic_book",
+    "topic": "entertainment",
+    "en": "comic book",
+    "zh": "漫画书",
+    "source_page": 35,
+    "illustration": ""
+  },
+  {
+    "id": "entertainment_storybook",
+    "topic": "entertainment",
+    "en": "storybook",
+    "zh": "故事书",
+    "source_page": 35,
+    "illustration": ""
+  },
+  {
+    "id": "entertainment_music",
+    "topic": "entertainment",
+    "en": "music",
+    "zh": "音乐",
+    "source_page": 35,
+    "illustration": ""
+  },
+  {
+    "id": "entertainment_dance",
+    "topic": "entertainment",
+    "en": "dance",
+    "zh": "舞蹈",
+    "source_page": 35,
+    "illustration": ""
+  },
+  {
+    "id": "entertainment_puppet_show",
+    "topic": "entertainment",
+    "en": "puppet show",
+    "zh": "木偶剧",
+    "source_page": 35,
+    "illustration": ""
+  },
+  {
+    "id": "entertainment_magic_show",
+    "topic": "entertainment",
+    "en": "magic show",
+    "zh": "魔术表演",
+    "source_page": 35,
+    "illustration": ""
+  },
+  {
+    "id": "entertainment_concert",
+    "topic": "entertainment",
+    "en": "concert",
+    "zh": "音乐会",
+    "source_page": 35,
+    "illustration": ""
+  },
+  {
+    "id": "entertainment_board_game",
+    "topic": "entertainment",
+    "en": "board game",
+    "zh": "桌游",
+    "source_page": 35,
+    "illustration": ""
+  },
+  {
+    "id": "entertainment_card_game",
+    "topic": "entertainment",
+    "en": "card game",
+    "zh": "纸牌游戏",
+    "source_page": 35,
+    "illustration": ""
+  },
+  {
+    "id": "entertainment_puzzle",
+    "topic": "entertainment",
+    "en": "puzzle",
+    "zh": "拼图",
+    "source_page": 35,
+    "illustration": ""
+  },
+  {
+    "id": "entertainment_toy",
+    "topic": "entertainment",
+    "en": "toy",
+    "zh": "玩具",
+    "source_page": 35,
+    "illustration": ""
+  },
+  {
+    "id": "entertainment_building_blocks",
+    "topic": "entertainment",
+    "en": "building blocks",
+    "zh": "积木",
+    "source_page": 35,
+    "illustration": ""
+  },
+  {
+    "id": "people_singer",
+    "topic": "people",
+    "en": "singer",
+    "zh": "歌手",
+    "source_page": 36,
+    "illustration": ""
+  },
+  {
+    "id": "people_teacher",
+    "topic": "people",
+    "en": "teacher",
+    "zh": "老师",
+    "source_page": 36,
+    "illustration": ""
+  },
+  {
+    "id": "people_friend",
+    "topic": "people",
+    "en": "friend",
+    "zh": "朋友",
+    "source_page": 36,
+    "illustration": ""
+  },
+  {
+    "id": "people_writer",
+    "topic": "people",
+    "en": "writer",
+    "zh": "作家",
+    "source_page": 36,
+    "illustration": ""
+  },
+  {
+    "id": "people_actor",
+    "topic": "people",
+    "en": "actor",
+    "zh": "演员",
+    "source_page": 36,
+    "illustration": ""
+  },
+  {
+    "id": "people_soccer_player",
+    "topic": "people",
+    "en": "soccer player",
+    "zh": "足球运动员",
+    "source_page": 36,
+    "illustration": ""
+  },
+  {
+    "id": "people_mother",
+    "topic": "people",
+    "en": "mother",
+    "zh": "妈妈",
+    "source_page": 36,
+    "illustration": ""
+  },
+  {
+    "id": "people_father",
+    "topic": "people",
+    "en": "father",
+    "zh": "爸爸",
+    "source_page": 36,
+    "illustration": ""
+  },
+  {
+    "id": "people_sister",
+    "topic": "people",
+    "en": "sister",
+    "zh": "姐姐／妹妹",
+    "source_page": 36,
+    "illustration": ""
+  },
+  {
+    "id": "people_brother",
+    "topic": "people",
+    "en": "brother",
+    "zh": "哥哥／弟弟",
+    "source_page": 36,
+    "illustration": ""
+  },
+  {
+    "id": "people_grandmother",
+    "topic": "people",
+    "en": "grandmother",
+    "zh": "奶奶／外婆",
+    "source_page": 36,
+    "illustration": ""
+  },
+  {
+    "id": "people_grandfather",
+    "topic": "people",
+    "en": "grandfather",
+    "zh": "爷爷／外公",
+    "source_page": 36,
+    "illustration": ""
+  },
+  {
+    "id": "people_doctor",
+    "topic": "people",
+    "en": "doctor",
+    "zh": "医生",
+    "source_page": 36,
+    "illustration": ""
+  },
+  {
+    "id": "people_nurse",
+    "topic": "people",
+    "en": "nurse",
+    "zh": "护士",
+    "source_page": 36,
+    "illustration": ""
+  },
+  {
+    "id": "people_firefighter",
+    "topic": "people",
+    "en": "firefighter",
+    "zh": "消防员",
+    "source_page": 36,
+    "illustration": ""
+  },
+  {
+    "id": "people_police_officer",
+    "topic": "people",
+    "en": "police officer",
+    "zh": "警察",
+    "source_page": 36,
+    "illustration": ""
+  },
+  {
+    "id": "people_chef",
+    "topic": "people",
+    "en": "chef",
+    "zh": "厨师",
+    "source_page": 36,
+    "illustration": ""
+  },
+  {
+    "id": "people_artist",
+    "topic": "people",
+    "en": "artist",
+    "zh": "艺术家",
+    "source_page": 36,
+    "illustration": ""
+  },
+  {
+    "id": "colors_red",
+    "topic": "colors",
+    "en": "red",
+    "zh": "红色",
+    "source_page": 36,
+    "illustration": ""
+  },
+  {
+    "id": "colors_blue",
+    "topic": "colors",
+    "en": "blue",
+    "zh": "蓝色",
+    "source_page": 36,
+    "illustration": ""
+  },
+  {
+    "id": "colors_green",
+    "topic": "colors",
+    "en": "green",
+    "zh": "绿色",
+    "source_page": 36,
+    "illustration": ""
+  },
+  {
+    "id": "colors_yellow",
+    "topic": "colors",
+    "en": "yellow",
+    "zh": "黄色",
+    "source_page": 36,
+    "illustration": ""
+  },
+  {
+    "id": "colors_purple",
+    "topic": "colors",
+    "en": "purple",
+    "zh": "紫色",
+    "source_page": 36,
+    "illustration": ""
+  },
+  {
+    "id": "colors_orange",
+    "topic": "colors",
+    "en": "orange",
+    "zh": "橙色",
+    "source_page": 36,
+    "illustration": ""
+  },
+  {
+    "id": "colors_pink",
+    "topic": "colors",
+    "en": "pink",
+    "zh": "粉红色",
+    "source_page": 36,
+    "illustration": ""
+  },
+  {
+    "id": "colors_brown",
+    "topic": "colors",
+    "en": "brown",
+    "zh": "棕色",
+    "source_page": 36,
+    "illustration": ""
+  },
+  {
+    "id": "colors_black",
+    "topic": "colors",
+    "en": "black",
+    "zh": "黑色",
+    "source_page": 36,
+    "illustration": ""
+  },
+  {
+    "id": "colors_white",
+    "topic": "colors",
+    "en": "white",
+    "zh": "白色",
+    "source_page": 36,
+    "illustration": ""
+  },
+  {
+    "id": "colors_gray",
+    "topic": "colors",
+    "en": "gray",
+    "zh": "灰色",
+    "source_page": 36,
+    "illustration": ""
+  },
+  {
+    "id": "colors_light_blue",
+    "topic": "colors",
+    "en": "light blue",
+    "zh": "浅蓝色",
+    "source_page": 36,
+    "illustration": ""
+  },
+  {
+    "id": "colors_dark_blue",
+    "topic": "colors",
+    "en": "dark blue",
+    "zh": "深蓝色",
+    "source_page": 36,
+    "illustration": ""
+  },
+  {
+    "id": "colors_light_green",
+    "topic": "colors",
+    "en": "light green",
+    "zh": "浅绿色",
+    "source_page": 36,
+    "illustration": ""
+  },
+  {
+    "id": "colors_dark_green",
+    "topic": "colors",
+    "en": "dark green",
+    "zh": "深绿色",
+    "source_page": 36,
+    "illustration": ""
+  },
+  {
+    "id": "colors_gold",
+    "topic": "colors",
+    "en": "gold",
+    "zh": "金色",
+    "source_page": 36,
+    "illustration": ""
+  },
+  {
+    "id": "colors_silver",
+    "topic": "colors",
+    "en": "silver",
+    "zh": "银色",
+    "source_page": 36,
+    "illustration": ""
+  },
+  {
+    "id": "colors_beige",
+    "topic": "colors",
+    "en": "beige",
+    "zh": "米色",
+    "source_page": 36,
+    "illustration": ""
+  },
+  {
+    "id": "places_park",
+    "topic": "places",
+    "en": "park",
+    "zh": "公园",
+    "source_page": 37,
+    "illustration": ""
+  },
+  {
+    "id": "places_beach",
+    "topic": "places",
+    "en": "beach",
+    "zh": "海滩",
+    "source_page": 37,
+    "illustration": ""
+  },
+  {
+    "id": "places_zoo",
+    "topic": "places",
+    "en": "zoo",
+    "zh": "动物园",
+    "source_page": 37,
+    "illustration": ""
+  },
+  {
+    "id": "places_library",
+    "topic": "places",
+    "en": "library",
+    "zh": "图书馆",
+    "source_page": 37,
+    "illustration": ""
+  },
+  {
+    "id": "places_playground",
+    "topic": "places",
+    "en": "playground",
+    "zh": "游乐场",
+    "source_page": 37,
+    "illustration": ""
+  },
+  {
+    "id": "places_home",
+    "topic": "places",
+    "en": "home",
+    "zh": "家",
+    "source_page": 37,
+    "illustration": ""
+  },
+  {
+    "id": "places_school",
+    "topic": "places",
+    "en": "school",
+    "zh": "学校",
+    "source_page": 37,
+    "illustration": ""
+  },
+  {
+    "id": "places_classroom",
+    "topic": "places",
+    "en": "classroom",
+    "zh": "教室",
+    "source_page": 37,
+    "illustration": ""
+  },
+  {
+    "id": "places_supermarket",
+    "topic": "places",
+    "en": "supermarket",
+    "zh": "超市",
+    "source_page": 37,
+    "illustration": ""
+  },
+  {
+    "id": "places_restaurant",
+    "topic": "places",
+    "en": "restaurant",
+    "zh": "餐馆",
+    "source_page": 37,
+    "illustration": ""
+  },
+  {
+    "id": "places_hospital",
+    "topic": "places",
+    "en": "hospital",
+    "zh": "医院",
+    "source_page": 37,
+    "illustration": ""
+  },
+  {
+    "id": "places_swimming_pool",
+    "topic": "places",
+    "en": "swimming pool",
+    "zh": "游泳池",
+    "source_page": 37,
+    "illustration": ""
+  },
+  {
+    "id": "places_movie_theater",
+    "topic": "places",
+    "en": "movie theater",
+    "zh": "电影院",
+    "source_page": 37,
+    "illustration": ""
+  },
+  {
+    "id": "places_museum",
+    "topic": "places",
+    "en": "museum",
+    "zh": "博物馆",
+    "source_page": 37,
+    "illustration": ""
+  },
+  {
+    "id": "places_farm",
+    "topic": "places",
+    "en": "farm",
+    "zh": "农场",
+    "source_page": 37,
+    "illustration": ""
+  },
+  {
+    "id": "places_aquarium",
+    "topic": "places",
+    "en": "aquarium",
+    "zh": "水族馆",
+    "source_page": 37,
+    "illustration": ""
+  },
+  {
+    "id": "places_toy_store",
+    "topic": "places",
+    "en": "toy store",
+    "zh": "玩具店",
+    "source_page": 37,
+    "illustration": ""
+  },
+  {
+    "id": "places_bakery",
+    "topic": "places",
+    "en": "bakery",
+    "zh": "面包店",
+    "source_page": 37,
+    "illustration": ""
+  },
+  {
+    "id": "activities_drawing",
+    "topic": "activities",
+    "en": "drawing",
+    "zh": "画画",
+    "source_page": 37,
+    "illustration": ""
+  },
+  {
+    "id": "activities_reading",
+    "topic": "activities",
+    "en": "reading",
+    "zh": "阅读",
+    "source_page": 37,
+    "illustration": ""
+  },
+  {
+    "id": "activities_dancing",
+    "topic": "activities",
+    "en": "dancing",
+    "zh": "跳舞",
+    "source_page": 37,
+    "illustration": ""
+  },
+  {
+    "id": "activities_singing",
+    "topic": "activities",
+    "en": "singing",
+    "zh": "唱歌",
+    "source_page": 37,
+    "illustration": ""
+  },
+  {
+    "id": "activities_cooking",
+    "topic": "activities",
+    "en": "cooking",
+    "zh": "做饭",
+    "source_page": 37,
+    "illustration": ""
+  },
+  {
+    "id": "activities_riding_a_bike",
+    "topic": "activities",
+    "en": "riding a bike",
+    "zh": "骑自行车",
+    "source_page": 37,
+    "illustration": ""
+  },
+  {
+    "id": "activities_painting",
+    "topic": "activities",
+    "en": "painting",
+    "zh": "绘画（用颜料）",
+    "source_page": 37,
+    "illustration": ""
+  },
+  {
+    "id": "activities_writing",
+    "topic": "activities",
+    "en": "writing",
+    "zh": "写字",
+    "source_page": 37,
+    "illustration": ""
+  },
+  {
+    "id": "activities_taking_photos",
+    "topic": "activities",
+    "en": "taking photos",
+    "zh": "拍照",
+    "source_page": 37,
+    "illustration": ""
+  },
+  {
+    "id": "activities_listening_to_music",
+    "topic": "activities",
+    "en": "listening to music",
+    "zh": "听音乐",
+    "source_page": 37,
+    "illustration": ""
+  },
+  {
+    "id": "activities_watching_tv",
+    "topic": "activities",
+    "en": "watching TV",
+    "zh": "看电视",
+    "source_page": 37,
+    "illustration": ""
+  },
+  {
+    "id": "activities_playing_video_games",
+    "topic": "activities",
+    "en": "playing video games",
+    "zh": "玩电子游戏",
+    "source_page": 37,
+    "illustration": ""
+  },
+  {
+    "id": "activities_building_with_blocks",
+    "topic": "activities",
+    "en": "building with blocks",
+    "zh": "搭积木",
+    "source_page": 37,
+    "illustration": ""
+  },
+  {
+    "id": "activities_flying_a_kite",
+    "topic": "activities",
+    "en": "flying a kite",
+    "zh": "放风筝",
+    "source_page": 37,
+    "illustration": ""
+  },
+  {
+    "id": "activities_doing_puzzles",
+    "topic": "activities",
+    "en": "doing puzzles",
+    "zh": "拼拼图",
+    "source_page": 37,
+    "illustration": ""
+  },
+  {
+    "id": "activities_gardening",
+    "topic": "activities",
+    "en": "gardening",
+    "zh": "园艺活动",
+    "source_page": 37,
+    "illustration": ""
+  },
+  {
+    "id": "activities_fishing",
+    "topic": "activities",
+    "en": "fishing",
+    "zh": "钓鱼",
+    "source_page": 37,
+    "illustration": ""
+  },
+  {
+    "id": "activities_camping",
+    "topic": "activities",
+    "en": "camping",
+    "zh": "露营",
+    "source_page": 37,
+    "illustration": ""
+  }
+]

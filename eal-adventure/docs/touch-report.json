@@ -1,0 +1,26 @@
+{
+  "emulation": "Chromium viewport and touch emulation, not physical iOS Safari",
+  "results": [
+    {
+      "device": "ipad-landscape",
+      "touch_move": true,
+      "touch_interact": true,
+      "chinese_reveal": true,
+      "errors": []
+    },
+    {
+      "device": "iphone-landscape",
+      "touch_move": true,
+      "touch_interact": true,
+      "chinese_reveal": true,
+      "errors": []
+    },
+    {
+      "device": "ipad-portrait",
+      "touch_move": true,
+      "touch_interact": true,
+      "chinese_reveal": true,
+      "errors": []
+    }
+  ]
+}

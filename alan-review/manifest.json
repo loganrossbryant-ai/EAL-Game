@@ -1,0 +1,134 @@
+{
+  "files": [
+    {
+      "path": "Alan-Favorites-Island-Offline.zip",
+      "bytes": 25657485,
+      "sha256": "c59cc41adb85a1a8cc2170d78bfa511ac5eb0609c1c880e8f665dc54d715fecd"
+    },
+    {
+      "path": "OFFLINE-READ-ME.txt",
+      "bytes": 2159,
+      "sha256": "cd74ace214d4f0e0505b4d2d76b7b8b233163c7c146eb1a4d612223bb53e8551"
+    },
+    {
+      "path": "materials/Cafe-Classroom-Cards.html",
+      "bytes": 2145480,
+      "sha256": "948078da0cc9c6aa362764bc7ef25b2c3d97a4e93729494072152ee048ffe165"
+    },
+    {
+      "path": "materials/Cafe-Classroom-Cards.pdf",
+      "bytes": 1053144,
+      "sha256": "ad5379ff715953f43f0d50700ef9e773584bc570d3c36c1cea7db22610ac7383"
+    },
+    {
+      "path": "web/Body.ttf",
+      "bytes": 217360,
+      "sha256": "e64e508b2aa2880f907e470c4550980ec4c0694d103a43f36150ac3f93189bee"
+    },
+    {
+      "path": "web/Chinese.otf",
+      "bytes": 202404,
+      "sha256": "a0d61021e53ceeb5f343099ffa7556987fe7844c45cf58d9b24bfa3d2f348ff1"
+    },
+    {
+      "path": "web/app-icon.png",
+      "bytes": 21929,
+      "sha256": "0bbd793ad5d618c3d6647620b4359fcc36c25612bd4aa9d67cfe12ba81df9f3c"
+    },
+    {
+      "path": "web/asset-manifest.json",
+      "bytes": 3292,
+      "sha256": "312ee534a6aab438b9d7fa86dc974695d1ffa6a57d9b7985fc43c81dcb720f75"
+    },
+    {
+      "path": "web/cover.png",
+      "bytes": 2980338,
+      "sha256": "863984d629fac563bcf3afaac70bb80db9ddfa25f21023aa0d94101cc83eb52b"
+    },
+    {
+      "path": "web/game.html",
+      "bytes": 5856,
+      "sha256": "60551a75617bcfe076d1d0db19649f641759ef74079242a97b2625c4be664f2f"
+    },
+    {
+      "path": "web/index.apple-touch-icon.png",
+      "bytes": 10195,
+      "sha256": "d601bbf8f0d61d73bc94915965d84990e866be274377b0d01d1ee078bf9abe6b"
+    },
+    {
+      "path": "web/index.audio.position.worklet.js",
+      "bytes": 2973,
+      "sha256": "be33985bc7160d6bf9646f259cd86b259cd67b02ccb297ee5c44f8ac84327bc8"
+    },
+    {
+      "path": "web/index.audio.worklet.js",
+      "bytes": 7298,
+      "sha256": "5b476a9c9ce642c0ee4256436d1bc31d9c38f868aca0f9a8e2a57c18d2dec2a3"
+    },
+    {
+      "path": "web/index.html",
+      "bytes": 5579,
+      "sha256": "c194038eaebb3bbdf7427f0589608fee3cbac2e227eda7f10f846cd2b6cd8a73"
+    },
+    {
+      "path": "web/index.icon.png",
+      "bytes": 7765,
+      "sha256": "b50b1472e0036f2ddeeb82a65df4b7cc5e03abac36013b65ae29c14ed2e6fc9e"
+    },
+    {
+      "path": "web/index.js",
+      "bytes": 315759,
+      "sha256": "e3f56ee40e6f84371053db06692cfac15e2c8659547b11c6b2dfa1996dabd981"
+    },
+    {
+      "path": "web/index.pck",
+      "bytes": 9925220,
+      "sha256": "40ff24c12ef739102c132dc6c27ab27b2c95b6e90a700002d2624a01743c2c8d"
+    },
+    {
+      "path": "web/index.png",
+      "bytes": 24307,
+      "sha256": "8e86b0d474a574176455e53ad4af48b982fe2045f43188c42b937912d488548b"
+    },
+    {
+      "path": "web/index.wasm",
+      "bytes": 37700666,
+      "sha256": "26b61ce95247012ab3dca3ff51e96d1cdbff44ee91a8c20a83e150afca83f1b6"
+    },
+    {
+      "path": "web/licenses/GODOT-LICENSE.txt",
+      "bytes": 1149,
+      "sha256": "b0435e3b3e4e55238f05f4b306f30524a1b2e20147810d436eaa554fa6855c80"
+    },
+    {
+      "path": "web/licenses/GODOT-THIRD-PARTY-NOTICES.txt",
+      "bytes": 99790,
+      "sha256": "b3330849267d56ddd3d62a513817506606c2195034411fe05859f0140bff9d8a"
+    },
+    {
+      "path": "web/licenses/LICENSE-Noto.txt",
+      "bytes": 14712,
+      "sha256": "849f4ea9c214fa4ac3593b770c699f387534b11ce671264c1b10d85bdcb5997b"
+    },
+    {
+      "path": "web/licenses/LICENSE-OpenSans.txt",
+      "bytes": 1031,
+      "sha256": "94d4b78643f99d7cfa872145b38da578299f401405ca5cba66a5c95bf13933b0"
+    },
+    {
+      "path": "web/manifest.webmanifest",
+      "bytes": 374,
+      "sha256": "9e617391cef4024f4efdde5d276b3258bbf828916d0a8897e2a1894e69eae640"
+    },
+    {
+      "path": "web/pip.png",
+      "bytes": 1190667,
+      "sha256": "a6d8d2f09a097cb40441b6fc956fc55f7c480126279012a559772f212b3527c5"
+    },
+    {
+      "path": "web/sw.js",
+      "bytes": 2102,
+      "sha256": "754b8485b408f76e33b5b3336c4789feaef3d558e4eac3a0d2a6dc113b3e0248"
+    }
+  ]
+}

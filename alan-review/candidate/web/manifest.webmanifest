@@ -1,0 +1,19 @@
+{
+  "name": "Alan's Favorites Island",
+  "short_name": "Alan + Pip",
+  "id": "./",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "landscape",
+  "background_color": "#1f625c",
+  "theme_color": "#217e76",
+  "icons": [
+    {
+      "src": "app-icon.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}

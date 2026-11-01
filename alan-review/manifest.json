@@ -2,13 +2,13 @@
   "files": [
     {
       "path": "Alan-Favorites-Island-Offline.zip",
-      "bytes": 43264538,
-      "sha256": "431b8973432ffb1d8588408a45bdc393f7f3ee13ce7e61f852026fcad2e3d1d1"
+      "bytes": 43264736,
+      "sha256": "1e029fdc7302e0c082cfc148d3acf9ef8229752c248ff54e24977b182f60d4dc"
     },
     {
       "path": "OFFLINE-READ-ME.txt",
-      "bytes": 3050,
-      "sha256": "ebe4b0032c8fb95a270adb0c1531c2be98fa389eddf0450233f9e5d2de1db9df"
+      "bytes": 3211,
+      "sha256": "bc86bd1be9b5fa0034fe7991afd78d1e1fa097b03ba0b70eb7bb9e78194464ca"
     },
     {
       "path": "materials/Cafe-Classroom-Cards.html",
@@ -48,7 +48,7 @@
     {
       "path": "web/asset-manifest.json",
       "bytes": 3439,
-      "sha256": "c243e38e6b874253ec253b230188503d57b55b6b9e24fc243a85d1b262b206cf"
+      "sha256": "df82ffb7bff44c9078c09649f77b8af587bfc45c29b72c7cd35b8da60c9b9d29"
     },
     {
       "path": "web/cover.png",
@@ -77,8 +77,8 @@
     },
     {
       "path": "web/index.html",
-      "bytes": 6504,
-      "sha256": "a7db6710dfe839b61bcb8f8d5d2365cb6350b0993e613b56639e7f4fadfb0ef0"
+      "bytes": 6736,
+      "sha256": "508bcadad039828e4e535f095446d1a08f205eb765d99f976928813a4eec5621"
     },
     {
       "path": "web/index.icon.png",
@@ -138,12 +138,12 @@
     {
       "path": "web/sw.js",
       "bytes": 2583,
-      "sha256": "8ebdc4fb02ab021a8a9a205fea185ef4d937076a44857a957a70969d005f9800"
+      "sha256": "2740207d0c40d3cb6bd8ba2ff154d2b2e895afdb7d9ec6dc4e1ec213aeac4caa"
     },
     {
       "path": "web/update.html",
-      "bytes": 6504,
-      "sha256": "a7db6710dfe839b61bcb8f8d5d2365cb6350b0993e613b56639e7f4fadfb0ef0"
+      "bytes": 6736,
+      "sha256": "508bcadad039828e4e535f095446d1a08f205eb765d99f976928813a4eec5621"
     }
   ]
 }

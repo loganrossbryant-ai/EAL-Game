@@ -75,7 +75,9 @@ separate controls, with replay, master mute and music ducking.
 ## Offline iPad / iPhone
 
 Open the entry in Safari, choose **Save for offline**, wait for **Offline ready**,
-then **Share → Add to Home Screen**. Open the island icon and test Airplane Mode.
+then **Share → Add to Home Screen**. Open the island icon **while online**, tap
+**Save for offline** there, and wait for **Offline ready** inside that app too.
+Then test Airplane Mode from the icon. Safari and Home Screen storage may differ.
 The non-threaded Godot Web export bundles every image, font, recording and music
 file. No learner account, API key, CDN or runtime voice service is required.
 

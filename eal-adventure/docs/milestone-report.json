@@ -16,12 +16,12 @@
     "Festival changes the world",
     "Mission and personal choice survive reload",
     "Meals has four distinct food pictures",
-    "Listen task starts a local Jesse request",
+    "Meal picture-word task accepts its matching answer",
     "Fruit has four distinct food pictures",
-    "Bakery has four distinct food pictures",
+    "Kitchen has four distinct food pictures",
     "Picture to word task is graded",
     "Chinese to English task is graded",
-    "All twelve food items were encountered",
+    "All eighteen food items were encountered",
     "Master mute is saved",
     "Voice can replay after unmuting",
     "First-attempt errors remain in the record",
@@ -35,42 +35,59 @@
   ],
   "errors": [],
   "requests": [
-    "blob:http://127.0.0.1:8072/9656c01d-8583-4880-be2c-5b15cc94723f",
-    "blob:http://127.0.0.1:8072/d3cc85d0-9ded-4c00-b9f1-b2a9a0c3a7ae",
-    "http://127.0.0.1:8072/",
-    "http://127.0.0.1:8072/index.icon.png",
-    "http://127.0.0.1:8072/index.js",
-    "http://127.0.0.1:8072/index.pck",
-    "http://127.0.0.1:8072/index.png",
-    "http://127.0.0.1:8072/index.wasm"
+    "blob:http://127.0.0.1:8092/69e69143-f32a-419e-9229-b429cf54d8dc",
+    "blob:http://127.0.0.1:8092/febda302-f948-400e-920b-b5da250d5b8c",
+    "http://127.0.0.1:8092/",
+    "http://127.0.0.1:8092/index.icon.png",
+    "http://127.0.0.1:8092/index.js",
+    "http://127.0.0.1:8092/index.pck",
+    "http://127.0.0.1:8092/index.png",
+    "http://127.0.0.1:8092/index.wasm"
   ],
   "first_attempts_before_reset": [
     {
       "answer": "rice",
       "correct": false,
       "first_attempt": true,
-      "hinted": true,
+      "hinted": false,
       "kind": "listen_and_deliver",
+      "navigation_help": true,
       "task_id": "delivery_0",
+      "translation_activity": false,
       "word": "pizza"
     },
     {
       "answer": "My favorite food are pizza.",
       "correct": false,
       "first_attempt": true,
-      "hinted": true,
+      "hinted": false,
       "kind": "sentence_building",
+      "navigation_help": true,
       "task_id": "sentence_0",
+      "translation_activity": false,
       "word": "My favorite food is pizza."
     },
     {
-      "answer": "eggs",
+      "answer": "chicken",
       "correct": true,
       "first_attempt": true,
       "hinted": false,
       "kind": "word_matching",
+      "navigation_help": true,
+      "task_id": "menu_1",
+      "translation_activity": false,
+      "word": "chicken"
+    },
+    {
+      "answer": "carrot",
+      "correct": true,
+      "first_attempt": true,
+      "hinted": false,
+      "kind": "word_matching",
+      "navigation_help": true,
       "task_id": "menu_2",
-      "word": "eggs"
+      "translation_activity": false,
+      "word": "carrot"
     },
     {
       "answer": "eggs",
@@ -78,7 +95,9 @@
       "first_attempt": true,
       "hinted": false,
       "kind": "meaning_matching",
+      "navigation_help": true,
       "task_id": "menu_3",
+      "translation_activity": true,
       "word": "eggs"
     }
   ]

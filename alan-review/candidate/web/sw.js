@@ -1,5 +1,5 @@
 'use strict';
-const CACHE = 'alan-island-bdc52fd0e348c6d3';
+const CACHE = 'alan-island-651bdc26e421acc7';
 const ASSETS = ["./", "Body.ttf", "Chinese.otf", "app-icon.png", "cover.png", "game.html", "index.apple-touch-icon.png", "index.audio.position.worklet.js", "index.audio.worklet.js", "index.html", "index.icon.png", "index.js", "index.pck", "index.png", "index.wasm", "licenses/GODOT-LICENSE.txt", "licenses/GODOT-THIRD-PARTY-NOTICES.txt", "licenses/LICENSE-Noto.txt", "licenses/LICENSE-OpenSans.txt", "manifest.webmanifest", "pip.png", "update.html"];
 const URLS = ASSETS.map(path => new URL(path, self.registration.scope).href);
 async function tell(message) {

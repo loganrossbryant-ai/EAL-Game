@@ -19,7 +19,9 @@ iPAD / iPHONE: INSTALL THE OFFLINE WEB APP
 1. Open https://loganrossbryant-ai.github.io/hello-earth-demo/alan-island/ in Safari.
 2. Tap Save for offline. Keep the page open until Offline ready appears.
 3. Safari Share > Add to Home Screen.
-4. Open the island icon, enable Airplane Mode, then try Play with Pip.
+4. Open the island icon WHILE ONLINE. Tap Save for offline inside that app
+   and wait for Offline ready there too. Safari and Home Screen storage may differ.
+5. Then enable Airplane Mode and try Play with Pip from the island icon.
 For an existing installation, open
 https://loganrossbryant-ai.github.io/hello-earth-demo/alan-island/update.html
 once while online, and wait for Offline ready before playing. Saved progress stays.

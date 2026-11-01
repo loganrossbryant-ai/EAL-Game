@@ -29,10 +29,13 @@ if(window.AudioNode){
 def wait_panel(opened=True):
     end=time.monotonic()+30
     while time.monotonic()<end:
-        rgb=Image.open(io.BytesIO(page.screenshot(clip={'x':800,'y':780,'width':1,'height':1}))).convert('RGB').getpixel((0,0))
+        # Left panel padding stays clear of the differently colored action buttons.
+        rgb=Image.open(io.BytesIO(page.screenshot(clip={'x':90,'y':780,'width':1,'height':1}))).convert('RGB').getpixel((0,0))
         visible=sum(abs(a-b) for a,b in zip(rgb,(255,249,232)))<12
         if visible==opened:return
         page.wait_for_timeout(220)
+    page.screenshot(path=str(OUT/'offline-panel-timeout.png'))
+    (OUT/'offline-panel-state.json').write_text(page.evaluate("localStorage.getItem('alan-favorites-island-v1')"))
     raise AssertionError('Expected visible dialogue panel: '+str(opened))
 
 def check(name,condition):

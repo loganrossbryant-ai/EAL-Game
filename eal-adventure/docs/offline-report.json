@@ -11,6 +11,8 @@
     "Offline sentence logic works",
     "Offline personal choice works",
     "Offline mission reaches its visible ending",
+    "New dolphin picture is available offline",
+    "New NPC delivery works offline",
     "Separate music control saves a zero level",
     "Jesse audio replays while offline",
     "Master mute suppresses actual audio output",
@@ -18,32 +20,35 @@
   ],
   "errors": [],
   "runtime": "Chromium; actual iOS Safari still requires device verification",
-  "jesse_pcm_peak": 0.219299543835547,
+  "build_version": "bdc52fd0e348c6d3",
+  "jesse_pcm_peak": 0.3644747335697019,
   "offline_cache_entries": [
-    "http://127.0.0.1:8073/",
-    "http://127.0.0.1:8073/Body.ttf",
-    "http://127.0.0.1:8073/Chinese.otf",
-    "http://127.0.0.1:8073/app-icon.png",
-    "http://127.0.0.1:8073/cover.png",
-    "http://127.0.0.1:8073/game.html",
-    "http://127.0.0.1:8073/index.apple-touch-icon.png",
-    "http://127.0.0.1:8073/index.audio.position.worklet.js",
-    "http://127.0.0.1:8073/index.audio.worklet.js",
-    "http://127.0.0.1:8073/index.html",
-    "http://127.0.0.1:8073/index.icon.png",
-    "http://127.0.0.1:8073/index.js",
-    "http://127.0.0.1:8073/index.pck",
-    "http://127.0.0.1:8073/index.png",
-    "http://127.0.0.1:8073/index.wasm",
-    "http://127.0.0.1:8073/licenses/GODOT-LICENSE.txt",
-    "http://127.0.0.1:8073/licenses/GODOT-THIRD-PARTY-NOTICES.txt",
-    "http://127.0.0.1:8073/licenses/LICENSE-Noto.txt",
-    "http://127.0.0.1:8073/licenses/LICENSE-OpenSans.txt",
-    "http://127.0.0.1:8073/manifest.webmanifest",
-    "http://127.0.0.1:8073/pip.png",
-    "http://127.0.0.1:8073/_offline_complete"
+    "http://127.0.0.1:8093/",
+    "http://127.0.0.1:8093/Body.ttf",
+    "http://127.0.0.1:8093/Chinese.otf",
+    "http://127.0.0.1:8093/app-icon.png",
+    "http://127.0.0.1:8093/cover.png",
+    "http://127.0.0.1:8093/game.html",
+    "http://127.0.0.1:8093/index.apple-touch-icon.png",
+    "http://127.0.0.1:8093/index.audio.position.worklet.js",
+    "http://127.0.0.1:8093/index.audio.worklet.js",
+    "http://127.0.0.1:8093/index.html",
+    "http://127.0.0.1:8093/index.icon.png",
+    "http://127.0.0.1:8093/index.js",
+    "http://127.0.0.1:8093/index.pck",
+    "http://127.0.0.1:8093/index.png",
+    "http://127.0.0.1:8093/index.wasm",
+    "http://127.0.0.1:8093/licenses/GODOT-LICENSE.txt",
+    "http://127.0.0.1:8093/licenses/GODOT-THIRD-PARTY-NOTICES.txt",
+    "http://127.0.0.1:8093/licenses/LICENSE-Noto.txt",
+    "http://127.0.0.1:8093/licenses/LICENSE-OpenSans.txt",
+    "http://127.0.0.1:8093/manifest.webmanifest",
+    "http://127.0.0.1:8093/pip.png",
+    "http://127.0.0.1:8093/update.html",
+    "http://127.0.0.1:8093/_offline_complete"
   ],
   "saved_progress": {
+    "cafe_translation_help": false,
     "carrying": "",
     "completed_missions": [
       "cafe"
@@ -51,6 +56,9 @@
     "favorite": "rice",
     "festival": true,
     "festival_food": "pizza",
+    "festival_stamps": [
+      "food"
+    ],
     "needs_practice": {},
     "patterns": {
       "My favorite food is ___.": 3,
@@ -74,7 +82,9 @@
         "first_attempt": true,
         "hinted": false,
         "kind": "listen_and_deliver",
+        "navigation_help": false,
         "task_id": "delivery_0",
+        "translation_activity": false,
         "word": "pizza"
       },
       {
@@ -83,30 +93,74 @@
         "first_attempt": true,
         "hinted": false,
         "kind": "sentence_building",
+        "navigation_help": false,
         "task_id": "sentence_0",
+        "translation_activity": false,
         "word": "My favorite food is pizza."
+      },
+      {
+        "answer": "animals_dolphin",
+        "correct": true,
+        "first_attempt": true,
+        "hinted": false,
+        "kind": "resident_delivery",
+        "navigation_help": false,
+        "task_id": "trail_animals_delivery_0",
+        "translation_activity": false,
+        "word": "animals_dolphin"
       }
     ],
+    "topic_quests": {
+      "animals": {
+        "carrying": "",
+        "completed": [],
+        "favorite": "",
+        "round": 0,
+        "stage": 2,
+        "target": "animals_dolphin",
+        "translation_help": false
+      }
+    },
     "version": 1,
     "words": {
-      "ice cream": {
+      "animals_cat": {
+        "heard": 0,
+        "practised": 0,
+        "seen": 1
+      },
+      "animals_dog": {
+        "heard": 0,
+        "practised": 0,
+        "seen": 1
+      },
+      "animals_dolphin": {
+        "heard": 0,
+        "practised": 2,
+        "seen": 1
+      },
+      "animals_rabbit": {
+        "heard": 0,
+        "practised": 0,
+        "seen": 1
+      },
+      "dumplings": {
+        "heard": 0,
+        "practised": 0,
+        "seen": 1
+      },
+      "noodles": {
         "heard": 0,
         "practised": 0,
         "seen": 1
       },
       "pizza": {
-        "heard": 2,
+        "heard": 3,
         "practised": 3,
         "seen": 1
       },
       "rice": {
         "heard": 1,
         "practised": 1,
-        "seen": 1
-      },
-      "sandwich": {
-        "heard": 0,
-        "practised": 0,
         "seen": 1
       }
     }

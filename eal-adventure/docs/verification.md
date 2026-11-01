@@ -28,15 +28,54 @@ café was built. This update connects the complete agreed collection to play.
   files match the final build, and the complete backup ZIP passes CRC checking.
 
 The frozen production export is Godot **4.6.3**, non-threaded Web / GL
-Compatibility. Its complete offline cache revision is **bdc52fd0e348c6d3**
+Compatibility. Its complete offline cache revision is **651bdc26e421acc7**
 (22 bundled web files, approximately 59.3 MiB). The fresh `update.html` entry
 replaces an old installed pack while retaining the existing local save key.
 A completion marker and controlling-worker version check gate updated play.
 
-The full final browser suite and exact-file Windows validation are in progress
-for this candidate. Reports and public deployment identifiers will be recorded
-here before delivery. Earlier reports in this directory describe the preceding
-café release until replaced by the expanded verification run.
+## Browser results
+
+**268 expanded-game checks passed** with real input. All 144 cards were reached
+through scene controls, all eighteen café foods and personal choices were
+available, all eight missions reached the ending, and contributions survived
+reload. Ordinary tasks revealed no target Chinese with navigation help enabled.
+Explicit translation displayed the intended Chinese and logged its assistance.
+Wrong delivery and sentence-order attempts gave retries; preferences were not
+scored. Unrecorded new words were not falsely counted as heard. No Godot/browser
+errors or external runtime requests were recorded. See [expanded-report.json](expanded-report.json).
+
+**32 café regression checks passed**, covering movement and following, dialogue
+movement lock, Jesse replay, wrong/correct deliveries, grammar and sentence order,
+personal preferences excluded from accuracy, manual speaking participation,
+festival changes, restoration, all eighteen foods, matching and translation,
+voice/mute settings, teacher export, replay and confirmed reset. See
+[milestone-report.json](milestone-report.json).
+
+**Three emulated touch layouts passed**: iPad landscape 1024×768, iPad portrait
+768×1024 and iPhone landscape 844×390. Touch moved Alan, opened resident dialogue,
+enabled navigation help, entered the new sanctuary and read Ari's request without
+revealing the Chinese answer. Screenshots were visually inspected. See
+[touch-report.json](touch-report.json).
+
+**17 exact-release/offline checks passed.** The complete app was cached, the
+browser process closed, and a fresh process reopened from a disk-backed profile
+with all networking disabled. The café delivery/sentence/personal-choice mission
+reached its visible ending. A new sanctuary dolphin card was collected and
+delivered offline. A Web Audio analyser measured decoded Jesse PCM; offline
+replay worked, the separate music control reached zero and master mute suppressed
+actual output samples. The production export exposes no debug bridge and logged
+no browser/Godot errors. See [offline-report.json](offline-report.json).
+
+Only the setup instructions and cache metadata changed after the game checks.
+Every game/asset byte, including the PCK and game HTML, remains identical. The
+final offline and installed-pack upgrade checks are rerunning for this entry
+revision. Updated reports and Windows validation will be recorded before delivery.
+
+The exact candidate passed [Windows validation run 41299138392](https://github.com/loganrossbryant-ai/EAL-Game/actions/runs/41299138392):
+active normal protection, signatures `1.463.70.0`, native exit 0, no detections,
+no error, and matching before/after file hashes. Candidate manifest SHA-256:
+`a24bfc530a48dbddff3a95b790164dfb6d7eb0b453b55b5a0a09ef58ff6fa4c4`.
+The actual result is [defender-report.json](defender-report.json).
 
 ## Remaining limits
 

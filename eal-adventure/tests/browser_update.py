@@ -39,11 +39,19 @@ with sync_playwright() as p:
     check('Installed old game has a real saved personal choice',old_save['favorite']=='rice' and old_save['settings']['chinese'])
     page.evaluate("async()=>{const c=await caches.open('unrelated-classroom-cache');await c.put('/keep-this',new Response('keep'));localStorage.setItem('unrelated-classroom-save','keep')}")
     context.close()
-    shutil.copytree(ROOT/'builds/alan-island',fixture,dirs_exist_ok=True)
+    # Simulate publication with current file dates. Preserving older source mtimes
+    # would make this test server incorrectly return 304 for changed worker bytes.
+    shutil.copytree(ROOT/'builds/alan-island',fixture,dirs_exist_ok=True,copy_function=shutil.copyfile)
     manifest=json.loads((fixture/'asset-manifest.json').read_text())
     expected_hash=hashlib.sha256((fixture/'index.pck').read_bytes()).hexdigest()
     context=launch();page=context.pages[0];page.goto(url+'update.html')
-    page.wait_for_function("document.getElementById('status').textContent.startsWith('Offline ready')",timeout=120000)
+    try:
+        page.wait_for_function("document.getElementById('status').textContent.startsWith('Offline ready')",timeout=120000)
+    except Exception:
+        page.screenshot(path=str(OUT/'update-failure.png'))
+        state=page.evaluate("async()=>({status:document.getElementById('status').textContent,caches:await caches.keys(),workers:(await navigator.serviceWorker.getRegistrations()).map(x=>({active:x.active?.state,waiting:x.waiting?.state,installing:x.installing?.state})),controlled:!!navigator.serviceWorker.controller})")
+        (OUT/'update-failure.json').write_text(json.dumps(state,indent=2))
+        raise
     cache='alan-island-'+manifest['version']
     live_hash=page.evaluate("""async({cache,url})=>{const c=await caches.open(cache);const r=await c.match(url+'index.pck');const h=await crypto.subtle.digest('SHA-256',await r.arrayBuffer());return Array.from(new Uint8Array(h)).map(x=>x.toString(16).padStart(2,'0')).join('')}""",{'cache':cache,'url':url})
     check('Previously installed app receives the new game bytes',live_hash==expected_hash)

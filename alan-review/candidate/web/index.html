@@ -14,11 +14,11 @@
 <p>Visit five island settings. Help the residents prepare the Favorites Festival.</p>
 <div class="actions"><a href="game.html">Play with Pip</a><button class="secondary" id="save">Save for offline</button></div>
 <p id="status" role="status" aria-live="polite">Eight topics · 18 words each. Save the whole island for offline play.</p>
-<details><summary>Set up on iPad or iPhone</summary><ol><li>Open this page in Safari and tap <strong>Save for offline</strong>.</li><li>Wait until this page says <strong>Offline ready</strong>.</li><li>Tap Safari's <strong>Share → Add to Home Screen</strong>.</li><li>Open the new island icon, turn on Airplane Mode, and try <strong>Play with Pip</strong>.</li></ol><p class="note">Use landscape orientation. All pictures, fonts, music and Jesse recordings are saved on this device. Keep the app icon and its website data. No login, VPN, API key or voice service is used during play.</p></details>
-<details><summary>中文设置提示</summary><p>在 Safari 中打开 → 点“Save for offline” → 等待“Offline ready” → 分享 → 添加到主屏幕。打开新图标，再开飞行模式试一试。横屏游玩；游戏内点“操作”查看玩法提示；只有翻译游戏显示词语中文。</p></details>
+<details><summary>Set up on iPad or iPhone</summary><ol><li>Open this page in Safari and tap <strong>Save for offline</strong>.</li><li>Wait until this page says <strong>Offline ready</strong>.</li><li>Tap Safari's <strong>Share → Add to Home Screen</strong>.</li><li>Open the new island icon <strong>while online</strong>. Tap <strong>Save for offline</strong> there and wait for <strong>Offline ready</strong>.</li><li>Then turn on Airplane Mode and try <strong>Play with Pip</strong> from that icon.</li></ol><p class="note">Use landscape orientation. All pictures, fonts, music and Jesse recordings are saved on this device. Keep the app icon and its website data. No login, VPN, API key or voice service is used during play.</p></details>
+<details><summary>中文设置提示</summary><p>在 Safari 中打开 → 点“Save for offline” → 等待“Offline ready” → 分享 → 添加到主屏幕。联网打开主屏幕上的新图标，再点“Save for offline”，等到“Offline ready”。然后再开飞行模式试一试。横屏游玩；游戏内点“操作”查看玩法提示；只有翻译游戏显示词语中文。</p></details>
 </main><script>
 'use strict';
-const cacheName='alan-island-bdc52fd0e348c6d3';
+const cacheName='alan-island-651bdc26e421acc7';
 const button=document.getElementById('save'),status=document.getElementById('status'),play=document.querySelector('.actions a');
 function holdPlay(value){play.style.pointerEvents=value?'none':'';play.setAttribute('aria-disabled',String(value));play.textContent=value?'Updating island…':'Play with Pip';}
 async function isReady(){

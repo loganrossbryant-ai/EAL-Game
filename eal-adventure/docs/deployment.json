@@ -1,0 +1,17 @@
+{
+  "source_implementation": "afa83513b3b2cd7618eea2f35032beaa7b4c5bde",
+  "public_commit": "d41dde064de9f76a2b2e2f352a00f374f15b0f2e",
+  "pages_run_id": 41284961339,
+  "pages_status": "success",
+  "play_url": "https://loganrossbryant-ai.github.io/hello-earth-demo/alan-island/",
+  "offline_backup_url": "https://loganrossbryant-ai.github.io/hello-earth-demo/alan-island/downloads/Alan-Favorites-Island-Offline.zip",
+  "classroom_cards_url": "https://loganrossbryant-ai.github.io/hello-earth-demo/alan-island/teacher/Cafe-Classroom-Cards.pdf",
+  "defender_run_id": 41284755359,
+  "defender_status": "scan_passed",
+  "candidate_manifest_sha256": "eef1f18aad983b68e2822d684348cf5f977bf7f254b66ece8b2c89508c4fda2a",
+  "pwa_cache": "fe0882f1feb43ff1",
+  "remote_files_verified": 28,
+  "far_horizon_unchanged": true,
+  "interactive_qa": "exact release files over local HTTP; direct github.io navigation outside environment policy",
+  "physical_ios_safari_test": "pending"
+}

@@ -68,3 +68,19 @@ Public hosting is verified through GitHub Pages deployment status and exact
 published file hashes; interactive browser checks use those exact files locally.
 Windows release validation follows the existing project workflow in an isolated
 `alan-review/` candidate, preserving the Far Horizon candidate and report.
+
+## Published review build
+
+[Play the café](https://loganrossbryant-ai.github.io/hello-earth-demo/alan-island/).
+Public commit `d41dde064de9f76a2b2e2f352a00f374f15b0f2e` was deployed by
+[Pages run 41284961339](https://github.com/loganrossbryant-ai/hello-earth-demo/actions/runs/41284961339),
+completed with status **success**. All 28 published file objects match the local
+release. Every existing Far Horizon public file is byte-for-byte unchanged.
+
+[Windows validation run 41284755359](https://github.com/loganrossbryant-ai/EAL-Game/actions/runs/41284755359)
+reports `scan_passed`, native exit 0, no detections, no errors, and matching
+before/after hashes. Active normal protection used signatures `1.463.68.0`.
+The candidate manifest SHA-256 is
+`eef1f18aad983b68e2822d684348cf5f977bf7f254b66ece8b2c89508c4fda2a`.
+The actual report is [defender-report.json](defender-report.json); the delivery
+links and identifiers are in [deployment.json](deployment.json).

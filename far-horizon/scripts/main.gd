@@ -47,12 +47,17 @@ var upper_route = false
 var branch_pending = false
 var physical_inspection = false
 var member_routes: Array[bool] = [false,false,false,false]
+var touch_direction = 0.0
+var touch_until = 0
+var phone_view = false
 
 func _ready() -> void:
 	if OS.is_debug_build() and OS.has_feature("web") and bool(JavaScriptBridge.eval("new URLSearchParams(location.search).get('preview')==='depth'",true)):
 		get_tree().change_scene_to_file.call_deferred("res://scenes/depth_slice.tscn")
 		return
 	state.restore(story)
+	if OS.has_feature("web"):
+		phone_view=bool(JavaScriptBridge.eval("matchMedia('(pointer:coarse)').matches",true))
 	_setup_input()
 	_setup_bridge()
 	_build_world()
@@ -128,11 +133,12 @@ func _build_world() -> void:
 	container.size = Vector2(1366,768)
 	container.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	container.stretch = true
+	if phone_view:container.stretch_shrink=2
 	layer.add_child(container)
 	var viewport = SubViewport.new()
 	viewport.size = Vector2i(1366,768)
 	viewport.own_world_3d = true
-	viewport.msaa_3d = Viewport.MSAA_2X
+	viewport.msaa_3d = Viewport.MSAA_DISABLED if phone_view else Viewport.MSAA_2X
 	container.add_child(viewport)
 	stage = PioneerStage3D.new()
 	viewport.add_child(stage)
@@ -195,6 +201,7 @@ func _enter_scene(index: int, restoring: bool = false) -> void:
 		state.data.routes[scene.id] = upper_route
 	_close_modal()
 	move_target = -1
+	touch_direction=0
 	scene_index = index
 	scene = story.scenes[index]
 	state.data.scene = scene.id
@@ -333,6 +340,7 @@ func _physics_process(delta: float) -> void:
 		member.attending = is_instance_valid(modal)
 		member.set_physics_process(not paused)
 	var direction = 0.0 if held else Input.get_axis("walk_left", "walk_right")
+	if not held and direction==0 and Time.get_ticks_msec()<touch_until:direction=touch_direction
 	if branch_pending and not held:
 		var junction = 6.2*128.0
 		if absf(leader.position.x-junction)<4:
@@ -447,18 +455,23 @@ func _unhandled_input(event: InputEvent) -> void:
 			KEY_1, KEY_2, KEY_3, KEY_4:
 				if not is_instance_valid(modal): _select_leader(event.physical_keycode - KEY_1)
 			KEY_E:
-				if not paused and not is_instance_valid(modal) and nearest != "":
-					var parts = nearest.split(":")
-					if parts[0] == "person": _talk(parts[1])
-					elif parts[0] == "clue": _inspect_world_clue(parts[1])
-					elif parts[0] == "route":branch_pending=true
-					elif parts[0] == "travel":_enter_scene(clampi(scene_index+(1 if parts[1]=="next" else -1),0,story.scenes.size()-1))
+				_interact_nearby()
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed and not is_instance_valid(modal) and not paused:
 		var point = get_viewport().get_mouse_position()
 		if point.y > 530 and point.y < 690: move_target = clampf(get_global_mouse_position().x, 65, WORLD_WIDTH - 65)
 
 func _command(command: Dictionary) -> void:
 	match str(command.get("action", "")):
+		"move":
+			touch_direction=clampf(float(command.get("direction",0)),-1,1)
+			touch_until=Time.get_ticks_msec()+800
+			move_target=-1
+		"interact":_interact_nearby()
+		"reply":
+			if conversation in story.characters:
+				var choices=_dialogue_choices(conversation)
+				var index=int(command.get("index",-1))
+				if index>=0 and index<choices.size():_talk(conversation,str(choices[index].text))
 		"jump": _enter_scene(story.find_scene(str(command.get("id", ""))))
 		"cue":
 			state.data.cues[scene.id] = clampi(int(command.get("index", 0)), 0, scene.cues.size() - 1)
@@ -512,6 +525,14 @@ func _command(command: Dictionary) -> void:
 			_enter_scene(scene_index,true)
 	_publish()
 
+func _interact_nearby() -> void:
+	if paused or is_instance_valid(modal) or nearest=="":return
+	var parts=nearest.split(":")
+	if parts[0]=="person":_talk(parts[1])
+	elif parts[0]=="clue":_inspect_world_clue(parts[1])
+	elif parts[0]=="route":branch_pending=true
+	elif parts[0]=="travel":_enter_scene(clampi(scene_index+(1 if parts[1]=="next" else -1),0,story.scenes.size()-1))
+
 func _next() -> void:
 	if _cue_index() + 1 < scene.cues.size():
 		state.data.cues[scene.id] = _cue_index() + 1
@@ -554,6 +575,7 @@ func _toggle_freeze() -> void:
 func _new_modal(rect: Rect2) -> Panel:
 	_close_modal()
 	move_target = -1
+	touch_direction=0
 	modal = Control.new()
 	modal.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	overlay.add_child(modal)
@@ -672,12 +694,7 @@ func _talk(who: String, reply: String = "") -> void:
 	if tex: UI.portrait(p, tex, Rect2(17, 17, 175, 236))
 	UI.label(p, str(data.name).to_upper() + " / " + str(data.role), Rect2(213, 16, 786, 26), 15, UI.CYAN)
 	UI.label(p, line, Rect2(213, 53, 1049, 105), 22)
-	var choices: Array = []
-	for option in data.replies:
-		if int(scene.session) < int(option.get("min_session", 1)): continue
-		if int(scene.session) > int(option.get("max_session", 3)): continue
-		if str(option.get("requires", "")) != "" and not state.data.revealed.get(str(option.requires), false): continue
-		choices.append(option)
+	var choices: Array = _dialogue_choices(who)
 	for i in range(mini(choices.size(), 4)):
 		UI.button(p, str(choices[i].question), Rect2(213 + (i % 2) * 530, 163 + (i / 2) * 49, 516, 42), _talk.bind(who, str(choices[i].text)), 16)
 	UI.button(p, "LET THE CLASS RESPOND / RETURN", Rect2(213, 269, 1046, 32), _close_modal, 13)
@@ -685,6 +702,15 @@ func _talk(who: String, reply: String = "") -> void:
 	replay.disabled = not audio.has_recording(who, line)
 	audio.say(who, line)
 	_publish()
+
+func _dialogue_choices(who: String) -> Array:
+	var choices: Array=[]
+	for option in story.characters[who].replies:
+		if int(scene.session)<int(option.get("min_session",1)):continue
+		if int(scene.session)>int(option.get("max_session",3)):continue
+		if str(option.get("requires",""))!="" and not state.data.revealed.get(str(option.requires),false):continue
+		choices.append(option)
+	return choices
 
 func _open_glossary() -> void:
 	var p = _new_modal(Rect2(145, 127, 1076, 545))
@@ -752,6 +778,7 @@ func _publish() -> void:
 	payload.volumetric=true
 	payload.inspection_time=stage.inspection_time
 	payload.render_fps=Engine.get_frames_per_second()
+	payload.phone_view=phone_view
 	if OS.is_debug_build():
 		var rigs: Array=[]
 		for actor in avatars:

@@ -13,7 +13,15 @@ at the sealed **+103 DAYS** packet header; later-session material is excluded.
 
 ## Play
 
-Use a standard hosted Godot Web build in current Chrome or Edge. Its HTML,
+Open `play.html` in the hosted build for the shared PC/iPhone preview. Tap
+**Explore the draft**. PC supports keyboard or the on-screen controls. On iPhone,
+use current Safari, turn sideways, hold the arrows to walk and tap **Interact**.
+**Read** opens large scrollable story/dialogue/clue text; **Scenes** jumps to any
+of the 18 settings. Portrait reading is supported. No app installation is needed.
+The phone view renders the 3D foreground at a lower resolution; the UI and story
+are preserved. Progress is stored separately in each device/browser.
+
+The underlying standard Godot Web build is also available at `index.html`. Its HTML,
 JavaScript, WASM and game data are separate files. Opening just `index.html`
 from a local disk is not supported by Godot; use a web host or local HTTP server.
 The previously packed single HTML/ZIP remains withdrawn after the Defender alert.
@@ -132,3 +140,17 @@ The existing public Pages site is hosted from `hello-earth-demo:gh-pages`.
 This Sessions 1–3 revision must not be described as deployed until its matching
 release is actually scanned, published and observed. Preserve the unrelated main
 branch/Earth demo and never copy private history or raw GM documents into hosting.
+
+## PC/iPhone publication revision
+
+The shared preview adds inspectable `play.html/js/css`, a byte-identical terminal
+poster and touch/reading controls. The frame stays at 16:9 in either orientation.
+Touch movement releases on pointer-up/cancel, page hide and lost focus, with a
+short engine-side timeout. The existing desktop GM desk remains available.
+
+`far-horizon/tests/browser_phone.py` passed iPhone-size portrait/landscape touch
+emulation in Chromium, including walking, depth travel, item inspection, NPC
+replies, 18-scene navigation, clue reading, rotation and stopped movement, with
+zero errors or external requests. This is not a physical Safari/iPhone test.
+The official WebKit test-browser download was blocked by the environment's
+network policy; no access restriction was bypassed.

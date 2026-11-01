@@ -1,7 +1,8 @@
 # Far Horizon — Sessions 1–3, 3D foreground revision
 
-**Local browser QA passed. Not newly published. Fresh Windows Defender review is
-still required for these new bytes. ElevenLabs voices are deferred by the user.**
+**PC/iPhone preview checks and exact desktop QA passed. Fresh Windows Defender
+scan passed. Public deployment is authorized and in progress. ElevenLabs remains
+deferred.**
 
 ## Scope and story
 
@@ -87,3 +88,33 @@ Local detailed artifacts (ignored by Git):
 - `artifacts/far-horizon-tests/interaction-video/terminal-interaction.mp4`
 
 No automatic usage-reset scheduler is available; none was created.
+
+## PC/iPhone shared preview — 2026-11-01
+
+`play.html` provides one shared entry with a 16:9 game frame, touch movement,
+Interact, Read, Scenes, Return, Previous/Next and the existing desktop GM desk.
+Read uses large, scrollable story/clue text and selectable NPC replies. The
+18-scene picker works on a phone without a popup. Touch release, cancellation,
+blur and timeout stop movement. Phone rendering uses lower 3D resolution.
+
+The iPhone-size Chromium touch test passed at 390×844 and 844×390, including
+actual touch movement/depth/use/zoom, NPC reply selection, clues, rotation and
+no stuck walking. The shared desktop entry passed keyboard focus, movement,
+GM popup/scene jumps and reading. Both had zero browser errors. The exact new
+standard desktop release again passed all **64 beats**, save/reload, three
+gloss languages and reset/preservation with zero errors.
+
+No physical iPhone or Safari-engine test is claimed. The official WebKit browser
+download was blocked by the environment's domain policy, which was not bypassed.
+
+Fresh active Windows Defender review **41322320949** passed with exit0 and no
+detections/errors, current signatures **1.463.73.0**, script/archive scanning
+enabled, no exclusions, and matching hashes before/after scanning. The report
+matches all **22** candidate files and manifest
+`2f484806730de72363d1b11c01bfbdd0e71709a7b1dce430935d0641442cdc56`.
+A clean scan is evidence, not an absolute malware-free guarantee.
+
+Versioned evidence: `pc-iphone-release-verification.json` and
+`defender-pc-iphone-report.json`. The earlier 18-file record is historical.
+The user authorized publication; host only under `far-horizon/` and preserve
+the independent root/Alan Island game. Deployment must still be observed.

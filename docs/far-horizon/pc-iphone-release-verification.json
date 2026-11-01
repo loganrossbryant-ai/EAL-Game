@@ -1,0 +1,172 @@
+{
+  "verified_at_utc": "2026-11-01T15:52:49.033875+00:00",
+  "shared_entry": "play.html",
+  "engine": "Godot 4.6.3, non-threaded Web",
+  "manifest_sha256": "2f484806730de72363d1b11c01bfbdd0e71709a7b1dce430935d0641442cdc56",
+  "candidate_files": [
+    {
+      "path": "academic.otf",
+      "bytes": 53832,
+      "sha256": "d77166d61536c0e6e030232fa537fb06a63243607632cbf4b07ebe6f27911ee2"
+    },
+    {
+      "path": "campaign.json",
+      "bytes": 42563,
+      "sha256": "bb456ac97f65dc41cae5463fd379164bd0101dee483a39b37d299fb2fa11f04c"
+    },
+    {
+      "path": "gm.css",
+      "bytes": 4182,
+      "sha256": "e864f3b9c4f3cd3e280ce6a45e61b33f2279c5b026e8f09ec8e89742368d0658"
+    },
+    {
+      "path": "gm.html",
+      "bytes": 3810,
+      "sha256": "3b94c0c3c738d4ae3cf0068b800f6d69a50c541e28c3fc496cf4b5dacdb364e3"
+    },
+    {
+      "path": "gm.js",
+      "bytes": 5987,
+      "sha256": "6f748a7ec7ba3cc0c9375195bad320282d3f954ec06e5f9568e0cab128c92955"
+    },
+    {
+      "path": "index.audio.position.worklet.js",
+      "bytes": 2973,
+      "sha256": "be33985bc7160d6bf9646f259cd86b259cd67b02ccb297ee5c44f8ac84327bc8"
+    },
+    {
+      "path": "index.audio.worklet.js",
+      "bytes": 7298,
+      "sha256": "5b476a9c9ce642c0ee4256436d1bc31d9c38f868aca0f9a8e2a57c18d2dec2a3"
+    },
+    {
+      "path": "index.html",
+      "bytes": 5477,
+      "sha256": "d7c7da0c432f2c61332ae672310b5982ab2eaed59279f75d96dacbd250898086"
+    },
+    {
+      "path": "index.js",
+      "bytes": 315759,
+      "sha256": "e3f56ee40e6f84371053db06692cfac15e2c8659547b11c6b2dfa1996dabd981"
+    },
+    {
+      "path": "index.pck",
+      "bytes": 59491592,
+      "sha256": "64620397fb0f34fd436cae96a0373250af483f659233f97ba00f311e165e939a"
+    },
+    {
+      "path": "index.png",
+      "bytes": 21443,
+      "sha256": "3cb4495c0b98dfbe4b663cbf2b6836473572339beb66d902367893162a70be0e"
+    },
+    {
+      "path": "index.wasm",
+      "bytes": 37700666,
+      "sha256": "26b61ce95247012ab3dca3ff51e96d1cdbff44ee91a8c20a83e150afca83f1b6"
+    },
+    {
+      "path": "licenses/GODOT-LICENSE.txt",
+      "bytes": 1149,
+      "sha256": "b0435e3b3e4e55238f05f4b306f30524a1b2e20147810d436eaa554fa6855c80"
+    },
+    {
+      "path": "licenses/GODOT-THIRD-PARTY-NOTICES.txt",
+      "bytes": 99790,
+      "sha256": "b3330849267d56ddd3d62a513817506606c2195034411fe05859f0140bff9d8a"
+    },
+    {
+      "path": "licenses/LICENSE-DejaVu.txt",
+      "bytes": 3859,
+      "sha256": "63d3ba759d12804c5b31a9d5940d855c1820d1f5999e6b0872eb1c7ff045fbc9"
+    },
+    {
+      "path": "licenses/LICENSE-MakeHuman-CC0.txt",
+      "bytes": 6962,
+      "sha256": "f6089cba01cb570a24712b41ab8a586ccd3cc5ef53dc266ca50b95c288956d2c"
+    },
+    {
+      "path": "licenses/LICENSE-NotoCJK.txt",
+      "bytes": 14712,
+      "sha256": "849f4ea9c214fa4ac3593b770c699f387534b11ce671264c1b10d85bdcb5997b"
+    },
+    {
+      "path": "licenses/LICENSE-OpenSans.txt",
+      "bytes": 1031,
+      "sha256": "94d4b78643f99d7cfa872145b38da578299f401405ca5cba66a5c95bf13933b0"
+    },
+    {
+      "path": "play.css",
+      "bytes": 5799,
+      "sha256": "e91e6abfeff3fea769f5819d47daf86c4251702ffca33d7af243e31a5c164c1f"
+    },
+    {
+      "path": "play.html",
+      "bytes": 2386,
+      "sha256": "68f60d86a0d3a592fd03f85dedb84924d6d2b46173ea7b25ee8b47e99b003dcc"
+    },
+    {
+      "path": "play.js",
+      "bytes": 7431,
+      "sha256": "76b3ac068373ff46406ed0d231f39872a8278df080d4615bf615974d6053be4c"
+    },
+    {
+      "path": "poster.png",
+      "bytes": 2635081,
+      "sha256": "669d11391ea85cabbcf4d02ebf1c2f700a642167021c24408eb49c0fc9fd9a49"
+    }
+  ],
+  "desktop_full_release": {
+    "viewport": "1280x720",
+    "standard_release": true,
+    "debug_global": false,
+    "checked_beats": 64,
+    "scene_jump_save_clues_dialogue_support": "passed",
+    "session_reset_and_preservation": "passed",
+    "voice_recordings": 0,
+    "browser_errors": [],
+    "requests": [
+      "blob:http://127.0.0.1:8092/21a48921-88d6-4029-bbd7-0ca149a6793b",
+      "blob:http://127.0.0.1:8092/f16f8fac-b7fc-428d-9bff-ca5a70587c99",
+      "http://127.0.0.1:8092/",
+      "http://127.0.0.1:8092/academic.otf",
+      "http://127.0.0.1:8092/campaign.json",
+      "http://127.0.0.1:8092/gm.css",
+      "http://127.0.0.1:8092/gm.js",
+      "http://127.0.0.1:8092/index.js",
+      "http://127.0.0.1:8092/index.pck",
+      "http://127.0.0.1:8092/index.png",
+      "http://127.0.0.1:8092/index.wasm"
+    ]
+  },
+  "desktop_shared_preview": {
+    "desktop_preview": true,
+    "keyboard_movement": true,
+    "gm_popup_and_scene_jump": true,
+    "read_panel": true,
+    "browser_errors": []
+  },
+  "phone_shared_preview": {
+    "device": "iPhone 13 size/touch emulation in Chromium; not physical Safari",
+    "portrait": [
+      390,
+      844
+    ],
+    "landscape": [
+      844,
+      390
+    ],
+    "game_loaded": true,
+    "touch_walk_depth_use_zoom": true,
+    "dialogue_reply": true,
+    "scene_picker_count": 18,
+    "readable_clue_and_orientation": true,
+    "stuck_movement": false,
+    "browser_errors": [],
+    "external_requests": false
+  },
+  "defender_run": "41322320949",
+  "defender_status": "scan_passed",
+  "scan_source": "a4fdcc3cb468f6a254d1cca0b63c4f77b4dda5e8",
+  "phone_limit": "iPhone-size touch emulation in Chromium; no physical iPhone or Safari engine test. Official WebKit download blocked by network policy.",
+  "deployment": "authorized; pending observed Pages deployment"
+}

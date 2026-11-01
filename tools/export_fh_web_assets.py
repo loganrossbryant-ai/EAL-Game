@@ -12,9 +12,10 @@ def main():
     target = args.destination.resolve()
     if not (target / 'index.html').is_file():
         raise SystemExit('Export Godot Web to this folder first.')
-    for name in ('gm.html', 'gm.js', 'gm.css', 'academic.otf'):
+    for name in ('gm.html', 'gm.js', 'gm.css', 'academic.otf', 'play.html', 'play.js', 'play.css'):
         shutil.copyfile(ROOT / 'far-horizon/web' / name, target / name)
     shutil.copyfile(ROOT / 'far-horizon/data/campaign.json', target / 'campaign.json')
+    shutil.copyfile(ROOT / 'far-horizon/assets/art/terminal.png', target / 'poster.png')
     print('Copied the same-browser GM desk, campaign and local vocabulary font.')
 
 if __name__ == '__main__':

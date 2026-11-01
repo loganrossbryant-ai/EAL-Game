@@ -145,3 +145,48 @@ The short recording uses a workspace symlink to system ffmpeg; back/reach frame
 and final readable zoom were visually inspected. The final source checkpoint is saved only on the local
 `codex/far-horizon-gm-sessions-1-3` branch, with an expected-old-ref check.
 Workspace `work` is untouched; no push/publication.
+
+## PC/iPhone publication authorized (latest)
+
+The user explicitly approved uploading/scanning/publishing and asked for a version
+they can open on both PC and iPhone. No further publication permission is needed.
+Keep ElevenLabs deferred and environment settings unchanged.
+
+Shared entry: `play.html/js/css`, with an actual Godot `index.html` frame at 16:9.
+Touch movement/Interact, large Read panel with validated NPC reply selection,
+18-scene picker, Previous/Next and Return. Static poster is an unchanged byte copy
+of the original terminal art. Phone 3D viewport uses half resolution and no MSAA.
+Input timeouts/blur/pointer-cancel prevent stuck walking. Same game/story/save.
+
+Phone emulation test passed in Chromium (390×844 / 844×390), zero errors. Real
+physical iPhone Safari was not tested. Official WebKit download failed with the
+network-policy 403 Domain forbidden; no bypass. Do not claim Safari testing.
+The installer removed the task-specific ffmpeg symlink; it has been restored.
+
+Candidate now has 22 separately hashed files. Review commit
+`a4fdcc3cb468f6a254d1cca0b63c4f77b4dda5e8` was prepared and pushed to the existing
+`codex/far-horizon-defender-review` branch to trigger a fresh Windows scan.
+Manifest hash: `2f484806730de72363d1b11c01bfbdd0e71709a7b1dce430935d0641442cdc56`.
+Phone QA: `artifacts/far-horizon-tests/phone/results.json`. Complete desktop
+release QA is running against the same candidate on local HTTP port8092.
+
+Host `hello-earth-demo:gh-pages` has newer independent Alan Island work! Latest
+fetched parent is a4712a30ab6494f2deab78a9253b30beb806e806. Preserve its root and
+`alan-island` files; publish the new Far Horizon only under **far-horizon/**.
+Planned URL `https://loganrossbryant-ai.github.io/hello-earth-demo/far-horizon/play.html`.
+Fetch again before creating/pushing the Pages commit, use a temporary index and
+only the new owned folder, fast-forward only. Never force-push or copy source
+history into hosting. Exact candidate hashes and the fresh scan must match.
+
+Temporary source index from the last turn was deleted after source checkpoint
+4bca990; create a new one parented to 4bca990 for the mobile source change.
+Runtime and skill were read; network is enforced, git push dry-run succeeded.
+GitHub APIs/github.io are not allowed; GitHub HTML/raw/git are allowed. Use
+Actions summaries and public report branches to verify scan/deployment.
+
+PC/iPhone final validation: phone preview PASS; PC shared entry PASS; exact PC
+release all64 beats PASS, zero errors, save/reload/glosses/reset PASS.
+Fresh Defender run41322320949 PASS, sourcea4fdcc3, same22-file manifest, no
+detections, signatures1.463.73.0, active/no exclusions/hash match. Actual report
+saved at `defender-pc-iphone-report.json`; full verification JSON at
+`pc-iphone-release-verification.json`. Deployment is now authorized and ready.

@@ -10,18 +10,25 @@
     }
   } catch (_) { id = "fh-gm-" + Date.now(); }
   const channel = new BroadcastChannel(id);
-  const allowed = new Set(["jump", "cue", "next", "previous", "clue", "hide_clue", "close", "freeze", "clean", "language", "sound", "voice", "replay", "talk", "threat", "board", "glossary", "export", "reset_session"]);
+  const allowed = new Set(["move", "interact", "reply", "jump", "cue", "next", "previous", "clue", "hide_clue", "close", "freeze", "clean", "language", "sound", "voice", "replay", "talk", "threat", "board", "glossary", "export", "reset_session"]);
   const queue = [];
+  const submit = function(command) {
+    if (!command || !allowed.has(command.action) || queue.length > 60) return false;
+    queue.push(command);return true;
+  };
   channel.onmessage = function (event) {
     const data = event.data;
     if (!data || data.app !== "far-horizon-gm" || data.kind !== "command") return;
-    if (!data.command || !allowed.has(data.command.action) || queue.length > 60) return;
-    queue.push(data.command);
+    submit(data.command);
   };
   window.fhGMBridge = {
     id: id,
     queue: queue,
-    publish: function (state) { channel.postMessage({ app: "far-horizon-gm", kind: "state", state: state }); },
+    submit: submit,
+    publish: function (state) {
+      channel.postMessage({ app: "far-horizon-gm", kind: "state", state: state });
+      if (window.parent !== window) window.parent.postMessage({app:"far-horizon-preview",kind:"state",state:state},location.origin);
+    },
     openDesk: function () {
       const url = new URL("gm.html", window.location.href);
       url.searchParams.set("channel", id);

@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; frame-src 'self'; connect-src 'self'">
+<meta name="theme-color" content="#08151d">
+<title>The Far Horizon · Play the draft</title>
+<link rel="icon" href="index.png">
+<link rel="stylesheet" href="play.css">
+<script src="play.js" defer></script>
+</head>
+<body>
+<main id="welcome">
+ <section class="invitation">
+  <p class="eyebrow">THE PIONEER INITIATIVE · 2247</p>
+  <h1>The Far Horizon</h1>
+  <p class="intro">One ship. Four departments.<br>A journey that refuses to add up.</p>
+  <p class="muted">Sessions 1–3 · GM visual aid · Playable draft</p>
+  <button id="begin" class="primary">Explore the draft <span aria-hidden="true">↗</span></button>
+  <p class="instructions">PC: A/D or arrows to walk, E to interact.<br>iPhone: turn sideways and use the touch controls.</p>
+  <p id="load-note" class="muted" role="status">The first launch may take a moment. No app installation needed.</p>
+ </section>
+</main>
+<section id="player" hidden aria-label="Far Horizon game">
+ <div id="stage-slot"><iframe id="stage" title="The Far Horizon game" allow="autoplay; fullscreen" allowfullscreen></iframe></div>
+ <p id="orientation">Turn your phone sideways for a wider view.</p>
+ <div id="status" role="status">Preparing Pioneer…</div>
+ <nav id="movement" aria-label="Movement">
+  <button id="left" aria-label="Walk left" disabled>◀</button>
+  <button id="right" aria-label="Walk right" disabled>▶</button>
+ </nav>
+ <nav id="tools" aria-label="Game controls">
+  <button id="use" disabled>Interact</button>
+  <button id="read" disabled>Read</button>
+  <button id="scenes" disabled>Scenes</button>
+  <button id="back" disabled>Return</button>
+ </nav>
+ <nav id="advance" aria-label="Story controls">
+  <button id="previous" disabled>‹ Previous</button>
+  <button id="next" disabled>Next ›</button>
+  <button id="desk" disabled>GM desk</button>
+ </nav>
+</section>
+<dialog id="sheet" aria-labelledby="sheet-title">
+ <header><h2 id="sheet-title"></h2><button id="dismiss" aria-label="Close reading panel">Close ×</button></header>
+ <div id="sheet-content"></div>
+</dialog>
+</body>
+</html>

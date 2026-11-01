@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; font-src 'self'; img-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
+  <title>Far Horizon · GM desk</title>
+  <link rel="icon" type="image/png" href="index.png">
+  <link rel="stylesheet" href="gm.css">
+  <script src="gm.js" defer></script>
+</head>
+<body>
+  <header><div><p class="eyebrow">CSV–01 PIONEER / DIRECTOR'S STATION</p><h1>The Far Horizon</h1></div><div><p id="connection" role="status">Connecting to the stage…</p><p class="subtle">Keep this window on your laptop. Project the game window.</p></div></header>
+  <nav aria-label="Presentation controls">
+    <button data-action="previous">← Previous beat</button><button data-action="next" class="primary">Next beat →</button><button data-action="close">Close projected card</button>
+    <button data-action="freeze" id="freeze">Hold picture</button><button data-action="clean" id="clean">Hide stage controls</button><button data-action="sound" id="sound">SFX off</button><button data-action="voice" id="voice">Voices on</button><button data-action="replay">Replay beat</button>
+  </nav>
+  <main>
+    <aside><p class="eyebrow">SCENE DIRECTORY</p><div id="scene-list"></div><p class="subtle">Jumping preserves progress. No writing or combat result blocks a clue.</p><button data-action="export">Save GM progress JSON</button><button id="reset" class="quiet">Reset this session…</button></aside>
+    <article>
+      <section><p class="eyebrow" id="session">SESSION 01</p><h2 id="scene-title">Waiting for the game</h2><p id="focus" class="subtle"></p><div id="cue-list" class="cue-list"></div></section>
+      <section class="notes"><p class="eyebrow">PRIVATE GM NOTES</p><p id="gm-notes">Open this desk using G or the GM Desk button in the game. It connects only to that game window in this browser.</p><div id="npc-list" class="row"></div></section>
+      <section id="encounter" hidden><p class="eyebrow">MANUAL THREAT BOXES / THREE GM-ADVANCED ROUNDS</p><div id="threat-list" class="row"></div><p class="subtle">Any safe tactic can work. The maintenance record survives every outcome.</p></section>
+      <section><div class="section-heading"><h2>Evidence desk</h2><button data-action="board">Project revealed evidence board</button></div><p class="subtle">Preview here without projecting. Reveal a card when the class reaches it.</p><div id="clue-list" class="clue-list"></div><div id="clue-preview" hidden></div></section>
+      <section><div class="section-heading"><h2>Academic vocabulary</h2><button id="print-words">Print vocabulary handout</button></div><p class="subtle">Optional word support for WIDA 1–3. Story dialogue stays in English. A projected gloss is visible to everyone.</p><div class="row"><label for="language">Word glosses</label><select id="language"><option value="zh">简体中文</option><option value="ko">한국어</option><option value="ja">日本語</option></select><button data-action="glossary">Project word support</button></div><div id="word-list" class="word-list"></div></section>
+      <footer><p id="audio-status">Checking voice recordings…</p><p class="subtle">Same-browser GM controls · local presentation progress · no student accounts or response collection.</p><p class="subtle">Stage shortcuts: A/D or arrows to walk · E interact · 1–4 department · Enter next · Page Up previous · Space hold · P hide controls · C clues · V words · Escape close.</p></footer>
+    </article>
+  </main>
+  <noscript>This GM desk needs JavaScript enabled to communicate with the game.</noscript>
+</body>
+</html>

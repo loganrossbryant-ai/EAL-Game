@@ -71,11 +71,10 @@ verifies behavior/rendering, not classroom GPU smoothness. Test the shared build
 on the actual projecting laptop before a lesson. Older 2D planted-foot statistics
 do not validate the new 3D characters; the new pelvis result measures their skeleton.
 
-The release candidate contains **18 separate files, about 93 MiB**, with exact
-SHA-256 hashes and Godot/font/CC0 model licenses. No packed single HTML or ZIP is
-used. No fresh Defender clearance or new deployment is claimed. The older live
-Session 1 scan does not apply to these bytes. Respect the earlier no-publication
-instruction before uploading the new candidate or replacing the shared demo.
+The shared release contains **22 separately hashed game/preview/license files**,
+with Godot/font/CC0 model licenses. No packed single HTML or ZIP is used. It
+passed the fresh Defender review recorded below and was published after the
+user explicitly approved publication. The earlier Session 1 scan is historical.
 
 Versioned machine-readable evidence and file hashes:
 `docs/far-horizon/3d-release-local-verification.json`.

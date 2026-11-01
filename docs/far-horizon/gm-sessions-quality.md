@@ -1,7 +1,7 @@
 # Far Horizon — Sessions 1–3, 3D foreground revision
 
 **PC/iPhone preview checks and exact desktop QA passed. Fresh Windows Defender
-scan passed. Public deployment is authorized and in progress. ElevenLabs remains
+scan passed. Public deployment is verified: Pages run 41323549024, commit 7953e57. ElevenLabs remains
 deferred.**
 
 ## Scope and story
@@ -118,3 +118,12 @@ Versioned evidence: `pc-iphone-release-verification.json` and
 `defender-pc-iphone-report.json`. The earlier 18-file record is historical.
 The user authorized publication; host only under `far-horizon/` and preserve
 the independent root/Alan Island game. Deployment must still be observed.
+
+The shared URL is now published at
+https://loganrossbryant-ai.github.io/hello-earth-demo/far-horizon/play.html.
+Pages run **41323549024** succeeded for commit
+`7953e570a3da1b236df1361e3e1cbcf2390237e3`. All22 game-file hashes match the
+scanned candidate. The existing root game and Alan Island tree are unchanged.
+Verification used actual Pages/GitHub commit evidence; direct github.io navigation
+is blocked by this environment's policy and was not claimed. See
+`pages-pc-iphone-deployment.json`.

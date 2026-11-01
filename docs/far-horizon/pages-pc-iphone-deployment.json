@@ -1,0 +1,17 @@
+{
+  "release_commit": "7953e570a3da1b236df1361e3e1cbcf2390237e3",
+  "source_commit": "ab749b7600c50f7bcdc335f55058e5e4dc2a5f4f",
+  "review_commit": "a4fdcc3cb468f6a254d1cca0b63c4f77b4dda5e8",
+  "defender_run": "41322320949",
+  "pages_run": "41323549024",
+  "pages_status": "Success",
+  "public_branch": "gh-pages",
+  "url": "https://loganrossbryant-ai.github.io/hello-earth-demo/far-horizon/play.html",
+  "verified_at_utc": "2026-11-01T15:58:13.930529+00:00",
+  "verification": "Public GitHub Actions summary: successful deployment and exact release commit; remote branch matches; all 22 published game-file hashes match the scanned candidate.",
+  "live_http_navigation_tested": false,
+  "physical_iphone_safari_tested": false,
+  "phone_touch_emulation": "passed",
+  "voices": "deferred",
+  "root_and_alan_island": "preserved byte-for-byte"
+}

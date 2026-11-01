@@ -81,3 +81,29 @@ was deployed by Pages run `41227599343`, Status Success, on `gh-pages`.
 The run records successful build/deploy jobs and the existing browser URL.
 Verification used the public GitHub Actions summary, with exact-byte browser
 checks locally; direct github.io access is still blocked by this runtime policy.
+
+## Sessions 1–3 PC/iPhone publication — 2026-11-01
+
+The user authorized the new publication. Active Windows Defender run
+**41322320949**, review commit `a4fdcc3cb468f6a254d1cca0b63c4f77b4dda5e8`,
+passed with native exit0, no detections/errors, signatures1.463.73.0, normal active
+protection, script/archive scanning, no exclusions and matching hashes before
+and after scan. Manifest SHA-256
+`2f484806730de72363d1b11c01bfbdd0e71709a7b1dce430935d0641442cdc56`
+covers22 ordinary game/preview/license files. See
+`defender-pc-iphone-report.json` and `pc-iphone-release-verification.json`.
+
+Exact release QA passed all64 beats at1280×720, save/reload, dialogue, three
+gloss languages and reset/preservation with zero errors. PC shared-entry and
+iPhone-size touch/rotation/reading tests passed with zero errors. A physical
+iPhone and Safari engine were not tested; the official WebKit download was
+blocked by network policy. No restriction was bypassed.
+
+Public Pages commit `7953e570a3da1b236df1361e3e1cbcf2390237e3` adds only
+`far-horizon/`, preserving the root and Alan Island game. Pages run41323549024
+succeeded for that exact commit; hosted game-file hashes match the scan. URL:
+https://loganrossbryant-ai.github.io/hello-earth-demo/far-horizon/play.html.
+Direct live HTTP navigation remains unavailable in this runtime; deployment
+verification used GitHub's actual successful run, commit and published tree.
+Old scan/deployment entries above are historical. The packed HTML/ZIP remains
+withdrawn and no absolute malware-free guarantee is made.

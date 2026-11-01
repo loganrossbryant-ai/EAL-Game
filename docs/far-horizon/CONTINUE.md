@@ -190,3 +190,27 @@ Fresh Defender run41322320949 PASS, sourcea4fdcc3, same22-file manifest, no
 detections, signatures1.463.73.0, active/no exclusions/hash match. Actual report
 saved at `defender-pc-iphone-report.json`; full verification JSON at
 `pc-iphone-release-verification.json`. Deployment is now authorized and ready.
+
+## NOW LIVE — authoritative latest state
+
+Shared PC/iPhone URL:
+https://loganrossbryant-ai.github.io/hello-earth-demo/far-horizon/play.html
+
+Public host commit7953e570a3da1b236df1361e3e1cbcf2390237e3, Pages run41323549024
+SUCCESS, exact commit visible in public run. Remote gh-pages matches. All22
+published game-file hashes match Defender reviewa4fdcc3, run41322320949 PASS.
+Root/Alan Island trees were preserved exactly. Live github.io navigation is
+policy-blocked; do not claim it was opened here. Physical iPhone/Safari was not
+tested; iPhone13-size touch/rotation/Read/dialogue/scene picker passed Chromium
+emulation. PC shared wrapper/keyboard/GM popup passed, and all64 exact release
+beats/save/gloss/reset passed with zero errors. ElevenLabs deferred.
+
+Source was pushed to EAL-Game branch `codex/far-horizon-gm-sessions-1-3`, code
+commitab749b7600c50f7bcdc335f55058e5e4dc2a5f4f. Deployment metadata follow-up
+is a child on that same branch. Workspace `work` remains baseline; unrelated
+root README/godot Earth and clean hello-earth-demo checkout unchanged.
+
+Latest records: `pages-pc-iphone-deployment.json`, `defender-pc-iphone-report.json`,
+`pc-iphone-release-verification.json`. Candidate22 files (~95MiB), manifest2f4848...
+No environment configuration changes or publication. User's approval covers
+this game release; do not request it again for an already-authorized next step.

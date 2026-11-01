@@ -7,6 +7,7 @@ var pieces: Dictionary = {}
 var regions: Dictionary = {}
 var texture: Texture2D
 var ready_rig = false
+var hip_y = -104.5
 
 func setup(department: int) -> bool:
 	var base = "res://assets/art/rigs/" + NAMES[department]
@@ -68,10 +69,14 @@ func _body(hip: Vector2, tilt: float) -> void:
 static func knee_for(hip: Vector2, foot: Vector2) -> Vector2:
 	const THIGH = 50.0
 	const SHIN = 42.0
-	var d = clampf(hip.distance_to(foot), 10, THIGH + SHIN - 0.05)
+	# Small leg extension handles reach without moving the pelvis up and down.
+	var extension = clampf(hip.distance_to(foot) / (THIGH + SHIN - 0.1), 1.0, 1.11)
+	var thigh = THIGH * extension
+	var shin = SHIN * extension
+	var d = clampf(hip.distance_to(foot), 10, thigh + shin - 0.05)
 	var heading = (foot - hip).angle()
-	var bend = acos(clampf((THIGH * THIGH + d * d - SHIN * SHIN) / (2.0 * THIGH * d), -1, 1))
-	return hip + Vector2.from_angle(heading - bend) * THIGH
+	var bend = acos(clampf((thigh * thigh + d * d - shin * shin) / (2.0 * thigh * d), -1, 1))
+	return hip + Vector2.from_angle(heading - bend) * thigh
 
 func _boot(name: String, sole: Vector2, lift: float) -> void:
 	var r = _region(name)
@@ -87,10 +92,9 @@ func _boot(name: String, sole: Vector2, lift: float) -> void:
 
 func pose(near_foot: Vector2, far_foot: Vector2, gait: float, weight: float, breath: float, lean: float) -> void:
 	if not ready_rig: return
-	var bob = sin(breath * 1.65) * 0.35 * (1 - weight)
-	var reach_x = maxf(absf(near_foot.x - 3), absf(far_foot.x + 3))
-	var hip_height = minf(104.5, sqrt(maxf(100, 91.5 * 91.5 - reach_x * reach_x)) + 14)
-	var hip = Vector2(0, -hip_height + bob)
+	var bob = sin(breath * 1.65) * 0.18 * (1 - weight) + sin(gait * TAU * 2) * 0.45 * weight
+	hip_y = -104.5 + bob
+	var hip = Vector2(0, hip_y)
 	var far_hip = hip + Vector2(-3, -1)
 	var near_hip = hip + Vector2(3, 0)
 	var near_ankle = near_foot + Vector2(0, -14)
@@ -103,7 +107,7 @@ func pose(near_foot: Vector2, far_foot: Vector2, gait: float, weight: float, bre
 	_limb("near_thigh", near_hip, near_knee, 3, 4)
 	_limb("near_shin", near_knee, near_ankle, 4, 3)
 	_boot("near_boot", near_foot, near_foot.y)
-	_body(hip, lean + sin(gait * TAU) * 0.008 * weight)
+	_body(hip, lean + sin(gait * TAU) * 0.003 * weight)
 	for near in [false, true]:
 		var phase = gait * TAU + (0.0 if near else PI)
 		var swing = cos(phase) * 0.30 * weight

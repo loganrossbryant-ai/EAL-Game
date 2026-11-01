@@ -1,0 +1,1401 @@
+{
+  "version": 2,
+  "title": "The Far Horizon",
+  "mode": "GM visual aid",
+  "sessions": [
+    {
+      "id": 1,
+      "title": "Welcome to Pioneer",
+      "must": "Board, launch, keep an Earth object, glimpse an anomaly and end on the route log."
+    },
+    {
+      "id": 2,
+      "title": "The Pioneer",
+      "must": "Resolve the maintenance incident and reveal the repair record from tomorrow."
+    },
+    {
+      "id": 3,
+      "title": "The First Anomaly",
+      "must": "Connect four anomalies, hear Iris say ‘Both,’ and end on the sealed +103 DAYS packet."
+    }
+  ],
+  "characters": {
+    "venn": {
+      "name": "Captain Mara Venn",
+      "role": "Captain / CSV-01 Pioneer",
+      "sheet": "officers.png",
+      "region": 0,
+      "opening": "Cohort 01, you were selected because this mission requires people who can adapt for decades, not simply survive a launch. Asteria is not a rescue. It is a beginning.",
+      "replies": [
+        {
+          "question": "Why leave a healthy Earth?",
+          "text": "Because humanity should never have only one home. Earth is not dying. We are choosing to build a second civilization on Asteria-4."
+        },
+        {
+          "question": "What do you need from the crew?",
+          "text": "We will disagree. When we do, speak plainly, listen closely, and make your reasons visible to one another."
+        },
+        {
+          "question": "What if we are afraid?",
+          "text": "You do not have to know who you will become before you board."
+        },
+        {
+          "question": "What should happen to the maintenance record?",
+          "text": "Nobody deletes the record.",
+          "requires": "ticket"
+        }
+      ],
+      "openings": {
+        "2": "Nobody deletes the record.",
+        "3": "Speak plainly. Tell the crew what you see before you tell them what it means."
+      }
+    },
+    "juno": {
+      "name": "Juno Reyes",
+      "role": "Student liaison",
+      "sheet": "officers.png",
+      "region": 1,
+      "opening": "If you forgot to say goodbye to someone, you have about forty seconds to decide whether that matters.",
+      "replies": [
+        {
+          "question": "I am trying to hide my nervousness.",
+          "text": "Then give your character something to do with their hands. We can see a tightened strap or a folded note. We cannot see a thought."
+        },
+        {
+          "question": "What if we want different things?",
+          "text": "Who crosses first? Who hangs back? Who notices? You can disagree and still cross the same line."
+        },
+        {
+          "question": "How do we make this ship ours?",
+          "text": "This is your ship too. What would make a room feel like yours?"
+        },
+        {
+          "question": "The recreation booking has become an argument.",
+          "text": "Start with what each person wants right now. Then show us what they do to get it.",
+          "min_session": 2
+        }
+      ],
+      "openings": {
+        "2": "This is your ship too. What would make a room feel like yours?"
+      }
+    },
+    "iris": {
+      "name": "Iris",
+      "role": "Ship intelligence",
+      "sheet": "iris.jpeg",
+      "region": 0,
+      "opening": "Cohort 01 biometric integration complete.",
+      "replies": [
+        {
+          "question": "Confirm the destination.",
+          "text": "CSV-01 Pioneer. Destination: Asteria-4. Mission: establish a deliberate second civilization. Earth remains habitable."
+        },
+        {
+          "question": "Explain the departments.",
+          "text": "Flight navigates. Science investigates. Engineering maintains the ship. Colony helps a community take shape. Each department depends on the others."
+        },
+        {
+          "question": "Can you classify the brief lensing pattern?",
+          "text": "insufficient image duration for classification.",
+          "requires": "frame"
+        },
+        {
+          "question": "Why was the unit allowed to do that?",
+          "text": "The unit is operating within maintenance authority.",
+          "min_session": 2,
+          "max_session": 2
+        }
+      ],
+      "openings": {
+        "2": "Maintenance authority is active. How may I assist?",
+        "3": "The navigation estimates are available. State your question."
+      }
+    },
+    "rhee": {
+      "name": "Chief Tomas Rhee",
+      "role": "Chief engineer",
+      "sheet": "officers_s23.png",
+      "region": 0,
+      "opening": "Every ship is a collection of problems that have agreed not to happen at the same time.",
+      "replies": [
+        {
+          "question": "What is that maintenance unit doing?",
+          "text": "That unit is either malfunctioning or developing artistic opinions. Both are unacceptable.",
+          "min_session": 2,
+          "max_session": 2
+        },
+        {
+          "question": "How should we stop it?",
+          "text": "Shut it down, trap it, redirect it, or cut its power. Protect the ship and the people first.",
+          "min_session": 2,
+          "max_session": 2
+        },
+        {
+          "question": "Can we trust the repair record?",
+          "text": "Machines lie less often than people. That does not mean they never lie.",
+          "requires": "ticket"
+        },
+        {
+          "question": "What is wrong with the clocks?",
+          "text": "Four correct clocks can still make one impossible system.",
+          "requires": "clocks"
+        },
+        {
+          "question": "What should a new engineer remember?",
+          "text": "Notice what changes. Check before you act. A good question can prevent a very expensive repair."
+        }
+      ],
+      "openings": {
+        "2": "That unit is either malfunctioning or developing artistic opinions. Both are unacceptable.",
+        "3": "Four correct clocks can still make one impossible system."
+      }
+    },
+    "vale": {
+      "name": "Dr Elias Vale",
+      "role": "Astrophysicist",
+      "sheet": "officers_s23.png",
+      "region": 1,
+      "opening": "If the instrument is wrong, tell me how. If physics is wrong, I need a longer lunch.",
+      "replies": [
+        {
+          "question": "What do the K-17 readings show?",
+          "text": "The mass and lensing readings cannot be reconciled under normal physics."
+        },
+        {
+          "question": "Have we proved an explanation?",
+          "text": "Keep the observation separate from the explanation. Tell us what you measured, then tell us what you think it means."
+        },
+        {
+          "question": "Could this be an ordinary relativistic effect?",
+          "text": "Test that model. The magnitude and pattern do not fit ordinary relativistic effects."
+        }
+      ]
+    },
+    "okafor": {
+      "name": "Dr Nia Okafor",
+      "role": "Chief medical officer",
+      "sheet": "officers_s23.png",
+      "region": 2,
+      "opening": "Your body is part of the mission equipment. Unlike the equipment, you are allowed to disagree with me.",
+      "replies": [
+        {
+          "question": "Why are the biological readings different?",
+          "text": "Your cells do not know they are supposed to agree with the ship clock.",
+          "requires": "biometric"
+        },
+        {
+          "question": "Should we let the unit repair us?",
+          "text": "Before anyone volunteers to be repaired, come see me.",
+          "min_session": 2,
+          "max_session": 2,
+          "requires": "ticket"
+        },
+        {
+          "question": "Do we know what causes the timing drift?",
+          "text": "The difference is an observation. It is not yet an explanation.",
+          "requires": "biometric"
+        },
+        {
+          "question": "How can we look after one another?",
+          "text": "Make time to rest. Speak up when something feels wrong. Looking after a community begins with noticing one another."
+        }
+      ],
+      "openings": {
+        "3": "Your cells do not know they are supposed to agree with the ship clock."
+      }
+    },
+    "m77": {
+      "name": "Maintenance unit M-77",
+      "role": "Automated service unit",
+      "sheet": "m77.png",
+      "region": 0,
+      "opening": "OBSTRUCTION DETECTED. REPAIRING OBSTRUCTION.",
+      "replies": [
+        {
+          "question": "Stop the repair.",
+          "text": "OBSTRUCTION DETECTED. REPAIRING OBSTRUCTION."
+        },
+        {
+          "question": "What repair are you talking about?",
+          "text": "PLEASE DO NOT INTERFERE WITH YOUR PREVIOUS REPAIR.",
+          "requires": "ticket"
+        }
+      ]
+    }
+  },
+  "clues": {
+    "mission": {
+      "session": 1,
+      "title": "Mission briefing",
+      "tag": "PIONEER INITIATIVE / 2247",
+      "image": "mission.jpg",
+      "fields": [
+        [
+          "VESSEL",
+          "CSV-01 Pioneer"
+        ],
+        [
+          "CREW",
+          "Cohort 01"
+        ],
+        [
+          "DESTINATION",
+          "Asteria-4"
+        ],
+        [
+          "MISSION",
+          "Establish humanity’s first truly independent second civilization."
+        ],
+        [
+          "EARTH",
+          "Still habitable. This is a deliberate beginning, not an evacuation."
+        ]
+      ],
+      "note": "Why does your character leave a world that is still alive?"
+    },
+    "badges": {
+      "session": 1,
+      "title": "Crew credentials",
+      "tag": "IDENTITY / DEPARTMENT",
+      "image": "badges.jpg",
+      "fields": [
+        [
+          "FLIGHT",
+          "Navigation and a shared direction"
+        ],
+        [
+          "SCIENCE",
+          "Questions, investigation and care"
+        ],
+        [
+          "ENGINEERING",
+          "Keeping the ship working"
+        ],
+        [
+          "COLONY",
+          "Helping a community take shape"
+        ]
+      ],
+      "note": "The badge names a responsibility. The character still chooses how to carry it."
+    },
+    "directory": {
+      "session": 1,
+      "title": "Pioneer orientation",
+      "tag": "SIX WORKING AREAS",
+      "image": "",
+      "fields": [
+        [
+          "BRIDGE & OBSERVATION",
+          "A shared direction"
+        ],
+        [
+          "SCIENCE & MEDICAL",
+          "Questions and care"
+        ],
+        [
+          "STUDENT HABITATION",
+          "Rest and belonging"
+        ],
+        [
+          "COLONY COMMONS",
+          "A community taking shape"
+        ],
+        [
+          "ENGINEERING",
+          "Keeping a world working"
+        ],
+        [
+          "CARGO & BOARDING",
+          "What we carry"
+        ]
+      ],
+      "note": "Each department chooses one place it expects to matter and explains why."
+    },
+    "frame": {
+      "session": 1,
+      "title": "One impossible frame",
+      "tag": "OBSERVATION / UNCLASSIFIED",
+      "image": "",
+      "fields": [
+        [
+          "DURATION",
+          "Less than a second"
+        ],
+        [
+          "OBSERVATION",
+          "A bent-light pattern briefly interrupts the starlight."
+        ],
+        [
+          "IRIS",
+          "insufficient image duration for classification."
+        ]
+      ],
+      "note": "Describe what you could actually see before deciding what it means."
+    },
+    "route": {
+      "session": 1,
+      "title": "Route log",
+      "tag": "CSV-01 / ROUTE CONTROL",
+      "image": "",
+      "fields": [
+        [
+          "IRIS",
+          "Route correction accepted."
+        ],
+        [
+          "VENN",
+          "Who entered that correction?"
+        ],
+        [
+          "IRIS",
+          "No correction was entered."
+        ]
+      ],
+      "note": "Keep the question open."
+    },
+    "ticket": {
+      "session": 2,
+      "title": "Maintenance ticket",
+      "tag": "M-77 / HAB DECK",
+      "image": "",
+      "fields": [
+        [
+          "UNIT",
+          "M-77 / HAB DECK"
+        ],
+        [
+          "STATUS",
+          "REPAIRED"
+        ],
+        [
+          "COMPLETED",
+          "TOMORROW 14:32"
+        ],
+        [
+          "TECHNICIAN",
+          "COHORT 01"
+        ],
+        [
+          "NOTE",
+          "Collision with unrecorded passenger resolved."
+        ]
+      ],
+      "note": "The record names a repair the crew has not yet performed. The timestamp is the essential contradiction."
+    },
+    "restricted": {
+      "session": 2,
+      "title": "Restricted access notice",
+      "tag": "PIONEER / SHIP SECURITY",
+      "image": "restricted.jpg",
+      "fields": [
+        [
+          "ACCESS",
+          "RESTRICTED"
+        ],
+        [
+          "NOTICE",
+          "Unauthorized access is a violation of ship security protocols."
+        ],
+        [
+          "RECORD",
+          "All access attempts are logged and reviewed."
+        ]
+      ],
+      "note": "The notice establishes a boundary. It does not reveal what is behind it."
+    },
+    "arrival": {
+      "session": 3,
+      "title": "Two arrival estimates",
+      "tag": "FLIGHT / PRIVILEGED FACT",
+      "image": "",
+      "fields": [
+        [
+          "ESTIMATE A",
+          "37 DAYS"
+        ],
+        [
+          "ESTIMATE B",
+          "102 DAYS"
+        ],
+        [
+          "ROUTE CHANGE",
+          "NONE RECORDED"
+        ]
+      ],
+      "note": "Fact: the navigation estimates change without a route change. An explanation is still an inference."
+    },
+    "lensing": {
+      "session": 3,
+      "title": "K-17 anomaly readout",
+      "tag": "SCIENCE / PRIVILEGED FACT",
+      "image": "anomaly.jpg",
+      "fields": [
+        [
+          "GRAVITATIONAL LENSING",
+          "+317%"
+        ],
+        [
+          "RADIATION SPIKE",
+          "DETECTED"
+        ],
+        [
+          "SPACETIME VARIANCE",
+          "UNSTABLE"
+        ],
+        [
+          "SIGNAL ORIGIN",
+          "UNKNOWN"
+        ]
+      ],
+      "note": "The mass and lensing readings cannot be reconciled under normal physics. What can you establish from these observations?"
+    },
+    "clocks": {
+      "session": 3,
+      "title": "Unsynchronized clocks",
+      "tag": "ENGINEERING / PRIVILEGED FACT",
+      "image": "clocks.jpg",
+      "fields": [
+        [
+          "SHIP",
+          "14:27"
+        ],
+        [
+          "EARTH / UTC",
+          "14:32"
+        ],
+        [
+          "K-17",
+          "14:19"
+        ],
+        [
+          "MEDBAY",
+          "14:31"
+        ],
+        [
+          "HARDWARE CHECK",
+          "The clocks are functioning correctly."
+        ]
+      ],
+      "note": "Fact: the clocks function correctly, but no longer agree. What would you need to observe next?"
+    },
+    "biometric": {
+      "session": 3,
+      "title": "Biometric timing monitor",
+      "tag": "COLONY / PRIVILEGED FACT",
+      "image": "biometric.jpg",
+      "fields": [
+        [
+          "HEART RATE",
+          "42 / MIN"
+        ],
+        [
+          "SpO₂",
+          "97%"
+        ],
+        [
+          "TEMPERATURE",
+          "35.1°C"
+        ],
+        [
+          "EEG",
+          "IRREGULAR"
+        ],
+        [
+          "OBSERVATION",
+          "Biological clocks / cellular timing are drifting differently from ship time."
+        ]
+      ],
+      "note": "Biological timing differs from ship time. Keep the observation separate from an explanation of its cause."
+    },
+    "both": {
+      "session": 3,
+      "title": "Which one is right?",
+      "tag": "IRIS / TWO CORRECT READINGS",
+      "image": "",
+      "fields": [
+        [
+          "ARRIVAL A",
+          "37 DAYS"
+        ],
+        [
+          "ARRIVAL B",
+          "102 DAYS"
+        ],
+        [
+          "IRIS",
+          "Both."
+        ]
+      ],
+      "note": "The contradiction is confirmed. The cause remains unresolved."
+    },
+    "packet": {
+      "session": 3,
+      "title": "Incoming packet",
+      "tag": "DEEP-SPACE COMMUNICATIONS",
+      "image": "",
+      "fields": [
+        [
+          "SOURCE",
+          "CSV-01 PIONEER"
+        ],
+        [
+          "TIMESTAMP",
+          "+103 DAYS"
+        ],
+        [
+          "STATUS",
+          "SEALED / CONTENT NOT OPENED"
+        ]
+      ],
+      "note": "Only the source and timestamp are available. The contents remain sealed."
+    }
+  },
+  "scenes": [
+    {
+      "id": "s1_terminal",
+      "session": 1,
+      "title": "The last room on Earth",
+      "room": "terminal",
+      "cues": [
+        {
+          "title": "2247 / Cohort 01",
+          "text": "Earth is not dying. That is what makes leaving harder. Ahead waits CSV-01 Pioneer. Why does your character leave?",
+          "speaker": ""
+        },
+        {
+          "title": "A beginning",
+          "text": "Cohort 01, you were selected because this mission requires people who can adapt for decades, not simply survive a launch. Asteria is not a rescue. It is a beginning.",
+          "speaker": "venn"
+        },
+        {
+          "title": "Want and need",
+          "text": "What does your character WANT? What might they NEED to learn? What do they fear losing? Keep one object from Earth.",
+          "speaker": "",
+          "clue": "mission"
+        }
+      ],
+      "npcs": [
+        "juno",
+        "venn",
+        "iris"
+      ],
+      "clues": [
+        "mission",
+        "badges"
+      ],
+      "gm": "Bible pp.4–6. Earth is healthy. Character work stays on paper / in live performance. Do not make navigation depend on a form. Keep Earth objects in your own notes for later callbacks.",
+      "focus": "Ensemble • given circumstances • want and need",
+      "start": 520
+    },
+    {
+      "id": "s1_boarding",
+      "session": 1,
+      "title": "The boarding threshold",
+      "room": "terminal",
+      "cues": [
+        {
+          "title": "Thirty seconds to board",
+          "text": "One character wants to look back. One wants to move. One hides nervousness. Someone notices something strange.",
+          "speaker": ""
+        },
+        {
+          "title": "Cross together",
+          "text": "Create a stage picture, then physically cross a line that represents leaving Earth. What did the ensemble communicate before anybody spoke?",
+          "speaker": "",
+          "clue": "badges"
+        }
+      ],
+      "npcs": [
+        "juno",
+        "venn"
+      ],
+      "clues": [
+        "mission",
+        "badges"
+      ],
+      "gm": "The crossing is performed in the classroom. Nothing is timed automatically. Once each company has a clear crossing moment, cut to launch. Student choice remains open.",
+      "focus": "Stage picture • status • ensemble",
+      "start": 1760
+    },
+    {
+      "id": "s1_launch",
+      "session": 1,
+      "title": "Launch",
+      "room": "launch",
+      "cues": [
+        {
+          "title": "Take your places",
+          "text": "The restraints lock. The launch tower waits beyond the glass. Take one last breath of the world you know.",
+          "speaker": ""
+        },
+        {
+          "title": "Ignition",
+          "text": "Vibration. Pressure. The impossible sight of Earth dropping beneath you.",
+          "speaker": "",
+          "effect": "rumble",
+          "sfx": 1
+        },
+        {
+          "title": "The tower falls away",
+          "text": "The cities are still lit. The oceans still move. Everything familiar grows smaller behind the glass.",
+          "speaker": "",
+          "effect": "ascent"
+        },
+        {
+          "title": "Engine cutoff",
+          "text": "The engines cut. A pen lifts from a console. Somebody laughs. Somebody else does not.",
+          "speaker": "",
+          "effect": "float",
+          "sfx": 3
+        },
+        {
+          "title": "One ship. One floor.",
+          "text": "Welcome aboard Pioneer.",
+          "speaker": "venn",
+          "effect": "float"
+        }
+      ],
+      "npcs": [
+        "iris"
+      ],
+      "clues": [],
+      "gm": "Launch BEFORE the tour: teacher-confirmed chronology. Every beat is manually held. The pen floats only after cutoff. No countdown or automatic failure.",
+      "focus": "Wonder • visible action and silent reaction",
+      "start": 520
+    },
+    {
+      "id": "s1_habitation",
+      "session": 1,
+      "title": "A place aboard Pioneer",
+      "room": "habitation",
+      "cues": [
+        {
+          "title": "Meet the crew",
+          "text": "Juno Reyes / student liaison. Chief Tomas Rhee / engineering. Dr Nia Okafor / medical. Your shipmates are ready to meet you.",
+          "speaker": ""
+        },
+        {
+          "title": "A quick orientation",
+          "text": "Choose one place your department expects to matter. Explain why. Keep the class together.",
+          "speaker": "",
+          "clue": "directory"
+        },
+        {
+          "title": "A room of your own",
+          "text": "This is your ship too. What would make a room feel like yours?",
+          "speaker": "juno"
+        },
+        {
+          "title": "What we carry",
+          "text": "Keep the Earth object. What can it hold that the ship cannot replace?",
+          "speaker": ""
+        }
+      ],
+      "npcs": [
+        "juno",
+        "rhee",
+        "okafor"
+      ],
+      "clues": [
+        "directory",
+        "badges"
+      ],
+      "gm": "Montage the ship; do not run a room-by-room dungeon. The source does not supply a numbered canonical deck map, so the six-area directory is unnumbered.",
+      "focus": "Belonging • a choice with a reason",
+      "start": 520
+    },
+    {
+      "id": "s1_observation",
+      "session": 1,
+      "title": "One impossible frame",
+      "room": "bridge",
+      "cues": [
+        {
+          "title": "Beyond the glass",
+          "text": "The observation glass darkens. The stars brighten. Watch in silence for a moment.",
+          "speaker": ""
+        },
+        {
+          "title": "A fleeting pattern",
+          "text": "For less than a second, bent light interrupts the starlight. Then the pattern is gone.",
+          "speaker": "",
+          "effect": "seed"
+        },
+        {
+          "title": "Unclassified",
+          "text": "insufficient image duration for classification.",
+          "speaker": "iris",
+          "clue": "frame"
+        },
+        {
+          "title": "Three screenplay lines",
+          "text": "On paper: one action line showing departure, one spoken line, and one silent visible reaction. Write what an audience can SEE and HEAR.",
+          "speaker": ""
+        }
+      ],
+      "npcs": [
+        "venn",
+        "iris"
+      ],
+      "clues": [
+        "frame"
+      ],
+      "gm": "Never confirm that the pattern was human. Preserve uncertainty. Do not explain K-17, the biological marker or the route’s hidden purpose. The writing prompt is optional presentation support, never a gate.",
+      "focus": "Observation • action lines • uncertainty",
+      "start": 520
+    },
+    {
+      "id": "s1_route",
+      "session": 1,
+      "title": "The route log",
+      "room": "bridge",
+      "cues": [
+        {
+          "title": "Route log",
+          "text": "Route correction accepted.",
+          "speaker": "iris"
+        },
+        {
+          "title": "Captain Venn",
+          "text": "Who entered that correction?",
+          "speaker": "venn"
+        },
+        {
+          "title": "Iris",
+          "text": "No correction was entered.",
+          "speaker": "iris",
+          "clue": "route"
+        },
+        {
+          "title": "End of Session 1",
+          "text": "Keep the Earth objects. Keep the question open.",
+          "speaker": "",
+          "blackout": true
+        }
+      ],
+      "npcs": [],
+      "clues": [
+        "route"
+      ],
+      "gm": "Exact canonical exchange, Bible p.5. Hold after each line for student reaction. The final cut is manually advanced.",
+      "focus": "A contradiction • the closing image",
+      "start": 520
+    },
+    {
+      "id": "s2_recreation",
+      "session": 2,
+      "title": "An ordinary life problem",
+      "room": "recreation",
+      "cues": [
+        {
+          "title": "Almost ordinary",
+          "text": "Meal packets taste bad. Somebody has misplaced equipment. A recreation booking has become a ridiculous argument.",
+          "speaker": ""
+        },
+        {
+          "title": "Objective and obstacle",
+          "text": "Play one ordinary disagreement. What does each character want right now? What action do they take to get it?",
+          "speaker": ""
+        }
+      ],
+      "npcs": [
+        "juno",
+        "okafor"
+      ],
+      "clues": [],
+      "gm": "Bible pp.7–9. Let personality appear before danger. Keep everyday friction under five minutes. No anomaly explanation yet.",
+      "focus": "Objective • physical action",
+      "start": 520
+    },
+    {
+      "id": "s2_malfunction",
+      "session": 2,
+      "title": "A perfectly functional door",
+      "room": "corridor",
+      "cues": [
+        {
+          "title": "An unwanted repair",
+          "text": "A maintenance unit rolls through the habitation service corridor and welds a perfectly functional door shut.",
+          "speaker": "",
+          "effect": "weld"
+        },
+        {
+          "title": "Chief Rhee",
+          "text": "That unit is either malfunctioning or developing artistic opinions. Both are unacceptable.",
+          "speaker": "rhee",
+          "effect": "weld"
+        },
+        {
+          "title": "M-77",
+          "text": "OBSTRUCTION DETECTED. REPAIRING OBSTRUCTION.",
+          "speaker": "m77",
+          "effect": "weld"
+        }
+      ],
+      "npcs": [
+        "rhee",
+        "m77"
+      ],
+      "clues": [],
+      "gm": "The teacher confirmed M-77 as canonical, with the bible’s complete clue. The P-73 / MT-4487 visual variant is not used as a conflicting fact.",
+      "focus": "Event → choice → consequence",
+      "start": 520
+    },
+    {
+      "id": "s2_encounter",
+      "session": 2,
+      "title": "Three rounds to stop the repairs",
+      "room": "corridor",
+      "cues": [
+        {
+          "title": "Protect the ship",
+          "text": "Stop the units before they seal three spaces or dismantle essential equipment. Hack, trap, cut power, distract, redirect, defend or use the environment.",
+          "speaker": "",
+          "effect": "encounter",
+          "round": 0
+        },
+        {
+          "title": "Round 1 / the door",
+          "text": "A minor drone welds a door. Show a clear preparation, action and reaction. Keep stage-combat distance.",
+          "speaker": "",
+          "effect": "round1",
+          "round": 1
+        },
+        {
+          "title": "Round 2 / life support",
+          "text": "A second drone begins dismantling a life-support access panel. The environment has changed. What tactic changes with it?",
+          "speaker": "",
+          "effect": "round2",
+          "round": 2
+        },
+        {
+          "title": "Round 3 / previous repair",
+          "text": "PLEASE DO NOT INTERFERE WITH YOUR PREVIOUS REPAIR.",
+          "speaker": "m77",
+          "effect": "round3",
+          "round": 3
+        },
+        {
+          "title": "Resolve the incident",
+          "text": "The encounter ends through shutdown, retreat or containment. The service record survives.",
+          "speaker": "",
+          "effect": "contained",
+          "round": 3
+        }
+      ],
+      "npcs": [
+        "rhee",
+        "m77"
+      ],
+      "clues": [],
+      "gm": "Exactly three rounds, advanced by the GM. Large M-77 has TWO threat boxes; two minor repair drones have ONE each. No real contact during classroom staging. Accept negotiation, hacking and containment as valid. The clue must survive any resolution. Compression option: one unit, two rounds, then the log.",
+      "focus": "Objective combat • gesture and movement",
+      "start": 520
+    },
+    {
+      "id": "s2_record",
+      "session": 2,
+      "title": "A repair from tomorrow",
+      "room": "corridor",
+      "cues": [
+        {
+          "title": "The service history",
+          "text": "Rhee opens the service history. His expression changes before he says anything.",
+          "speaker": "",
+          "effect": "contained"
+        },
+        {
+          "title": "Maintenance ticket",
+          "text": "Completed by Cohort 01. Tomorrow at 14:32.",
+          "speaker": "",
+          "clue": "ticket",
+          "effect": "contained"
+        },
+        {
+          "title": "Chief Rhee",
+          "text": "Machines lie less often than people. That does not mean they never lie.",
+          "speaker": "rhee",
+          "effect": "contained"
+        },
+        {
+          "title": "Captain Venn",
+          "text": "Nobody deletes the record.",
+          "speaker": "venn",
+          "effect": "contained"
+        },
+        {
+          "title": "Event / choice / consequence",
+          "text": "What happened? What choice did your company make? What followed? On paper, capture a 6–8 line scene with one gesture before the first spoken reaction.",
+          "speaker": "",
+          "effect": "contained"
+        }
+      ],
+      "npcs": [
+        "rhee",
+        "iris"
+      ],
+      "clues": [
+        "ticket"
+      ],
+      "gm": "Must reach: the repaired-by-Cohort record dated tomorrow. Keep the exact M-77 / TOMORROW 14:32 / unrecorded passenger text. Required clues never depend on winning a perception or combat roll.",
+      "focus": "Consequence • an impossible timestamp",
+      "start": 520
+    },
+    {
+      "id": "s2_restricted",
+      "session": 2,
+      "title": "A boundary aboard your ship",
+      "room": "restricted",
+      "cues": [
+        {
+          "title": "Restricted access",
+          "text": "All access attempts are logged and reviewed.",
+          "speaker": "",
+          "clue": "restricted"
+        },
+        {
+          "title": "What changed?",
+          "text": "Who now trusts machines more, less, or differently? Keep the maintenance record as evidence.",
+          "speaker": ""
+        }
+      ],
+      "npcs": [
+        "rhee",
+        "iris"
+      ],
+      "clues": [
+        "restricted",
+        "ticket"
+      ],
+      "gm": "PPT slides 19–20. Show the notice without opening classified files or introducing later revelations. This is an optional compressible beat; the tomorrow record remains Session 2’s essential endpoint.",
+      "focus": "A boundary • a relationship changes",
+      "start": 520
+    },
+    {
+      "id": "s3_observation",
+      "session": 3,
+      "title": "The first anomaly",
+      "room": "k17",
+      "cues": [
+        {
+          "title": "Four observations",
+          "text": "The departments have different evidence. Keep the whole class together. Investigate, then report one FACT, one INFERENCE and one QUESTION.",
+          "speaker": ""
+        },
+        {
+          "title": "Look before explaining",
+          "text": "A fact is what the evidence shows. An inference is an explanation you draw from it. A question names what remains unknown.",
+          "speaker": ""
+        }
+      ],
+      "npcs": [
+        "vale",
+        "okafor",
+        "iris"
+      ],
+      "clues": [],
+      "gm": "Bible pp.10–11. Synchronized investigation, not four separate adventures. Give each department its privileged fact. Do not present the later explanation as established truth.",
+      "focus": "Voice • evidence sharing",
+      "start": 520
+    },
+    {
+      "id": "s3_evidence",
+      "session": 3,
+      "title": "Four departments, four anomalies",
+      "room": "k17",
+      "cues": [
+        {
+          "title": "Flight",
+          "text": "Navigation changes between 37 and 102 days to Asteria without a route change.",
+          "speaker": "",
+          "clue": "arrival"
+        },
+        {
+          "title": "Science",
+          "text": "K-17 mass and lensing readings cannot be reconciled under normal physics.",
+          "speaker": "",
+          "clue": "lensing"
+        },
+        {
+          "title": "Engineering",
+          "text": "The clocks are functioning correctly. They are no longer synchronized.",
+          "speaker": "",
+          "clue": "clocks"
+        },
+        {
+          "title": "Colony",
+          "text": "Biological clocks and cellular timing are drifting differently from ship time.",
+          "speaker": "",
+          "clue": "biometric"
+        }
+      ],
+      "npcs": [
+        "vale",
+        "okafor",
+        "rhee"
+      ],
+      "clues": [
+        "arrival",
+        "lensing",
+        "clocks",
+        "biometric"
+      ],
+      "gm": "Use each clue independently and visibly. The v14 display readings are retained as prop observations, not a newly proven mechanism. The medical readings describe fictional crew. Keep later explanations out of this presentation.",
+      "focus": "Privileged facts • four evidence cards",
+      "start": 520
+    },
+    {
+      "id": "s3_council",
+      "session": 3,
+      "title": "The evidence council",
+      "room": "k17",
+      "cues": [
+        {
+          "title": "Fact first",
+          "text": "Each company states exactly one FACT. If a theory is offered as fact, rephrase it as an INFERENCE.",
+          "speaker": ""
+        },
+        {
+          "title": "A question worth asking",
+          "text": "What do we know? What do we think? What would we need to observe next?",
+          "speaker": ""
+        },
+        {
+          "title": "Dr Vale",
+          "text": "If the instrument is wrong, tell me how. If physics is wrong, I need a longer lunch.",
+          "speaker": "vale"
+        },
+        {
+          "title": "Dr Okafor",
+          "text": "Your cells do not know they are supposed to agree with the ship clock.",
+          "speaker": "okafor"
+        }
+      ],
+      "npcs": [
+        "vale",
+        "okafor",
+        "rhee"
+      ],
+      "clues": [
+        "arrival",
+        "lensing",
+        "clocks",
+        "biometric"
+      ],
+      "gm": "This is the academic heart of the investigation. A multiple-futures theory can be offered as a model, but is not confirmed. Ask for evidence. The clue board only shows cards you have explicitly revealed.",
+      "focus": "Fact • inference • question",
+      "start": 520
+    },
+    {
+      "id": "s3_iris",
+      "session": 3,
+      "title": "Which one is right?",
+      "room": "k17",
+      "cues": [
+        {
+          "title": "Iris",
+          "text": "Estimated time to Asteria: thirty-seven days.",
+          "speaker": "iris"
+        },
+        {
+          "title": "The crew",
+          "text": "Navigation says one hundred and two.",
+          "speaker": "crew"
+        },
+        {
+          "title": "Iris",
+          "text": "Correct.",
+          "speaker": "iris"
+        },
+        {
+          "title": "The crew",
+          "text": "Which one is right?",
+          "speaker": "crew"
+        },
+        {
+          "title": "Iris",
+          "text": "Both.",
+          "speaker": "iris",
+          "clue": "both"
+        },
+        {
+          "title": "A frame of reference",
+          "text": "Correct according to what frame of reference?",
+          "speaker": "venn"
+        },
+        {
+          "title": "Iris",
+          "text": "Yes.",
+          "speaker": "iris"
+        }
+      ],
+      "npcs": [
+        "iris",
+        "venn"
+      ],
+      "clues": [
+        "arrival",
+        "both"
+      ],
+      "gm": "The iconic exchange is manually cued line by line. Pause before ‘Both.’ Crew lines belong to the live class, not a generated student voice. Do not give a tidy explanation.",
+      "focus": "Pace • pause • pitch • volume • emphasis",
+      "start": 520
+    },
+    {
+      "id": "s3_lensing",
+      "session": 3,
+      "title": "The pattern returns",
+      "room": "k17",
+      "cues": [
+        {
+          "title": "Look again",
+          "text": "Behind Iris, the observation window catches K-17. Watch the distorted starlight.",
+          "speaker": ""
+        },
+        {
+          "title": "A recurrence",
+          "text": "The lensing ripple briefly takes the same almost-human geometry. This time several people can notice it. Then the stars snap back.",
+          "speaker": "",
+          "effect": "recurrence"
+        },
+        {
+          "title": "Uncertainty",
+          "text": "What did the audience see? Which part of your explanation remains an inference?",
+          "speaker": ""
+        }
+      ],
+      "npcs": [
+        "iris",
+        "vale"
+      ],
+      "clues": [
+        "frame",
+        "both"
+      ],
+      "gm": "Second visual seed only; do not name a Fracture Entity or confirm a person. Normal background motion must not imitate this clue before you cue it.",
+      "focus": "Recognition • reaction • uncertainty",
+      "start": 520
+    },
+    {
+      "id": "s3_craft",
+      "session": 3,
+      "title": "Dialogue under uncertainty",
+      "room": "k17",
+      "cues": [
+        {
+          "title": "Make uncertainty audible",
+          "text": "Replay the exchange using one deliberate vocal choice: pace, pause, pitch, volume or emphasis. Explain its effect.",
+          "speaker": ""
+        },
+        {
+          "title": "Capture the evidence",
+          "text": "On paper: what do we KNOW, what do we THINK, and what QUESTION should the characters investigate next?",
+          "speaker": ""
+        }
+      ],
+      "npcs": [
+        "vale",
+        "okafor"
+      ],
+      "clues": [
+        "arrival",
+        "lensing",
+        "clocks",
+        "biometric",
+        "both"
+      ],
+      "gm": "Capture the individual check before the sealed packet. The bible requires an immediate cut after the +103 DAYS header. No writing input or assessment gate exists in the game.",
+      "focus": "Voice • subtext • evidence language",
+      "start": 520
+    },
+    {
+      "id": "s3_packet",
+      "session": 3,
+      "title": "A packet from Pioneer",
+      "room": "k17",
+      "cues": [
+        {
+          "title": "Incoming",
+          "text": "A packet arrives through deep-space communications.",
+          "speaker": ""
+        },
+        {
+          "title": "The header",
+          "text": "Source: CSV-01 Pioneer. Timestamp: plus one hundred and three days.",
+          "speaker": "",
+          "clue": "packet"
+        },
+        {
+          "title": "End of Session 3",
+          "text": "The packet remains sealed.",
+          "speaker": "",
+          "blackout": true
+        }
+      ],
+      "npcs": [],
+      "clues": [
+        "packet"
+      ],
+      "gm": "Bible p.11. End immediately on the header. Keep the packet sealed. This draft stops before all later-session material.",
+      "focus": "The cliffhanger • stop before the contents",
+      "start": 520
+    }
+  ],
+  "glossary": [
+    {
+      "term": "given circumstances",
+      "definition": "The established situation a character enters.",
+      "zh": "既定情境",
+      "ko": "주어진 상황",
+      "ja": "与えられた状況"
+    },
+    {
+      "term": "ensemble",
+      "definition": "Performers working together to tell the story.",
+      "zh": "集体配合",
+      "ko": "앙상블 / 단체 협력",
+      "ja": "アンサンブル"
+    },
+    {
+      "term": "stage picture",
+      "definition": "The meaning created by bodies and positions on stage.",
+      "zh": "舞台画面",
+      "ko": "무대 구도",
+      "ja": "舞台構図"
+    },
+    {
+      "term": "status",
+      "definition": "A character’s power or position in a relationship.",
+      "zh": "人物地位",
+      "ko": "인물의 지위",
+      "ja": "人物の立場"
+    },
+    {
+      "term": "objective",
+      "definition": "What the character is trying to achieve now.",
+      "zh": "行动目标",
+      "ko": "행동 목표",
+      "ja": "行動目標"
+    },
+    {
+      "term": "obstacle",
+      "definition": "What stands in the way of the objective.",
+      "zh": "阻碍",
+      "ko": "장애물",
+      "ja": "障害"
+    },
+    {
+      "term": "tactic",
+      "definition": "An action used to pursue an objective.",
+      "zh": "策略",
+      "ko": "전술",
+      "ja": "戦術"
+    },
+    {
+      "term": "consequence",
+      "definition": "What follows from an event or choice.",
+      "zh": "后果",
+      "ko": "결과",
+      "ja": "結果"
+    },
+    {
+      "term": "gesture",
+      "definition": "A physical action that communicates meaning.",
+      "zh": "姿态与动作",
+      "ko": "몸짓",
+      "ja": "身振り"
+    },
+    {
+      "term": "reaction",
+      "definition": "An observable response to an event.",
+      "zh": "反应",
+      "ko": "반응",
+      "ja": "反応"
+    },
+    {
+      "term": "fact",
+      "definition": "Something the available evidence establishes.",
+      "zh": "事实",
+      "ko": "사실",
+      "ja": "事実"
+    },
+    {
+      "term": "inference",
+      "definition": "An explanation drawn from evidence.",
+      "zh": "推断",
+      "ko": "추론",
+      "ja": "推論"
+    },
+    {
+      "term": "evidence",
+      "definition": "Observations or information supporting a claim.",
+      "zh": "证据",
+      "ko": "증거",
+      "ja": "証拠"
+    },
+    {
+      "term": "uncertainty",
+      "definition": "What remains unresolved or unknown.",
+      "zh": "不确定性",
+      "ko": "불확실성",
+      "ja": "不確実性"
+    },
+    {
+      "term": "contradiction",
+      "definition": "Two statements or observations that do not agree.",
+      "zh": "矛盾",
+      "ko": "모순",
+      "ja": "矛盾"
+    },
+    {
+      "term": "pace",
+      "definition": "How quickly or slowly a performer speaks.",
+      "zh": "语速",
+      "ko": "말의 속도",
+      "ja": "話す速さ"
+    },
+    {
+      "term": "pause",
+      "definition": "A deliberate break that creates meaning.",
+      "zh": "停顿",
+      "ko": "멈춤",
+      "ja": "間"
+    },
+    {
+      "term": "pitch",
+      "definition": "How high or low a voice sounds.",
+      "zh": "音高",
+      "ko": "음높이",
+      "ja": "声の高さ"
+    },
+    {
+      "term": "volume",
+      "definition": "The controlled loudness of a voice.",
+      "zh": "音量",
+      "ko": "목소리 크기",
+      "ja": "声量"
+    },
+    {
+      "term": "emphasis",
+      "definition": "Giving a word or action extra importance.",
+      "zh": "强调",
+      "ko": "강조",
+      "ja": "強調"
+    },
+    {
+      "term": "subtext",
+      "definition": "Meaning suggested beneath the spoken words.",
+      "zh": "潜台词",
+      "ko": "숨은 의미",
+      "ja": "サブテキスト"
+    }
+  ],
+  "provenance": {
+    "bible": "GM Master Bible v12, pp.4–11",
+    "visuals": "Visual Aid v14, slides 1–28 only",
+    "confirmed": [
+      "M-77 / tomorrow 14:32 / unrecorded passenger",
+      "Launch before introduction/tour"
+    ]
+  }
+}

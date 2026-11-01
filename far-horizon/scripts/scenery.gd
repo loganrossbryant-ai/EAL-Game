@@ -8,11 +8,13 @@ var clock = 0.0
 var camera_x = 683.0
 var effect = ""
 var effect_time = 0.0
+var animating = true
 var art: Sprite2D
 var orbit_plate: Sprite2D
 var foreground: Sprite2D
 var dust: Array[Vector3] = []
 var living: PioneerLivingDetails
+var props: PioneerProps
 var moving_sky: Array[Polygon2D] = []
 var plants: Array[Polygon2D] = []
 
@@ -34,19 +36,18 @@ func _ready() -> void:
 	living.z_index = -10
 	living.scale = Vector2(world_width / 2172.0, 768.0 / 724.0)
 	add_child(living)
+	props = PioneerProps.new()
+	props.z_index = 2
+	add_child(props)
 	configure(room)
 
 func configure(value: String) -> void:
 	room = value
 	if not art:
 		return
-	var path = "res://assets/art/terminal.png"
-	if room == "launch" and ResourceLoader.exists("res://assets/art/launch.png"):
-		path = "res://assets/art/launch.png"
-	elif room in ["bridge", "ending"] and ResourceLoader.exists("res://assets/art/bridge.png"):
-		path = "res://assets/art/bridge.png"
-	elif room == "habitation" and ResourceLoader.exists("res://assets/art/habitation.png"):
-		path = "res://assets/art/habitation.png"
+	var plate = "corridor" if room == "restricted" else room
+	var path = "res://assets/art/" + plate + ".png"
+	if not ResourceLoader.exists(path): path = "res://assets/art/terminal.png"
 	art.texture = load(path)
 	art.scale = Vector2(world_width / art.texture.get_width(), 768.0 / art.texture.get_height())
 	art.position = Vector2.ZERO
@@ -55,6 +56,7 @@ func configure(value: String) -> void:
 	moving_sky.clear()
 	plants.clear()
 	living.configure(room)
+	props.configure(room)
 	if room == "terminal":
 		_sky_patch(PackedVector2Array([Vector2(489, 103), Vector2(652, 103), Vector2(652, 233), Vector2(489, 233)]), 0.24)
 		_sky_patch(PackedVector2Array([Vector2(716, 103), Vector2(1012, 103), Vector2(1012, 238), Vector2(716, 238)]), 0.24)
@@ -64,6 +66,8 @@ func configure(value: String) -> void:
 	elif room == "habitation":
 		_plant(Vector2(105, 756), 0.20, 0.4)
 		_plant(Vector2(2035, 756), 0.18, 2.4)
+	elif room == "recreation":
+		_plant(Vector2(2170, 760), 0.16, 1.3)
 	elif room == "launch":
 		_sky_patch(PackedVector2Array([Vector2(517, 105), Vector2(790, 105), Vector2(790, 236), Vector2(505, 246)]), 0.14)
 		_sky_patch(PackedVector2Array([Vector2(853, 105), Vector2(1150, 105), Vector2(1150, 230), Vector2(853, 230)]), 0.13)
@@ -132,6 +136,7 @@ func _plant(point: Vector2, size: float, phase: float) -> void:
 	plants.append(plant)
 
 func _process(delta: float) -> void:
+	if not animating: delta = 0
 	clock += delta
 	effect_time += delta
 	# Tiny independent drift on the far layer gives the camera a physical sense of depth.
@@ -142,6 +147,10 @@ func _process(delta: float) -> void:
 	living.effect = effect
 	living.orbital = orbit_plate.visible and orbit_plate.modulate.a > 0.8
 	living.queue_redraw()
+	props.clock = clock
+	props.effect = effect
+	props.effect_time = effect_time
+	props.update_picture()
 	for cloud in moving_sky:
 		cloud.position = art.position
 		cloud.material.set_shader_parameter("clock", clock)
@@ -176,7 +185,13 @@ func _draw() -> void:
 		draw_line(Vector2(-2, -24), Vector2(2, 24), Color("c9d9df"), 4, true)
 		draw_line(Vector2(-2, -24), Vector2(0, -14), Color("5dbfd2"), 5, true)
 		draw_set_transform(Vector2.ZERO)
-	if effect == "anomaly" and effect_time < 0.65:
-		var alpha = sin(effect_time / 0.65 * PI) * 0.24
-		for i in range(4):
-			draw_arc(Vector2(1260 + i * 3, 260), 30 + i * 12, -1.5, 1.7, 30, Color(0.7, 0.87, 0.96, alpha / (i + 1)), 1, true)
+	if effect in ["seed", "recurrence"]:
+		var duration = 0.65 if effect == "seed" else 1.65
+		if effect_time < duration:
+			var alpha = sin(effect_time / duration * PI) * 0.68
+			# A fleeting, asymmetric lens caustic; never a confirmed person or creature.
+			var center = Vector2(1255, 277)
+			for i in range(5):
+				draw_arc(center + Vector2(i * 3, i * 5), 26 + i * 13, -1.38, 1.25, 40, Color(0.7, 0.87, 0.96, alpha / (i + 1)), 1.6, true)
+			var caustic = PackedVector2Array([center + Vector2(-7,-49),center + Vector2(-20,-14),center + Vector2(10,19),center + Vector2(-3,70)])
+			draw_polyline(caustic, Color(0.88,0.94,1,alpha * 0.65), 2.2, true)

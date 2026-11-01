@@ -1,7 +1,7 @@
 class_name PartyMember
 extends CharacterBody2D
 
-const STRIDE = 140.0
+const STRIDE = 118.0
 const STANCE = 0.61
 var department = 0
 var desired_speed = 0.0
@@ -150,7 +150,7 @@ func _update_foot(index: int, delta: float) -> void:
 		if foot.stance:
 			foot.start_x = foot.world_x
 			foot.swing_start = phase
-			foot.target_x = global_position.x + facing * ((1 - phase) * STRIDE + 40)
+			foot.target_x = global_position.x + facing * ((1 - phase) * STRIDE + 32)
 		var t = clampf((phase - float(foot.swing_start)) / maxf(0.01, 1 - float(foot.swing_start)), 0, 1)
 		foot.world_x = lerpf(foot.start_x, foot.target_x, t * t * (3 - 2 * t))
 		foot.height = -sin(t * PI) * 11.0

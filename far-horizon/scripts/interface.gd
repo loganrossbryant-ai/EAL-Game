@@ -10,7 +10,7 @@ const AMBER = Color("edbd7e")
 static func theme() -> Theme:
 	var t = Theme.new()
 	var body_font = preload("res://assets/fonts/Body.ttf")
-	body_font.fallbacks = [preload("res://assets/fonts/Symbols.ttf")]
+	body_font.fallbacks = [preload("res://assets/fonts/Academic.otf"), preload("res://assets/fonts/Symbols.ttf")]
 	t.default_font = body_font
 	t.default_font_size = 18
 	for type in ["Label", "Button", "LineEdit", "TextEdit", "OptionButton", "CheckButton"]:
@@ -63,6 +63,8 @@ static func label(parent: Node, value: String, rect: Rect2, font_size: int = 18,
 	parent.add_child(l)
 	l.position = rect.position
 	l.size = rect.size
+	l.set_meta("designed_height", rect.size.y)
+	l.set_deferred("size", rect.size)
 	return l
 
 static func title(parent: Node, value: String, rect: Rect2, font_size: int = 28) -> Label:

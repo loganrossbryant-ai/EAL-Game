@@ -31,6 +31,10 @@ func configure(value: String) -> void:
 		windows = [PackedVector2Array([Vector2(854, 112), Vector2(1312, 112), Vector2(1357, 402), Vector2(813, 402)]), PackedVector2Array([Vector2(1380, 120), Vector2(1775, 109), Vector2(1875, 400), Vector2(1420, 400)]), PackedVector2Array([Vector2(1855, 108), Vector2(1965, 108), Vector2(1907, 330)])]
 	elif room == "launch":
 		windows = [PackedVector2Array([Vector2(514, 102), Vector2(790, 102), Vector2(790, 400), Vector2(500, 400)]), PackedVector2Array([Vector2(850, 102), Vector2(1320, 102), Vector2(1320, 400), Vector2(850, 400)]), PackedVector2Array([Vector2(1380, 102), Vector2(1640, 102), Vector2(1670, 400), Vector2(1380, 400)])]
+	elif room == "recreation":
+		windows = [PackedVector2Array([Vector2(690,155),Vector2(1220,155),Vector2(1220,250),Vector2(690,250)]),PackedVector2Array([Vector2(1370,150),Vector2(1630,150),Vector2(1630,238),Vector2(1370,238)])]
+	elif room == "k17":
+		windows = [PackedVector2Array([Vector2(365,115),Vector2(756,115),Vector2(697,245),Vector2(300,245)]),PackedVector2Array([Vector2(1425,115),Vector2(1800,115),Vector2(1860,285),Vector2(1490,285)])]
 	queue_redraw()
 
 func _starfield() -> void:
@@ -112,6 +116,21 @@ func _draw() -> void:
 		draw_line(center, tip, Color(0.56, 0.9, 1, 0.38), 1, true)
 		draw_circle(tip, 1.2, Color(0.7, 0.98, 1, 0.8), true, -1, true)
 		_vapor(Vector2(1720, 643), 70, 48, 0.04, 130)
+	elif room == "recreation":
+		_starfield()
+		_vapor(Vector2(1470,367),80,-12,0.10,28)
+		_vapor(Vector2(92,351),62,10,0.08,30)
+		_screen(Rect2(2099,326,32,44),1.0)
+	elif room in ["corridor", "restricted"]:
+		_vapor(Vector2(1460,593),102,-20,0.07,90)
+		_screen(Rect2(864,348,18,18),2.0)
+	elif room == "k17":
+		_starfield()
+		for i in range(3):
+			_screen(Rect2(361 + i * 608,435,70,25),i + 1.0)
+		# The accretion light breathes across the actual window, with no hidden figure.
+		var alpha = 0.017 + sin(clock * 0.34) * 0.006
+		draw_colored_polygon(PackedVector2Array([Vector2(855,116),Vector2(1310,116),Vector2(1360,403),Vector2(810,403)]),Color(1,0.64,0.29,alpha))
 
 func _cart_style() -> StyleBoxFlat:
 	var style = StyleBoxFlat.new()

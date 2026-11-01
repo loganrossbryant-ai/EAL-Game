@@ -14,6 +14,7 @@ DEST = ROOT / "review-candidate/far-horizon"
 NAMES = (
     "index.html", "index.js", "index.wasm", "index.pck", "index.png",
     "index.audio.worklet.js", "index.audio.position.worklet.js",
+    "gm.html", "gm.js", "gm.css", "campaign.json", "academic.otf",
 )
 
 

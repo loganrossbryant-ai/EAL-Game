@@ -25,7 +25,9 @@ PREFERENCES = {
     "juno": ["Jessica", "Bella"],
     "iris": ["Sarah", "Rachel"],
     "rhee": ["George", "Daniel"],
-    "okafor": ["Eric", "Liam"],
+    "vale": ["Eric", "Liam"],
+    "okafor": ["Rachel", "Lily"],
+    "m77": ["Daniel", "Bill"],
 }
 
 
@@ -59,13 +61,13 @@ def probe(path):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--generate", action="store_true", help="Use ElevenLabs credits to record missing authored lines")
-    parser.add_argument("--voice-map", type=Path, help="Optional JSON mapping of the five speaker IDs to accessible stock voice IDs")
+    parser.add_argument("--voice-map", type=Path, help="Optional JSON mapping of the seven speaker IDs to accessible stock voice IDs")
     args = parser.parse_args()
     lines = read_script()
-    print(f"Authored script: {len(lines)} clips; {sum(len(l['text']) for l in lines)} characters; five fictional NPCs.")
+    print(f"Authored script: {len(lines)} clips; {sum(len(l['text']) for l in lines)} characters; seven fictional NPCs.")
     key = os.environ.get("ELEVENLABS_API_KEY")
     if not key:
-        raise SystemExit("Connection needed: configure ELEVENLABS_API_KEY as a private environment secret and allow api.elevenlabs.io. No audio generated.")
+        raise SystemExit("Connection needed: bind ELEVENLABS_API_KEY as a private environment secret. No audio generated.")
     def service(path, body=None):
         headers = {"xi-api-key": key}
         if body is not None: headers["Content-Type"] = "application/json"
@@ -86,7 +88,10 @@ def main():
     mapping = json.loads(args.voice_map.read_text()) if args.voice_map else {}
     for speaker, preferred in PREFERENCES.items():
         if speaker not in mapping:
-            match = next((v for name in preferred for v in available if v["name"] == name and v.get("category") == "premade"), None)
+            match = next((v for name in preferred for v in available
+                          if (v["name"] == name or v["name"].startswith(name + " -"))
+                          and v.get("category") == "premade"
+                          and v["voice_id"] not in mapping.values()), None)
             if not match:
                 raise SystemExit(f"No preferred stock voice available for {speaker}. Supply --voice-map with accessible stock voices.")
             mapping[speaker] = match["voice_id"]
@@ -95,7 +100,7 @@ def main():
             raise SystemExit(f"{speaker}: choose an accessible premade voice. Custom/cloned voices are not accepted by this script.")
         print(f"{speaker}: {selected['name']}")
     if len(set(mapping.values())) != len(PREFERENCES):
-        raise SystemExit("Use a distinct stock voice for each of the five NPCs.")
+        raise SystemExit("Use a distinct stock voice for each of the seven NPCs.")
 
     old_path = ASSETS / "catalog.json"
     old = json.loads(old_path.read_text()) if old_path.exists() else {}
@@ -135,8 +140,10 @@ def main():
         content, content_type = service(
             "/v1/text-to-speech/" + mapping[line["speaker"]] + "?output_format=mp3_44100_128",
             body={"text": line["text"], "model_id": MODEL,
-                  "voice_settings": {"stability": 0.65, "similarity_boost": 0.75,
-                                     "style": 0.05, "use_speaker_boost": True, "speed": 0.96}},
+                  "voice_settings": {"stability": 0.94 if line["speaker"] == "m77" else (0.8 if line["speaker"] == "iris" else 0.65),
+                                     "similarity_boost": 0.75, "style": 0.05,
+                                     "use_speaker_boost": True,
+                                     "speed": 0.9 if line["speaker"] == "m77" else 0.96}},
         )
         if "audio" not in content_type:
             raise SystemExit(f"Recording stopped at {line['id']}: response is not audio; no new catalog published.")
@@ -155,7 +162,7 @@ def main():
         path = staging / (line["id"] + ".mp3")
         if path.exists() and hashlib.sha256(path.read_bytes()).hexdigest() == clips[line["id"]]["sha256"]:
             (ASSETS / path.name).write_bytes(path.read_bytes())
-    catalog = {"provider": "ElevenLabs", "model": MODEL, "session": 1, "clips": clips}
+    catalog = {"provider": "ElevenLabs", "model": MODEL, "sessions": [1, 2, 3], "clips": clips}
     with tempfile.NamedTemporaryFile(mode="w", dir=ASSETS, suffix=".json", delete=False) as file:
         json.dump(catalog, file, indent=2)
         file.write("\n")

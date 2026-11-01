@@ -2,10 +2,10 @@
 config_version=5
 
 [application]
-config/name="The Far Horizon — Welcome to Pioneer"
+config/name="The Far Horizon — GM Visual Aid"
 run/main_scene="res://scenes/main.tscn"
 config/features=PackedStringArray("4.6", "GL Compatibility")
-config/description="A GM-operated classroom adventure. Session 01."
+config/description="A GM-operated classroom visual adventure. Sessions 1–3."
 
 [display]
 window/size/viewport_width=1366

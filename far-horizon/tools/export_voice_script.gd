@@ -7,6 +7,6 @@ func _initialize() -> void:
 		push_error("Could not write the authored NPC recording script.")
 		quit(1)
 		return
-	file.store_string(JSON.stringify({"session": 1, "lines": script_lines}, "  ") + "\n")
+	file.store_string(JSON.stringify({"sessions": [1, 2, 3], "lines": script_lines}, "  ") + "\n")
 	print("Exported ", script_lines.size(), " authored NPC lines. No student records included.")
 	quit()

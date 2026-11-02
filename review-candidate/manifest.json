@@ -41,7 +41,7 @@
     {
       "path": "index.html",
       "bytes": 5477,
-      "sha256": "d7c7da0c432f2c61332ae672310b5982ab2eaed59279f75d96dacbd250898086"
+      "sha256": "b962135c1d42a89e31c563616cee307c10b9e9fe937817f99a48fb8890c8871c"
     },
     {
       "path": "index.js",
@@ -50,8 +50,8 @@
     },
     {
       "path": "index.pck",
-      "bytes": 59491592,
-      "sha256": "64620397fb0f34fd436cae96a0373250af483f659233f97ba00f311e165e939a"
+      "bytes": 73242476,
+      "sha256": "08bbd4347332ee0c10fa291252c3eb6c2855cf6ffe3dee30af7953a87eb656c5"
     },
     {
       "path": "index.png",
@@ -95,8 +95,8 @@
     },
     {
       "path": "play.css",
-      "bytes": 5799,
-      "sha256": "e91e6abfeff3fea769f5819d47daf86c4251702ffca33d7af243e31a5c164c1f"
+      "bytes": 6023,
+      "sha256": "ebd1774405283505051ec81084de2b3295f78fb0e9c0cb8d81c2fc690cc6b253"
     },
     {
       "path": "play.html",
@@ -105,8 +105,48 @@
     },
     {
       "path": "play.js",
-      "bytes": 7431,
-      "sha256": "76b3ac068373ff46406ed0d231f39872a8278df080d4615bf615974d6053be4c"
+      "bytes": 8193,
+      "sha256": "edf10b69c22187f49d2f23f2a441a1a7ba18fa912f144d4bd7985812731a7eef"
+    },
+    {
+      "path": "portraits/iris.jpg",
+      "bytes": 31259,
+      "sha256": "0c782a1fa4aa351f22090c9700c75dff54804aa4e8f78ad11adf034bdac36890"
+    },
+    {
+      "path": "portraits/juno.jpg",
+      "bytes": 31902,
+      "sha256": "cb2e97672b4ddb4856e2a4d188161e467eb2c707e9b0356f90e9353c4263cc8a"
+    },
+    {
+      "path": "portraits/m77.jpg",
+      "bytes": 89418,
+      "sha256": "2d5dc3673805effd06d2f84366ca460adaea2f710fcc74f62852fbc623716395"
+    },
+    {
+      "path": "portraits/okafor.jpg",
+      "bytes": 14891,
+      "sha256": "7fe545e64688d9d6636903e2fdb89f479ef5cf397ebcf6fe89b4268a460553ca"
+    },
+    {
+      "path": "portraits/rhee.jpg",
+      "bytes": 16591,
+      "sha256": "5713adee600a3b99328dcbd18c2a399f5d890db321a8653d616e93841405a3dd"
+    },
+    {
+      "path": "portraits/vale.jpg",
+      "bytes": 15630,
+      "sha256": "a1113d98c3818e543dab93548b378c549f64b7a11e6d0a11a4d5bc96cd6cd741"
+    },
+    {
+      "path": "portraits/venn.jpg",
+      "bytes": 29702,
+      "sha256": "dbf145506cbfe3a2df8a3829be36d4eb4b74e2b400ae6170f8ebc7c8004e8350"
+    },
+    {
+      "path": "portraits.json",
+      "bytes": 1193,
+      "sha256": "402d49885663a97a2c40a5706684d78c544f8f5ca1fe87844746b414df65b5b3"
     },
     {
       "path": "poster.png",

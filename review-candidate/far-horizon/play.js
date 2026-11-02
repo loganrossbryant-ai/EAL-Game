@@ -2,7 +2,7 @@
  'use strict';
  const $=id=>document.getElementById(id),frame=$('stage'),sheet=$('sheet');
  const coarse=matchMedia('(pointer:coarse)').matches;
- let campaign=null,state=null,mode='',rendered='',walkTimer=null,walking=0,ready=false;
+ let campaign=null,portraits=null,state=null,mode='',rendered='',walkTimer=null,walking=0,ready=false;
  const el=(tag,text,cls)=>{const n=document.createElement(tag);if(text!==undefined)n.textContent=text;if(cls)n.className=cls;return n;};
  const send=(action,values={})=>{try{return Boolean(frame.contentWindow.fhGMBridge?.submit({action,...values}));}catch(_){return false;}};
  const button=(text,action)=>{const b=el('button',text);b.type='button';b.addEventListener('click',action);return b;};
@@ -34,6 +34,7 @@
    if(!gl)throw Error('This draft needs WebGL 2. Try current Safari on iPhone, or Chrome / Edge on PC.');
    gl.getExtension('WEBGL_lose_context')?.loseContext();
    const response=await fetch('campaign.json');if(!response.ok)throw Error('The story could not load. Please refresh and try again.');campaign=await response.json();
+   const photos=await fetch('portraits.json');if(!photos.ok)throw Error('The crew portraits could not load. Please refresh and try again.');portraits=await photos.json();
    $('welcome').hidden=true;$('player').hidden=false;fit();frame.src='index.html';frame.addEventListener('load',focusStage,{once:true});
   }catch(error){$('load-note').textContent=error.message;$('begin').disabled=false;}
  });
@@ -77,7 +78,13 @@
   }
   const person=campaign.characters[state.conversation];
   if(person){
-   $('sheet-title').textContent=person.name;content.append(el('p',person.role,'eyebrow'),el('p',state.line));
+   $('sheet-title').textContent=person.name;
+   const photo=portraits?.[state.conversation];
+   if(photo){
+    const svg=document.createElementNS('http://www.w3.org/2000/svg','svg');svg.setAttribute('viewBox',photo.region.join(' '));svg.setAttribute('role','img');svg.setAttribute('aria-label',person.name+' — original PPT portrait');svg.classList.add('npc-photo');
+    const img=document.createElementNS('http://www.w3.org/2000/svg','image');img.setAttribute('href','portraits/'+photo.file);img.setAttribute('width',photo.size[0]);img.setAttribute('height',photo.size[1]);svg.append(img);content.append(svg);
+   }
+   content.append(el('p',person.role,'eyebrow'),el('p',state.line));
    const options=person.replies.filter(o=>(o.min_session||1)<=state.session&&(o.max_session||3)>=state.session&&(!o.requires||state.revealed[o.requires]));
    options.forEach((option,index)=>{const b=button(option.question,()=>send('reply',{index}));b.dataset.reply=index;content.append(b);});return;
   }

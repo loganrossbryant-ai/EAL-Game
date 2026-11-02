@@ -16,6 +16,7 @@ NAMES = (
     "index.audio.worklet.js", "index.audio.position.worklet.js",
     "gm.html", "gm.js", "gm.css", "campaign.json", "academic.otf",
     "play.html", "play.js", "play.css", "poster.png",
+    "portraits.json",
 )
 
 
@@ -23,6 +24,10 @@ def prepare():
     DEST.mkdir(parents=True, exist_ok=True)
     for name in NAMES:
         shutil.copy2(EXPORT / name, DEST / name)
+    portraits = DEST / "portraits"
+    portraits.mkdir(exist_ok=True)
+    for p in sorted((EXPORT / "portraits").glob("*.jpg")):
+        shutil.copy2(p, portraits / p.name)
     licenses = DEST / "licenses"
     licenses.mkdir(exist_ok=True)
     for p in sorted((ROOT / "far-horizon").glob("GODOT-*.txt")) + sorted(
@@ -31,7 +36,7 @@ def prepare():
         shutil.copy2(p, licenses / p.name)
     expected = {Path(n) for n in NAMES} | {
         Path("licenses") / p.name for p in licenses.iterdir() if p.is_file()
-    }
+    } | {Path("portraits") / p.name for p in portraits.glob("*.jpg")}
     actual = {p.relative_to(DEST) for p in DEST.rglob("*") if p.is_file()}
     if actual != expected:
         raise RuntimeError(f"Unexpected candidate files: {actual ^ expected}")

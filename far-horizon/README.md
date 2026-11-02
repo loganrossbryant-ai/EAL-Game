@@ -154,3 +154,13 @@ replies, 18-scene navigation, clue reading, rotation and stopped movement, with
 zero errors or external requests. This is not a physical Safari/iPhone test.
 The official WebKit test-browser download was blocked by the environment's
 network policy; no access restriction was bypassed.
+
+## Detail revision
+
+The room layout catalog replaces the repeated right-hand stairs with distinct
+location designs, including three flat profiles, a two-ended mezzanine and a
+four-person lift. Nine human models have new clothing, facial and equipment
+detail; original location-specific machines have articulated subassemblies.
+Actual PPT portraits appear above each NPC exchange in both dialogue views.
+See `assets/ART.md` and `../docs/far-horizon/detail-revision.md` for provenance,
+rebuild order and the current verification status.

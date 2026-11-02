@@ -1,0 +1,11 @@
+{
+ "terminal":{"name":"Departure concourse / west balcony","kind":"stairs","junction":6.6,"route_name":"WEST OBSERVATION BALCONY","points":[[0.5,1.05,-1.8],[4.2,1.05,-1.8],[6.6,0,0]],"device":[12.4,false,"boarding"],"npc_positions":[[8.7,false],[3.1,true],[15.3,false]]},
+ "boarding":{"name":"Airlock boarding lane","kind":"flat","junction":0,"route_name":"","points":[],"device":[14.2,false,"gate"],"npc_positions":[[11.0,false],[16.1,false]]},
+ "launch":{"name":"Flight restraint deck","kind":"flat","junction":0,"route_name":"","points":[],"device":[13.1,false,"flight"],"npc_positions":[[10.0,false]]},
+ "habitation":{"name":"Crew commons / central mezzanine","kind":"stairs","junction":4.8,"route_name":"CREW COMMONS MEZZANINE","points":[[4.8,0,0],[7.0,0.68,-1.45],[11.0,0.68,-1.45],[13.4,0,0]],"device":[9.1,true,"habitation"],"npc_positions":[[6.0,false],[14.9,false],[10.8,true]]},
+ "recreation":{"name":"Open recreation lounge","kind":"flat","junction":0,"route_name":"","points":[],"device":[14.2,false,"recreation"],"npc_positions":[[9.2,false],[12.4,false]]},
+ "corridor":{"name":"Service passage / short workshop dais","kind":"ramp","junction":5.7,"route_name":"WORKSHOP DAIS","points":[[0.8,0.30,-1.45],[3.8,0.30,-1.45],[5.7,0,0]],"device":[14.8,false,"maintenance"],"npc_positions":[[13.1,false],[8.9,false]]},
+ "restricted":{"name":"Security vestibule / personnel lift","kind":"lift","junction":8.8,"route_name":"SECURITY OBSERVATION LIFT","points":[[1.0,1.25,-1.2],[8.8,1.25,-1.2]],"device":[3.5,true,"security"],"npc_positions":[[5.1,true],[13.8,false]]},
+ "bridge":{"name":"Command bridge / curved rear aisle","kind":"depth","junction":4.3,"route_name":"REAR OBSERVATION AISLE","points":[[4.3,0,0],[7.0,0,-1.4],[11.0,0,-1.7],[14.8,0,0]],"device":[10.2,true,"navigation"],"npc_positions":[[8.1,false],[14.4,false]]},
+ "k17":{"name":"K-17 observatory / instrument plinth","kind":"stairs","junction":10.6,"route_name":"INSTRUMENT PLINTH","points":[[10.6,0,0],[12.0,0.45,-1.5],[15.8,0.45,-1.5],[17.4,0,0]],"device":[14.5,true,"science"],"npc_positions":[[8.2,false],[10.0,false],[16.2,true]]}
+}

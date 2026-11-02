@@ -37,20 +37,11 @@ func setup(id: String, is_npc: bool = false) -> void:
 			var material = mesh.get_active_material(i)
 			if material is StandardMaterial3D:
 				var m: StandardMaterial3D = material.duplicate()
-				if m.resource_name.begins_with("Face") and ResourceLoader.exists("res://assets/art/crew_face_atlas.png"):
-					var face = ShaderMaterial.new()
-					face.shader = preload("res://shaders/crew_face.gdshader")
-					face.set_shader_parameter("face_atlas",load("res://assets/art/crew_face_atlas.png"))
-					var index = ["flight","science","engineering","colony","venn","juno","rhee","vale","okafor"].find(id)
-					face.set_shader_parameter("cell",Vector2(index%3,index/3))
-					face.set_shader_parameter("base_skin",m.albedo_color)
-					if FileAccess.file_exists("res://data/face_fit.json"):
-						var fits = JSON.parse_string(FileAccess.get_file_as_string("res://data/face_fit.json"))
-						if fits.has(id):
-							var fit = fits[id].fit
-							face.set_shader_parameter("fit",Vector4(fit[0],fit[1],fit[2],fit[3]))
-					mesh.set_surface_override_material(i,face)
-					continue
+				if m.resource_name.begins_with("Skin") or m.resource_name.begins_with("Face") or m.resource_name.begins_with("Lips"):
+					m.vertex_color_use_as_albedo=true
+					m.albedo_color=Color.WHITE
+					m.roughness=.77
+					m.metallic_specular=.24
 				if (m.resource_name.begins_with("Uniform") or m.resource_name.begins_with("Pants")) and ResourceLoader.exists("res://assets/art/uniform_fabric.png"):
 					m.albedo_texture = load("res://assets/art/uniform_fabric.png")
 					m.uv1_scale = Vector3(8,8,1)

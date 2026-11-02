@@ -76,10 +76,49 @@ portrait/reference assets; they are not the new moving world characters.
   geometry, not converted Silver Pines assets.
 - `uniform_fabric.png`, `ship_alloy.png` and `crew_face_atlas.png` are original AI
   material images, viewed and copied unchanged from the generation results.
-  The face atlas provides nine fictional faces. `data/face_fit.json` contains
-  measured UV fitting coordinates; no source image pixels were edited.
+  The earlier face atlas and `data/face_fit.json` remain historical source assets;
+  the detail revision below replaces projected face shading with continuous
+  vertex-painted skin and fitted geometric eyes.
 - Stairs, raised galleries, screens, planters/leaves, rotors, rings, pen and sparks
   are runtime 3D geometry. The scenic background plates remain static scenic art.
 
 The real-time material lighting, animation and geometry are prototype work.
 These assets are not motion capture or a claim of commercial AA production quality.
+
+## Character, machinery and layout detail revision — 2026-11-02
+
+The nine human models now have separate skinned fabric shells with bound edges,
+fitted standing collars, lapels where appropriate, raised pocket flaps and snaps,
+stitched seams, department emblems, rank braids, cuffs, woven belts, shoulder
+straps and role-specific equipment. Venn has navy and gold officer details;
+Juno has the reference bob, hood and orange work details; Okafor has a medical
+coat; Rhee and Vale carry field tablets. Hair, eyes and skin are geometry and
+vertex color, not a projected photograph. The real eyelid morph and normalized
+Idle / Walk / Use clips remain. `tools/fh_character_detail.py` supplies the
+original surfacing and clothing code used by `build_fh_crew3d.py`.
+
+`tools/build_fh_detail_props.py` and `fh_prop_geometry.py` author distinct courier,
+cargo loader, medical skimmer, repair orb, six-legged repair tool unit, game table,
+security scanner and K-17 optical assembly. M-77 has layered ivory armor,
+individual track links, road wheels, hydraulic hardware, cables, vent grilles,
+an amber optic, an articulated clamp and copper welding tool. Independent pivot
+assemblies are internally merged by material for rendering. No new enemy type
+or plot event is implied by the repair-unit designs.
+
+`robot_enamel.png` is original AI material art generated against the PPT robot
+reference, viewed and copied byte-for-byte from
+`/workspace/generated_images/exec-725fbb13-b1f2-4d3f-b88e-f0705dcf2b37.png`.
+The source image pixels were not edited.
+
+The seven JPGs under `portraits/` are unmodified embedded images from the supplied
+v14 PPT: Venn (5), Iris (8), Juno (9), Rhee (16), M-77 (17), Vale (23), Okafor (24).
+`data/portraits.json` defines display-only crop regions. Godot uses AtlasTexture;
+the browser reading panel uses SVG viewBox. Both show the actual supplied image
+at the top of each NPC dialogue, without synthesizing a replacement portrait.
+
+`data/room_layouts.json` defines nine location profiles: a west terminal balcony,
+flat boarding lane, flat launch deck, central commons mezzanine with a descending
+exit, flat lounge, short workshop dais, personnel lift, level curved bridge aisle,
+and short K-17 instrument plinth. Static rail/fixture geometry is batched by
+material; moving machines and their joints stay independent. Shared locations
+recur only where the three-session story revisits the same room.

@@ -3,7 +3,7 @@ extends RefCounted
 
 const KEY = "far-horizon-gm-v2"
 var data: Dictionary = {
-	"version": 2, "scene": "s1_terminal", "cues": {}, "revealed": {},
+	"version": 2, "layout_version": 3, "scene": "s1_terminal", "cues": {}, "revealed": {},
 	"leader": 0, "positions": {}, "routes": {}, "language": "zh", "clean": false,
 	"seen": {}, "threats": [2, 1, 1], "sound": false, "voice": true
 }
@@ -21,6 +21,9 @@ func restore(story: GMStory) -> void:
 		for k in data:
 			if parsed.has(k) and (typeof(parsed[k]) == typeof(data[k]) or (typeof(data[k]) in [TYPE_INT, TYPE_FLOAT] and typeof(parsed[k]) in [TYPE_INT, TYPE_FLOAT])):
 				data[k] = parsed[k]
+	if parsed is Dictionary and int(parsed.get("layout_version",0))<3:
+		data.routes.clear()
+	data.layout_version=3
 	if story.find_scene(str(data.scene)) < 0: data.scene = story.scenes[0].id
 	data.leader = clampi(int(data.leader), 0, 3)
 	if not data.language in ["zh", "ko", "ja"]: data.language = "zh"

@@ -19,7 +19,7 @@ async def run():
     errors, requests = [], set()
     async with async_playwright() as p:
         browser=await p.chromium.launch(executable_path='/usr/bin/chromium',args=[
-            '--no-sandbox','--use-angle=swiftshader','--enable-unsafe-swiftshader','--disable-dev-shm-usage'])
+            '--no-sandbox','--use-angle=swiftshader','--enable-unsafe-swiftshader','--disable-dev-shm-usage','--disable-renderer-backgrounding','--disable-background-timer-throttling','--disable-backgrounding-occluded-windows'])
         ctx=await browser.new_context(viewport={'width':1280,'height':720})
         page=await ctx.new_page()
         def observe(tab):

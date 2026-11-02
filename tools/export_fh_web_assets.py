@@ -15,6 +15,8 @@ def main():
     for name in ('gm.html', 'gm.js', 'gm.css', 'academic.otf', 'play.html', 'play.js', 'play.css'):
         shutil.copyfile(ROOT / 'far-horizon/web' / name, target / name)
     shutil.copyfile(ROOT / 'far-horizon/data/campaign.json', target / 'campaign.json')
+    shutil.copyfile(ROOT / 'far-horizon/data/portraits.json', target / 'portraits.json')
+    shutil.copytree(ROOT / 'far-horizon/assets/portraits',target / 'portraits',dirs_exist_ok=True,ignore=shutil.ignore_patterns('*.import'))
     shutil.copyfile(ROOT / 'far-horizon/assets/art/terminal.png', target / 'poster.png')
     print('Copied the same-browser GM desk, campaign and local vocabulary font.')
 

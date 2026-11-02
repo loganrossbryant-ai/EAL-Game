@@ -1,0 +1,100 @@
+{
+  "venn": {
+    "file": "venn.jpg",
+    "region": [
+      42,
+      82,
+      370,
+      530
+    ],
+    "size": [
+      428,
+      720
+    ],
+    "source_slide": 5
+  },
+  "juno": {
+    "file": "juno.jpg",
+    "region": [
+      28,
+      80,
+      395,
+      515
+    ],
+    "size": [
+      434,
+      720
+    ],
+    "source_slide": 9
+  },
+  "iris": {
+    "file": "iris.jpg",
+    "region": [
+      23,
+      81,
+      374,
+      536
+    ],
+    "size": [
+      412,
+      720
+    ],
+    "source_slide": 8
+  },
+  "rhee": {
+    "file": "rhee.jpg",
+    "region": [
+      12,
+      17,
+      170,
+      201
+    ],
+    "size": [
+      402,
+      235
+    ],
+    "source_slide": 16
+  },
+  "vale": {
+    "file": "vale.jpg",
+    "region": [
+      14,
+      26,
+      252,
+      143
+    ],
+    "size": [
+      276,
+      263
+    ],
+    "source_slide": 23
+  },
+  "okafor": {
+    "file": "okafor.jpg",
+    "region": [
+      13,
+      23,
+      240,
+      147
+    ],
+    "size": [
+      268,
+      263
+    ],
+    "source_slide": 24
+  },
+  "m77": {
+    "file": "m77.jpg",
+    "region": [
+      12,
+      101,
+      316,
+      500
+    ],
+    "size": [
+      509,
+      720
+    ],
+    "source_slide": 17
+  }
+}

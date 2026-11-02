@@ -206,8 +206,9 @@ func _enter_scene(index: int, restoring: bool = false) -> void:
 	scene = story.scenes[index]
 	state.data.scene = scene.id
 	scenery.configure(str(scene.room))
-	stage.configure(str(scene.room))
-	upper_route = bool(state.data.routes.get(scene.id,false))
+	stage.configure(str(scene.room),str(scene.id))
+	upper_route = bool(state.data.routes.get(scene.id,false)) and stage.has_route
+	stage.restore_route(upper_route)
 	member_routes.fill(upper_route)
 	branch_pending = false
 	for person in stage.people.values():
@@ -229,10 +230,9 @@ func _enter_scene(index: int, restoring: bool = false) -> void:
 		party[i].reset_contacts()
 		party[i].visible = not scene.id in ["s1_route", "s3_packet"]
 	for i in range(scene.npcs.size()):
-		var x = 1088 + i * 300
-		if scene.room == "corridor": x = 1770 if str(scene.npcs[i]) != "m77" else 1024
-		_add_person(str(scene.npcs[i]), x)
-	if not scene.clues.is_empty(): _add_station(str(scene.clues[0]), 1587)
+		var spot=stage.npc_spot(i,str(scene.npcs[i]))
+		_add_person(str(scene.npcs[i]),float(spot.x)*128.0,bool(spot.upper))
+	if not scene.clues.is_empty():_add_station(str(scene.clues[0]),stage.device_x*128.0)
 	camera.position = Vector2(clampf(start, 683, WORLD_WIDTH - 683), 384)
 	camera_lead = 0
 	stage.view_x = clampf(start/128.0,5.335,12.665)
@@ -240,23 +240,21 @@ func _enter_scene(index: int, restoring: bool = false) -> void:
 	audio.set_room(str(scene.room))
 	_apply_cue(not restoring)
 
-func _add_person(id: String, x: float) -> void:
+func _add_person(id: String, x: float,upper: bool=false) -> void:
 	if not story.characters.has(id): return
 	var p: Dictionary = story.characters[id]
 	var node = Node2D.new()
 	node.position = Vector2(x, FLOOR)
 	node.z_index = 3
 	world.add_child(node)
-	var upper = id == "venn" or (id not in ["m77","juno"] and x>1350)
 	if id=="iris":
-		x=2010
-		upper=true
+		stage.place_iris(Vector3(x/128.0,stage.floor_point(x/128.0,upper).y+1.20,-1.8))
 	elif id!="m77":
 		var actor: CinematicAvatar = stage.people.get(id)
 		if not actor:actor=stage.add_actor(id,true)
 		actor.visible=true
 		actor.process_mode=Node.PROCESS_MODE_INHERIT
-		actor.position=stage.floor_point(x/128.0,upper)+Vector3(0,0,-.26)
+		actor.position=stage.floor_point(x/128.0,upper)+Vector3(0,0,-.58)
 		actor.gesture_time=0
 		if not actor.has_node("Name"):
 			var nameplate=Label3D.new()
@@ -277,7 +275,7 @@ func _add_station(id: String, x: float) -> void:
 	world.add_child(node)
 	var plate = UI.panel(node, Rect2(-91, -171, 182, 69), 0.9)
 	UI.label(plate, str(story.clues[id].title).to_upper(), Rect2(13, 11, 157, 52), 13, UI.PAPER)
-	npcs.append({"kind": "clue", "id": id, "x": x, "node": node,"upper":true})
+	npcs.append({"kind": "clue", "id": id, "x": x, "node": node,"upper":stage.device_upper})
 	stage.show_clue(story.clues[id])
 
 func _cue_index() -> int:
@@ -309,7 +307,7 @@ func _apply_cue(play: bool = true) -> void:
 func _update_cue_panel() -> void:
 	if is_instance_valid(cue_panel): cue_panel.queue_free()
 	var cue: Dictionary = scene.cues[_cue_index()]
-	var rect = Rect2(40, 119, 680, 208) if not blackout.visible else Rect2(255, 250, 856, 220)
+	var rect = Rect2(646 if stage.layout_key=="terminal" else 40,119,680,208) if not blackout.visible else Rect2(255,250,856,220)
 	cue_panel = UI.panel(ui, rect, 0.9)
 	ui.move_child(cue_panel, ui.get_child_count() - 1)
 	ui.move_child(overlay, ui.get_child_count() - 1)
@@ -334,7 +332,7 @@ func _update_chrome() -> void:
 func _physics_process(delta: float) -> void:
 	if not scene: return
 	if not paused: clock += delta
-	var held = paused or is_instance_valid(modal)
+	var held = paused or is_instance_valid(modal) or stage.route_transition
 	var leader = party[int(state.data.leader)]
 	for member in party:
 		member.attending = is_instance_valid(modal)
@@ -342,17 +340,26 @@ func _physics_process(delta: float) -> void:
 	var direction = 0.0 if held else Input.get_axis("walk_left", "walk_right")
 	if not held and direction==0 and Time.get_ticks_msec()<touch_until:direction=touch_direction
 	if branch_pending and not held:
-		var junction = 6.2*128.0
-		if absf(leader.position.x-junction)<4:
+		var junction = stage.route_junction_x*128.0
+		var boarded=true
+		if stage.layout_kind=="lift" and absf(leader.position.x-junction)<4:
+			var slots=0
+			for index in range(4):
+				if index==int(state.data.leader):continue
+				slots+=1
+				if absf(party[index].position.x-(junction-slots*86))>10:boarded=false
+		if absf(leader.position.x-junction)<4 and boarded:
 			leader.position.x=junction
 			leader.velocity.x=0
 			upper_route=not upper_route
 			member_routes[int(state.data.leader)]=upper_route
+			stage.begin_route_change(upper_route)
+			if stage.layout_kind=="lift":member_routes.fill(upper_route)
 			branch_pending=false
 			state.data.routes[scene.id]=upper_route
 			state.save()
 			direction=0
-		else:direction=signf(junction-leader.position.x)
+		else:direction=0 if absf(leader.position.x-junction)<4 else signf(junction-leader.position.x)
 	if not held and move_target >= 0:
 		if absf(leader.position.x - move_target) < 9 or direction != 0: move_target = -1
 		else: direction = signf(move_target - leader.position.x)
@@ -376,8 +383,24 @@ func _physics_process(delta: float) -> void:
 		# Each follower crosses the junction before changing paths. This also
 		# handles a leader reversing direction halfway up the access ramp.
 		if member_routes[order[rank]]!=upper_route:
-			if follower.position.x<=6.2*128.0+2:member_routes[order[rank]]=upper_route
-			elif not held:follower.desired_speed=-minf(SPEED,(follower.position.x-6.2*128.0)*2)
+			var old_point=stage.floor_point(follower.position.x/128.0,member_routes[order[rank]])
+			var new_point=stage.floor_point(follower.position.x/128.0,upper_route)
+			if old_point.distance_to(new_point)<.08:member_routes[order[rank]]=upper_route
+			elif not held:
+				var error_to_junction=stage.route_junction_x*128.0-follower.position.x
+				follower.desired_speed=signf(error_to_junction)*minf(SPEED,absf(error_to_junction)*2)
+	if branch_pending and stage.layout_kind=="lift" and absf(leader.position.x-stage.route_junction_x*128)<4:
+		for rank in range(1,4):
+			var follower=party[order[rank]]
+			var slot=stage.route_junction_x*128-rank*86
+			var error_to_slot=slot-follower.position.x
+			follower.desired_speed=signf(error_to_slot)*minf(SPEED,absf(error_to_slot)*2)
+	if stage.layout_kind=="lift" and upper_route and not stage.route_transition:
+		if leader.position.x>=8.95*128 and leader.desired_speed>0:leader.desired_speed=0
+		if leader.position.x<.6*128 and leader.desired_speed<0:leader.desired_speed=0
+	if upper_route and stage.layout_kind!="lift" and not stage.route_points.is_empty():
+		var left_end=stage.route_points[0]
+		if left_end.y>.1 and leader.position.x<(left_end.x+.10)*128 and leader.desired_speed<0:leader.desired_speed=0
 	if not paused:
 		camera_lead = lerpf(camera_lead, clampf(leader.velocity.x / SPEED, -1, 1) * 50, 1 - exp(-delta * 2.8))
 		var goal = clampf(leader.position.x + camera_lead, 683, WORLD_WIDTH - 683)
@@ -393,7 +416,7 @@ func _physics_process(delta: float) -> void:
 	stage.held = paused
 	stage.active_actor = int(state.data.leader)
 	for i in range(4):
-		avatars[i].position = stage.floor_point(party[i].position.x/128.0,member_routes[i])
+		avatars[i].position = stage.floor_point(party[i].position.x/128.0,member_routes[i],stage.route_transition)
 		avatars[i].speed = party[i].velocity.x/128.0
 		avatars[i].facing = party[i].facing
 		avatars[i].visible = party[i].visible
@@ -401,18 +424,20 @@ func _physics_process(delta: float) -> void:
 	nearest = ""
 	var distance = 145.0
 	for n in npcs:
-		if bool(n.get("upper",false))!=upper_route:continue
+		var contact=stage.floor_point(n.x/128.0,bool(n.get("upper",false)))
+		var leader_place=avatars[int(state.data.leader)].position
+		if Vector2(contact.y-leader_place.y,contact.z-leader_place.z).length()>.8:continue
 		if absf(n.x - leader.position.x) < distance:
 			distance = absf(n.x - leader.position.x)
 			nearest = n.kind + ":" + n.id
-	if absf(leader.position.x-6.2*128.0)<76:nearest="route:change"
+	if stage.has_route and absf(leader.position.x-stage.route_junction_x*128.0)<76:nearest="route:change"
 	elif leader.position.x>2180:nearest="travel:next"
 	elif leader.position.x<110:nearest="travel:previous"
 	var hint = ""
 	if nearest != "" and not held:
 		var parts = nearest.split(":")
 		match parts[0]:
-			"route":hint="[ E ]  LOWER WALKWAY  ↙" if upper_route else "[ E ]  "+stage.route_name+"  ↗"
+			"route":hint="[ E ]  RETURN TO MAIN DECK" if upper_route else "[ E ]  "+stage.route_name+"  ↗"
 			"travel":hint="[ E ]  NEXT LOCATION" if parts[1]=="next" else "[ E ]  PREVIOUS LOCATION"
 			"person":hint="[ E ]  "+str(story.characters[parts[1]].name)
 			"clue":hint="[ E ]  USE "+str(story.clues[parts[1]].title).to_upper()
@@ -579,6 +604,7 @@ func _new_modal(rect: Rect2) -> Panel:
 	modal = Control.new()
 	modal.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	overlay.add_child(modal)
+	if is_instance_valid(cue_panel):cue_panel.visible=false
 	var dim = ColorRect.new()
 	dim.size = Vector2(1366, 768)
 	dim.color = Color(0.004, 0.015, 0.025, 0.5)
@@ -672,34 +698,27 @@ func _talk(who: String, reply: String = "") -> void:
 	var data: Dictionary = story.characters[who]
 	var line = str(data.opening) if reply == "" else reply
 	if reply == "" and data.has("openings"): line = str(data.openings.get(str(int(scene.session)), line))
-	var p = _new_modal(Rect2(38, 423, 1290, 315))
+	var p = _new_modal(Rect2(38, 350, 1290, 388))
 	conversation = who
 	conversation_line = line
 	if stage.people.has(who):stage.people[who].gesture()
-	var tex: Texture2D
-	if who == "iris":
-		var portrait = AtlasTexture.new()
-		portrait.atlas = preload("res://assets/art/iris.jpeg")
-		portrait.region = Rect2(50, 160, 960, 1420)
-		tex = portrait
-	else:
-		var path = "res://assets/art/" + str(data.sheet)
-		if ResourceLoader.exists(path):
-			var atlas = load(path)
-			var parts = 3 if data.sheet == "officers_s23.png" else (2 if data.sheet == "officers.png" else 1)
-			var portrait = AtlasTexture.new()
-			portrait.atlas = atlas
-			portrait.region = Rect2(atlas.get_width() / parts * int(data.region), 0, atlas.get_width() / parts, atlas.get_height() * 0.62)
-			tex = portrait
-	if tex: UI.portrait(p, tex, Rect2(17, 17, 175, 236))
-	UI.label(p, str(data.name).to_upper() + " / " + str(data.role), Rect2(213, 16, 786, 26), 15, UI.CYAN)
-	UI.label(p, line, Rect2(213, 53, 1049, 105), 22)
+	stage.focus_person(who)
+	var portrait_catalog=JSON.parse_string(FileAccess.get_file_as_string("res://data/portraits.json"))
+	if portrait_catalog.has(who):
+		var entry=portrait_catalog[who]
+		var atlas=AtlasTexture.new()
+		atlas.atlas=load("res://assets/portraits/"+str(entry.file))
+		atlas.region=Rect2(entry.region[0],entry.region[1],entry.region[2],entry.region[3])
+		UI.portrait(p,atlas,Rect2(24,18,144,144))
+	UI.label(p,str(data.name).to_upper(),Rect2(192,15,1045,28),19,UI.CYAN)
+	UI.label(p,str(data.role),Rect2(192,46,1045,22),13,UI.AMBER)
+	UI.label(p,line,Rect2(192,79,1045,108),22)
 	var choices: Array = _dialogue_choices(who)
 	for i in range(mini(choices.size(), 4)):
-		UI.button(p, str(choices[i].question), Rect2(213 + (i % 2) * 530, 163 + (i / 2) * 49, 516, 42), _talk.bind(who, str(choices[i].text)), 16)
-	UI.button(p, "LET THE CLASS RESPOND / RETURN", Rect2(213, 269, 1046, 32), _close_modal, 13)
-	var replay = UI.button(p, "REPLAY LINE", Rect2(1085, 12, 174, 32), func(): audio.say(who, line), 12)
-	replay.disabled = not audio.has_recording(who, line)
+		UI.button(p, str(choices[i].question), Rect2(24 + (i % 2) * 624, 204 + (i / 2) * 56, 608, 48), _talk.bind(who, str(choices[i].text)), 16)
+	UI.button(p, "LET THE CLASS RESPOND / RETURN", Rect2(24, 334, 1244, 36), _close_modal, 13)
+	var replay = UI.button(p, "REPLAY LINE", Rect2(24, 170, 144, 27), func(): audio.say(who, line), 12)
+	replay.visible = audio.has_recording(who, line)
 	audio.say(who, line)
 	_publish()
 
@@ -779,6 +798,12 @@ func _publish() -> void:
 	payload.inspection_time=stage.inspection_time
 	payload.render_fps=Engine.get_frames_per_second()
 	payload.phone_view=phone_view
+	payload.layout=stage.layout_key
+	payload.layout_kind=stage.layout_kind
+	payload.route_junction=stage.route_junction_x
+	payload.device_x=stage.device_x
+	payload.device_upper=stage.device_upper
+	payload.route_transition=stage.route_transition
 	if OS.is_debug_build():
 		var rigs: Array=[]
 		for actor in avatars:
@@ -794,6 +819,7 @@ func _publish() -> void:
 		payload.npc_poses=poses
 	if OS.is_debug_build():
 		payload.subjects = subjects
+		payload.draw_calls=RenderingServer.get_rendering_info(RenderingServer.RENDERING_INFO_TOTAL_DRAW_CALLS_IN_FRAME)
 		payload.effect = scenery.effect
 		payload.effect_time = scenery.effect_time
 		var issues: Array = []

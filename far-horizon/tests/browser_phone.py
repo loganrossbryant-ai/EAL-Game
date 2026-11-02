@@ -11,7 +11,7 @@ URL=os.environ.get('FH_PREVIEW_URL','http://127.0.0.1:8092')
 async def run():
  OUT.mkdir(parents=True,exist_ok=True);errors=[];requests=set()
  async with async_playwright() as p:
-  browser=await p.chromium.launch(executable_path='/usr/bin/chromium',args=['--no-sandbox','--use-angle=swiftshader','--enable-unsafe-swiftshader','--disable-dev-shm-usage'])
+  browser=await p.chromium.launch(executable_path='/usr/bin/chromium',args=['--no-sandbox','--use-angle=swiftshader','--enable-unsafe-swiftshader','--disable-dev-shm-usage','--disable-renderer-backgrounding','--disable-background-timer-throttling','--disable-backgrounding-occluded-windows'])
   device=dict(p.devices['iPhone 13']);device.pop('default_browser_type',None)
   context=await browser.new_context(**device)
   await context.add_init_script("window.addEventListener('message',e=>{if(e.data?.app==='far-horizon-preview'&&e.data.kind==='state')window.__observedPreview=e.data.state;});")
@@ -36,8 +36,11 @@ async def run():
    return reached
   await hold('right',lambda s:s['nearest']=='route:change')
   await page.locator('#use').tap();await state(lambda s:s['upper_route'] and not s['branch_pending'])
-  await hold('right',lambda s:s['party'][0]['x']>1530)
+  await hold('left',lambda s:s['party'][0]['x']<570)
   await page.screenshot(path=str(OUT/'03-touch-depth-route.png'),scale='css')
+  await hold('right',lambda s:s['nearest']=='route:change')
+  await page.locator('#use').tap();await state(lambda s:not s['upper_route'] and not s['branch_pending'])
+  await hold('right',lambda s:s['nearest']=='clue:mission')
   await page.locator('#use').tap();await state(lambda s:s['physical_inspection'] and s['stage_camera_size']<1.7)
   await page.screenshot(path=str(OUT/'04-touch-item-zoom.png'),scale='css')
   await page.locator('#read').tap();await page.locator('#sheet-title').filter(has_text='Mission briefing').wait_for()
@@ -45,6 +48,7 @@ async def run():
   await page.screenshot(path=str(OUT/'05-readable-clue.png'),scale='css')
   await page.locator('#dismiss').tap();await state(lambda s:not s['modal'])
   await page.locator('#read').tap();await page.locator('[data-talk="juno"]').tap();await state(lambda s:s['conversation']=='juno')
+  assert await page.locator('svg.npc-photo[aria-label*="Juno"] image').get_attribute('href')=='portraits/juno.jpg'
   await page.locator('[data-reply="0"]').tap();await state(lambda s:'give your character' in s['line'])
   await page.screenshot(path=str(OUT/'06-touch-dialogue.png'),scale='css')
   await page.locator('#dismiss').tap();await state(lambda s:not s['modal'])
@@ -59,7 +63,7 @@ async def run():
   stopped=(await state())['party'][0]['x'];await page.wait_for_timeout(800);assert abs((await state())['party'][0]['x']-stopped)<1
   assert not errors,errors
   assert all(u.startswith(URL) or u.startswith('data:') or u.startswith('blob:') for u in requests),requests
-  result={'device':'iPhone 13 size/touch emulation in Chromium; not physical Safari','portrait':[390,844],'landscape':[844,390],'game_loaded':True,'touch_walk_depth_use_zoom':True,'dialogue_reply':True,'scene_picker_count':18,'readable_clue_and_orientation':True,'stuck_movement':False,'browser_errors':errors,'external_requests':False}
+  result={'device':'iPhone 13 size/touch emulation in Chromium; not physical Safari','portrait':[390,844],'landscape':[844,390],'game_loaded':True,'touch_walk_depth_use_zoom':True,'dialogue_reply':True,'original_ppt_photo':True,'scene_picker_count':18,'readable_clue_and_orientation':True,'stuck_movement':False,'browser_errors':errors,'external_requests':False}
   (OUT/'results.json').write_text(json.dumps(result,indent=2)+'\n');print(json.dumps(result,indent=2),flush=True);await browser.close()
 
 if __name__=='__main__':asyncio.run(run())

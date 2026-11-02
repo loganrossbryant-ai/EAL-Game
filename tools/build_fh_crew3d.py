@@ -9,6 +9,8 @@ import bpy
 import bmesh
 from mathutils import Vector, Quaternion, Matrix
 from mathutils.geometry import convex_hull_2d
+sys.path.insert(0,str(Path(__file__).resolve().parent))
+from fh_character_detail import skin_paint,jacket,hair_geometry,outfit_details,sphere
 
 ROOT=Path(__file__).resolve().parents[1]
 SOURCE=Path('/workspace/reference-review/makehuman')
@@ -18,9 +20,9 @@ NAMES={
  'science':dict(sex='female',race='asian',age=.02,skin=(.61,.42,.30,1),cloth=(.57,.60,.58,1),accent=(.64,.82,.81,1),hair='pony',height=1.68,crew=True),
  'engineering':dict(sex='male',race='asian',age=.08,skin=(.56,.37,.23,1),cloth=(.13,.18,.16,1),accent=(.88,.53,.16,1),hair='short',height=1.77,crew=True),
  'colony':dict(sex='female',race='african',age=.02,skin=(.20,.095,.055,1),cloth=(.27,.08,.10,1),accent=(.78,.68,.49,1),hair='curl',height=1.69,crew=True),
- 'venn':dict(sex='female',race='caucasian',age=.27,skin=(.63,.41,.29,1),cloth=(.055,.10,.16,1),accent=(.83,.60,.28,1),hair='bun',height=1.73),
- 'juno':dict(sex='female',race='asian',age=.02,skin=(.60,.39,.26,1),cloth=(.18,.17,.15,1),accent=(.45,.54,.55,1),hair='pony',height=1.66),
- 'rhee':dict(sex='male',race='asian',age=.43,skin=(.52,.32,.20,1),cloth=(.09,.11,.12,1),accent=(.85,.51,.16,1),hair='wave',height=1.74,tablet=True),
+ 'venn':dict(sex='female',race='caucasian',age=.27,skin=(.63,.41,.29,1),cloth=(.012,.026,.052,1),accent=(.83,.60,.28,1),hair='bun',height=1.73),
+ 'juno':dict(sex='female',race='asian',age=.02,skin=(.60,.39,.26,1),cloth=(.18,.17,.15,1),accent=(.60,.22,.045,1),hair='bob',height=1.66),
+ 'rhee':dict(sex='male',race='asian',age=.43,skin=(.52,.32,.20,1),cloth=(.09,.11,.12,1),accent=(.85,.51,.16,1),hair='wave',height=1.74,tablet=True,stubble=True),
  'vale':dict(sex='male',race='caucasian',age=.23,skin=(.58,.35,.22,1),cloth=(.12,.20,.25,1),accent=(.44,.65,.71,1),hair='wave',height=1.80,tablet=True,beard=True),
  'okafor':dict(sex='female',race='african',age=.20,skin=(.23,.105,.059,1),cloth=(.72,.73,.68,1),accent=(.36,.66,.66,1),hair='curl',height=1.70,tablet=True),
 }
@@ -132,6 +134,9 @@ def animate(arm,profile,factor):
    for pb in arm.pose.bones:
     pb.location=(0,0,0);pb.rotation_mode='QUATERNION';pb.rotation_quaternion=(1,0,0,0);pb.scale=(1,1,1)
    t=(frame-1)/(count-1);phase=t*math.tau
+   for pb in arm.pose.bones:
+    if pb.name.startswith(('index_','middle_','ring_','pinky_')):pb.rotation_quaternion=Quaternion(Vector((1,0,0)),.17)
+    if pb.name.startswith('thumb_'):pb.rotation_quaternion=Quaternion(Vector((0,0,1)),.12)
    pelvis=arm.pose.bones['pelvis']
    drop=.030 if label=='Walk' else .004
    pelvis.location=pelvis.bone.matrix_local.inverted().to_3x3()@Vector((math.sin(phase)*.002/factor,0,-drop/factor))
@@ -212,13 +217,11 @@ def build(name,profile):
   avg=sum((BASE[i] for i in face),Vector())/len(face);height=(avg.y+8.4488)*.1
   is_skin=avg.y>5.92 or sum(hand_weights[i] for i in face)/len(face)>.65
   p.material_index=0 if is_skin else (3 if height<.17 else (2 if height<.91 else 1))
-  if is_skin and 6.50<avg.y<7.06 and abs(avg.x)<.40 and avg.z>1.12:p.material_index=4
-  if is_skin and 6.35<avg.y<8.35 and avg.z>.35 and abs(avg.x)<.95:p.material_index=5
+  # Complexion is continuous across the face; the vertex paint defines lips.
  uv=body.data.uv_layers.new(name='Pioneer UV')
  for poly,faceuv,face in zip(body.data.polygons,FUV,FACES):
   for loop,idx,vertex in zip(poly.loop_indices,faceuv,face):
-   if poly.material_index==5:uv.data[loop].uv=(.5+BASE[vertex].x*.65,1-(4.1546-BASE[vertex].y*.50584))
-   else:uv.data[loop].uv=UV[idx]
+   uv.data[loop].uv=UV[idx]
  # Slight, continuous garment ease rather than a painted-on body silhouette.
  body.data.update()
  normals=[v.normal.copy() for v in body.data.vertices]
@@ -245,34 +248,9 @@ def build(name,profile):
   for i,w in weights:
    if w>0:vg.add([i],w,'REPLACE')
  mod=body.modifiers.new('Pioneer skeleton','ARMATURE');mod.object=arm;body.parent=arm
- # Scalp shell is real geometry and follows the head, never a camera-facing card.
- hairfaces=[]
- for face in FACES:
-  avg=sum((BASE[i] for i in face),Vector())/len(face)
-  if avg.y>7.92 or (avg.y>6.89 and avg.z<-.05) or (avg.y>7.4 and abs(avg.x)>.71 and avg.z<.7):hairfaces.append(face)
- capcoords=[coords[i]+normals[i]*.012 for i in range(len(coords))]
- cap=mesh_object('Sculpted hair',capcoords,hairfaces,hair);bind(cap,arm,'head')
- samples=random.sample(hairfaces,min(72,len(hairfaces)))
- for num,face in enumerate(samples):
-  p=sum((capcoords[i] for i in face),Vector())/len(face)
-  normal=sum((normals[i] for i in face),Vector()).normalized()
-  tangent=Vector((normal.z*.35,-.5,-.45)).normalized()
-  length=.026 if profile['hair']=='curl' else (.048 if profile['hair']=='wave' else .030)
-  points=[]
-  for j in range(5):
-   u=j/4;wiggle=math.sin(u*math.tau*1.4+num)*(.005 if profile['hair']=='curl' else .002)
-   points.append(p+tangent*length*u+normal*(math.sin(u*math.pi)*.010)+Vector((wiggle,0,0)))
-  curve('Hair lock',points,.0032 if profile['hair']=='curl' else .0022,hair,arm)
- if profile['hair'] in ['bun','pony']:
-  h=armdata.bones['head'].head_local
-  pts=[h+Vector((0,.10,.105)),h+Vector((.01,.15,.075)),h+Vector((.025,.18,-.015 if profile['hair']=='pony' else .07)),h+Vector((.035,.20,-.12 if profile['hair']=='pony' else .06))]
-  curve('Gathered hair',pts,.026 if profile['hair']=='pony' else .045,hair,arm)
- if profile.get('beard'):
-  beardfaces=[]
-  for face in FACES:
-   avg=sum((BASE[i] for i in face),Vector())/len(face)
-   if 6.30<avg.y<7.10 and avg.z>.45 and (abs(avg.x)>.35 or avg.y<6.67):beardfaces.append(face)
-  beard=mesh_object('Short beard', [coords[i]+normals[i]*.0025 for i in range(len(coords))],beardfaces,hair);bind(beard,arm,'head')
+ skin_paint(body,BASE,profile)
+ jacket(body,arm,BASE,WEIGHTS,cloth,mesh_object,profile)
+ hair_geometry(name,profile,arm,BASE,coords,normals,FACES,hair,mesh_object,bind,curve,material)
  # Real eyeballs, using the CC0 eye mesh and iris texture if available.
  eye_path=SOURCE/'makehuman/data/eyes/high-poly/high-poly.obj'
  if eye_path.exists():
@@ -299,33 +277,18 @@ def build(name,profile):
    for poly,faceuv in zip(eye.data.polygons,euf):
     for loop,idx in zip(poly.loop_indices,faceuv):uvl.data[loop].uv=eu[idx]
   bind(eye,arm,'head')
- # Physical uniform details: seams, belt, badge and backpack/tablet accessories.
- waist=(armdata.bones['pelvis'].head_local.z+.08)
- cube('Belt',(0,.015,waist),(.29,.225,.038),dark,arm,'pelvis',.008)
- cube('Buckle',(0,-.110,waist),(.052,.018,.03),trim,arm,'pelvis',.004)
- chest=armdata.bones['spine_03'].tail_local.z-.11
- cube('Department badge',(-.065,-.128,chest),(.055,.012,.023),trim,arm,'spine_03',.003)
- cube('Chest pocket',(.075,-.118,chest-.075),(.084,.022,.085),cloth,arm,'spine_03',.006)
- cube('Pocket seam',(.075,-.132,chest-.040),(.080,.005,.005),trim,arm,'spine_03',.001)
- # Raised collar and stitched jacket hem remain visible as the body turns.
- collarz=armdata.bones['neck_01'].head_local.z-.035
- for side in [-1,1]:
-  curve('Work jacket collar',[(side*.025,-.085,collarz-.035),(side*.075,-.055,collarz+.014),(side*.075,.045,collarz+.025),(side*.02,.070,collarz+.018)],.012,cloth,arm,'spine_03')
- curve('Jacket hem',[(-.14,-.07,waist+.05),(0,-.13,waist+.04),(.14,-.07,waist+.05),(.14,.07,waist+.05),(0,.13,waist+.05),(-.14,.07,waist+.05)],.005,dark,arm,'pelvis')
- for side in [-1,1]:
-  shoulder=armdata.bones['upperarm_l' if side==1 else 'upperarm_r'].head_local
-  cube('Shoulder trim',shoulder+Vector((side*.023,0,.012)),(.055,.17,.027),trim,arm,'upperarm_l' if side==1 else 'upperarm_r',.008)
- if profile.get('crew') or name=='juno':
-  backz=armdata.bones['spine_03'].head_local.z+.02
-  cube('Mission pack',(0,.180,backz),(.235,.135,.33),dark,arm,'spine_03',.025)
-  cube('Pack face',(0,.257,backz),(.19,.025,.26),cloth,arm,'spine_03',.015)
-  cube('Pack light',(0,.273,backz+.105),(.10,.012,.012),trim,arm,'spine_03',.003)
-  for side in [-1,1]:curve('Pack strap',[(side*.09,.17,backz+.15),(side*.14,.03,chest+.12),(side*.14,-.115,chest),(side*.115,-.12,waist+.03),(side*.10,.14,backz-.15)],.012,dark,arm,'spine_03')
- if profile.get('tablet'):
-  # Skin to the holding hand: its volume rotates with the same articulated wrist.
-  hand=armdata.bones['hand_l'].head_local
-  cube('Pioneer field tablet',hand+Vector((0,-.025,0)),(.16,.018,.23),dark,arm,'hand_l',.009)
-  cube('Tablet glass',hand+Vector((0,-.037,.003)),(.138,.006,.202),glass,arm,'hand_l',.005)
+  iris=material('Iris brown',(.064,.025,.010,1),rough=.33)
+  pupil=material('Pupil',(.003,.004,.005,1),rough=.20)
+  glint=material('Corneal highlight',(.76,.83,.86,1),rough=.12)
+  for side in [-1,1]:
+   half=[v for v in fitted if v.x*side>0]
+   cx=(min(v.x for v in half)+max(v.x for v in half))*.5
+   cz=(min(v.z for v in half)+max(v.z for v in half))*.5
+   front=min(v.y for v in half)-.0004
+   sphere('Iris lens',(cx,front,cz),(.0082,.0018,.0082),iris,arm,'head')
+   sphere('Round pupil',(cx,front-.0017,cz),(.0038,.0007,.0038),pupil,arm,'head')
+   sphere('Eye catchlight',(cx-.0022,front-.0025,cz+.0029),(.0010,.0003,.0010),glint,arm,'head')
+ outfit_details(name,profile,arm,body,BASE,cloth,trim,dark,glass,hair,mesh_object,bind,cube,curve,material)
  for side in ['l','r']:
   weights={i:w for bone in ['foot_'+side,'ball_'+side] for i,w in WEIGHTS[bone]}
   ids=[i for i in body_used if weights.get(i,0)>.15 and BASE[i].y< -6.3]
@@ -342,21 +305,6 @@ def build(name,profile):
   n=len(outline);faces=[list(reversed(range(n))),list(range(n,2*n))]
   faces += [[i,(i+1)%n,(i+1)%n+n,i+n] for i in range(n)]
   sole=mesh_object('Shaped boot sole',solepoints,faces,dark);bind(sole,arm,'foot_'+side)
- # Fitted zipper/seam geometry follows the jacket, with the garment texture below.
- zipper=[]
- for i in range(14):
-  y=1.9+i/13*3.7
-  idx=min((j for j in body_used if abs(BASE[j].x)<.25 and BASE[j].z>.1),key=lambda j:abs(BASE[j].y-y)+abs(BASE[j].x)*.8-BASE[j].z*.1)
-  zipper.append(body.data.vertices[idx].co+Vector((0,-.009,0)))
- curve('Jacket zipper',zipper,.0025,dark,arm,'spine_03')
- # Fit eyebrows to the morphed face using the shared anatomical topology.
- for side in [-1,1]:
-  brow=[]
-  for i in range(5):
-   u=i/4;desired=Vector((side*(.22+.49*u),7.58+math.sin(u*math.pi)*.10,1.20))
-   idx=min(body_used,key=lambda j:(BASE[j]-desired).length_squared)
-   brow.append(coords[idx]+normals[idx]*.002)
-  curve('Eyebrow',brow,.0022,hair,arm,'head')
  # Join rigid details by one skinned mesh to keep browser draw calls modest.
  details=[o for o in bpy.context.scene.objects if o.type=='MESH' and o!=body]
  if details:

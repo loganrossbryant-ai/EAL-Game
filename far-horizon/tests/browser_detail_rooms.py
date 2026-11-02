@@ -9,7 +9,9 @@ import numpy as np
 from PIL import Image
 from playwright.async_api import async_playwright
 
-ROOT=Path(__file__).resolve().parents[2];OUT=ROOT/'artifacts/far-horizon-tests/detail-rooms'
+ROOT=Path(__file__).resolve().parents[2]
+FOCUSED=os.environ.get('FH_DETAIL_FOCUSED')=='1'
+OUT=ROOT/'artifacts/far-horizon-tests'/('detail-rooms-focused' if FOCUSED else 'detail-rooms')
 URL=os.environ.get('FH_DETAIL_URL','http://127.0.0.1:8093')
 ARGS=['--no-sandbox','--use-angle=swiftshader','--enable-unsafe-swiftshader','--disable-dev-shm-usage','--disable-renderer-backgrounding','--disable-background-timer-throttling','--disable-backgrounding-occluded-windows']
 
@@ -42,36 +44,37 @@ async def run():
     await wait('window.farHorizonTestState.party.every(m=>Math.abs(m.vx)<1)')
    async def use_route(upper):
     await page.keyboard.press('e');await wait('window.farHorizonTestState.upper_route==='+str(upper).lower()+'&&!window.farHorizonTestState.branch_pending&&!window.farHorizonTestState.route_transition')
-   # Entirely flat rooms cannot accidentally inherit a gallery from another room.
-   for id in ['s1_boarding','s1_launch','s2_recreation']:
-    await jump(id);s=await state();assert s['layout_kind']=='flat' and not s['upper_route'];routes[id]='flat'
-    await capture(id+'-flat')
-   # Central mezzanine has a second descending exit at the other end.
-   await jump('s1_habitation');await walk(610);await use_route(True);await walk(990)
-   s=await state();assert abs(s['avatars'][0]['y']-.68)<.02 and s['avatars'][0]['z']<-1.4,s['avatars']
-   await capture('habitation-central-mezzanine');await walk(1760)
-   await wait('Math.abs(window.farHorizonTestState.avatars[0].y)<.01');routes['habitation']='central mezzanine with descending far exit'
-   # Curved bridge route travels into depth without climbing.
-   await jump('s1_observation');await walk(550);await use_route(True);await walk(1300)
-   s=await state();assert abs(s['avatars'][0]['y'])<.01 and s['avatars'][0]['z']<-1.5,s['avatars']
-   await capture('bridge-curved-level-aisle');routes['bridge']='zero-rise curved depth aisle'
-   # The security lift boards all four representatives, then returns them safely.
-   await jump('s2_restricted');await walk(1110);await use_route(True)
-   s=await state();assert all(abs(a['y']-1.25)<.01 for a in s['avatars']),s['avatars']
-   assert all(6.4<a['x']<9.25 for a in s['avatars']),s['avatars']
-   await capture('restricted-lift-upper');await walk(450);await page.keyboard.press('e')
-   await wait('window.farHorizonTestState.physical_inspection&&window.farHorizonTestState.inspection_time>2')
-   await capture('restricted-access-screen');await close()
-   # Save and reload must restore the cabin at its corresponding stop.
-   await page.wait_for_timeout(2200);await page.reload();await wait('window.farHorizonTestState.scene==="s2_restricted"&&window.farHorizonTestState.upper_route')
-   await wait('window.farHorizonTestState.avatars.every(a=>Math.abs(a.y-1.25)<.01)')
-   await close();await walk(1115);await use_route(False)
-   await wait('window.farHorizonTestState.avatars.every(a=>Math.abs(a.y)<.01)');await capture('restricted-lift-lower')
-   routes['restricted']='four-person boarding, lift, screen, upper save restore and descent'
-   # K-17 has a short raised instrument plinth with lower paths at both ends.
-   await jump('s3_observation');await walk(1350);await use_route(True);await walk(1840)
-   s=await state();assert abs(s['avatars'][0]['y']-.45)<.02 and s['avatars'][0]['z']<-1.45,s['avatars']
-   await capture('k17-short-instrument-plinth');routes['k17']='short right plinth'
+   if not FOCUSED:
+    # Entirely flat rooms cannot accidentally inherit a gallery from another room.
+    for id in ['s1_boarding','s1_launch','s2_recreation']:
+     await jump(id);s=await state();assert s['layout_kind']=='flat' and not s['upper_route'];routes[id]='flat'
+     await capture(id+'-flat')
+    # Central mezzanine has a second descending exit at the other end.
+    await jump('s1_habitation');await walk(610);await use_route(True);await walk(990)
+    s=await state();assert abs(s['avatars'][0]['y']-.68)<.02 and s['avatars'][0]['z']<-1.4,s['avatars']
+    await capture('habitation-central-mezzanine');await walk(1760)
+    await wait('Math.abs(window.farHorizonTestState.avatars[0].y)<.01');routes['habitation']='central mezzanine with descending far exit'
+    # Curved bridge route travels into depth without climbing.
+    await jump('s1_observation');await walk(550);await use_route(True);await walk(1300)
+    s=await state();assert abs(s['avatars'][0]['y'])<.01 and s['avatars'][0]['z']<-1.5,s['avatars']
+    await capture('bridge-curved-level-aisle');routes['bridge']='zero-rise curved depth aisle'
+    # The security lift boards all four representatives, then returns them safely.
+    await jump('s2_restricted');await walk(1110);await use_route(True)
+    s=await state();assert all(abs(a['y']-1.25)<.01 for a in s['avatars']),s['avatars']
+    assert all(6.4<a['x']<9.25 for a in s['avatars']),s['avatars']
+    await capture('restricted-lift-upper');await walk(450);await page.keyboard.press('e')
+    await wait('window.farHorizonTestState.physical_inspection&&window.farHorizonTestState.inspection_time>2')
+    await capture('restricted-access-screen');await close()
+    # Save and reload must restore the cabin at its corresponding stop.
+    await page.wait_for_timeout(2200);await page.reload();await wait('window.farHorizonTestState.scene==="s2_restricted"&&window.farHorizonTestState.upper_route')
+    await wait('window.farHorizonTestState.avatars.every(a=>Math.abs(a.y-1.25)<.01)')
+    await close();await walk(1115);await use_route(False)
+    await wait('window.farHorizonTestState.avatars.every(a=>Math.abs(a.y)<.01)');await capture('restricted-lift-lower')
+    routes['restricted']='four-person boarding, lift, screen, upper save restore and descent'
+    # K-17 has a short raised instrument plinth with lower paths at both ends.
+    await jump('s3_observation');await walk(1350);await use_route(True);await walk(1840)
+    s=await state();assert abs(s['avatars'][0]['y']-.45)<.02 and s['avatars'][0]['z']<-1.45,s['avatars']
+    await capture('k17-short-instrument-plinth');routes['k17']='short right plinth'
    # Scene motion must change both the relevant assembly and rendered world pixels.
    for id in ['s1_terminal','s1_boarding','s1_launch','s1_habitation','s1_observation','s2_recreation','s2_malfunction','s2_restricted','s3_observation']:
     await jump(id);await gm.locator('[data-cue="0"]').click();await wait('window.farHorizonTestState.cue===0');await close()
@@ -88,11 +91,12 @@ async def run():
    campaign=json.loads((ROOT/'far-horizon/data/campaign.json').read_text())
    for who,id in people.items():
     await jump(id);name=campaign['characters'][who]['name'];await gm.get_by_role('button',name='Talk: '+name,exact=True).click()
-    await wait('window.farHorizonTestState.conversation==='+json.dumps(who));s=await state();assert not s['layout_issues'],s['layout_issues']
+    await wait('window.farHorizonTestState.conversation==='+json.dumps(who));await page.wait_for_timeout(1800);s=await state();assert not s['layout_issues'],s['layout_issues']
     await capture('dialogue-'+who)
-   assert not errors,errors
+   errors=list(dict.fromkeys(errors))
    result={'render_profile':'shipping coarse-pointer world; full 1366x768 UI','routes':routes,'animated_rooms':motion,'ppt_dialogue_headers':list(people),'browser_errors':errors,'screenshots':captures}
    (OUT/'results.json').write_text(json.dumps(result,indent=2)+'\n');print(json.dumps(result),flush=True)
+   assert not errors,errors
   except Exception:
    await page.screenshot(path=str(OUT/'failure.png'))
    try:(OUT/'failure-state.json').write_text(json.dumps(await page.evaluate('window.farHorizonTestState'),indent=2))

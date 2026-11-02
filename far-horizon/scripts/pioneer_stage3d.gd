@@ -225,6 +225,7 @@ func _batch_static_geometry() -> void:
 	if pen:protected.append(pen)
 	if orbit:protected.append(orbit)
 	if lens:protected.append(lens)
+	for spark in sparks:protected.append(spark)
 	for item in subjects:protected.append(item.node)
 	for item in drones:protected.append(item)
 	var batches: Dictionary={}
@@ -574,7 +575,7 @@ func _fan(at: Vector3) -> void:
 func _room_subjects() -> void:
 	match layout_key:
 		"terminal":
-			var courier=_prop("courier_bot",Vector3(9.0,0,-.65),.88)
+			var courier=_prop("courier_bot",Vector3(10.1,0,-1.1),.88)
 			_moving("courier bot",courier)
 			var loader=_prop("cargo_loader",Vector3(15.7,0,-1.1),1.0)
 			_moving("cargo loader",loader)
@@ -610,22 +611,22 @@ func _room_subjects() -> void:
 			_plant(Vector3(10.6,.68,-1.7),.75)
 			for x in [15.0,16.0]:_box(geography,Vector3(x,.48,-1.3),Vector3(.70,.96,.36),flooring)
 		"recreation":
-			var table=_prop("holo_table",Vector3(9.1,0,-.8),1.15)
+			var table=_prop("holo_table",Vector3(10.2,0,-.95),1.15)
 			_moving("holographic game table",table)
 			_beverage_station(Vector3(14.2,0,-1.45))
-			_lounge_seat(Vector3(7.3,0,-1.25),Color("516268"))
-			_lounge_seat(Vector3(11.0,0,-1.25),Color("866a4c"))
+			_lounge_seat(Vector3(7.3,0,-1.65),Color("516268"))
+			_lounge_seat(Vector3(11.5,0,-1.65),Color("866a4c"))
 		"corridor":
-			_gate(Vector3(9.75,0,-.90),false)
-			m77=_prop("m77",Vector3(8.75,0,-.10),.95)
+			_gate(Vector3(9.75,0,-1.65),false)
+			m77=_prop("m77",Vector3(8.75,0,-.85),.95)
 			m77.rotation.y=1.0
 			var orb=_prop("survey_orb",Vector3(9.8,2.4,-.8),1.0)
 			_moving("repair survey orb",orb)
-			var spider=_prop("tool_spider",Vector3(13.0,1.85,-.6),1.10)
+			var spider=_prop("tool_spider",Vector3(11.3,1.90,-.45),1.10)
 			_moving("repair tool spider",spider)
-			for i in range(13):sparks.append(_sphere(geography,Vector3(9.6,.75,-.49),Vector3(.012,.012,.04),amber))
+			for i in range(13):sparks.append(_sphere(geography,Vector3(9.6,.75,-1.24),Vector3(.012,.012,.04),amber))
 			weld_light=OmniLight3D.new()
-			weld_light.position=Vector3(9.58,.76,-.44)
+			weld_light.position=Vector3(9.58,.76,-1.19)
 			weld_light.light_color=Color("9bd8f5")
 			weld_light.omni_range=1.2
 			geography.add_child(weld_light)
@@ -641,7 +642,7 @@ func _room_subjects() -> void:
 			_box(geography,Vector3(14.8,.6,-1.8),Vector3(1.4,1.2,.70),metal)
 			_lensing_geometry()
 		"k17":
-			var instrument=_prop("optical_array",Vector3(9.6,0,-1.3),1.25)
+			var instrument=_prop("optical_array",Vector3(8.9,0,-1.6),1.25)
 			_moving("K-17 optical array",instrument)
 			_sample_rack(Vector3(6.7,0,-1.6))
 			_lensing_geometry()
@@ -876,7 +877,7 @@ func _process(delta: float) -> void:
 			var spark=sparks[i]
 			spark.visible=active
 			var t=fposmod(clock*1.8+i*.173,1)
-			spark.position=Vector3(9.6,.75,-.49)+Vector3(sin(i*12.9)*t*.32,t*.32-t*t*.55,cos(i*4.7)*t*.16)
+			spark.position=Vector3(9.6,.75,-1.24)+Vector3(sin(i*12.9)*t*.32,t*.32-t*t*.55,cos(i*4.7)*t*.16)
 			spark.scale=Vector3(.009,.009,.035)*(1-t)
 		if weld_light:weld_light.light_energy=(.45+sin(clock*43)*.12) if active else 0
 	if orbit:

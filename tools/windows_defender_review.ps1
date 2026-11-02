@@ -62,6 +62,22 @@ try {
     $service = Get-Service WinDefend -ErrorAction Stop
     if ($service.Status -ne "Running") { Start-Service WinDefend -ErrorAction Stop }
 
+    # A hosted Windows VM can report Running before Defender's RPC/WMI provider
+    # is ready. Wait for a successful status call; active protection is still
+    # enabled and checked below, with no changes to scan/detection requirements.
+    $rpcReady = $false
+    for ($attempt = 1; $attempt -le 12; $attempt++) {
+        try {
+            Get-MpComputerStatus -ErrorAction Stop | Out-Null
+            $rpcReady = $true
+            break
+        } catch {
+            if ($attempt -eq 12) { throw }
+            Start-Sleep -Seconds 5
+        }
+    }
+    if (-not $rpcReady) { throw "Defender RPC did not initialize. No scan clearance." }
+
     # GitHub's runner image disables scanning and excludes C:/D: by default.
     # Only strengthen protection on this disposable runner; never change a PC.
     Set-MpPreference -DisableArchiveScanning $false -DisableScriptScanning $false `

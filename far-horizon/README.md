@@ -1,5 +1,16 @@
 # The Far Horizon — Sessions 1–3 GM visual aid
 
+> The classroom TV / textured-cast revision is a separate draft at
+> https://loganrossbryant-ai.github.io/hello-earth-demo/far-horizon/drafts/performance-2026-11-02/play.html
+> Choose **TV view** for a full-display presentation and large captions. NPC and
+> enemy photos occupy half the dialogue view. The GM desk retains the full script.
+> **Picture → Smoother** reduces world rendering while keeping text/photos sharp.
+> Today's approved version is preserved at
+> https://loganrossbryant-ai.github.io/hello-earth-demo/far-horizon/saved/2026-11-02/play.html
+> See `docs/far-horizon/performance-tv-revision.md` and the matching release
+> verification/Defender report for this revision's evidence. Older entries below
+> describe the previous draft. Physical iPhone/Safari performance is unverified.
+
 [Open the published detail draft](https://loganrossbryant-ai.github.io/hello-earth-demo/far-horizon/play.html).
 
 The 2026-11-02 revision adds distinct room layouts, detailed 3D crew and machinery,

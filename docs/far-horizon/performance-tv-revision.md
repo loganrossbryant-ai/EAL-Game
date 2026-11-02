@@ -39,6 +39,7 @@ Its imagery is used while preserving the user's confirmed bible canon and
 chronology. The enemy dossier supplies the M-77 illustration, not its conflicting
 Minor/1 encounter stats. ElevenLabs remains deferred.
 
-Validation and exact release/scan/deployment identifiers are recorded separately
-when final checks complete. Chromium software-WebGL and touch emulation do not
+Validation is in `performance-release-verification.json`; the exact Defender
+report is `defender-performance-report.json` (run41386794559), and publication
+is recorded in `pages-performance-deployment.json`. Chromium software-WebGL and touch emulation do not
 establish the frame rate on the teacher's PC or physical iPhone/Safari behavior.

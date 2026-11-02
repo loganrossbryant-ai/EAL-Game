@@ -1,0 +1,20 @@
+{
+  "commit": "3e9bfb103c8035e31264ea23ed9d0a6450b388be",
+  "parent": "1a4bbcdfac2e214a87319a7ac7ac46f41cb1af1c",
+  "url": "https://loganrossbryant-ai.github.io/hello-earth-demo/far-horizon/drafts/performance-2026-11-02/play.html",
+  "prefix": "far-horizon/drafts/performance-2026-11-02/",
+  "source_commit": "d23d54a6cad707cf69e3b2f47cdec13245f7d03b",
+  "defender_run": "41386794559",
+  "review_commit": "cfdb9dbcbcfd9d353e774525bb293f8dc92b13ce",
+  "manifest_sha256": "e68bed64c38892830559d08079b0e556a6181cbafd45ec432e74e02880f6992b",
+  "files": 34,
+  "all_existing_hosted_games_unchanged": true,
+  "status": "success",
+  "pages_run": "41388801172",
+  "pages_run_url": "https://github.com/loganrossbryant-ai/hello-earth-demo/actions/runs/41388801172",
+  "exact_commit_in_run_summary": true,
+  "public_release_manifest_and_scan_match": true,
+  "verified_utc": "2026-11-02T04:32:55.763863+00:00",
+  "direct_github_io_probe": false,
+  "direct_probe_limitation": "Runtime HTTP policy blocks github.io; browser checks used the exact candidate files locally. Public Pages run and immutable source bytes were verified."
+}

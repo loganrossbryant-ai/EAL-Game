@@ -1,0 +1,805 @@
+{
+  "game_code_commit": "d23d54a6cad707cf69e3b2f47cdec13245f7d03b",
+  "manifest_sha256": "e68bed64c38892830559d08079b0e556a6181cbafd45ec432e74e02880f6992b",
+  "defender_run": "41386794559",
+  "physical_iphone_safari_test": false,
+  "teacher_pc_hardware_performance_measured": false,
+  "campaign_unchanged": true,
+  "checks": {
+    "gm-release": {
+      "render_profile": "desktop full-resolution world",
+      "viewport": "1280x720",
+      "standard_release": true,
+      "debug_global": false,
+      "checked_beats": 64,
+      "scene_jump_save_clues_dialogue_support": "passed",
+      "session_reset_and_preservation": "passed",
+      "voice_recordings": 0,
+      "browser_errors": [],
+      "requests": [
+        "blob:http://127.0.0.1:8094/937c1b06-5888-453a-b8fb-0a1a5d8774bf",
+        "blob:http://127.0.0.1:8094/bc435d49-6c88-441d-b322-9033dbcab5e0",
+        "http://127.0.0.1:8094/",
+        "http://127.0.0.1:8094/academic.otf",
+        "http://127.0.0.1:8094/campaign.json",
+        "http://127.0.0.1:8094/gm.css",
+        "http://127.0.0.1:8094/gm.js",
+        "http://127.0.0.1:8094/index.js",
+        "http://127.0.0.1:8094/index.pck",
+        "http://127.0.0.1:8094/index.png",
+        "http://127.0.0.1:8094/index.wasm"
+      ]
+    },
+    "phone": {
+      "device": "iPhone 13 size/touch emulation in Chromium; not physical Safari",
+      "portrait": [
+        390,
+        844
+      ],
+      "landscape": [
+        844,
+        390
+      ],
+      "game_loaded": true,
+      "touch_walk_depth_use_zoom": true,
+      "dialogue_reply": true,
+      "original_ppt_photo": true,
+      "scene_picker_count": 18,
+      "readable_clue_and_orientation": true,
+      "stuck_movement": false,
+      "browser_errors": [],
+      "external_requests": false
+    },
+    "projection-review": {
+      "focused_followup": true,
+      "scenes": [
+        {
+          "id": "s1_launch",
+          "layout": "launch",
+          "draw_calls": 54,
+          "fps": 3
+        },
+        {
+          "id": "s1_habitation",
+          "layout": "habitation",
+          "draw_calls": 137,
+          "fps": 3
+        },
+        {
+          "id": "s1_observation",
+          "layout": "bridge",
+          "draw_calls": 72,
+          "fps": 3
+        },
+        {
+          "id": "s3_observation",
+          "layout": "k17",
+          "draw_calls": 77,
+          "fps": 1
+        }
+      ],
+      "room_profiles": [
+        "bridge",
+        "habitation",
+        "k17",
+        "launch"
+      ],
+      "large_clues": [
+        "mission",
+        "badges",
+        "directory",
+        "frame",
+        "route",
+        "ticket",
+        "restricted",
+        "arrival",
+        "lensing",
+        "clocks",
+        "biometric",
+        "both",
+        "packet"
+      ],
+      "dialogue_replies": [
+        {
+          "session": 1,
+          "npc": "venn",
+          "reply": 0,
+          "caption_chars": 72
+        },
+        {
+          "session": 1,
+          "npc": "venn",
+          "reply": 1,
+          "caption_chars": 55
+        },
+        {
+          "session": 1,
+          "npc": "venn",
+          "reply": 2,
+          "caption_chars": 61
+        },
+        {
+          "session": 1,
+          "npc": "venn",
+          "reply": 3,
+          "caption_chars": 26
+        },
+        {
+          "session": 1,
+          "npc": "juno",
+          "reply": 0,
+          "caption_chars": 71
+        },
+        {
+          "session": 1,
+          "npc": "juno",
+          "reply": 1,
+          "caption_chars": 47
+        },
+        {
+          "session": 1,
+          "npc": "juno",
+          "reply": 2,
+          "caption_chars": 62
+        },
+        {
+          "session": 1,
+          "npc": "iris",
+          "reply": 0,
+          "caption_chars": 69
+        },
+        {
+          "session": 1,
+          "npc": "iris",
+          "reply": 1,
+          "caption_chars": 65
+        },
+        {
+          "session": 1,
+          "npc": "iris",
+          "reply": 2,
+          "caption_chars": 47
+        },
+        {
+          "session": 1,
+          "npc": "rhee",
+          "reply": 0,
+          "caption_chars": 71
+        },
+        {
+          "session": 1,
+          "npc": "rhee",
+          "reply": 1,
+          "caption_chars": 57
+        },
+        {
+          "session": 1,
+          "npc": "rhee",
+          "reply": 2,
+          "caption_chars": 95
+        },
+        {
+          "session": 1,
+          "npc": "okafor",
+          "reply": 0,
+          "caption_chars": 70
+        },
+        {
+          "session": 1,
+          "npc": "okafor",
+          "reply": 1,
+          "caption_chars": 63
+        },
+        {
+          "session": 1,
+          "npc": "okafor",
+          "reply": 2,
+          "caption_chars": 35
+        },
+        {
+          "session": 2,
+          "npc": "juno",
+          "reply": 0,
+          "caption_chars": 71
+        },
+        {
+          "session": 2,
+          "npc": "juno",
+          "reply": 1,
+          "caption_chars": 47
+        },
+        {
+          "session": 2,
+          "npc": "juno",
+          "reply": 2,
+          "caption_chars": 62
+        },
+        {
+          "session": 2,
+          "npc": "juno",
+          "reply": 3,
+          "caption_chars": 81
+        },
+        {
+          "session": 2,
+          "npc": "iris",
+          "reply": 0,
+          "caption_chars": 69
+        },
+        {
+          "session": 2,
+          "npc": "iris",
+          "reply": 1,
+          "caption_chars": 65
+        },
+        {
+          "session": 2,
+          "npc": "iris",
+          "reply": 2,
+          "caption_chars": 47
+        },
+        {
+          "session": 2,
+          "npc": "iris",
+          "reply": 3,
+          "caption_chars": 51
+        },
+        {
+          "session": 2,
+          "npc": "rhee",
+          "reply": 0,
+          "caption_chars": 90
+        },
+        {
+          "session": 2,
+          "npc": "rhee",
+          "reply": 1,
+          "caption_chars": 92
+        },
+        {
+          "session": 2,
+          "npc": "rhee",
+          "reply": 2,
+          "caption_chars": 71
+        },
+        {
+          "session": 2,
+          "npc": "rhee",
+          "reply": 3,
+          "caption_chars": 57
+        },
+        {
+          "session": 2,
+          "npc": "okafor",
+          "reply": 0,
+          "caption_chars": 70
+        },
+        {
+          "session": 2,
+          "npc": "okafor",
+          "reply": 1,
+          "caption_chars": 53
+        },
+        {
+          "session": 2,
+          "npc": "okafor",
+          "reply": 2,
+          "caption_chars": 63
+        },
+        {
+          "session": 2,
+          "npc": "okafor",
+          "reply": 3,
+          "caption_chars": 35
+        },
+        {
+          "session": 2,
+          "npc": "m77",
+          "reply": 0,
+          "caption_chars": 44
+        },
+        {
+          "session": 2,
+          "npc": "m77",
+          "reply": 1,
+          "caption_chars": 50
+        },
+        {
+          "session": 3,
+          "npc": "venn",
+          "reply": 0,
+          "caption_chars": 72
+        },
+        {
+          "session": 3,
+          "npc": "venn",
+          "reply": 1,
+          "caption_chars": 55
+        },
+        {
+          "session": 3,
+          "npc": "venn",
+          "reply": 2,
+          "caption_chars": 61
+        },
+        {
+          "session": 3,
+          "npc": "venn",
+          "reply": 3,
+          "caption_chars": 26
+        },
+        {
+          "session": 3,
+          "npc": "iris",
+          "reply": 0,
+          "caption_chars": 69
+        },
+        {
+          "session": 3,
+          "npc": "iris",
+          "reply": 1,
+          "caption_chars": 65
+        },
+        {
+          "session": 3,
+          "npc": "iris",
+          "reply": 2,
+          "caption_chars": 47
+        },
+        {
+          "session": 3,
+          "npc": "rhee",
+          "reply": 0,
+          "caption_chars": 71
+        },
+        {
+          "session": 3,
+          "npc": "rhee",
+          "reply": 1,
+          "caption_chars": 57
+        },
+        {
+          "session": 3,
+          "npc": "rhee",
+          "reply": 2,
+          "caption_chars": 95
+        },
+        {
+          "session": 3,
+          "npc": "vale",
+          "reply": 0,
+          "caption_chars": 72
+        },
+        {
+          "session": 3,
+          "npc": "vale",
+          "reply": 1,
+          "caption_chars": 64
+        },
+        {
+          "session": 3,
+          "npc": "vale",
+          "reply": 2,
+          "caption_chars": 84
+        },
+        {
+          "session": 3,
+          "npc": "okafor",
+          "reply": 0,
+          "caption_chars": 70
+        },
+        {
+          "session": 3,
+          "npc": "okafor",
+          "reply": 1,
+          "caption_chars": 63
+        },
+        {
+          "session": 3,
+          "npc": "okafor",
+          "reply": 2,
+          "caption_chars": 35
+        }
+      ],
+      "fullscreen_exit": true,
+      "browser_errors": [],
+      "render_note": "Software WebGL diagnostic only; not the teacher PC frame rate."
+    },
+    "performance-characters/cast-assets": [
+      {
+        "id": "flight",
+        "surfaces": 2,
+        "clips": [
+          "Idle",
+          "Walk",
+          "Use"
+        ],
+        "skinned_meshes": 2,
+        "blink": true,
+        "uv_and_tangents": true,
+        "mipmapped_maps": true,
+        "glb_sha256": "0a041451be0c5c108dd6dcd5a8b34ce4306358b3ef05583b7d5404dbaed383f2"
+      },
+      {
+        "id": "science",
+        "surfaces": 2,
+        "clips": [
+          "Idle",
+          "Walk",
+          "Use"
+        ],
+        "skinned_meshes": 2,
+        "blink": true,
+        "uv_and_tangents": true,
+        "mipmapped_maps": true,
+        "glb_sha256": "943c8b545c47533ddbaf29dc2e27e386e32f21ab837dd854d357cf4abc7ea16f"
+      },
+      {
+        "id": "engineering",
+        "surfaces": 2,
+        "clips": [
+          "Idle",
+          "Walk",
+          "Use"
+        ],
+        "skinned_meshes": 2,
+        "blink": true,
+        "uv_and_tangents": true,
+        "mipmapped_maps": true,
+        "glb_sha256": "84713dc99c5e949e7223b9f1197e59a8f4b5e8940bc12257b4ef36512aaa52ec"
+      },
+      {
+        "id": "colony",
+        "surfaces": 2,
+        "clips": [
+          "Idle",
+          "Walk",
+          "Use"
+        ],
+        "skinned_meshes": 2,
+        "blink": true,
+        "uv_and_tangents": true,
+        "mipmapped_maps": true,
+        "glb_sha256": "f7c51b0be24c2922ff9bbf02877b70f33b87d23f8e3495537a67b6a55b5dcc29"
+      },
+      {
+        "id": "venn",
+        "surfaces": 2,
+        "clips": [
+          "Idle",
+          "Walk",
+          "Use"
+        ],
+        "skinned_meshes": 2,
+        "blink": true,
+        "uv_and_tangents": true,
+        "mipmapped_maps": true,
+        "glb_sha256": "324647e0b37390b99c94ec13db1efe140743019e200ab1378dea6c8fb3cda7d8"
+      },
+      {
+        "id": "juno",
+        "surfaces": 2,
+        "clips": [
+          "Idle",
+          "Walk",
+          "Use"
+        ],
+        "skinned_meshes": 2,
+        "blink": true,
+        "uv_and_tangents": true,
+        "mipmapped_maps": true,
+        "glb_sha256": "82a15801601e4ca36e27c6bdb6f749b0f4aa2e701a9eddd8868dd5c4a3ac8ac1"
+      },
+      {
+        "id": "rhee",
+        "surfaces": 2,
+        "clips": [
+          "Idle",
+          "Walk",
+          "Use"
+        ],
+        "skinned_meshes": 2,
+        "blink": true,
+        "uv_and_tangents": true,
+        "mipmapped_maps": true,
+        "glb_sha256": "bdd12a26a5e7d7e2fd6ad6ef565af342ed63bbae9c7efe8dbcfd39a59f2248e0"
+      },
+      {
+        "id": "vale",
+        "surfaces": 2,
+        "clips": [
+          "Idle",
+          "Walk",
+          "Use"
+        ],
+        "skinned_meshes": 2,
+        "blink": true,
+        "uv_and_tangents": true,
+        "mipmapped_maps": true,
+        "glb_sha256": "671e65aae74f77b7a83c541e2cb3fd1e6fc33cde26159557ab37a8014a3b1bd9"
+      },
+      {
+        "id": "okafor",
+        "surfaces": 2,
+        "clips": [
+          "Idle",
+          "Walk",
+          "Use"
+        ],
+        "skinned_meshes": 2,
+        "blink": true,
+        "uv_and_tangents": true,
+        "mipmapped_maps": true,
+        "glb_sha256": "03109aa6d82104c4be5232a55c228d78e47a6fe315b8d0dd635863d9ab741bc3"
+      }
+    ],
+    "performance-characters/cast-rigs": {
+      "flight": {
+        "Idle": {
+          "posterior_bend_min": 0.040677666664123535,
+          "posterior_bend_max": 0.041045475751161575,
+          "posterior_bend_mean": 0.04086784872504854,
+          "pelvis_vertical_range": 0.0
+        },
+        "Use": {
+          "posterior_bend_min": 0.04067771136760712,
+          "posterior_bend_max": 0.15413092076778412,
+          "posterior_bend_mean": 0.06259843170868629,
+          "pelvis_vertical_range": 0.0
+        },
+        "Walk": {
+          "posterior_bend_min": 0.04135817289352417,
+          "posterior_bend_max": 0.06115010380744934,
+          "posterior_bend_mean": 0.053898819983005525,
+          "pelvis_vertical_range": 0.0
+        }
+      },
+      "science": {
+        "Idle": {
+          "posterior_bend_min": 0.03494877740740776,
+          "posterior_bend_max": 0.035374369472265244,
+          "posterior_bend_mean": 0.035168904043042785,
+          "pelvis_vertical_range": 0.0
+        },
+        "Use": {
+          "posterior_bend_min": 0.027104824781417847,
+          "posterior_bend_max": 0.12761162221431732,
+          "posterior_bend_mean": 0.05088032990919821,
+          "pelvis_vertical_range": 0.0
+        },
+        "Walk": {
+          "posterior_bend_min": 0.03255697339773178,
+          "posterior_bend_max": 0.05543014034628868,
+          "posterior_bend_mean": 0.04721732512116432,
+          "pelvis_vertical_range": 0.0
+        }
+      },
+      "engineering": {
+        "Idle": {
+          "posterior_bend_min": 0.040159922093153,
+          "posterior_bend_max": 0.0405324324965477,
+          "posterior_bend_mean": 0.04035255084409542,
+          "pelvis_vertical_range": 0.0
+        },
+        "Use": {
+          "posterior_bend_min": 0.04015275835990906,
+          "posterior_bend_max": 0.15173505246639252,
+          "posterior_bend_mean": 0.06154910633058259,
+          "pelvis_vertical_range": 0.0
+        },
+        "Walk": {
+          "posterior_bend_min": 0.040599796921014786,
+          "posterior_bend_max": 0.060633111745119095,
+          "posterior_bend_mean": 0.05330389723181725,
+          "pelvis_vertical_range": 0.0
+        }
+      },
+      "colony": {
+        "Idle": {
+          "posterior_bend_min": 0.0351785309612751,
+          "posterior_bend_max": 0.03560160472989082,
+          "posterior_bend_mean": 0.03539737358151637,
+          "pelvis_vertical_range": 0.0
+        },
+        "Use": {
+          "posterior_bend_min": 0.027754798531532288,
+          "posterior_bend_max": 0.12867720425128937,
+          "posterior_bend_mean": 0.05135727933410442,
+          "pelvis_vertical_range": 0.0
+        },
+        "Walk": {
+          "posterior_bend_min": 0.03292958065867424,
+          "posterior_bend_max": 0.055660709738731384,
+          "posterior_bend_mean": 0.047490483671426775,
+          "pelvis_vertical_range": 0.0
+        }
+      },
+      "venn": {
+        "Idle": {
+          "posterior_bend_min": 0.036224156618118286,
+          "posterior_bend_max": 0.0366356298327446,
+          "posterior_bend_mean": 0.03643698571729906,
+          "pelvis_vertical_range": 0.0
+        },
+        "Use": {
+          "posterior_bend_min": 0.03060448169708252,
+          "posterior_bend_max": 0.1335161179304123,
+          "posterior_bend_mean": 0.053517188763979706,
+          "pelvis_vertical_range": 0.0
+        },
+        "Walk": {
+          "posterior_bend_min": 0.034604717046022415,
+          "posterior_bend_max": 0.05670523643493652,
+          "posterior_bend_mean": 0.04872631974518299,
+          "pelvis_vertical_range": 0.0
+        }
+      },
+      "juno": {
+        "Idle": {
+          "posterior_bend_min": 0.034165896475315094,
+          "posterior_bend_max": 0.03460133820772171,
+          "posterior_bend_mean": 0.03439114290798448,
+          "pelvis_vertical_range": 0.0
+        },
+        "Use": {
+          "posterior_bend_min": 0.024739772081375122,
+          "posterior_bend_max": 0.12401735782623291,
+          "posterior_bend_mean": 0.04924065580196453,
+          "pelvis_vertical_range": 0.0
+        },
+        "Walk": {
+          "posterior_bend_min": 0.031248051673173904,
+          "posterior_bend_max": 0.05466467887163162,
+          "posterior_bend_mean": 0.046289033219218255,
+          "pelvis_vertical_range": 0.0
+        }
+      },
+      "rhee": {
+        "Idle": {
+          "posterior_bend_min": 0.037676528096199036,
+          "posterior_bend_max": 0.15561187267303467,
+          "posterior_bend_mean": 0.09627086490623116,
+          "pelvis_vertical_range": 0.0
+        },
+        "Use": {
+          "posterior_bend_min": 0.03429242968559265,
+          "posterior_bend_max": 0.15561187267303467,
+          "posterior_bend_mean": 0.11489055960467368,
+          "pelvis_vertical_range": 0.0
+        },
+        "Walk": {
+          "posterior_bend_min": 0.03686255216598511,
+          "posterior_bend_max": 0.1889236569404602,
+          "posterior_bend_mean": 0.10291193351149559,
+          "pelvis_vertical_range": 0.0
+        }
+      },
+      "vale": {
+        "Idle": {
+          "posterior_bend_min": 0.04006928950548172,
+          "posterior_bend_max": 0.1677781194448471,
+          "posterior_bend_mean": 0.10355039492019058,
+          "pelvis_vertical_range": 0.0
+        },
+        "Use": {
+          "posterior_bend_min": 0.03994591534137726,
+          "posterior_bend_max": 0.1677781194448471,
+          "posterior_bend_mean": 0.12466016846398513,
+          "pelvis_vertical_range": 0.0
+        },
+        "Walk": {
+          "posterior_bend_min": 0.040465325117111206,
+          "posterior_bend_max": 0.20046880841255188,
+          "posterior_bend_mean": 0.11035314567387104,
+          "pelvis_vertical_range": 0.0
+        }
+      },
+      "okafor": {
+        "Idle": {
+          "posterior_bend_min": 0.03536449000239372,
+          "posterior_bend_max": 0.14382904767990112,
+          "posterior_bend_mean": 0.08922655736432247,
+          "pelvis_vertical_range": 0.0
+        },
+        "Use": {
+          "posterior_bend_min": 0.028255432844161987,
+          "posterior_bend_max": 0.14382904767990112,
+          "posterior_bend_mean": 0.10539085694560499,
+          "pelvis_vertical_range": 0.0
+        },
+        "Walk": {
+          "posterior_bend_min": 0.03322284668684006,
+          "posterior_bend_max": 0.17752507328987122,
+          "posterior_bend_mean": 0.09567603938281537,
+          "pelvis_vertical_range": 0.0
+        }
+      }
+    },
+    "scene_audit": {
+      "scenes": [
+        "s1_terminal",
+        "s1_boarding",
+        "s1_launch",
+        "s1_habitation",
+        "s1_observation",
+        "s1_route",
+        "s2_recreation",
+        "s2_malfunction",
+        "s2_encounter",
+        "s2_record",
+        "s2_restricted",
+        "s3_observation",
+        "s3_evidence",
+        "s3_council",
+        "s3_iris",
+        "s3_lensing",
+        "s3_craft",
+        "s3_packet"
+      ],
+      "checked_both_ends_of_all_nine_profiles": true,
+      "next_panel_check": "Label design heights needed five more pixels; actual screenshot retained.",
+      "targeted_followup_rooms": [
+        "s1_launch",
+        "s1_habitation",
+        "s1_observation",
+        "s3_observation"
+      ]
+    },
+    "quality": {
+      "auto_initial_world": [
+        1366,
+        768
+      ],
+      "auto_reduced_world": [
+        1120,
+        630
+      ],
+      "fixed_quality_widths": [
+        1920,
+        1366,
+        960
+      ],
+      "ui_display": [
+        1366,
+        768
+      ],
+      "fullscreen_exit": true,
+      "browser_errors": [],
+      "software_rendering_only": true
+    }
+  },
+  "desktop_world_quality": "Auto; world resolution may reduce during slow frames, while UI/photos stay sharp",
+  "all_thirty_scanned_file_hashes_verified_again": true,
+  "publication": {
+    "commit": "3e9bfb103c8035e31264ea23ed9d0a6450b388be",
+    "parent": "1a4bbcdfac2e214a87319a7ac7ac46f41cb1af1c",
+    "url": "https://loganrossbryant-ai.github.io/hello-earth-demo/far-horizon/drafts/performance-2026-11-02/play.html",
+    "prefix": "far-horizon/drafts/performance-2026-11-02/",
+    "source_commit": "d23d54a6cad707cf69e3b2f47cdec13245f7d03b",
+    "defender_run": "41386794559",
+    "review_commit": "cfdb9dbcbcfd9d353e774525bb293f8dc92b13ce",
+    "manifest_sha256": "e68bed64c38892830559d08079b0e556a6181cbafd45ec432e74e02880f6992b",
+    "files": 34,
+    "all_existing_hosted_games_unchanged": true,
+    "status": "success",
+    "pages_run": "41388801172",
+    "pages_run_url": "https://github.com/loganrossbryant-ai/hello-earth-demo/actions/runs/41388801172",
+    "exact_commit_in_run_summary": true,
+    "public_release_manifest_and_scan_match": true,
+    "verified_utc": "2026-11-02T04:32:55.763863+00:00",
+    "direct_github_io_probe": false,
+    "direct_probe_limitation": "Runtime HTTP policy blocks github.io; browser checks used the exact candidate files locally. Public Pages run and immutable source bytes were verified."
+  },
+  "human_material_surfaces_before": {
+    "flight": 14,
+    "science": 14,
+    "engineering": 15,
+    "colony": 14,
+    "venn": 14,
+    "juno": 14,
+    "rhee": 17,
+    "vale": 15,
+    "okafor": 15
+  },
+  "human_material_surfaces_after": 2
+}

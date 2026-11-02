@@ -1,0 +1,20 @@
+{
+    "status":  "not_cleared",
+    "source_commit":  "8e805eddc5bf04aaab55b1a9e6e97340bd0c8baa",
+    "run_id":  "41386465612",
+    "run_attempt":  "1",
+    "started_utc":  "2026-11-02T04:05:31.7211401Z",
+    "completed_utc":  "2026-11-02T04:05:52.0676212Z",
+    "files_verified_before_scan":  true,
+    "files_verified_after_scan":  false,
+    "defender":  null,
+    "preferences":  null,
+    "scan_exit_code":  null,
+    "detections":  [
+
+                   ],
+    "error":  "The remote procedure call failed. ",
+    "automatic_sample_submission":  "disabled; no file uploads for sample analysis",
+    "limitation":  "A clean scan is evidence, not a guarantee of absence of malware.",
+    "manifest_sha256":  "e68bed64c38892830559d08079b0e556a6181cbafd45ec432e74e02880f6992b"
+}

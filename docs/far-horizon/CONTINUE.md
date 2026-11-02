@@ -1,5 +1,11 @@
 # Far Horizon continuation — 2026-11-02
 
+> Current revision: see `PERFORMANCE_CONTINUE.md`,
+> `performance-tv-revision.md` and `performance-release-verification.json`.
+> The new TV / textured-cast draft has a separate URL and save key. The saved
+> classroom copy and the old root play URL are preserved. The older detail notes
+> below are historical; do not reapply their implementation/publication steps.
+
 The current task is the **GM-only first three sessions**, with four travelling
 representatives, selectable NPC dialogue, clear clues and manual scene/beat
 navigation. Student editing/accounts/email/Microsoft 365/Word workflows were

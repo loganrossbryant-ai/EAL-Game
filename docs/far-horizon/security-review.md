@@ -131,3 +131,21 @@ This exact detail release was published as host commit
 `3efc35c0022c8e311ef4dea2965f97794797c3d0`, successful Pages run **41370777111**.
 Remote ref, public metadata, all candidate hashes and the run's source commit
 were verified. The root game and Alan Island remain unchanged.
+
+## Classroom TV / textured-cast draft — 2026-11-02
+
+The exact final 30-file ordinary Web build passed active Windows Defender run
+`41386794559`, review commit `cfdb9dbcbcfd9d353e774525bb293f8dc92b13ce`.
+Manifest SHA-256:
+`e68bed64c38892830559d08079b0e556a6181cbafd45ec432e74e02880f6992b`.
+Native scan exit 0, no detections/error, matching inventories and hashes before
+and after the scan. Engine `1.1.26100.4`, signatures `1.463.83.0`, normal active
+protection, script/archive scanning enabled, no exclusions and sample uploads
+disabled. Actual report: `defender-performance-report.json`.
+
+Runs `41385550198` and `41386465612` failed with Windows RPC service errors
+before scanning; they did not clear files. Their actual reports are preserved.
+The successful retry used the identical final candidate and unchanged scanning
+requirements. Today's saved approved classroom build is a separate immutable
+copy and retains its own prior review. The new draft is published separately;
+matching browser/publication receipts are recorded with this revision.

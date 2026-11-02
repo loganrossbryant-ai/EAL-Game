@@ -1,0 +1,234 @@
+{
+  "verified_at_utc": "2026-11-02T01:06:01.056976+00:00",
+  "source_code_commit": "8625aaebcd18abdf4219795117029f9a54aed5f6",
+  "manifest_sha256": "6d4bf022029e395f8f569386dfea4d37ca9da734018dc7b8d75ad5be812320df",
+  "candidate_file_count": 30,
+  "campaign": {
+    "sessions": 3,
+    "scenes": 18,
+    "beats": 64,
+    "clues": 13,
+    "npcs": 7,
+    "academic_terms": 21,
+    "story_unchanged": true
+  },
+  "checks": {
+    "gm-release": {
+      "render_profile": "coarse-pointer world with full 1280x720 UI",
+      "viewport": "1280x720",
+      "standard_release": true,
+      "debug_global": false,
+      "checked_beats": 64,
+      "scene_jump_save_clues_dialogue_support": "passed",
+      "session_reset_and_preservation": "passed",
+      "voice_recordings": 0,
+      "browser_errors": [],
+      "requests": [
+        "blob:http://127.0.0.1:8094/6d404264-f61c-44c4-8973-131e9ac8f206",
+        "blob:http://127.0.0.1:8094/733ef85a-f331-4875-82f6-903fc57a96bb",
+        "http://127.0.0.1:8094/",
+        "http://127.0.0.1:8094/academic.otf",
+        "http://127.0.0.1:8094/campaign.json",
+        "http://127.0.0.1:8094/gm.css",
+        "http://127.0.0.1:8094/gm.js",
+        "http://127.0.0.1:8094/index.js",
+        "http://127.0.0.1:8094/index.pck",
+        "http://127.0.0.1:8094/index.png",
+        "http://127.0.0.1:8094/index.wasm"
+      ]
+    },
+    "preview-pc": {
+      "desktop_preview": true,
+      "keyboard_movement": true,
+      "gm_popup_and_scene_jump": true,
+      "read_panel": true,
+      "browser_errors": []
+    },
+    "phone": {
+      "device": "iPhone 13 size/touch emulation in Chromium; not physical Safari",
+      "portrait": [
+        390,
+        844
+      ],
+      "landscape": [
+        844,
+        390
+      ],
+      "game_loaded": true,
+      "touch_walk_depth_use_zoom": true,
+      "dialogue_reply": true,
+      "original_ppt_photo": true,
+      "scene_picker_count": 18,
+      "readable_clue_and_orientation": true,
+      "stuck_movement": false,
+      "browser_errors": [],
+      "external_requests": false
+    },
+    "detail-rooms-focused": {
+      "render_profile": "shipping coarse-pointer world; full 1366x768 UI",
+      "routes": {},
+      "animated_rooms": {
+        "s1_terminal": {
+          "changed_world_pixels": 0.010381,
+          "subjects": [
+            "courier bot",
+            "cargo loader",
+            "departure traffic",
+            "Iris indicator"
+          ]
+        },
+        "s1_boarding": {
+          "changed_world_pixels": 0.006475,
+          "subjects": [
+            "boarding gate leaf",
+            "boarding gate leaf",
+            "launch service arm"
+          ]
+        },
+        "s1_launch": {
+          "changed_world_pixels": 0.00549,
+          "subjects": [
+            "launch service arm",
+            "Iris indicator"
+          ]
+        },
+        "s1_habitation": {
+          "changed_world_pixels": 0.02053,
+          "subjects": [
+            "medical skimmer",
+            "living foliage",
+            "living foliage",
+            "living foliage",
+            "living foliage",
+            "living foliage",
+            "living foliage",
+            "living foliage",
+            "living foliage",
+            "living foliage",
+            "living foliage",
+            "living foliage",
+            "living foliage",
+            "living foliage",
+            "living foliage"
+          ]
+        },
+        "s1_observation": {
+          "changed_world_pixels": 0.003644,
+          "subjects": [
+            "navigation globe",
+            "lensing caustic",
+            "lensing caustic",
+            "lensing caustic",
+            "lensing caustic",
+            "lensing caustic",
+            "Iris indicator"
+          ]
+        },
+        "s2_recreation": {
+          "changed_world_pixels": 0.008238,
+          "subjects": [
+            "holographic game table",
+            "refreshment indicator",
+            "refreshment indicator",
+            "refreshment indicator"
+          ]
+        },
+        "s2_malfunction": {
+          "changed_world_pixels": 0.031467,
+          "subjects": [
+            "repair survey orb",
+            "repair tool spider",
+            "life support flow meter",
+            "articulated M-77"
+          ]
+        },
+        "s2_restricted": {
+          "changed_world_pixels": 0.006713,
+          "subjects": [
+            "security scanner",
+            "Iris indicator"
+          ]
+        },
+        "s3_observation": {
+          "changed_world_pixels": 0.010387,
+          "subjects": [
+            "K-17 optical array",
+            "lensing caustic",
+            "lensing caustic",
+            "lensing caustic",
+            "lensing caustic",
+            "lensing caustic",
+            "Iris indicator"
+          ]
+        }
+      },
+      "ppt_dialogue_headers": [
+        "venn",
+        "juno",
+        "iris",
+        "rhee",
+        "m77",
+        "vale",
+        "okafor"
+      ],
+      "browser_errors": [],
+      "screenshots": [
+        "dialogue-venn",
+        "dialogue-juno",
+        "dialogue-iris",
+        "dialogue-rhee",
+        "dialogue-m77",
+        "dialogue-vale",
+        "dialogue-okafor"
+      ]
+    }
+  },
+  "model_integrity": {
+    "walk_pelvis_translation_y_span_m": {
+      "flight": 0.0,
+      "science": 0.0,
+      "engineering": 0.0,
+      "colony": 0.0,
+      "venn": 0.0,
+      "juno": 0.0,
+      "rhee": 9.313225746154785e-10,
+      "vale": 0.0,
+      "okafor": 0.0
+    },
+    "original_ppt_byte_matches": {
+      "rhee": "slide-16-01.jpg",
+      "vale": "slide-23-01.jpg",
+      "okafor": "slide-24-01.jpg",
+      "m77": "slide-17-01.jpg",
+      "juno": "slide-09-01.jpg",
+      "venn": "slide-05-01.jpg",
+      "iris": "slide-08-01.jpg"
+    }
+  },
+  "route_checks": {
+    "west_terminal_balcony": true,
+    "flat_boarding_launch_lounge": true,
+    "central_mezzanine_and_far_descent": true,
+    "curved_bridge_route_without_rise": true,
+    "four_person_lift_round_trip": true,
+    "upper_stop_after_reload": true,
+    "short_k17_plinth": true,
+    "note": "Navigation was exercised in the full detail room run; final placement and animation batching were then rechecked in the focused nine-room regression and exact 64-beat release."
+  },
+  "defender": {
+    "run_id": "41369106496",
+    "review_commit": "e50ca11419164ade12b1fa7e241e6b26713bb23c",
+    "status": "scan_passed",
+    "hashes_verified_before_and_after": true,
+    "detections": [],
+    "signature": "1.463.80.0"
+  },
+  "limitations": [
+    "Software WebGL in Chromium does not establish hardware frame rate.",
+    "Phone tests use Chromium size/touch emulation; physical iPhone and Safari-engine testing remain unavailable.",
+    "Direct github.io navigation is blocked by the runtime network policy."
+  ],
+  "deployment_record": "pages-detail-deployment.json",
+  "published_host_commit": "3efc35c0022c8e311ef4dea2965f97794797c3d0",
+  "pages_run": "41370777111"
+}

@@ -36,17 +36,47 @@ For model rebuilds, run the original `build_fh_props3d.py` first, then
 CC0 MakeHuman/MPFB asset data under `/workspace/reference-review/makehuman`.
 Art provenance and the CC0 license are recorded under `far-horizon/assets/`.
 
-## Validation in progress
+## Validation completed
 
-The terminal's left balcony, controllable party and Venn dialogue, and the flat
-lounge with Juno's selectable dialogue have run in Chromium without errors.
-The original PPT images were visually inspected in both dialogue boxes. Close-up
-model renders were inspected and hair placement, complexion patches, eyes and
-collar fitting corrected. The repaired bob/ponytail anchors and final scale fixes
-are included in the remaining room/release checks.
+The 18-scene / 64-beat exact standard release passed through the real GM desk,
+including clue reveals, selectable dialogue, saved progress, three academic
+gloss languages, session reset and preservation of other sessions. The full-size
+story UI was checked in the shipping touch world rendering profile. Full PC
+rendering, keyboard movement, GM popup, scene jump and reading panel passed
+separately. All nine room profiles visibly animate, all seven NPC dialogue
+headers use their actual PPT images, and no dialogue text overflows its panel.
+No browser errors or external runtime requests were recorded.
 
-The browser test machine renders WebGL in software. It is useful for checking
-real interaction, layout and rendered images, not for asserting a hardware frame
-rate. Physical iPhone/Safari performance is not tested. Commercial AA parity is
-not claimed. Release validation and the fresh matching Defender report must be
-recorded before this revision is described as published.
+The distinct route types, two-ended mezzanine, four-person lift round trip and
+upper stop after reload were exercised. Final placement and animation batching
+were rechecked in the nine-room regression. The moving weld sparks remain
+independent of static batches. Nine GLBs retain constant Walk pelvis height.
+All seven portrait hashes match embedded images in slides 1–28.
+
+Phone-size touch tests passed walking, depth travel, item zoom, original NPC
+photos and replies, 18-scene selection, readable clues, orientation changes and
+released movement. Those checks emulate an iPhone in Chromium; a physical
+iPhone and Safari engine were not tested. The browser machine uses software
+WebGL, so these checks do not establish hardware frame rate or AA parity.
+
+Fresh active Windows Defender run **41369106496** passed the exact **30 files**,
+with matching hashes before/after, native exit 0, no detections/errors, normal
+active protection, script/archive scanning, no exclusions and signatures
+**1.463.80.0**. An earlier runner failed before scanning with a Windows RPC
+service error; the successful retry used the identical tree and manifest.
+The old packed HTML/ZIP remains withdrawn.
+
+Candidate manifest SHA-256:
+`6d4bf022029e395f8f569386dfea4d37ca9da734018dc7b8d75ad5be812320df`.
+Actual reports and detailed local verification are included beside this file.
+
+## Published draft
+
+[Play on PC or open in a phone browser](https://loganrossbryant-ai.github.io/hello-earth-demo/far-horizon/play.html).
+
+Host commit `3efc35c0022c8e311ef4dea2965f97794797c3d0`, Pages run
+**41370777111**, completed **Success**. The matching run summary identifies that
+commit and the deployed base URL. Public raw metadata and the remote hosting ref
+also match. Only `far-horizon/` changed; the root game and Alan Island tree are
+identical to the previous host. Direct live-site navigation is blocked by the
+runtime policy, so browser validation used the exact files locally.

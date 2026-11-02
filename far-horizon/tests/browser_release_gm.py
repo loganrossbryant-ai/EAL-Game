@@ -20,7 +20,7 @@ async def run():
     async with async_playwright() as p:
         browser=await p.chromium.launch(executable_path='/usr/bin/chromium',args=[
             '--no-sandbox','--use-angle=swiftshader','--enable-unsafe-swiftshader','--disable-dev-shm-usage','--disable-renderer-backgrounding','--disable-background-timer-throttling','--disable-backgrounding-occluded-windows'])
-        ctx=await browser.new_context(viewport={'width':1280,'height':720})
+        ctx=await browser.new_context(viewport={'width':1280,'height':720},has_touch=os.environ.get('FH_RELEASE_COARSE')=='1')
         page=await ctx.new_page()
         def observe(tab):
             tab.on('pageerror',lambda e:errors.append(str(e)))
@@ -31,7 +31,12 @@ async def run():
         await page.locator('#status').wait_for(state='hidden',timeout=90000)
         await page.wait_for_timeout(1800)
         assert await page.evaluate('typeof window.farHorizonTestState')=='undefined'
-        assert not await page.locator('input,textarea').count()
+        # Godot creates an invisible IME field on touch devices. There must be
+        # no student response/edit field visible within the presentation.
+        assert await page.evaluate('''() => ![...document.querySelectorAll('input,textarea')].some(e=>{
+            const r=e.getBoundingClientRect(),s=getComputedStyle(e);
+            return r.width>3&&r.height>3&&r.bottom>0&&r.right>0&&r.top<innerHeight&&r.left<innerWidth&&s.display!=='none'&&s.visibility!=='hidden'&&Number(s.opacity)>.01;
+        })''')
         async with page.expect_popup(timeout=15000) as popup: await page.keyboard.press('g')
         gm=await popup.value;observe(gm)
         await gm.locator('#connection').filter(has_text='Connected to the stage').wait_for()
@@ -56,6 +61,7 @@ async def run():
         checked_beats=0
         for scene in campaign['scenes']:
             if FOCUSED and scene['id'] not in ('s1_terminal','s2_record','s3_evidence','s3_iris','s3_packet'):continue
+            print('release scene',scene['id'],flush=True)
             await gm.locator('[data-scene="'+scene['id']+'"]').click()
             await state(lambda x:x['scene']==scene['id'])
             assert await gm.locator('[data-cue]').count()==len(scene['cues'])
@@ -103,7 +109,7 @@ async def run():
         assert await page.evaluate('typeof window.farHorizonTestState')=='undefined'
         assert errors==[],errors
         assert all(url.startswith(URL) or url.startswith('data:') or url.startswith('blob:') for url in requests),requests
-        result={'viewport':'1280x720','standard_release':True,'debug_global':False,'checked_beats':checked_beats,'scene_jump_save_clues_dialogue_support':'passed','session_reset_and_preservation':'passed','voice_recordings':restored['recordings'],'browser_errors':errors,'requests':sorted(requests)}
+        result={'render_profile':'coarse-pointer world with full 1280x720 UI' if os.environ.get('FH_RELEASE_COARSE')=='1' else 'desktop full-resolution world','viewport':'1280x720','standard_release':True,'debug_global':False,'checked_beats':checked_beats,'scene_jump_save_clues_dialogue_support':'passed','session_reset_and_preservation':'passed','voice_recordings':restored['recordings'],'browser_errors':errors,'requests':sorted(requests)}
         (OUT/'results.json').write_text(json.dumps(result,indent=2)+'\n')
         print(json.dumps(result,indent=2),flush=True)
         await browser.close()

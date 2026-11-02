@@ -1,4 +1,11 @@
-# The Far Horizon — GM visual aid, Sessions 1–3
+# The Far Horizon — Sessions 1–3 GM visual aid
+
+[Open the published detail draft](https://loganrossbryant-ai.github.io/hello-earth-demo/far-horizon/play.html).
+
+The 2026-11-02 revision adds distinct room layouts, detailed 3D crew and machinery,
+and original PPT portraits above NPC dialogue. All 64 beats, PC controls and
+phone-size touch checks passed, along with the matching Defender scan. Phone
+checks use Chromium emulation; physical Safari remains untested.
 
 A Godot 4.6.3 presentation that the teacher operates while the class plays the
 TTRPG. Four department representatives walk together through realistic ship
@@ -137,8 +144,8 @@ manifest and `review-candidate/.gitattributes`. Follow `docs/far-horizon/securit
 No antivirus exclusions or disabling protection on a user's machine is part of delivery.
 
 The existing public Pages site is hosted from `hello-earth-demo:gh-pages`.
-This Sessions 1–3 revision must not be described as deployed until its matching
-release is actually scanned, published and observed. Preserve the unrelated main
+The detail revision is deployed as commit 3efc35c, with successful Pages run
+41370777111. Every subsequent release needs its own matching scan and checks. Preserve the unrelated main
 branch/Earth demo and never copy private history or raw GM documents into hosting.
 
 ## PC/iPhone publication revision

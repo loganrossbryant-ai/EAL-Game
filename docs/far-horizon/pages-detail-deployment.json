@@ -1,0 +1,33 @@
+{
+  "verified_at_utc": "2026-11-02T01:12:58.578880+00:00",
+  "status": "Success",
+  "run_id": "41370777111",
+  "run_url": "https://github.com/loganrossbryant-ai/hello-earth-demo/actions/runs/41370777111",
+  "host_commit": "3efc35c0022c8e311ef4dea2965f97794797c3d0",
+  "host_parent": "7953e570a3da1b236df1361e3e1cbcf2390237e3",
+  "source_code_commit": "8625aaebcd18abdf4219795117029f9a54aed5f6",
+  "url": "https://loganrossbryant-ai.github.io/hello-earth-demo/far-horizon/play.html",
+  "review_commit": "e50ca11419164ade12b1fa7e241e6b26713bb23c",
+  "defender_run": "41369106496",
+  "manifest_sha256": "6d4bf022029e395f8f569386dfea4d37ca9da734018dc7b8d75ad5be812320df",
+  "candidate_files": 30,
+  "hosting_files": 34,
+  "preserved": [
+    "root game and index.html",
+    "alan-island/",
+    "all paths outside far-horizon/"
+  ],
+  "evidence": [
+    "Public Actions list reports completed Success for this Pages run.",
+    "The run summary identifies the exact host commit and deployed base URL.",
+    "Remote gh-pages ref matches the host commit.",
+    "Public raw release metadata matches the reviewed manifest and Defender run.",
+    "All 30 uploaded game files match the frozen candidate hashes."
+  ],
+  "live_github_io_navigation_tested": false,
+  "physical_iphone_safari_tested": false,
+  "limitations": [
+    "Runtime policy blocks direct github.io access; browser tests used the exact candidate locally.",
+    "Phone validation uses Chromium size/touch emulation."
+  ]
+}

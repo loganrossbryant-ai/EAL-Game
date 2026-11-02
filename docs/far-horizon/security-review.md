@@ -107,3 +107,27 @@ Direct live HTTP navigation remains unavailable in this runtime; deployment
 verification used GitHub's actual successful run, commit and published tree.
 Old scan/deployment entries above are historical. The packed HTML/ZIP remains
 withdrawn and no absolute malware-free guarantee is made.
+
+## Detail revision — 2026-11-02
+
+Final active Defender run **41369106496**, review commit
+`e50ca11419164ade12b1fa7e241e6b26713bb23c`, passed the 30 standard game files,
+with matching hashes before/after, exit 0, no detections/errors, signatures
+1.463.80.0, active normal protection, script/archive scanning and no exclusions.
+Manifest SHA-256:
+`6d4bf022029e395f8f569386dfea4d37ca9da734018dc7b8d75ad5be812320df`.
+
+An earlier attempt (41368880887) failed before scanning with a Windows RPC
+service error; its actual report is preserved in `defender-detail-rpc-error.json`.
+The successful retry used the identical tree. The final actual result is
+`defender-detail-report.json`; the browser/model evidence is in
+`detail-release-verification.json`. The first intermediate detail candidate had
+also passed a scan, but that older result is not used to clear the final files.
+
+No change to packaging was used to evade a detection. The previous packed
+HTML/ZIP remains withdrawn, and no false-positive verdict is claimed.
+
+This exact detail release was published as host commit
+`3efc35c0022c8e311ef4dea2965f97794797c3d0`, successful Pages run **41370777111**.
+Remote ref, public metadata, all candidate hashes and the run's source commit
+were verified. The root game and Alan Island remain unchanged.

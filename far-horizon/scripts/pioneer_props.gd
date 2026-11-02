@@ -8,14 +8,17 @@ var effect = ""
 var effect_time = 0.0
 var actors: Array[Dictionary] = []
 var drone_texture = load("res://assets/art/utility_drone.png")
-var ship_texture = load("res://assets/art/shuttle.png")
+var ship_texture: Texture2D
 var unit_texture = load("res://assets/art/m77.png")
 
 func configure(value: String) -> void:
 	room = value
-	for child in get_children(): child.queue_free()
+	for child in get_children():
+		child.visible=false
+		child.queue_free()
 	actors.clear()
 	if room == "terminal":
+		ship_texture=load("res://assets/art/shuttle.png")
 		var glass = Polygon2D.new()
 		glass.polygon = PackedVector2Array([Vector2(525,112),Vector2(1670,112),Vector2(1670,175),Vector2(525,248)])
 		glass.clip_children = CanvasItem.CLIP_CHILDREN_ONLY

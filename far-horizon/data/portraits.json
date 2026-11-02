@@ -1,52 +1,4 @@
 {
-  "venn": {
-    "file": "venn.jpg",
-    "region": [
-      0,
-      0,
-      1400,
-      1364
-    ],
-    "size": [
-      1400,
-      1364
-    ],
-    "source": "classroom visual deck",
-    "source_slide": 37,
-    "sha256": "0ef74009945d66f7b010114d61090659cdad67a87aee544fcd6cbc9ce0e726ae"
-  },
-  "vale": {
-    "file": "vale.jpg",
-    "region": [
-      0,
-      0,
-      1400,
-      1364
-    ],
-    "size": [
-      1400,
-      1364
-    ],
-    "source": "classroom visual deck",
-    "source_slide": 39,
-    "sha256": "af6938375e8db209dc43d1809ff888c16b319230b3d824c0ea33e3b422877479"
-  },
-  "okafor": {
-    "file": "okafor.jpg",
-    "region": [
-      0,
-      0,
-      1400,
-      1364
-    ],
-    "size": [
-      1400,
-      1364
-    ],
-    "source": "classroom visual deck",
-    "source_slide": 40,
-    "sha256": "1a3b68b5f6c796d953f6654be2e23943d056b30cc97dcfafc3e2125523c4e06f"
-  },
   "rhee": {
     "file": "rhee.jpg",
     "region": [
@@ -62,22 +14,6 @@
     "source": "classroom visual deck",
     "source_slide": 41,
     "sha256": "489bf9502cc1ebe60aa1fa4ccfbe3e3e4eb5b9e18aae8829be765277f83758f5"
-  },
-  "juno": {
-    "file": "juno.jpg",
-    "region": [
-      0,
-      0,
-      1400,
-      1364
-    ],
-    "size": [
-      1400,
-      1364
-    ],
-    "source": "classroom visual deck",
-    "source_slide": 42,
-    "sha256": "5989d81b2c7ed056c53c4b659dce3bec994d922424b3e9f1c97eba3b4a779337"
   },
   "iris": {
     "file": "iris.jpg",

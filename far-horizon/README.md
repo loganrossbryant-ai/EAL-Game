@@ -1,5 +1,12 @@
 # The Far Horizon — Sessions 1–3 GM visual aid
 
+> This branch is the **quick 2D M-77 test**: three cue groups / 13 beats in one
+> corridor. It restores the original 2D crew art, removes the 3D foreground,
+> speeds movement to520px/s and adds direct Rhee/M-77/ticket/door controls.
+> Use R / M / T / F, or the matching buttons. Walking is optional for dialogue.
+> The published full drafts and today's saved copy remain unchanged.
+> See `docs/far-horizon/fast-2d-test.md`. Older version notes below are historical.
+
 > The classroom TV / textured-cast revision is a separate draft at
 > https://loganrossbryant-ai.github.io/hello-earth-demo/far-horizon/drafts/performance-2026-11-02/play.html
 > Choose **TV view** for a full-display presentation and large captions. NPC and

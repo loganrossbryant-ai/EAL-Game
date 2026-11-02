@@ -16,3 +16,6 @@ dialog.dialogue-card{width:calc(100vw - 24px);height:calc(100dvh - 24px);max-wid
 @media(pointer:coarse){.quality-label{display:none}}
 @media(pointer:coarse) and (orientation:landscape){dialog.dialogue-card header{padding:16px}.dialogue-copy{padding:95px 20px 15px}.dialogue-copy .spoken-line{font-size:23px!important;margin:16px 0}.dialogue-copy .eyebrow{font-size:13px!important}.dialogue-copy button{font-size:18px}}
 @media(orientation:portrait){dialog.dialogue-card header{left:0;position:relative;padding:18px;background:#0d202b}.dialogue-layout{height:calc(100% - 90px);display:block;overflow:auto}.dialogue-image{height:40vh}.dialogue-image .npc-photo{height:100%}.dialogue-copy{padding:10px 20px 25px;overflow:visible}.dialogue-copy .spoken-line{font-size:24px!important}}
+
+#quick{left:12px;top:44px;gap:6px}#quick button{font-size:14px;padding:7px 12px;min-height:36px;background:#0b202de8}#player.tv-view #quick{top:10px;left:12px}
+@media(pointer:coarse){#quick{left:70px;top:26px}#quick button{font-size:11px;padding:4px 7px;min-height:32px}}

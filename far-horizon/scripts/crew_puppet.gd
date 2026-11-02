@@ -92,7 +92,7 @@ func _boot(name: String, sole: Vector2, lift: float) -> void:
 
 func pose(near_foot: Vector2, far_foot: Vector2, gait: float, weight: float, breath: float, lean: float) -> void:
 	if not ready_rig: return
-	var bob = sin(breath * 1.65) * 0.18 * (1 - weight) + sin(gait * TAU * 2) * 0.45 * weight
+	var bob = sin(breath * 1.65) * 0.18 * (1 - weight)
 	hip_y = -104.5 + bob
 	var hip = Vector2(0, hip_y)
 	var far_hip = hip + Vector2(-3, -1)

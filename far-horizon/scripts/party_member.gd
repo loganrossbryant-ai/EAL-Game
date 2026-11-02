@@ -56,7 +56,8 @@ func setup(index: int,with_visual: bool=true) -> void:
 	mirror.modulate = Color(0.6, 0.72, 0.8, 0.075)
 	mirror.z_index = -8
 	visual.add_child(mirror)
-	if has_rig: mirror.setup(index)
+	mirror.visible=false
+	if has_rig: pass # The unused mirror rig is not instantiated for this fast test.
 	idle_sprite = Sprite2D.new()
 	idle_sprite.texture = load("res://assets/art/crew_idle.png")
 	var standing = JSON.parse_string(FileAccess.get_file_as_string("res://assets/art/rigs/standing.json")).regions[index]
@@ -99,14 +100,14 @@ func _physics_process(delta: float) -> void:
 			target = 0
 		else:
 			turn_target = signf(target)
-			turn_time = 0.20
+			turn_time = 0.08
 	if turn_time > 0:
 		turn_time = maxf(0, turn_time - delta)
 		target = 0
-		if turn_time < 0.10 and facing != turn_target:
+		if turn_time < 0.04 and facing != turn_target:
 			facing = turn_target
 			reset_contacts()
-	var acceleration = 430.0 if absf(target) > absf(velocity.x) else 640.0
+	var acceleration = 2600.0 if absf(target) > absf(velocity.x) else 3600.0
 	velocity.x = move_toward(velocity.x, target, acceleration * delta)
 	velocity.y += 1000 * delta
 	var old_x = global_position.x
@@ -128,8 +129,8 @@ func _physics_process(delta: float) -> void:
 	visual.scale.x = facing
 	if has_rig and render_puppet:
 		puppet.pose(near_foot, far_foot, gait, motion_weight, breath, lean)
-		mirror.pose(near_foot, far_foot, gait, motion_weight, breath, lean)
-	var turn_blend = sin(clampf(turn_time / 0.20, 0, 1) * PI) if turn_time > 0 else 0.0
+
+	var turn_blend = sin(clampf(turn_time / 0.08, 0, 1) * PI) if turn_time > 0 else 0.0
 	var front_target = maxf(turn_blend, 1.0 if attending and motion_weight < 0.05 else 0.0)
 	idle_sprite.modulate.a = lerpf(idle_sprite.modulate.a, front_target, 1 - exp(-delta * 18))
 	visual.modulate.a = 1.0 - idle_sprite.modulate.a

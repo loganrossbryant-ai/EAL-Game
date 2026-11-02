@@ -20,13 +20,13 @@
     },
     {
       "path": "gm.html",
-      "bytes": 3810,
-      "sha256": "3b94c0c3c738d4ae3cf0068b800f6d69a50c541e28c3fc496cf4b5dacdb364e3"
+      "bytes": 3876,
+      "sha256": "815a978539826fa60c14d55e381bafd472812bbd2401e7278b5b8c94d4e0437a"
     },
     {
       "path": "gm.js",
-      "bytes": 5987,
-      "sha256": "6f748a7ec7ba3cc0c9375195bad320282d3f954ec06e5f9568e0cab128c92955"
+      "bytes": 6047,
+      "sha256": "7b25a33f5d7ac19f2f5ac14be7ca040bf22ac1d6012de6456fb9c3f52e185476"
     },
     {
       "path": "index.audio.position.worklet.js",
@@ -41,7 +41,7 @@
     {
       "path": "index.html",
       "bytes": 5477,
-      "sha256": "17d8b76b22f4bc8f6e215c7e05de6943cf88120913cba6448ae7e978e79935ce"
+      "sha256": "2ab0b15c294db87f5471d8923f7af9129c47798847eaf54c75c1376fd34fba53"
     },
     {
       "path": "index.js",
@@ -50,8 +50,8 @@
     },
     {
       "path": "index.pck",
-      "bytes": 73242652,
-      "sha256": "9deeb70260175ef93de17ab77e6a46cecc4edeef69245174ee64fb9a9984a0e6"
+      "bytes": 93575632,
+      "sha256": "2be0748209fd36449d0bf71d1addb07834bb2e688503143827ccba3045b1743d"
     },
     {
       "path": "index.png",
@@ -95,58 +95,58 @@
     },
     {
       "path": "play.css",
-      "bytes": 6023,
-      "sha256": "ebd1774405283505051ec81084de2b3295f78fb0e9c0cb8d81c2fc690cc6b253"
+      "bytes": 8399,
+      "sha256": "34c7a9eb8365cdfb4405cc52545682b1654f5a1c8641edcdbff0bc15814aa4a7"
     },
     {
       "path": "play.html",
-      "bytes": 2386,
-      "sha256": "68f60d86a0d3a592fd03f85dedb84924d6d2b46173ea7b25ee8b47e99b003dcc"
+      "bytes": 2705,
+      "sha256": "17f3a41edb3681876e094a61ceccbfaf46bef86e6617210cbf769b8c079992ec"
     },
     {
       "path": "play.js",
-      "bytes": 8193,
-      "sha256": "edf10b69c22187f49d2f23f2a441a1a7ba18fa912f144d4bd7985812731a7eef"
+      "bytes": 9854,
+      "sha256": "38c5dc49c53360770fe9f1e5595c9839c5df783f62687ff25496a05c6b7d4eb8"
     },
     {
       "path": "portraits/iris.jpg",
-      "bytes": 31259,
-      "sha256": "0c782a1fa4aa351f22090c9700c75dff54804aa4e8f78ad11adf034bdac36890"
+      "bytes": 208899,
+      "sha256": "80f93b21325bc8eb18f44af26bae5f0a021cf3d6ac99a412e0b4fa61c06627fd"
     },
     {
       "path": "portraits/juno.jpg",
-      "bytes": 31902,
-      "sha256": "cb2e97672b4ddb4856e2a4d188161e467eb2c707e9b0356f90e9353c4263cc8a"
+      "bytes": 235435,
+      "sha256": "5989d81b2c7ed056c53c4b659dce3bec994d922424b3e9f1c97eba3b4a779337"
     },
     {
-      "path": "portraits/m77.jpg",
-      "bytes": 89418,
-      "sha256": "2d5dc3673805effd06d2f84366ca460adaea2f710fcc74f62852fbc623716395"
+      "path": "portraits/m77.png",
+      "bytes": 2215952,
+      "sha256": "60d643614c608f000fe295521b0816e013291396c9a11236b93d887128df0a21"
     },
     {
       "path": "portraits/okafor.jpg",
-      "bytes": 14891,
-      "sha256": "7fe545e64688d9d6636903e2fdb89f479ef5cf397ebcf6fe89b4268a460553ca"
+      "bytes": 216998,
+      "sha256": "1a3b68b5f6c796d953f6654be2e23943d056b30cc97dcfafc3e2125523c4e06f"
     },
     {
       "path": "portraits/rhee.jpg",
-      "bytes": 16591,
-      "sha256": "5713adee600a3b99328dcbd18c2a399f5d890db321a8653d616e93841405a3dd"
+      "bytes": 238845,
+      "sha256": "489bf9502cc1ebe60aa1fa4ccfbe3e3e4eb5b9e18aae8829be765277f83758f5"
     },
     {
       "path": "portraits/vale.jpg",
-      "bytes": 15630,
-      "sha256": "a1113d98c3818e543dab93548b378c549f64b7a11e6d0a11a4d5bc96cd6cd741"
+      "bytes": 244203,
+      "sha256": "af6938375e8db209dc43d1809ff888c16b319230b3d824c0ea33e3b422877479"
     },
     {
       "path": "portraits/venn.jpg",
-      "bytes": 29702,
-      "sha256": "dbf145506cbfe3a2df8a3829be36d4eb4b74e2b400ae6170f8ebc7c8004e8350"
+      "bytes": 211174,
+      "sha256": "0ef74009945d66f7b010114d61090659cdad67a87aee544fcd6cbc9ce0e726ae"
     },
     {
       "path": "portraits.json",
-      "bytes": 1193,
-      "sha256": "402d49885663a97a2c40a5706684d78c544f8f5ca1fe87844746b414df65b5b3"
+      "bytes": 2054,
+      "sha256": "0b230f7bd92ca9fc09640eaeb0d2649bfefe720c5ab42066ab54f41b3fff17d9"
     },
     {
       "path": "poster.png",

@@ -30,7 +30,9 @@ World picture quality is independent of text/portrait resolution. Auto can
 reduce world resolution after sustained slow frames; Sharper, Standard and
 Smoother are fixed choices. Unsupported Compatibility FXAA is avoided; a small
 edge filter replaces expensive multisample rendering. The named bridge scene's
-blank solid fixture no longer covers Iris.
+blank solid fixture no longer covers Iris. A habitation planter is moved clear
+of Okafor, and flight/navigation/science monitors stand above their console
+housings rather than intersecting their front panels.
 
 The latest supplied classroom deck is internally v9 despite FINAL in its name.
 Its imagery is used while preserving the user's confirmed bible canon and

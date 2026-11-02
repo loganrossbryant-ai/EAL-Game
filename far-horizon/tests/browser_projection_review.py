@@ -8,6 +8,7 @@ from pathlib import Path
 from playwright.async_api import async_playwright
 ROOT=Path(__file__).resolve().parents[2]
 OUT=ROOT/'artifacts/far-horizon-tests/projection-review'
+FOCUSED=os.environ.get('FH_PROJECTION_FOCUSED')=='1'
 URL=os.environ.get('FH_PROJECTION_URL','http://127.0.0.1:8097')
 ARGS=['--no-sandbox','--use-angle=swiftshader','--enable-unsafe-swiftshader','--disable-dev-shm-usage','--disable-renderer-backgrounding','--disable-background-timer-throttling','--disable-backgrounding-occluded-windows']
 async def run():
@@ -39,7 +40,9 @@ async def run():
     await gm.locator('[data-scene="'+id+'"]').click();await state(lambda s:s['scene']==id)
     await gm.locator('[data-cue="0"]').click();await state(lambda s:s['cue']==0);await close()
    for scene in campaign['scenes']:
-    id=scene['id'];await jump(id);await capture(id+'-west')
+    id=scene['id']
+    if FOCUSED and id not in ['s1_launch','s1_habitation','s1_observation','s3_observation']:continue
+    await jump(id);await capture(id+'-west')
     s=await state();assert not s['layout_issues'],(id,s['layout_issues'])
     scene_checks.append({'id':id,'layout':s['layout'],'draw_calls':s.get('draw_calls'),'fps':s['render_fps']})
     if s['layout'] not in rooms:
@@ -71,7 +74,7 @@ async def run():
    await page.bring_to_front();await page.mouse.move(1300,22);await page.locator('#present').click();await state(lambda s:not s['presentation'])
    assert not await page.evaluate('Boolean(document.fullscreenElement)')
    assert not errors,errors
-   result={'scenes':scene_checks,'room_profiles':sorted(rooms),'large_clues':clue_checks,'dialogue_replies':dialogue_checks,'fullscreen_exit':True,'browser_errors':errors,'render_note':'Software WebGL diagnostic only; not the teacher PC frame rate.'}
+   result={'focused_followup':FOCUSED,'scenes':scene_checks,'room_profiles':sorted(rooms),'large_clues':clue_checks,'dialogue_replies':dialogue_checks,'fullscreen_exit':True,'browser_errors':errors,'render_note':'Software WebGL diagnostic only; not the teacher PC frame rate.'}
    (OUT/'results.json').write_text(json.dumps(result,indent=2)+'\n');print(json.dumps({'scenes':len(scene_checks),'rooms':len(rooms),'clues':len(clue_checks),'replies':len(dialogue_checks),'browser_errors':errors}),flush=True)
   except Exception:
    await page.screenshot(path=str(OUT/'failure.png'))

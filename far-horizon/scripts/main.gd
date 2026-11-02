@@ -752,8 +752,8 @@ func _open_clue(id: String, image_only: bool = false) -> void:
 		for i in range(clue.fields.size()):
 			var x=24+(i%2)*650
 			var y=128+(i/2)*row_height
-			UI.label(card,str(clue.fields[i][0]),Rect2(x,y,620,27),21,UI.CYAN)
-			UI.label(card,str(clue.fields[i][1]),Rect2(x,y+32,620,row_height-35),34,UI.AMBER if id=="ticket" and str(clue.fields[i][0])=="COMPLETED" else UI.PAPER)
+			UI.label(card,str(clue.fields[i][0]),Rect2(x,y,620,35),21,UI.CYAN)
+			UI.label(card,str(clue.fields[i][1]),Rect2(x,y+38,620,row_height-41),34,UI.AMBER if id=="ticket" and str(clue.fields[i][0])=="COMPLETED" else UI.PAPER)
 		UI.button(card,"Return to the scene  [Esc]",Rect2(24,670,1278,42),_close_modal,22)
 		_publish()
 		return

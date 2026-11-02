@@ -383,9 +383,11 @@ func _make_device() -> void:
 			_box(devices,Vector3(device_x,y+.09,z),Vector3(.74,.18,.65),paint)
 			for i in range(6):_box(devices,Vector3(device_x-.13+i*.052,y+.55,z+.085),Vector3(.025,.25,.015),flooring)
 		"flight", "navigation":
-			cy=y+1.07
+			# The monitor clears the desk's front edge instead of intersecting it.
+			cy=y+1.45
 			_box(devices,Vector3(device_x,y+.42,z),Vector3(width+.36,.84,.68),metal)
 			_box(devices,Vector3(device_x,y+.79,z+.22),Vector3(width+.42,.10,.87),paint)
+			_box(devices,Vector3(device_x,y+.99,z-.10),Vector3(.14,.38,.14),metal)
 			for side in [-1,1]:
 				_box(devices,Vector3(device_x+side*(width*.5+.11),y+.94,z+.3),Vector3(.12,.29,.32),metal)
 				for i in range(3):_box(devices,Vector3(device_x+side*(width*.5+.11),y+.88+i*.07,z+.47),Vector3(.04,.032,.013),cyan if i!=1 else amber)
@@ -410,8 +412,9 @@ func _make_device() -> void:
 			_box(devices,Vector3(device_x,y+.20,z+.13),Vector3(.72,.09,.48),flooring)
 			for i in range(3):_box(devices,Vector3(device_x-.20+i*.20,y+.73,z+.11),Vector3(.06,.02,.03),amber)
 		"science":
-			cy=y+1.28
+			cy=y+1.78
 			_box(devices,Vector3(device_x,y+.59,z-.08),Vector3(.94,1.18,.48),metal)
+			_box(devices,Vector3(device_x,y+1.29,z-.10),Vector3(.14,.26,.14),metal)
 			for side in [-1,1]:
 				_box(devices,Vector3(device_x+side*.55,y+.5,z),Vector3(.12,.85,.62),paint)
 				for i in range(5):_box(devices,Vector3(device_x+side*.55,y+.25+i*.11,z+.33),Vector3(.065,.024,.018),cyan if i%2 else amber)
@@ -611,7 +614,8 @@ func _room_subjects() -> void:
 			var skimmer=_prop("medical_skimmer",Vector3(9.0,2.10,-.20),1.10)
 			_moving("medical skimmer",skimmer)
 			_plant(Vector3(3.0,0,-.5),1.15)
-			_plant(Vector3(10.6,.68,-1.7),.75)
+			# Keep the upper-deck plant beside the console, clear of Okafor.
+			_plant(Vector3(7.05,.68,-2.55),.65)
 			for x in [15.0,16.0]:_box(geography,Vector3(x,.48,-1.3),Vector3(.70,.96,.36),flooring)
 		"recreation":
 			var table=_prop("holo_table",Vector3(10.2,0,-.95),1.15)

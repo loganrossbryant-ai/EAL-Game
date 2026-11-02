@@ -41,7 +41,7 @@
     {
       "path": "index.html",
       "bytes": 5477,
-      "sha256": "2ab0b15c294db87f5471d8923f7af9129c47798847eaf54c75c1376fd34fba53"
+      "sha256": "1a915defd5a0b89129d3e3830975927cbed97343101c984af6e628619bfaae53"
     },
     {
       "path": "index.js",
@@ -50,8 +50,8 @@
     },
     {
       "path": "index.pck",
-      "bytes": 93575632,
-      "sha256": "2be0748209fd36449d0bf71d1addb07834bb2e688503143827ccba3045b1743d"
+      "bytes": 93575664,
+      "sha256": "763f049051ad6ceef4f6362666aec0fbff6cee4b90c47272f7cb649b35a0087b"
     },
     {
       "path": "index.png",
@@ -100,8 +100,8 @@
     },
     {
       "path": "play.html",
-      "bytes": 2705,
-      "sha256": "17f3a41edb3681876e094a61ceccbfaf46bef86e6617210cbf769b8c079992ec"
+      "bytes": 2762,
+      "sha256": "8cc0485fdb7fb2e336c80fd93ac1729eaad2e77662079fad419013d02aee0bcf"
     },
     {
       "path": "play.js",

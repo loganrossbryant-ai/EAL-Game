@@ -1,0 +1,17 @@
+{
+  "name": "Far Horizon \u2014 saved classroom draft, 2 November 2026",
+  "timezone": "Asia/Shanghai",
+  "source_code_commit": "8625aaebcd18abdf4219795117029f9a54aed5f6",
+  "source_checkpoint": "562f38f3ba1ec7a0fda95088659d5e1220e6f857",
+  "copied_from_host_commit": "3efc35c0022c8e311ef4dea2965f97794797c3d0",
+  "original_defender_run": "41369106496",
+  "manifest_sha256": "6d4bf022029e395f8f569386dfea4d37ca9da734018dc7b8d75ad5be812320df",
+  "files": 34,
+  "game_files_verified_byte_identical": 30,
+  "url": "https://loganrossbryant-ai.github.io/hello-earth-demo/far-horizon/saved/2026-11-02/play.html",
+  "local_copy": "/workspace/far-horizon-releases/2026-11-02-classroom",
+  "note": "Existing live game and all other games are unchanged. The next draft will use a separate progress key.",
+  "archive_host_commit": "1a4bbcdfac2e214a87319a7ac7ac46f41cb1af1c",
+  "pages_run": "41377212469",
+  "deployment": "Success"
+}

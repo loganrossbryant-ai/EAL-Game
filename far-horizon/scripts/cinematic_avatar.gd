@@ -32,9 +32,27 @@ func setup(id: String, is_npc: bool = false) -> void:
 			if name in ["Idle", "Walk"]: animator.get_animation(name).loop_mode = Animation.LOOP_LINEAR
 		_play("Idle")
 		animator.seek(phase * 3.5, true)
+	var atlas_material: StandardMaterial3D
+	var atlas_path="res://assets/art/characters/"+id
+	if ResourceLoader.exists(atlas_path+"_albedo.png"):
+		atlas_material=StandardMaterial3D.new()
+		atlas_material.albedo_texture=load(atlas_path+"_albedo.png")
+		atlas_material.normal_enabled=true
+		atlas_material.normal_texture=load(atlas_path+"_normal.png")
+		atlas_material.normal_scale=.75
+		atlas_material.roughness_texture=load(atlas_path+"_orm.png")
+		atlas_material.roughness_texture_channel=BaseMaterial3D.TEXTURE_CHANNEL_GREEN
+		atlas_material.metallic_texture=load(atlas_path+"_orm.png")
+		atlas_material.metallic_texture_channel=BaseMaterial3D.TEXTURE_CHANNEL_BLUE
+		atlas_material.metallic=1
+		atlas_material.roughness=1
+		atlas_material.texture_filter=BaseMaterial3D.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS_ANISOTROPIC
 	for mesh in meshes:
 		for i in range(mesh.mesh.get_surface_count()):
 			var material = mesh.get_active_material(i)
+			if material is StandardMaterial3D and material.resource_name.begins_with("PioneerBakedAtlas") and atlas_material:
+				mesh.set_surface_override_material(i,atlas_material)
+				continue
 			if material is StandardMaterial3D:
 				var m: StandardMaterial3D = material.duplicate()
 				if m.resource_name.begins_with("Skin") or m.resource_name.begins_with("Face") or m.resource_name.begins_with("Lips"):

@@ -50,6 +50,16 @@ var member_routes: Array[bool] = [false,false,false,false]
 var touch_direction = 0.0
 var touch_until = 0
 var phone_view = false
+var presentation=false
+var external_cover=false
+var picture_quality="auto"
+var actor_previous: Array[Vector3]=[]
+var actor_next: Array[Vector3]=[]
+var quality_grace=6.0
+var slow_picture_time=0.0
+var frame_average=1.0/60.0
+var stage_container: SubViewportContainer
+var stage_viewport: SubViewport
 
 func _ready() -> void:
 	if OS.is_debug_build() and OS.has_feature("web") and bool(JavaScriptBridge.eval("new URLSearchParams(location.search).get('preview')==='depth'",true)):
@@ -112,7 +122,7 @@ func _build_world() -> void:
 		world.add_child(wall)
 	for i in range(4):
 		var member = PartyMember.new()
-		member.setup(i)
+		member.setup(i,false)
 		member.render_puppet=false
 		member.position = Vector2(520 - i * 86, FLOOR)
 		member.z_index = 5 + i
@@ -130,18 +140,25 @@ func _build_world() -> void:
 	layer.layer = -1
 	add_child(layer)
 	var container = SubViewportContainer.new()
+	stage_container=container
 	container.size = Vector2(1366,768)
 	container.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	container.stretch = true
-	if phone_view:container.stretch_shrink=2
+	container.texture_filter=CanvasItem.TEXTURE_FILTER_LINEAR
+	var edge_material=ShaderMaterial.new()
+	edge_material.shader=load("res://shaders/edge_aa.gdshader")
+	container.material=edge_material
+	container.stretch_shrink=1
 	layer.add_child(container)
 	var viewport = SubViewport.new()
+	stage_viewport=viewport
 	viewport.size = Vector2i(1366,768)
 	viewport.own_world_3d = true
-	viewport.msaa_3d = Viewport.MSAA_DISABLED if phone_view else Viewport.MSAA_2X
+	viewport.msaa_3d = Viewport.MSAA_DISABLED
 	container.add_child(viewport)
 	stage = PioneerStage3D.new()
 	viewport.add_child(stage)
+	_set_picture_quality("auto")
 	for id in ["flight","science","engineering","colony"]:
 		avatars.append(stage.add_actor(id))
 
@@ -209,6 +226,8 @@ func _enter_scene(index: int, restoring: bool = false) -> void:
 	stage.configure(str(scene.room),str(scene.id))
 	upper_route = bool(state.data.routes.get(scene.id,false)) and stage.has_route
 	stage.restore_route(upper_route)
+	actor_previous.clear()
+	actor_next.clear()
 	member_routes.fill(upper_route)
 	branch_pending = false
 	for person in stage.people.values():
@@ -305,23 +324,78 @@ func _apply_cue(play: bool = true) -> void:
 	_publish()
 
 func _update_cue_panel() -> void:
-	if is_instance_valid(cue_panel): cue_panel.queue_free()
-	var cue: Dictionary = scene.cues[_cue_index()]
-	var rect = Rect2(646 if stage.layout_key=="terminal" else 40,119,680,208) if not blackout.visible else Rect2(255,250,856,220)
-	cue_panel = UI.panel(ui, rect, 0.9)
-	ui.move_child(cue_panel, ui.get_child_count() - 1)
-	ui.move_child(overlay, ui.get_child_count() - 1)
-	UI.label(cue_panel, str(cue.title).to_upper(), Rect2(20, 14, rect.size.x - 40, 24), 14, UI.AMBER)
-	var text = str(cue.text)
-	if str(cue.get("speaker", "")) in story.characters:
-		text = str(story.characters[cue.speaker].name).to_upper() + "\n" + text
-	UI.label(cue_panel, text, Rect2(20, 49, rect.size.x - 40, 148), 23 if not blackout.visible else 28)
+	if is_instance_valid(cue_panel):
+		cue_panel.visible=false
+		cue_panel.queue_free()
+	var cue: Dictionary=scene.cues[_cue_index()]
+	var rect=Rect2(24,618,1318,130) if presentation else Rect2(646 if stage.layout_key=="terminal" else 40,119,680,180)
+	if blackout.visible:rect=Rect2(160,270,1046,224)
+	cue_panel=UI.panel(ui,rect,.91)
+	ui.move_child(cue_panel,ui.get_child_count()-1)
+	ui.move_child(overlay,ui.get_child_count()-1)
+	UI.label(cue_panel,str(cue.title).to_upper(),Rect2(18,8,rect.size.x-36,24),17,UI.AMBER)
+	UI.label(cue_panel,story.projected_cue(str(scene.id),_cue_index()),Rect2(18,35,rect.size.x-36,rect.size.y-42),36 if presentation else 30)
+	cue_panel.visible=not is_instance_valid(modal)
+
+func _refresh_world_visibility() -> void:
+	var covered=external_cover or (is_instance_valid(modal) and not physical_inspection)
+	stage.process_mode=Node.PROCESS_MODE_DISABLED if covered else Node.PROCESS_MODE_INHERIT
+	stage_viewport.render_target_update_mode=SubViewport.UPDATE_ONCE if covered else SubViewport.UPDATE_ALWAYS
+
+func _set_presentation(enabled: bool) -> void:
+	presentation=enabled
+	stage.presentation=enabled
+	_set_picture_quality(picture_quality)
+	stage.camera_request_time=2.8
+	_update_chrome()
+	_update_cue_panel()
+	_publish()
+
+func _set_picture_quality(value: String) -> void:
+	if not value in ["auto","sharp","smooth","balanced"]:return
+	picture_quality=value
+	var width=1366
+	if value=="sharp":width=1920
+	elif value=="smooth":width=960
+	elif value=="auto":
+		width=1280 if phone_view else 1600
+		if OS.has_feature("web") and not phone_view:
+			width=clampi(int(JavaScriptBridge.eval("Math.round(innerWidth*devicePixelRatio)",true)),1366,1920)
+	quality_grace=6.0
+	slow_picture_time=0.0
+	_resize_picture(width)
+
+func _resize_picture(width: int) -> void:
+	var resolution=Vector2(width,roundi(width*768.0/1366.0))
+	stage_container.size=resolution
+	stage_container.scale=Vector2(1366,768)/resolution
+
+func _process(delta: float) -> void:
+	# Render between physics samples rather than stepping the 3D roots at 60 Hz.
+	if actor_next.size()==avatars.size():
+		var blend=Engine.get_physics_interpolation_fraction()
+		for i in range(avatars.size()):
+			avatars[i].position=actor_previous[i].lerp(actor_next[i],blend)
+	# Auto can reduce only the world resolution after sustained slow frames.
+	# Text and PPT portraits keep the display resolution; fixed choices stay fixed.
+	if picture_quality!="auto" or paused or is_instance_valid(modal) or external_cover:
+		quality_grace=maxf(quality_grace,1.5)
+		return
+	quality_grace=maxf(0,quality_grace-delta)
+	frame_average=lerpf(frame_average,minf(delta,.15),minf(1,delta*1.5))
+	if quality_grace>0:return
+	if frame_average>1.0/42.0:slow_picture_time+=delta
+	else:slow_picture_time=maxf(0,slow_picture_time-delta*2)
+	if slow_picture_time>3.5 and stage_container.size.x>960:
+		_resize_picture(maxi(960,roundi(stage_container.size.x*.82)))
+		quality_grace=5.0
+		slow_picture_time=0
 
 func _update_chrome() -> void:
 	session_label.text = "SESSION %02d  /  GM PRESENTATION" % int(scene.session)
 	scene_label.text = str(scene.title)
 	cue_label.text = "BEAT %d / %d   •   %s" % [_cue_index() + 1, scene.cues.size(), str(scene.focus)]
-	chrome.visible = not bool(state.data.clean)
+	chrome.visible = not bool(state.data.clean) and not presentation
 	sound_button.text = "SFX ON" if audio.enabled else "SFX OFF"
 	next_button.text = "NEXT SCENE  [↵]" if _cue_index() == scene.cues.size() - 1 else "NEXT BEAT  [↵]"
 	for i in range(4):
@@ -416,7 +490,14 @@ func _physics_process(delta: float) -> void:
 	stage.held = paused
 	stage.active_actor = int(state.data.leader)
 	for i in range(4):
-		avatars[i].position = stage.floor_point(party[i].position.x/128.0,member_routes[i],stage.route_transition)
+		var place=stage.floor_point(party[i].position.x/128.0,member_routes[i],stage.route_transition)
+		if actor_next.size()<=i:
+			actor_previous.append(place)
+			actor_next.append(place)
+		else:
+			actor_previous[i]=actor_next[i] if actor_next[i].distance_to(place)<2 else place
+			actor_next[i]=place
+		avatars[i].position=place
 		avatars[i].speed = party[i].velocity.x/128.0
 		avatars[i].facing = party[i].facing
 		avatars[i].visible = party[i].visible
@@ -450,7 +531,7 @@ func _physics_process(delta: float) -> void:
 		state.data.routes[scene.id] = upper_route
 		state.save()
 	publish_elapsed += delta
-	if publish_elapsed > 0.1:
+	if publish_elapsed > 0.2:
 		publish_elapsed = 0
 		_publish()
 	bridge_elapsed += delta
@@ -487,6 +568,13 @@ func _unhandled_input(event: InputEvent) -> void:
 
 func _command(command: Dictionary) -> void:
 	match str(command.get("action", "")):
+		"cover":
+			if typeof(command.get("enabled"))==TYPE_BOOL:
+				external_cover=bool(command.enabled)
+				_refresh_world_visibility()
+		"presentation":
+			if typeof(command.get("enabled"))==TYPE_BOOL:_set_presentation(bool(command.enabled))
+		"quality":_set_picture_quality(str(command.get("value","auto")))
 		"move":
 			touch_direction=clampf(float(command.get("direction",0)),-1,1)
 			touch_until=Time.get_ticks_msec()+800
@@ -609,19 +697,23 @@ func _new_modal(rect: Rect2) -> Panel:
 	dim.size = Vector2(1366, 768)
 	dim.color = Color(0.004, 0.015, 0.025, 0.5)
 	modal.add_child(dim)
+	_refresh_world_visibility()
 	return UI.panel(modal, rect, 0.98)
 
 func _close_modal() -> void:
 	if audio: audio.stop_voice()
-	if is_instance_valid(modal): modal.queue_free()
+	if is_instance_valid(modal):
+		modal.visible=false
+		modal.queue_free()
 	modal = null
 	current_clue = ""
 	conversation = ""
 	gallery = false
 	if stage:stage.close_inspection()
 	physical_inspection=false
+	_refresh_world_visibility()
 	if is_instance_valid(cue_panel):cue_panel.visible=true
-	if chrome:chrome.visible=not bool(state.data.clean)
+	if chrome:chrome.visible=not bool(state.data.clean) and not presentation
 
 func _inspect_world_clue(id: String) -> void:
 	if not story.clues.has(id):return
@@ -648,6 +740,23 @@ func _inspect_world_clue(id: String) -> void:
 func _open_clue(id: String, image_only: bool = false) -> void:
 	if not story.clues.has(id): return
 	var clue: Dictionary = story.clues[id]
+	if presentation and not image_only:
+		var card=_new_modal(Rect2(20,20,1326,728))
+		current_clue=id
+		state.data.revealed[id]=true
+		state.save()
+		UI.label(card,str(clue.tag),Rect2(24,15,1140,28),20,UI.CYAN)
+		UI.title(card,str(clue.title),Rect2(24,52,1250,60),40)
+		var rows=ceili(clue.fields.size()/2.0)
+		var row_height=minf(166,510.0/maxi(1,rows))
+		for i in range(clue.fields.size()):
+			var x=24+(i%2)*650
+			var y=128+(i/2)*row_height
+			UI.label(card,str(clue.fields[i][0]),Rect2(x,y,620,27),21,UI.CYAN)
+			UI.label(card,str(clue.fields[i][1]),Rect2(x,y+32,620,row_height-35),34,UI.AMBER if id=="ticket" and str(clue.fields[i][0])=="COMPLETED" else UI.PAPER)
+		UI.button(card,"Return to the scene  [Esc]",Rect2(24,670,1278,42),_close_modal,22)
+		_publish()
+		return
 	var p = _new_modal(Rect2(65, 119, 1236, 555))
 	if id == "ticket":
 		var style = UI.box(Color("081d29"), UI.AMBER)
@@ -698,9 +807,9 @@ func _talk(who: String, reply: String = "") -> void:
 	var data: Dictionary = story.characters[who]
 	var line = str(data.opening) if reply == "" else reply
 	if reply == "" and data.has("openings"): line = str(data.openings.get(str(int(scene.session)), line))
-	var p = _new_modal(Rect2(38, 350, 1290, 388))
-	conversation = who
-	conversation_line = line
+	var p = _new_modal(Rect2(0,0,1366,768))
+	conversation=who
+	conversation_line=line
 	if stage.people.has(who):stage.people[who].gesture()
 	stage.focus_person(who)
 	var portrait_catalog=JSON.parse_string(FileAccess.get_file_as_string("res://data/portraits.json"))
@@ -709,16 +818,20 @@ func _talk(who: String, reply: String = "") -> void:
 		var atlas=AtlasTexture.new()
 		atlas.atlas=load("res://assets/portraits/"+str(entry.file))
 		atlas.region=Rect2(entry.region[0],entry.region[1],entry.region[2],entry.region[3])
-		UI.portrait(p,atlas,Rect2(24,18,144,144))
-	UI.label(p,str(data.name).to_upper(),Rect2(192,15,1045,28),19,UI.CYAN)
-	UI.label(p,str(data.role),Rect2(192,46,1045,22),13,UI.AMBER)
-	UI.label(p,line,Rect2(192,79,1045,108),22)
-	var choices: Array = _dialogue_choices(who)
-	for i in range(mini(choices.size(), 4)):
-		UI.button(p, str(choices[i].question), Rect2(24 + (i % 2) * 624, 204 + (i / 2) * 56, 608, 48), _talk.bind(who, str(choices[i].text)), 16)
-	UI.button(p, "LET THE CLASS RESPOND / RETURN", Rect2(24, 334, 1244, 36), _close_modal, 13)
-	var replay = UI.button(p, "REPLAY LINE", Rect2(24, 170, 144, 27), func(): audio.say(who, line), 12)
-	replay.visible = audio.has_recording(who, line)
+		var photo_frame=Control.new()
+		photo_frame.size=Vector2(683,768)
+		photo_frame.clip_contents=true
+		p.add_child(photo_frame)
+		var portrait=UI.portrait(photo_frame,atlas,Rect2(0,0,683,768))
+		portrait.stretch_mode=TextureRect.STRETCH_KEEP_ASPECT_COVERED
+	var side=UI.panel(p,Rect2(683,0,683,768),1)
+	UI.title(side,str(data.name),Rect2(32,34,619,100),34)
+	UI.label(side,story.projected_role(who),Rect2(32,134,619,38),21,UI.AMBER)
+	UI.label(side,story.projected_line(line),Rect2(32,206,619,228),34)
+	var choices: Array=_dialogue_choices(who)
+	for i in range(mini(choices.size(),4)):
+		UI.button(side,str(choices[i].question),Rect2(32,458+i*55,619,49),_talk.bind(who,str(choices[i].text)),23)
+	UI.button(side,"Return to the scene  [Esc]",Rect2(32,708,619,42),_close_modal,20)
 	audio.say(who, line)
 	_publish()
 
@@ -775,9 +888,14 @@ func _toast(text: String) -> void:
 func _publish() -> void:
 	if not scene or not audio: return
 	var positions: Array = []
-	for member in party:
-		positions.append({"x": member.position.x, "y": member.position.y, "vx": member.velocity.x, "facing": member.facing, "rig": member.has_rig, "gait": member.gait, "hip_y": member.puppet.hip_y, "feet": member.feet})
-	var subjects: Array = stage.animated_snapshot()
+	for i in range(party.size()):
+		var member=party[i]
+		var item={"x":member.position.x,"y":member.position.y,"vx":member.velocity.x,"facing":member.facing,"rig":avatars[i].skeleton!=null}
+		if OS.is_debug_build():
+			item.gait=member.gait
+			item.feet=member.feet
+		positions.append(item)
+	var subjects: Array = stage.animated_snapshot() if OS.is_debug_build() else []
 	var payload = {
 		"scene": scene.id, "scene_index": scene_index, "session": scene.session, "title": scene.title,
 		"cue": _cue_index(), "cue_count": scene.cues.size(), "cue_title": scene.cues[_cue_index()].title,
@@ -798,6 +916,13 @@ func _publish() -> void:
 	payload.inspection_time=stage.inspection_time
 	payload.render_fps=Engine.get_frames_per_second()
 	payload.phone_view=phone_view
+	payload.presentation=presentation
+	payload.projected_role=story.projected_role(conversation) if conversation in story.characters else ""
+	payload.world_covered=external_cover or (is_instance_valid(modal) and not physical_inspection)
+	payload.picture_quality=picture_quality
+	payload.world_resolution=[stage_viewport.size.x,stage_viewport.size.y]
+	payload.projected_line=story.projected_line(conversation_line)
+	payload.projected_caption=story.projected_cue(str(scene.id),_cue_index())
 	payload.layout=stage.layout_key
 	payload.layout_kind=stage.layout_kind
 	payload.route_junction=stage.route_junction_x

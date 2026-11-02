@@ -26,7 +26,8 @@ def prepare():
         shutil.copy2(EXPORT / name, DEST / name)
     portraits = DEST / "portraits"
     portraits.mkdir(exist_ok=True)
-    for p in sorted((EXPORT / "portraits").glob("*.jpg")):
+    for p in sorted((EXPORT / "portraits").iterdir()):
+        if p.suffix.lower() not in {".jpg",".jpeg",".png"}:continue
         shutil.copy2(p, portraits / p.name)
     licenses = DEST / "licenses"
     licenses.mkdir(exist_ok=True)
@@ -36,7 +37,7 @@ def prepare():
         shutil.copy2(p, licenses / p.name)
     expected = {Path(n) for n in NAMES} | {
         Path("licenses") / p.name for p in licenses.iterdir() if p.is_file()
-    } | {Path("portraits") / p.name for p in portraits.glob("*.jpg")}
+    } | {Path("portraits") / p.name for p in portraits.iterdir() if p.suffix.lower() in {".jpg",".jpeg",".png"}}
     actual = {p.relative_to(DEST) for p in DEST.rglob("*") if p.is_file()}
     if actual != expected:
         raise RuntimeError(f"Unexpected candidate files: {actual ^ expected}")

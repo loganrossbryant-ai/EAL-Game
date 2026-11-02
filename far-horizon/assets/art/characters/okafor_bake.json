@@ -1,0 +1,21 @@
+{
+  "name": "okafor",
+  "removed_hidden_faces": 4790,
+  "skinned_meshes": 2,
+  "surfaces": 2,
+  "albedo_pixels": [
+    2048,
+    2048
+  ],
+  "normal_and_orm_pixels": [
+    1024,
+    1024
+  ],
+  "maps": {
+    "albedo": "/workspace/EAL-Game/far-horizon/assets/art/characters/okafor_albedo.png",
+    "normal": "/workspace/EAL-Game/far-horizon/assets/art/characters/okafor_normal.png",
+    "orm": "/workspace/EAL-Game/far-horizon/assets/art/characters/okafor_orm.png"
+  },
+  "source_images_unchanged": true,
+  "method": "3D UV material baking; no projected portrait"
+}

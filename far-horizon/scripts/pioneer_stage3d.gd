@@ -4,6 +4,7 @@ extends Node3D
 const UI = preload("res://scripts/interface.gd")
 const WIDTH = 18.0
 var room = "terminal"
+var presentation=false
 var clock = 0.0
 var camera: Camera3D
 var background: Sprite3D
@@ -176,7 +177,9 @@ func configure(value: String,scene_id: String="") -> void:
 	pen = null
 	orbit = null
 	lens = null
-	if geography: geography.queue_free()
+	if geography:
+		geography.visible=false
+		geography.queue_free()
 	geography = Node3D.new()
 	add_child(geography)
 	drones.clear()
@@ -639,7 +642,6 @@ func _room_subjects() -> void:
 			_box(geography,Vector3(13.1,1.60,-1.42),Vector3(.022,2.6,.025),amber)
 		"bridge":
 			_navigation_globe(Vector3(9.1,1.6,-2.15))
-			_box(geography,Vector3(14.8,.6,-1.8),Vector3(1.4,1.2,.70),metal)
 			_lensing_geometry()
 		"k17":
 			var instrument=_prop("optical_array",Vector3(8.9,0,-1.6),1.25)
@@ -741,8 +743,9 @@ func place_iris(point: Vector3) -> void:
 	_box(iris,Vector3(0,0,-.06),Vector3(.64,.88,.14),metal)
 	for x in [-.33,.33]:_box(iris,Vector3(x,0,.025),Vector3(.018,.79,.025),cyan)
 	var photo=AtlasTexture.new()
-	photo.atlas=load("res://assets/portraits/iris.jpg")
-	photo.region=Rect2(23,81,374,536)
+	var entry=JSON.parse_string(FileAccess.get_file_as_string("res://data/portraits.json")).iris
+	photo.atlas=load("res://assets/portraits/"+str(entry.file))
+	photo.region=Rect2(entry.region[0],entry.region[1],entry.region[2],entry.region[3])
 	var face=MeshInstance3D.new()
 	var mesh=QuadMesh.new()
 	mesh.size=Vector2(.56,.78)
@@ -891,7 +894,7 @@ func _process(delta: float) -> void:
 	# picture hold stops the camera as well as the animated geometry.
 	if held and camera_request_time<=0:return
 	camera_request_time=maxf(0,camera_request_time-delta)
-	var target = Vector3(view_x,2.36,0)
+	var target = Vector3(view_x,1.76 if presentation else 2.36,0)
 	if effect_camera_x>=0:target.x=effect_camera_x
 	var destination = target+Vector3(0,2.62,14)
 	if effect in ["rumble","ascent"] and not held:destination += Vector3(sin(clock*57)*.009,cos(clock*49)*.007,0)

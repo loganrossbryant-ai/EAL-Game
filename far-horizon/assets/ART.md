@@ -122,3 +122,28 @@ exit, flat lounge, short workshop dais, personnel lift, level curved bridge aisl
 and short K-17 instrument plinth. Static rail/fixture geometry is batched by
 material; moving machines and their joints stay independent. Shared locations
 recur only where the three-session story revisits the same room.
+
+## Textured cast and classroom projection revision (2026-11-02)
+
+The active portraits are unchanged embedded images from the newly supplied
+classroom visual deck: Venn 37, Vale 39, Okafor 40, Rhee 41, Juno 42 and Iris 44.
+M-77 uses the illustration region of enemy dossier slide 2; the contradictory
+stat block is outside the displayed region. Original bytes, dimensions, source
+slides and SHA-256 values are recorded in `data/portraits.json`. Human photos
+and the enemy illustration fill half the dialogue screen. The previously
+confirmed GM-bible story and encounter counters remain canonical.
+
+`skin_microdetail.png` is an original AI-generated seamless skin material tile,
+viewed and copied unchanged from `exec-f939c6b7-cc07-4aeb-897d-454c5f2352be.png`.
+It and the original uniform material are source inputs to Blender's 3D UV bake.
+No NPC portrait is projected onto a character. The nine cast members now have
+2048-pixel albedo maps and 1024-pixel tangent-normal/roughness/metallic maps in
+`art/characters/`. Contact shading and material detail are baked once. Skinning,
+eyelid morphs, physical clothing geometry and three animation clips remain.
+Hidden inner garment faces are removed, and two material surfaces replace the
+previous many-material characters. UVs, tangents, deform weights and mipmaps
+are explicitly checked. Juno's pulled-back hairstyle follows the new photo.
+
+Unused historical 2D character/machine sheets and baking-only skin art remain
+in source, but are excluded from this 3D browser export. These are original
+prototype models and textures; no Silver Pines assets or animation are included.

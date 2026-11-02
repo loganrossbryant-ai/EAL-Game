@@ -1,23 +1,24 @@
 class_name GMState
 extends RefCounted
 
-const KEY = "far-horizon-gm-v2"
+const KEY = "far-horizon-gm-performance-v3"
 var data: Dictionary = {
-	"version": 2, "layout_version": 3, "scene": "s1_terminal", "cues": {}, "revealed": {},
+	"version": 3, "layout_version": 3, "scene": "s1_terminal", "cues": {}, "revealed": {},
 	"leader": 0, "positions": {}, "routes": {}, "language": "zh", "clean": false,
 	"seen": {}, "threats": [2, 1, 1], "sound": false, "voice": true
 }
 var storage_ok = true
+var last_saved_value=""
 
 func restore(story: GMStory) -> void:
 	var raw = ""
 	if OS.has_feature("web"):
-		var value = JavaScriptBridge.eval("(function(){try{return localStorage.getItem('far-horizon-gm-v2')||'';}catch(e){return '';}})()", true)
+		var value = JavaScriptBridge.eval("(function(){try{return localStorage.getItem('far-horizon-gm-performance-v3')||'';}catch(e){return '';}})()", true)
 		if value is String: raw = value
-	elif FileAccess.file_exists("user://gm-visual-aid.json"):
-		raw = FileAccess.get_file_as_string("user://gm-visual-aid.json")
+	elif FileAccess.file_exists("user://gm-visual-aid-performance-v3.json"):
+		raw = FileAccess.get_file_as_string("user://gm-visual-aid-performance-v3.json")
 	var parsed = JSON.parse_string(raw) if raw.strip_edges() != "" else null
-	if parsed is Dictionary and parsed.get("version") == 2:
+	if parsed is Dictionary and parsed.get("version") == 3:
 		for k in data:
 			if parsed.has(k) and (typeof(parsed[k]) == typeof(data[k]) or (typeof(data[k]) in [TYPE_INT, TYPE_FLOAT] and typeof(parsed[k]) in [TYPE_INT, TYPE_FLOAT])):
 				data[k] = parsed[k]
@@ -36,12 +37,15 @@ func restore(story: GMStory) -> void:
 
 func save() -> void:
 	var value = JSON.stringify(data)
+	if value==last_saved_value:return
 	if OS.has_feature("web"):
-		storage_ok = bool(JavaScriptBridge.eval("(function(){try{localStorage.setItem('far-horizon-gm-v2'," + JSON.stringify(value) + ");return true;}catch(e){return false;}})()", true))
+		storage_ok = bool(JavaScriptBridge.eval("(function(){try{localStorage.setItem('far-horizon-gm-performance-v3'," + JSON.stringify(value) + ");return true;}catch(e){return false;}})()", true))
 	else:
-		var f = FileAccess.open("user://gm-visual-aid.json.tmp", FileAccess.WRITE)
+		var f = FileAccess.open("user://gm-visual-aid-performance-v3.json.tmp", FileAccess.WRITE)
 		storage_ok = f != null
 		if f:
 			f.store_string(value)
 			f.close()
-			storage_ok = DirAccess.rename_absolute("user://gm-visual-aid.json.tmp", "user://gm-visual-aid.json") == OK
+			storage_ok = DirAccess.rename_absolute("user://gm-visual-aid-performance-v3.json.tmp", "user://gm-visual-aid-performance-v3.json") == OK
+
+	if storage_ok:last_saved_value=value

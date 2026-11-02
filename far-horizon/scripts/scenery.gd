@@ -112,7 +112,7 @@ func _sky_patch(points: PackedVector2Array, strength: float) -> void:
 
 func _plant(point: Vector2, size: float, phase: float) -> void:
 	var plant = Polygon2D.new()
-	plant.texture = preload("res://assets/art/foreground_plant.png")
+	plant.texture = load("res://assets/art/foreground_plant.png")
 	var w = float(plant.texture.get_width())
 	var h = float(plant.texture.get_height())
 	var vertices = PackedVector2Array()

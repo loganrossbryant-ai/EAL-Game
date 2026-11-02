@@ -1,0 +1,119 @@
+{
+  "scene_captions": {
+    "s1_terminal": [
+      "Earth is healthy. Why choose to leave?",
+      "Asteria is a beginning. What could you build there?",
+      "What do you want? What do you need? Choose one object from Earth."
+    ],
+    "s1_boarding": [
+      "One looks back. One steps forward. One hides their nerves.",
+      "Cross the threshold together. What did the audience see before anyone spoke?"
+    ],
+    "s1_launch": [
+      "The restraints lock. Take one last breath of Earth.",
+      "Ignition. Vibration. Pressure. Earth falls beneath you.",
+      "The cities are still lit. Everything familiar grows smaller.",
+      "Engine cutoff. A pen lifts. Not everyone laughs.",
+      "Welcome aboard Pioneer."
+    ],
+    "s1_habitation": [
+      "Meet Juno, Chief Rhee and Dr Okafor.",
+      "Which place will matter to your department? Why?",
+      "What would make this ship feel like your home?",
+      "What does your Earth object hold that the ship cannot replace?"
+    ],
+    "s1_observation": [
+      "The glass darkens. The stars brighten. Watch in silence.",
+      "Bent light. Less than a second. Then it is gone.",
+      "insufficient image duration for classification.",
+      "Write three lines: a visible action, dialogue and a silent reaction."
+    ],
+    "s1_route": [
+      "Route correction accepted.",
+      "Who entered that correction?",
+      "No correction was entered.",
+      "Keep your Earth object. Keep the question open."
+    ],
+    "s2_recreation": [
+      "Bad food. Missing equipment. An argument over a booking.",
+      "What does each character want? Show what they do to get it."
+    ],
+    "s2_malfunction": [
+      "A maintenance unit welds a perfectly functional door shut.",
+      "That unit is either malfunctioning or developing artistic opinions. Both are unacceptable.",
+      "OBSTRUCTION DETECTED. REPAIRING OBSTRUCTION."
+    ],
+    "s2_encounter": [
+      "Protect the ship and its people. Choose a safe way to stop the repairs.",
+      "A drone welds the door. Show preparation, action and reaction.",
+      "Another drone dismantles life support. Change your tactic.",
+      "PLEASE DO NOT INTERFERE WITH YOUR PREVIOUS REPAIR.",
+      "Shutdown, retreat or containment. The record survives."
+    ],
+    "s2_record": [
+      "Rhee opens the service history. His expression changes.",
+      "Completed by Cohort 01. Tomorrow at 14:32.",
+      "Machines lie less often than people. That does not mean they never lie.",
+      "Nobody deletes the record.",
+      "Write 6–8 lines: event, choice and consequence. Begin with a gesture."
+    ],
+    "s2_restricted": [
+      "All access attempts are logged and reviewed.",
+      "Has your trust changed? Keep the maintenance record."
+    ],
+    "s3_observation": [
+      "Investigate together. Report a FACT, an INFERENCE and a QUESTION.",
+      "A fact shows evidence. An inference explains it. A question stays open."
+    ],
+    "s3_evidence": [
+      "37 days or 102 days. The route has not changed.",
+      "K-17 mass and lensing readings do not fit normal physics.",
+      "The clocks work correctly. They no longer agree.",
+      "Cells and biological clocks drift differently from ship time."
+    ],
+    "s3_council": [
+      "State one FACT. Keep theories separate.",
+      "What do we know? What do we think? What should we observe next?",
+      "If the instrument is wrong, tell me how. If physics is wrong, I need a longer lunch.",
+      "Your cells do not know they are supposed to agree with the ship clock."
+    ],
+    "s3_iris": [
+      "Estimated time to Asteria: thirty-seven days.",
+      "Navigation says one hundred and two.",
+      "Correct.",
+      "Which one is right?",
+      "Both.",
+      "Correct according to what frame of reference?",
+      "Yes."
+    ],
+    "s3_lensing": [
+      "K-17 catches the observation window. Watch the starlight.",
+      "The same almost-human geometry. This time, more people see it.",
+      "What did you see? Which part is still an inference?"
+    ],
+    "s3_craft": [
+      "Replay the exchange. Change pace, pause, pitch, volume or emphasis.",
+      "Write what you KNOW, what you THINK and one QUESTION."
+    ],
+    "s3_packet": [
+      "A packet arrives through deep-space communications.",
+      "CSV-01 Pioneer. Timestamp: +103 DAYS.",
+      "The packet remains sealed."
+    ]
+  },
+  "dialogue_captions": {
+    "Cohort 01, you were selected because this mission requires people who can adapt for decades, not simply survive a launch. Asteria is not a rescue. It is a beginning.": "You were chosen to build a world. Asteria is a beginning.",
+    "Because humanity should never have only one home. Earth is not dying. We are choosing to build a second civilization on Asteria-4.": "Earth is healthy. We choose to build a second civilization on Asteria-4.",
+    "We will disagree. When we do, speak plainly, listen closely, and make your reasons visible to one another.": "Speak plainly. Listen closely. Make your reasons clear.",
+    "Then give your character something to do with their hands. We can see a tightened strap or a folded note. We cannot see a thought.": "Show your nerves through an action: a tightened strap or a folded note.",
+    "Who crosses first? Who hangs back? Who notices? You can disagree and still cross the same line.": "You can disagree and still cross the same line.",
+    "CSV-01 Pioneer. Destination: Asteria-4. Mission: establish a deliberate second civilization. Earth remains habitable.": "Asteria-4. A deliberate second civilization. Earth remains habitable.",
+    "Flight navigates. Science investigates. Engineering maintains the ship. Colony helps a community take shape. Each department depends on the others.": "Flight. Science. Engineering. Colony. Each depends on the others.",
+    "Keep the observation separate from the explanation. Tell us what you measured, then tell us what you think it means.": "Tell us what you measured. Then explain what you think it means.",
+    "Make time to rest. Speak up when something feels wrong. Looking after a community begins with noticing one another.": "Rest. Speak up. Notice one another."
+  },
+  "role_labels": {
+    "juno": "Communications / logistics"
+  },
+  "purpose": "Concise projected captions; complete original lines remain on the private GM desk."
+}

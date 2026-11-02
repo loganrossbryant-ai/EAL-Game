@@ -11,6 +11,7 @@ from mathutils import Vector, Quaternion, Matrix
 from mathutils.geometry import convex_hull_2d
 sys.path.insert(0,str(Path(__file__).resolve().parent))
 from fh_character_detail import skin_paint,jacket,hair_geometry,outfit_details,sphere
+from fh_character_bake import bake_appearance
 
 ROOT=Path(__file__).resolve().parents[1]
 SOURCE=Path('/workspace/reference-review/makehuman')
@@ -21,7 +22,7 @@ NAMES={
  'engineering':dict(sex='male',race='asian',age=.08,skin=(.56,.37,.23,1),cloth=(.13,.18,.16,1),accent=(.88,.53,.16,1),hair='short',height=1.77,crew=True),
  'colony':dict(sex='female',race='african',age=.02,skin=(.20,.095,.055,1),cloth=(.27,.08,.10,1),accent=(.78,.68,.49,1),hair='curl',height=1.69,crew=True),
  'venn':dict(sex='female',race='caucasian',age=.27,skin=(.63,.41,.29,1),cloth=(.012,.026,.052,1),accent=(.83,.60,.28,1),hair='bun',height=1.73),
- 'juno':dict(sex='female',race='asian',age=.02,skin=(.60,.39,.26,1),cloth=(.18,.17,.15,1),accent=(.60,.22,.045,1),hair='bob',height=1.66),
+ 'juno':dict(sex='female',race='asian',age=.18,skin=(.54,.32,.20,1),cloth=(.065,.074,.078,1),accent=(.60,.33,.13,1),hair='pony',height=1.66),
  'rhee':dict(sex='male',race='asian',age=.43,skin=(.52,.32,.20,1),cloth=(.09,.11,.12,1),accent=(.85,.51,.16,1),hair='wave',height=1.74,tablet=True,stubble=True),
  'vale':dict(sex='male',race='caucasian',age=.23,skin=(.58,.35,.22,1),cloth=(.12,.20,.25,1),accent=(.44,.65,.71,1),hair='wave',height=1.80,tablet=True,beard=True),
  'okafor':dict(sex='female',race='african',age=.20,skin=(.23,.105,.059,1),cloth=(.72,.73,.68,1),accent=(.36,.66,.66,1),hair='curl',height=1.70,tablet=True),
@@ -164,7 +165,7 @@ def animate(arm,profile,factor):
      reach=math.sin(min(1,t/.78)*math.pi) if t<.78 else 0
      hand=hand.lerp(shoulder+Vector((.015/factor,-.40/factor,-.12/factor)),reach)
     else:hand.y+=math.sin(phase+side)*.002/factor
-    wrist=solve_limb(arm,'upperarm_'+suffix,'lowerarm_'+suffix,hand,Vector((side*.15,-1,0)))
+    wrist=solve_limb(arm,'upperarm_'+suffix,'lowerarm_'+suffix,hand,Vector((side*.15,1,0)))
     arm.pose.bones['hand_'+suffix].location=(0,0,0)
    bpy.context.view_layer.update()
    for pb in arm.pose.bones:
@@ -174,7 +175,7 @@ def animate(arm,profile,factor):
  return animations
 
 
-def build(name,profile):
+def build(name,profile,bake=False):
  random.seed(2247+sum(map(ord,name)));bpy.ops.object.select_all(action='SELECT');bpy.ops.object.delete(use_global=False)
  for action in list(bpy.data.actions):bpy.data.actions.remove(action)
  verts=[v.copy() for v in BASE]
@@ -311,6 +312,11 @@ def build(name,profile):
   bpy.ops.object.select_all(action='DESELECT')
   for o in details:o.select_set(True)
   bpy.context.view_layer.objects.active=details[0];bpy.ops.object.join();bpy.context.object.name='Hair eyes and uniform equipment'
+  # Boot-sole end caps are n-gons; tangent export requires tris or quads.
+  detail=bpy.context.object
+  triangulate=detail.modifiers.new('Tangent-ready sole caps','TRIANGULATE');triangulate.min_vertices=5
+  bpy.ops.object.modifier_apply(modifier=triangulate.name)
+ if bake:bake_appearance(name,body,arm)
  # Normalize target distances as well as the mesh for each morphed stature.
  top=max(coords[i].z for i in body_used)
  factor=profile['height']/top
@@ -320,13 +326,13 @@ def build(name,profile):
  bpy.context.view_layer.objects.active=arm
  OUT.mkdir(parents=True,exist_ok=True)
  path=OUT/(name+'.glb')
- bpy.ops.export_scene.gltf(filepath=str(path),export_format='GLB',use_selection=True,export_animations=True,export_animation_mode='ACTIONS',export_force_sampling=True,export_frame_range=False,export_skins=True,export_morph=True,export_extras=True,export_yup=True)
+ bpy.ops.export_scene.gltf(filepath=str(path),export_format='GLB',use_selection=True,export_animations=True,export_animation_mode='ACTIONS',export_force_sampling=True,export_frame_range=False,export_skins=True,export_morph=True,export_extras=True,export_yup=True,export_texcoords=True,export_tangents=True)
  print('FH_MODEL',name,path.stat().st_size,flush=True)
 
 
 def main():
- p=argparse.ArgumentParser();p.add_argument('--only',default='flight,venn,juno');args=p.parse_args(sys.argv[sys.argv.index('--')+1:] if '--'in sys.argv else [])
- for name in args.only.split(','):build(name,NAMES[name])
+ p=argparse.ArgumentParser();p.add_argument('--only',default='flight,venn,juno');p.add_argument('--bake',action='store_true');args=p.parse_args(sys.argv[sys.argv.index('--')+1:] if '--'in sys.argv else [])
+ for name in args.only.split(','):build(name,NAMES[name],args.bake)
  (OUT/'SOURCES.json').write_text(json.dumps({'assets':'MakeHuman / MPFB base mesh, morph targets and game-engine rig','license':'CC0 1.0 Universal','sources':['https://github.com/makehumancommunity/makehuman','https://github.com/makehumancommunity/mpfb2'],'adaptation':'Original Pioneer uniforms, hair meshes, accessories, IK-baked idle/walk/use animation; no upstream program code distributed.'},indent=2)+'\n')
 
 if __name__=='__main__':main()

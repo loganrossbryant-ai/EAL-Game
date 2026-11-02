@@ -21,7 +21,7 @@
   }
   function render(){
     const s=latest,scene=campaign.scenes.find(x=>x.id===s.scene);if(!scene)return;
-    $('connection').textContent='● Connected to the stage';$('session').textContent='SESSION '+String(s.session).padStart(2,'0')+' / BEAT '+(s.cue+1)+' OF '+s.cue_count;$('scene-title').textContent=scene.title;$('focus').textContent=scene.focus;
+    $('connection').textContent='● Connected to the stage';$('session').textContent='SESSION '+String(s.session).padStart(2,'0')+' / BEAT '+(s.cue+1)+' OF '+s.cue_count;$('scene-title').textContent=scene.title;$('focus').textContent=scene.focus;$('full-script').textContent=s.line||scene.cues[s.cue].text;
     $('freeze').textContent=s.paused?'Resume picture':'Hold picture';$('clean').textContent=s.clean?'Show stage controls':'Hide stage controls';$('sound').textContent=s.sound?'SFX on':'SFX off';$('voice').textContent=s.recordings?(s.voice?'Voices on':'Voices off'):'NPC text dialogue';$('voice').disabled=!s.recordings;$('language').value=s.language;
     $('audio-status').textContent=s.recordings ? s.recordings+' NPC recordings installed'+(s.voice_playing?' · voice playing':'') : 'NPC dialogue uses readable captions and selectable responses. This draft has no voice pack.';
     if(renderedScene!==s.scene){

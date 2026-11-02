@@ -25,9 +25,10 @@ var idle_sprite: Sprite2D
 var visual: Node2D
 var last_position = Vector2.ZERO
 var render_puppet = true
+var controller_only=false
 signal footstep
 
-func setup(index: int) -> void:
+func setup(index: int,with_visual: bool=true) -> void:
 	department = index
 	breath = index * 0.83
 	collision_layer = 2
@@ -39,6 +40,11 @@ func setup(index: int) -> void:
 	shape.shape = capsule
 	shape.position.y = -88
 	add_child(shape)
+	controller_only=not with_visual
+	if controller_only:
+		render_puppet=false
+		for i in range(2):feet.append({"world_x":0.0,"height":0.0,"start_x":0.0,"target_x":0.0,"stance":true,"phase":0.0,"swing_start":STANCE,"contact":0})
+		return
 	visual = Node2D.new()
 	add_child(visual)
 	puppet = CrewPuppet.new()
@@ -52,7 +58,7 @@ func setup(index: int) -> void:
 	visual.add_child(mirror)
 	if has_rig: mirror.setup(index)
 	idle_sprite = Sprite2D.new()
-	idle_sprite.texture = preload("res://assets/art/crew_idle.png")
+	idle_sprite.texture = load("res://assets/art/crew_idle.png")
 	var standing = JSON.parse_string(FileAccess.get_file_as_string("res://assets/art/rigs/standing.json")).regions[index]
 	idle_sprite.region_enabled = true
 	idle_sprite.region_rect = Rect2(standing[0], standing[1], standing[2], standing[3])
@@ -62,7 +68,7 @@ func setup(index: int) -> void:
 	add_child(idle_sprite)
 	# Legacy observation/fallback only; hidden whenever the continuous rig exists.
 	walk_sprite = Sprite2D.new()
-	walk_sprite.texture = preload("res://assets/art/crew_walk.png")
+	walk_sprite.texture = load("res://assets/art/crew_walk.png")
 	walk_sprite.hframes = 8
 	walk_sprite.vframes = 4
 	walk_sprite.frame = index * 8 + 2
@@ -114,6 +120,9 @@ func _physics_process(delta: float) -> void:
 	motion_weight = move_toward(motion_weight, clampf(absf(velocity.x) / 85.0, 0, 1), delta * 6.0)
 	lean = lerpf(lean, clampf(velocity.x / 145.0, -1, 1) * facing * 0.022, 1 - exp(-delta * 8))
 	for i in range(2): _update_foot(i, delta)
+	if controller_only:
+		last_position=global_position
+		return
 	var near_foot = Vector2((feet[0].world_x - global_position.x) * facing, feet[0].height)
 	var far_foot = Vector2((feet[1].world_x - global_position.x) * facing, feet[1].height)
 	visual.scale.x = facing

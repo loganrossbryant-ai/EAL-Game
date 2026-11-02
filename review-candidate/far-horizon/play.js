@@ -29,8 +29,10 @@
  });
  document.addEventListener('fullscreenchange',()=>{if(!document.fullscreenElement&&presenting)setPresenting(false);fit();});
  $('player').addEventListener('pointermove',wakeTools);
- $('quality').addEventListener('change',()=>{send('quality',{value:$('quality').value});focusStage();});
+
  $('dismiss').addEventListener('click',()=>closeSheet());sheet.addEventListener('cancel',e=>{e.preventDefault();closeSheet();});
+ for(const [id,action,values] of [['quick-rhee','talk',{id:'rhee'}],['quick-m77','talk',{id:'m77'}],['quick-ticket','clue',{id:'ticket'}],['quick-focus','focus',{}]])$(id).addEventListener('click',()=>{stop();send(action,values);focusStage();});
+ document.addEventListener('keydown',e=>{if(e.ctrlKey||e.metaKey||e.altKey||!ready)return;const map={KeyR:['talk',{id:'rhee'}],KeyM:['talk',{id:'m77'}],KeyT:['clue',{id:'ticket'}],KeyF:['focus',{}]};if(map[e.code]){e.preventDefault();stop();send(...map[e.code]);focusStage();}});
  $('use').addEventListener('click',()=>{stop();send('interact');focusStage();});
  $('read').addEventListener('click',()=>openSheet('read'));
  $('scenes').addEventListener('click',()=>openSheet('scenes'));
@@ -55,6 +57,7 @@
   if(event.data.kind!=='state')return;
   const previous=state;state=event.data.state;if(!state)return;
   if(!ready){ready=true;document.querySelectorAll('#player button,#player select').forEach(b=>b.disabled=false);focusStage();}
+  $('quick-m77').disabled=!campaign.scenes.find(s=>s.id===state.scene)?.npcs.includes('m77');
   $('status').textContent='S'+state.session+' · '+state.title+' · '+(state.cue+1)+'/'+state.cue_count;
   const lock=state.modal||state.paused||sheet.open;
   $('left').disabled=Boolean(lock);$('right').disabled=Boolean(lock);

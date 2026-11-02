@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; frame-src 'self'; connect-src 'self'">
 <meta name="theme-color" content="#08151d">
-<title>The Far Horizon · Play the draft</title>
+<title>Far Horizon · Quick 2D M-77 test</title>
 <link rel="icon" href="index.png">
 <link rel="stylesheet" href="play.css">
 <script src="play.js" defer></script>
@@ -15,10 +15,10 @@
  <section class="invitation">
   <p class="eyebrow">THE PIONEER INITIATIVE · 2247</p>
   <h1>The Far Horizon</h1>
-  <p class="intro">One ship. Four departments.<br>A journey that refuses to add up.</p>
-  <p class="muted">Sessions 1–3 · GM visual aid · Playable draft</p>
+  <p class="intro">One broken door.<br>A repair from tomorrow.</p>
+  <p class="muted">Quick 2D test · M-77 encounter · GM visual aid</p>
   <button id="begin" class="primary">Explore the draft <span aria-hidden="true">↗</span></button>
-  <p class="instructions">PC: A/D or arrows to walk, E to interact.<br>TV or projector: choose TV view after the game opens.<br>iPhone: turn sideways and use the touch controls.</p>
+  <p class="instructions">PC: A/D or arrows to walk, E to interact.<br>R: Rhee · M: M-77 · T: ticket · F: focus the door.<br>TV or projector: choose TV view after the game opens.<br>iPhone: turn sideways and use the touch controls.</p>
   <p id="load-note" class="muted" role="status">The first launch may take a moment. No app installation needed.</p>
  </section>
 </main>
@@ -26,6 +26,12 @@
  <div id="stage-slot"><iframe id="stage" title="The Far Horizon game" allow="autoplay; fullscreen" allowfullscreen></iframe></div>
  <p id="orientation">Turn your phone sideways for a wider view.</p>
  <div id="status" role="status">Preparing Pioneer…</div>
+ <nav id="quick" aria-label="Quick classroom actions">
+  <button id="quick-rhee" disabled>Rhee [R]</button>
+  <button id="quick-m77" disabled>M-77 [M]</button>
+  <button id="quick-ticket" disabled>Ticket [T]</button>
+  <button id="quick-focus" disabled>Door [F]</button>
+ </nav>
  <nav id="movement" aria-label="Movement">
   <button id="left" aria-label="Walk left" disabled>◀</button>
   <button id="right" aria-label="Walk right" disabled>▶</button>
@@ -40,7 +46,7 @@
  <nav id="advance" aria-label="Story controls">
   <button id="previous" disabled>‹ Previous</button>
   <button id="next" disabled>Next ›</button>
-  <label class="quality-label">Picture <select id="quality" disabled aria-label="Picture quality"><option value="auto">Auto</option><option value="sharp">Sharper</option><option value="balanced">Standard</option><option value="smooth">Smoother</option></select></label>
+
   <button id="desk" disabled>GM desk</button>
  </nav>
 </section>

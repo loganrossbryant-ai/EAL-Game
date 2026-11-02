@@ -10,8 +10,8 @@
     },
     {
       "path": "campaign.json",
-      "bytes": 42563,
-      "sha256": "bb456ac97f65dc41cae5463fd379164bd0101dee483a39b37d299fb2fa11f04c"
+      "bytes": 13037,
+      "sha256": "ce8e3aabdf86021968c2a766a6e5095f8cdeb3b8e7eb2ad9520c49253db5cad5"
     },
     {
       "path": "gm.css",
@@ -41,7 +41,7 @@
     {
       "path": "index.html",
       "bytes": 5477,
-      "sha256": "1a915defd5a0b89129d3e3830975927cbed97343101c984af6e628619bfaae53"
+      "sha256": "52ae4c779e9405b0e440e8917a221997c83346cd747610a4874a59dd302557e8"
     },
     {
       "path": "index.js",
@@ -50,8 +50,8 @@
     },
     {
       "path": "index.pck",
-      "bytes": 93575664,
-      "sha256": "763f049051ad6ceef4f6362666aec0fbff6cee4b90c47272f7cb649b35a0087b"
+      "bytes": 20492612,
+      "sha256": "8a19c3a0054291849599e7bc9209eb91805a6077bc9e26232745544edc82bef4"
     },
     {
       "path": "index.png",
@@ -95,18 +95,18 @@
     },
     {
       "path": "play.css",
-      "bytes": 8399,
-      "sha256": "34c7a9eb8365cdfb4405cc52545682b1654f5a1c8641edcdbff0bc15814aa4a7"
+      "bytes": 8672,
+      "sha256": "71a1d50838c12a44e4419bee5abb92692b2808cfef07f4bd6309ba4d1b8cf032"
     },
     {
       "path": "play.html",
-      "bytes": 2762,
-      "sha256": "8cc0485fdb7fb2e336c80fd93ac1729eaad2e77662079fad419013d02aee0bcf"
+      "bytes": 2807,
+      "sha256": "c59f42edc847101f6a4eff0b85b65f204a9187b43e8740ac713b4010266647e5"
     },
     {
       "path": "play.js",
-      "bytes": 9854,
-      "sha256": "38c5dc49c53360770fe9f1e5595c9839c5df783f62687ff25496a05c6b7d4eb8"
+      "bytes": 10370,
+      "sha256": "8987621ec2bb0274ae535ba0ca2b5fd3ae0a9986c196c68f9dcb9c156429e488"
     },
     {
       "path": "portraits/iris.jpg",
@@ -114,19 +114,9 @@
       "sha256": "80f93b21325bc8eb18f44af26bae5f0a021cf3d6ac99a412e0b4fa61c06627fd"
     },
     {
-      "path": "portraits/juno.jpg",
-      "bytes": 235435,
-      "sha256": "5989d81b2c7ed056c53c4b659dce3bec994d922424b3e9f1c97eba3b4a779337"
-    },
-    {
       "path": "portraits/m77.png",
       "bytes": 2215952,
       "sha256": "60d643614c608f000fe295521b0816e013291396c9a11236b93d887128df0a21"
-    },
-    {
-      "path": "portraits/okafor.jpg",
-      "bytes": 216998,
-      "sha256": "1a3b68b5f6c796d953f6654be2e23943d056b30cc97dcfafc3e2125523c4e06f"
     },
     {
       "path": "portraits/rhee.jpg",
@@ -134,24 +124,14 @@
       "sha256": "489bf9502cc1ebe60aa1fa4ccfbe3e3e4eb5b9e18aae8829be765277f83758f5"
     },
     {
-      "path": "portraits/vale.jpg",
-      "bytes": 244203,
-      "sha256": "af6938375e8db209dc43d1809ff888c16b319230b3d824c0ea33e3b422877479"
-    },
-    {
-      "path": "portraits/venn.jpg",
-      "bytes": 211174,
-      "sha256": "0ef74009945d66f7b010114d61090659cdad67a87aee544fcd6cbc9ce0e726ae"
-    },
-    {
       "path": "portraits.json",
-      "bytes": 2054,
-      "sha256": "0b230f7bd92ca9fc09640eaeb0d2649bfefe720c5ab42066ab54f41b3fff17d9"
+      "bytes": 878,
+      "sha256": "72595d04077a1276211894c2487be89545507e271dd9087b0307c0a49858d8b5"
     },
     {
       "path": "poster.png",
-      "bytes": 2635081,
-      "sha256": "669d11391ea85cabbcf4d02ebf1c2f700a642167021c24408eb49c0fc9fd9a49"
+      "bytes": 2294834,
+      "sha256": "c526c3d0e7ffc10e70ca3e35d5b32f672abaa0be4eadcd1b636412b534d7e772"
     }
   ]
 }

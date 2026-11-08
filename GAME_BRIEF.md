@@ -1,51 +1,54 @@
-# Game Design Handoff — EAL 2026–2027
+# GAME_BRIEF.md — EAL 2026–2027 Next-Generation Browser Adventures
 
-## Context
-The requester teaches secondary English as an Additional Language at an international school in China. Students typically operate in WIDA 1–4, with some activities targeted near WIDA 3.8. Classes are commonly 80 minutes. Two current textbook units: Grade 11–12 **Media Influences** and Grade 9–10 **Helping Others / Improving Lives**.
+**Status:** Standing reusable development brief; revised 2026-11-08. Read with `AGENTS.md` and `docs/EAL_NEXT_GENERATION_GAME_QUALITY_STANDARD.md`. This is NOT a script for a particular class or a requirement to re-create prior games.
 
-## Background
-Previous iterations of the game have been too minimalist or felt like a set of disconnected educational webpages. The user provided a screenshot of an immersive view they liked and a second of a generic background they rejected. **Those screenshots are not included in this handoff** and must be provided separately.
+## Purpose and creative promise
+Create an original story-rich browser adventure that would be compelling **without a grade**. Students use reading, English communication, evidence interpretation and unit grammar to repair, negotiate, investigate, escape, build, or change an explorable fictional world. The approved Sound Editions are the minimum quality floor, not content or mechanic templates.
 
-The user wants the **whole game** to achieve the quality and believability of the stronger screenshot. They explicitly asked for a player character who can move between locations, as in an actual game, rather than choosing locations only from static cards. They asked to abandon the already-played "missing town" mystery and use a new plot.
+### Authoritative source order
+1. User's latest explicit instructions and actual current student/class profile.
+2. Actual photographed/uploaded textbook unit pages and objectives; cite internally where required language comes from.
+3. Approved game files and the Project's detailed next-generation standard.
+4. Existing repository source and tests, for reusable engineering components.
+5. Original invented narrative and enrichment language, explicitly classified as such.
 
-## Experience goals
-1. A coherent, explorable fictional world with varied, detailed, realistic-feeling environments.
-2. A visible, controllable player character who navigates between locations and approaches objects or people to interact.
-3. Rich in-world user interfaces: for example, a review site must resemble a fully developed review website, with believable navigation, content structure, reviews, identities, and interactive clues.
-4. Language learning embedded into investigation, conversations, decisions, source evaluation, evidence collection, and consequences.
-5. Multiple opportunities for formative assessment as the adventure progresses, with a definite end goal and observable final outcome.
-6. No generic repeated screens, wallpaper-style backgrounds, one-word prompts, or decontextualized multiple-choice trivia replacing authentic interactions.
+If textbooks, artwork or reference files are only in a ChatGPT Project, Codex must **receive an accessible copy**; a linked GitHub repo alone does not import Project sources. Do not infer anything not actually inspected.
 
-## Student-facing learning design
-- **Content objective**: Students interpret or address a meaningful issue linked to the relevant unit.
-- **Language objective**: Students communicate using target vocabulary and functions from verified textbook pages; require a meaningful spoken or written output as proof of learning.
-- **Assessment**: Use embedded checkpoints (evidence-based inference, source credibility, clarification questions, reasoned choice, drafting a response or proposal). Give in-world feedback and progress consequences; teacher can review results later.
-- Scaffold vocabulary and language production for WIDA 1–4 without lowering intellectual demand. Translate unfamiliar academic vocabulary selectively into Simplified Chinese.
-- Use modeling, guided practice, collaboration, and independent application as appropriate. Never require unfamiliar language without support.
+## Non-negotiable player experience
+- **Fast playable hook:** a compelling impossible event or consequential crisis within the opening moments; minimal teacher-facing exposition in the student UI.
+- **Connected world:** recognisable spatial geography, navigation, meaningful revisits, environmental storytelling, cinematic story-specific assets. No mockups/screenshots pretending to be gameplay scenery.
+- **Physical interaction:** a unique signature system plus several different verbs (rotate, tune, trace, rebuild, interview, calibrate, compare, negotiate); credible manipulable devices and authentic-world documents, not a procession of quizzes.
+- **Visible reactivity:** important choices and written actions change a room, relationship, route, resource, or evidence later on; saved state and alternate meaningful pathways, no cosmetic-only endings.
+- **Believable people:** small recurring cast with conditional speech, motives, relationships and persistent behaviors; distinguish testimony from verified evidence.
+- **Escalating drama:** coherent causal discoveries, reversal of an early belief, a costly decision, and satisfying resolution including evidence-based alternate outcomes.
+- **Immersive audiovisuals:** layered 2D/2.5D scenery, prop closeups, relevant ambience and restrained original sound effects, separate mute/volume controls default OFF, optional motion-reduced setting.
+- **Student access:** English text stays legible, optional Simplified Chinese academic glosses and hints, no rapid-reading timers or audio-only educational information.
 
-## Thematic directions — provisional, not finalized story scripts
-### A. Media Influences (Grade 11–12)
-Students investigate conflicting online claims, review sites, influencer promotions, and digital persuasion. A complete believable review platform can be one of the locations or interactive surfaces. Use inquiry and verification, not simplistic binary 'real/fake' checking.
+## Educational gameplay design contract
+For each required objective, record source, vocabulary/grammar, in-world action, evidence of use, and feedback/teacher verification. Natural actions: read a technician's work order to configure machinery, write a warning that changes evacuation behavior, explain a misleading source to convince a journalist, repair a web directory for an actual user. Writing has recipient, factual constraints, purpose and visible result. Offline validators can check structured evidence and completion; they are NOT automatic reasoning/quality grades. Preserve responses for teacher review.
 
-### B. Helping Others / Improving Lives (Grade 9–10)
-Create a fresh narrative (NOT the old missing-town mystery) in which students discover a local need, interview people, evaluate possible solutions, and help someone concretely. Make characters and environments feel like part of a living place.
+Adapt to each student group. The previous classes are useful examples but not defaults: Grade 9–10 could tolerate independent evidence reasoning; Grade 11–12 may need more visual agency and shorter guided productions. Required language must come from **that** new unit, not the old briefs.
 
-## Implementation milestone
-**Milestone 1: playable vertical slice**
-- Launches in a browser without a build error.
-- One detailed explorable environment.
-- Controllable visible avatar with keyboard and click-to-move or clear alternate controls.
-- At least one believable NPC exchange and one detailed interactive in-world computer/site/document.
-- One embedded language checkpoint with feedback and saved progress.
-- Transition into a second location or demonstrable working doorway.
-- User can review screenshots and a live locally runnable build.
+## Architecture and packaging
+Reuse the `codex/signal-playable-demo` branch as **engineering reference**: Phaser 3, React, Vite, Playwright, local save and a single-file demo build already exist there. Do not assume this demo has approved visuals, complete branches, or verified textbook language. Choose Phaser+HTML when movement/camera/hotspots matter; a robust self-contained vanilla HTML game is also acceptable for a smaller adventure. Commit to a new branch rather than disrupting other projects. Package everything offline: scripts, fonts, environmental images, animation, soundtrack, SFX and data. Require save/resume, teacher-readable export, accessible interaction and tested delivery artifacts.
 
-**Milestone 2+**: Add further story locations, interactions, branching consequences, teacher-facing evidence, and classroom testing after milestone 1 is approved.
+## Required design artifacts (primarily internal)
+- Curriculum source audit + `target language → player action` matrix.
+- Art-direction sheet + named location/prop shot list + consistent NPC references.
+- Location graph, clue provenance table, story reversal, branch-state machine and ending conditions.
+- Distinct puzzle contract for each major interaction: cause in-world; controls; evidence and language; feedback/failure; hint sequence; persistent consequence; teacher answer rationale.
+- Internal vertical slice that meets art and functionality standards before creating the whole game.
+- Automated browser QA plus actual visual review, negative paths, exports, responsive layout and no-network test of release package.
 
-## Materials still needed before faithfully implementing the current prototype
-- Source code or exported working browser game files from earlier ChatGPT conversations/previews.
-- The two comparison screenshots, character references, UI inspiration, and any generated images.
-- Textbook pages, unit vocabulary lists, lesson goals and assessments (not contained in this packet).
-- The existing plot, script, quest structure and any already-approved dialogue or mechanics.
+## Release acceptance
+A new title is not finished until all promised narrative branches, scenes, puzzles, source-aligned English actions, save/export, offline assets and sound controls work and have been verified. Submit the exact tested package with versioned filename and a short QA summary that distinguishes **built**, **browser-tested**, **visually inspected**, and **unverified** items. Do not present missing materials, synthetic test completions or proposed features as already completed.
 
-Do not imply these assets were successfully migrated if they have not actually been supplied.
+## Approved reference catalogue
+- **The Town That Rebuilds Itself — Sound Edition** (9–10 Community Builders): full visual/audio/technical benchmark.
+- **Do Not Answer Your Own Voice — Sound Edition** (11–12 Secrets and Lies): full visual/audio/technical benchmark.
+- **A Town Worth Staying In** (11–12 Development): simulation/decision design reference. Archived prior source distribution missing some external art.
+- **The Internet of a Missing Town / Greyhaven** (9–10 Designing the Web): website mechanics and provenance design reference; archived prior source distribution missing some external art.
+- **Far Horizon**: photographic ambition benchmark **only**, not source art to borrow.
+
+## Demo without a new unit
+When asked to demonstrate capability before a unit is selected, deliver a **self-contained, finished short play experience** that shows physical interaction, a signature mechanic, changing world states, language-use consequences, NPC agency, alternate outcomes, original environmental art, sound and offline reliability. Mark vocabulary as **illustrative / not textbook-verified**. Never present this as a finished curriculum-aligned class game without real unit pages.

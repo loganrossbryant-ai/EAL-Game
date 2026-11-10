@@ -1,9 +1,9 @@
 # GAME_BRIEF.md — EAL 2026–2027 Next-Generation Browser Adventures
 
-**Status:** Standing reusable development brief; revised 2026-11-08. Read with `AGENTS.md` and `docs/EAL_NEXT_GENERATION_GAME_QUALITY_STANDARD.md`. This is NOT a script for a particular class or a requirement to re-create prior games.
+**Status:** Standing reusable development brief; synchronized with approved v2.1 production governance. Read with `AGENTS.md` and `docs/EAL_NEXT_GENERATION_GAME_QUALITY_STANDARD.md`. This is NOT a script for a particular class or a requirement to re-create prior games.
 
 ## Purpose and creative promise
-Create an original story-rich browser adventure that would be compelling **without a grade**. Students use reading, English communication, evidence interpretation and unit grammar to repair, negotiate, investigate, escape, build, or change an explorable fictional world. The approved Sound Editions are the minimum quality floor, not content or mechanic templates.
+Create an original story-rich browser adventure that would be compelling **without a grade**. Students use reading, English communication, evidence interpretation and unit grammar to repair, negotiate, investigate, escape, build, or change an explorable fictional world. The approved Living Environments v6 games are the minimum quality baseline for motion, offline access, mobile use and immersion, not content or mechanical templates. New games must target the v8 quality and interaction requirements in the v2.1 standard. Older Sound Editions are archival references, not the current baseline.
 
 ### Authoritative source order
 1. User's latest explicit instructions and actual current student/class profile.

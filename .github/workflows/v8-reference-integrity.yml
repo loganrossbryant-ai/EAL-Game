@@ -1,0 +1,39 @@
+name: EAL v8 reference integrity
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'AGENTS.md'
+      - 'GAME_BRIEF.md'
+      - 'docs/**'
+      - 'reference/**'
+      - 'scripts/**'
+      - 'games/_v8_trial/**'
+      - 'shared/**'
+      - 'releases/**'
+      - '.github/workflows/v8-reference-integrity.yml'
+  pull_request:
+    paths:
+      - 'AGENTS.md'
+      - 'GAME_BRIEF.md'
+      - 'docs/**'
+      - 'reference/**'
+      - 'scripts/**'
+      - 'games/_v8_trial/**'
+      - 'shared/**'
+      - 'releases/**'
+      - '.github/workflows/v8-reference-integrity.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  check-approved-v6:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Restore exact approved v6 game references
+        run: python3 scripts/restore_v6.py
+      - name: Verify exact reference hashes and v8 setup
+        run: |
+          python3 scripts/restore_v6.py --check
+          python3 scripts/verify_v8_setup.py

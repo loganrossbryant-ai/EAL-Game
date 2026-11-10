@@ -1,0 +1,9 @@
+# Generated, hash-verified approved v6 local references (rebuild with scripts/restore_v6.py)
+/reference/*_Living_Environments_v6.html
+/reference/*.html.partial
+# Tool output and local QA
+/node_modules/
+/.playwright/
+/test-results/
+/.cache/
+.DS_Store

@@ -3,11 +3,11 @@
 ## Read first, every new or resumed game task
 
 Before modifying gameplay or generating assets, inspect these repository references when present:
-- `reference/EAL_NEXT_GENERATION_GAME_QUALITY_STANDARD.md` (v2.1, tool-directed governance and quality gates)
+- `docs/EAL_NEXT_GENERATION_GAME_QUALITY_STANDARD.md` (v2.1, tool-directed governance and quality gates)
 - `reference/EAL_LIVING_ENVIRONMENTS_V6_APPROVED_REFERENCE.md`
 - `reference/The_Town_That_Rebuilds_Itself_Living_Environments_v6.html`
 - `reference/Do_Not_Answer_Your_Own_Voice_Living_Environments_v6.html`
-- The active unit's original textbook material, student profile, and canonical source manifest.
+- The active unit's original textbook material, student profile, and canonical source manifest (supply privately; do not commit sensitive student information to public repositories).
 
 If the required files are missing, disclose exactly which are unavailable. Do not claim they were reviewed. Never silently replace newer sources with older game versions.
 
@@ -25,3 +25,7 @@ If the required files are missing, disclose exactly which are unavailable. Do no
 ## Approval model
 
 Teacher signs off consequential curriculum/creative/cost changes and the first fully playable new-architecture vertical slice. Codex/assistant owns ordinary tool choices, implementation, and QA. Report blockers; never quietly lower the standard.
+
+## Public-repository safeguard
+
+The repository may be public. Never commit identifiable student records, private classroom documents, copyrighted textbook scans, credentials, or other sensitive information. If a required source cannot be shared, record the blocker and request an authorized private source. Reference games remain approved exemplars only; do not edit them in place.

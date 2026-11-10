@@ -1,7 +1,7 @@
 # EAL 2026–2027 — Next-Generation Immersive Game Design Standard
 
 **Status:** Project source / standing creative and production brief  
-**Version:** 2.0 — 8 November 2026  
+**Version:** 2.1 — amended 8 November 2026 (approved v6 baseline + mandatory execution gates + tool-directed production governance)  
 **Purpose:** Improve future educational browser games beyond the currently approved titles without discarding successful systems.  
 **Relationship to prior files:** This document **expands and supersedes** `FUTURE_GAME_QUALITY_BRIEF.md` when planning future games. The existing Project instructions still govern curriculum fidelity, student differentiation, printing, source-first work, and quality assurance. Do not reinterpret this as a request to modify already approved games.
 
@@ -27,6 +27,14 @@ The approved games are **minimum production-quality benchmarks, never mechanical
 ## 2. Canonical references and limits
 
 ### Approved references to inspect before development
+
+**Current minimum approved production baseline (takes precedence for new builds)**
+
+- **The Town That Rebuilds Itself — Living Environments v6** (Grades 9–10, *Community Builders*): approved benchmark for scene-specific environmental animation, Focus View, classroom-safe offline behavior, mobile-responsive controls, and preserved evidence-to-action gameplay. Exact file: `The_Town_That_Rebuilds_Itself_Living_Environments_v6.html`.
+- **Do Not Answer Your Own Voice — Living Environments v6** (Grades 11–12, *Secrets and Lies*): companion benchmark for cinematic mystery presentation, optional environmental motion, investigation mechanics, mobile interaction, and offline packaging. Exact file: `Do_Not_Answer_Your_Own_Voice_Living_Environments_v6.html`.
+- **`EAL_LIVING_ENVIRONMENTS_V6_APPROVED_REFERENCE.md`** defines the required v6 patterns, exact file hashes, and explicit limitations. These v6 games replace older Sound Editions **as the minimum current presentation/technical baseline**, but **not** as narrative templates or a ceiling on visual fidelity, puzzle variety, or environmental realism.
+
+**Additional approved and archival references**
 
 - **The Town That Rebuilds Itself — Sound Edition** (Grades 9–10, *Community Builders*): movable map, evidence dossiers, clickable physical clues, supported writing, civic consequences, environmental atmosphere, optional sound.
 - **Do Not Answer Your Own Voice — Sound Edition** (Grades 11–12, *Secrets and Lies*): unsettling mystery, evidence comparison, cautious claims, witnesses, ethical decisions, and branching outcomes.
@@ -254,6 +262,43 @@ Run favorable, risky, and unusual decision paths; exercise puzzles, hint ladders
 
 **Delivery evidence:** Clearly distinguish created, inspected, automatically tested, manually tested, and actually used with students. Never claim a game is finished when required scenes, evidence, or branches are placeholders or unverified.
 
+### Mandatory execution and release gates — standing requirement (added 8 November 2026)
+
+> **Every future EAL browser game must start at the approved Living Environments v6 quality baseline and aim toward the higher visual, mechanical, and learning standards in this document.** Before full production, verify the canonical game source and original textbook chapter pages, map required unit language to player actions, plan the complete game, and internally build **one genuinely finished representative location**. That location must include coherent original scene art, motivated optional animation, a physically credible interactive puzzle, required unit-language use, a visible persistent consequence, and offline functionality. **Do not scale up an inadequate vertical slice.**
+>
+> **Preserve approved systems and make targeted corrections.** Do not substitute an older game version, copied reference art, unrelated imagery, a mock-up, or placeholder interactions for requested current work. If source material, image generation, audio production, or testing is unavailable, disclose the blocker; do not silently downgrade the quality or claim the missing feature is complete.
+>
+> **A build is not final merely because it launches, its story has an ending, or a ZIP exists.** Complete curriculum, visual, narrative, interaction, accessibility, offline, desktop/mobile, and export checks against the *actual delivered files*. Test wrong answers, alternative choices, and persistent state changes. Correct defects internally before teacher review. Deliver only verified files with a concise QA record distinguishing passed checks, untested conditions, and open limitations. Never claim physical iPhone Safari or classroom verification unless it was actually performed.
+
+**Default decision rule:** The teacher approves educational direction and consequential creative departures; routine design, development, and internal QA decisions are made independently against the approved references. Present a polished playable vertical slice for creative approval when the art or game mechanics depart materially from precedent; do not ask the teacher to inspect successive incomplete prototypes or catch defects that can be found automatically.
+
+### Tool-directed production governance — standing requirement (added 8 November 2026)
+
+**The assistant owns tool selection, production coordination, verification, and routine internal revisions.** Do not default to the easiest available tool or assume that being granted permission to use plugins means their outputs have been used to their potential. Match each step of production to the required outcome, not to the tool's marketing claims.
+
+**Before the first asset or code implementation:** inspect this standard, the exact approved v6 reference builds, the available textbook and learner sources, and the current canonical game-source version. Build an internal **Tool Selection and Verification Record** with one entry per substantial capability. Each entry must state:
+
+1. **Required player-facing result:** the concrete curriculum/gameplay/visual/audio/technical acceptance criterion.
+2. **Chosen tool and rationale:** the capability, current access, compatibility, offline output format, likely costs/credits, and why this tool is better than realistic alternatives.
+3. **Validation method:** the observable proof needed before integrating the output (for example, actual image-pixel and geometry inspection, voice sample and transcript checks, playable interactions, or mobile screenshot comparisons).
+4. **Observed result and source identity:** generated file or code version; what succeeded, failed, or remained unverified. Keep a source/asset manifest with exact filenames or repository revision IDs and provenance.
+5. **Fallback or blocker:** an equivalent, verified alternative when available; otherwise explicitly mark the feature as blocked. **Never silently substitute weaker artwork, a diagram over a photograph, a mock-up, synthetic placeholder audio, or a superficial multiple-choice interaction.**
+
+**Default tool routing (verify suitability when work begins; not a rigid or exclusive plugin mandate):**
+
+- **Curriculum and creative direction:** ChatGPT plus the original textbook pages, current learner profiles, approved examples, and this Project's instructions.
+- **World art and characters:** image generation or suitable image-editing tools for consistent, physically believable, story-specific assets; inspect actual output quality and matching scene states before development.
+- **Environmental motion:** layered browser/engine animation for stable, localized effects; use generated video only when continuity, file size, offline/mobile compatibility, and cost can be verified.
+- **Voices and sound:** locally packaged speech/audio using an available appropriate tool (for example ElevenLabs for voice performances); confirm dialogue text, speaker consistency, intelligibility, and captions. Playback cannot depend on a live service.
+- **Game code and version control:** a maintainable browser-capable development stack (Phaser plus accessible HTML is the preferred v8 candidate, subject to technical validation), source control, and deterministic export builds. Keep the exact approved v6 files unchanged as reference versions.
+- **Technical and visual QA:** browser automation plus direct inspection of rendered desktop/mobile scenes; full gameplay/negative paths, persistent consequences, export/save, keyboard and touch, reduced-motion, and fully offline testing. Automated success cannot establish artistic quality or real classroom usability by itself.
+
+**Cost and permission rule:** Prefer available no-cost tools when they meet the standard. Check account/model availability and credit requirements before use. **Ask the teacher for approval before incurring new paid credits, enabling paid services, creating public deployments, or making other consequential/irreversible changes.** Existing plugin connectivity does not imply free or unlimited generation. Do not request approval for ordinary tool selection, internal edits, or QA operations.
+
+**Teacher checkpoints:** Reserve approval for (a) material changes to curriculum/story direction, cost, or other consequential decisions, and (b) **one genuinely polished vertical slice** when introducing a major new interaction/engine/art architecture (such as the first v8 migration). After that approval, complete routine production and internal checks independently. Provide concise evidence-based reports rather than multiple unfinished prototypes. Do not claim work continues autonomously between conversations unless an authorized scheduled or delegated execution mechanism is actually running.
+
+**Release rule:** A tool call, generated file, or passing automated test is not itself an accepted deliverable. Compare real outputs against these standards; reject inadequate output before scaling it; report remaining blockers honestly. No final/flagship claim while mandatory artwork, unit language, mechanics, offline packaging, or QA gates remain unsatisfied.
+
 ---
 
 ## 10. Acceptance checklist for a future *finished* game
@@ -318,10 +363,16 @@ This is a **design example**, not a required story, textbook passage, or confirm
 
 ## 12. How to use this document in the Project
 
-Upload this Markdown file to **EAL 2026–2027 → Project sources** alongside the four-game library. Treat it as the **current forward-looking design standard** and the approved Sound Editions as the **tested visual and technical baselines**.
+**Read-first trigger for every future EAL game request:** At the start of any new EAL game proposal, revision, migration, build, tool-selection task, or release, **consult this current file before proposing code or generating assets**, alongside the exact approved v6 builds and unit sources. Apply the mandatory Tool Selection and Verification Record from Section 9, even if the teacher only says “build it” or “continue.” Where the canonical file is unavailable, request access to that source or document the block; never quietly edit an older version.
+
+**Project-instructions reminder to install:** This requirement belongs in the ChatGPT Project's Instructions field *as well as this file*. A source document cannot by itself guarantee every future chat will retrieve it. Add the following compact permanent directive to Project Instructions:
+
+> **EAL game read-first rule:** For every EAL game design, revision, coding, or release task, first inspect `EAL_NEXT_GENERATION_GAME_QUALITY_STANDARD.md` (including its Section 9 tool-directed governance), `EAL_LIVING_ENVIRONMENTS_V6_APPROVED_REFERENCE.md`, the exact two approved Living Environments v6 HTML files, and the relevant textbook pages/student profiles. Treat v6 as the minimum quality baseline. Internally choose and verify the right tools for art, animation, speech, gameplay, and QA; log acceptance evidence and blockers; do not silently downgrade or use older game sources. Build and verify one complete playable vertical slice before scaling. Ask the teacher only for consequential changes, costs, or first-time v8 creative-direction approval; do routine QA independently. Never claim final quality without checking the exact delivered files.
+
+Keep this Markdown file attached to **EAL 2026–2027 → Project sources** alongside the approved v6 HTML builds and `EAL_LIVING_ENVIRONMENTS_V6_APPROVED_REFERENCE.md`. Treat it as the **current forward-looking design standard** and the approved **Living Environments v6** editions as the **minimum visual, animation, offline, and mobile baselines**. Older Sound Editions remain archived references, not the default production benchmark.
 
 For a new project, a short instruction is sufficient:
 
-> Inspect the approved EAL Game Library and `EAL_NEXT_GENERATION_GAME_QUALITY_STANDARD.md`. First map the authentic unit language to meaningful player actions, then design an original, cinematic, offline adventure with one signature mechanic, reactive environments, recurring NPCs, unique puzzles, and consequential branches. Internally test a representative playable section before expanding. Deliver only a complete, independently verified build with student export and teacher guidance.
+> Inspect the exact approved Living Environments v6 game files, `EAL_LIVING_ENVIRONMENTS_V6_APPROVED_REFERENCE.md`, the EAL Game Library, and `EAL_NEXT_GENERATION_GAME_QUALITY_STANDARD.md`. First map the authentic unit language to meaningful player actions, then design an original, cinematic, offline adventure with one signature mechanic, reactive environments, recurring NPCs, unique puzzles, and consequential branches. Internally test a representative playable section before expanding. Deliver only a complete, independently verified build with student export and teacher guidance.
 
-When newer games are explicitly approved, archive them as additional quality benchmarks; do not silently overwrite the existing Sound Editions. Keep the standards evolving upward without copying the same game structure each time.
+When newer games are explicitly approved, archive them as additional quality benchmarks; do not silently overwrite the approved v6 or older Sound Editions. Keep the standards evolving upward without copying the same game structure each time.

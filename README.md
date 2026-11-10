@@ -1,2 +1,0 @@
-# EAL-Game
-EAL Game

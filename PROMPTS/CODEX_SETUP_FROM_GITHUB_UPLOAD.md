@@ -1,0 +1,7 @@
+# COPY EVERYTHING BELOW INTO A CODEX TASK AFTER UPLOADING THE SETUP ZIP TO GITHUB
+
+Work in the connected GitHub repository `loganrossbryant-ai/EAL-Game`, on my temporary branch `codex/tutoring-game-setup`, created from `codex/alan-favorites-cafe`. Find `Tutoring_Game_Standards_V1_Setup_Kit.zip` in the repository root. Do not rely on any attachments outside this repository.
+
+**Setup only. Do not modify or publish a tutoring game.** Extract this ZIP in the repository root so that `tutoring-games/AGENTS.md`, `.agents/skills/update-tutoring-game/SKILL.md`, `.agents/skills/release-tutoring-game/SKILL.md`, and the reference files/templates appear in their intended paths. Keep the original root `AGENTS.md`, `GAME_BRIEF.md`, existing `eal-adventure/` and all approved releases unchanged. Delete only the temporary setup ZIP after successful extraction. Verify its extracted `README_START_HERE.md` and `FILES_MANIFEST.txt`.
+
+Run `python tutoring-games/scripts/validate_reference.py` and `python -m unittest discover -s tutoring-games/tests -v`. Check two SKILL.md frontmatter declarations. Inspect git diff to verify only additive tutoring standards, reference and templates were introduced, plus temporary ZIP removal. Report any missed files or errors. Commit the changes on the setup branch and open a pull request **targeting `codex/alan-favorites-cafe`**, not main. Do not merge it for me. Include the QA outputs in your PR description. If the setup ZIP cannot be read, stop and report the specific issue rather than recreating files from memory.

@@ -1,0 +1,7 @@
+# Paste this as the first task in Codex for the EAL-Game repository
+
+Set up the tutoring-games quality-standard workflow **without changing or redeploying any approved game**. Begin from the current `codex/alan-favorites-cafe` branch (or inspect and select the currently used Allen source branch if it has advanced). Use a new feature branch. Import the folder contents of the accompanying `Tutoring_Game_Standards_V1_Setup_Kit.zip` into the repository root, preserving `tutoring-games/` and `.agents/skills/` paths. Do NOT replace the repository's existing root `AGENTS.md`, `GAME_BRIEF.md` or `eal-adventure/` source. Treat the approved Lesson 4 PWA in `tutoring-games/references/allen-lesson-4/` as an immutable reference release, not as modular source.
+
+Run `python tutoring-games/scripts/validate_reference.py` and `python -m unittest discover -s tutoring-games/tests -v`. Check that the nested tutoring-games AGENTS.md scopes out incompatible secondary teaching assumptions. Verify the two SKILL.md files have valid front matter and that no reference files or original games were edited. Document the resulting tree, exact build reference SHA, passing/failing tests and any missing files.
+
+Stop with a pull request for review. **Do not attempt a full game rewrite, publish a live link, convert Godot into HTML, or claim iPhone/audio certification.** If this setup archive cannot be accessed in the Codex task environment, report the exact blocker and request the archive only; do not recreate it from memory.

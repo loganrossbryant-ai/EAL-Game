@@ -1,0 +1,20 @@
+{
+  "standard_id": "Tutoring-Game-Quality-Standard-V1",
+  "reference_name": "Allen Lesson 4 – Food, Places, Activities",
+  "reference_source": "Approved conversation package, 2026-11-18",
+  "reference_full_package_sha256": "67230ed94ee2a9a87b8eb800ce9dc51aa90e65100949ed02f9c1d653d59a1b86",
+  "reference_pwa_filename": "Zig_Lesson_4_FOOD_PLACES_ACTIVITIES_Installable_PWA.zip",
+  "reference_pwa_sha256": "17f3ec22211bbfa78c6f860c6fbaec89297d152a60828a05574d91da63bba296",
+  "embedded_html_sha256": "387cab51aa1c0eb565b85fc8089e64c4b0c89b150d2875e061a51845cc19bc12",
+  "pwa_files": 9,
+  "embedded_media_data_url_occurrences": {
+    "audio/mpeg": 240,
+    "image/webp": 152,
+    "image/png": 5
+  },
+  "known_qa_limitations": [
+    "New Jesse recordings missing",
+    "Real iPhone cold offline and WeChat testing not verified",
+    "Game/PPT/print reader not fully identical"
+  ]
+}

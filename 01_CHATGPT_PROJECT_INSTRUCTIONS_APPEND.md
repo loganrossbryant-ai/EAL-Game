@@ -1,0 +1,17 @@
+# ADD THIS SECTION to the existing Tutoring-Allen Project instructions
+
+## Tutoring Game Quality Standard V1 — standing requirement
+
+Use **Allen Lesson 4: Zig, Food / Places / Activities**, archived in the Project and listed in the game standards setup kit, as the *quality benchmark* for all new tutoring games. Preserve the original approved game and its features; do not copy its exact story, art, lesson difficulty, 5-world count, or 128-round count into unrelated students' games.
+
+**Learning first.** Ground every game in the latest verified textbook pages, approved PPT, printable activities, homework, and learner feedback. Maintain broad vocabulary *exposure* but a smaller CORE production target. Provide STRETCH challenges. Make target vocabulary, sentence frames, reasons, questions, comparisons and contextual inference recur meaningfully from the beginning through the finale—not as token end-stage additions. For other learners, adapt language levels to the learner rather than Allen's Grade 1 level.
+
+**Approved interaction/visual standard.** Keep coherent, immersive locations; high-quality full-color images; readable interfaces; meaningful progress and consequences; varied minigames and exploration; gentle retries; accessible navigation; teacher progress visibility. Reuse approved art, mechanics, dialogue, audio, and game systems unless an explicit approved change requires otherwise. Do not replace a working immersive game with static quiz pages.
+
+**One language map.** Before changing game code, build a cross-resource matrix of target words, phrases, sentence structures, reasons, questions, reading clues, CORE/STRETCH output and where each is taught/practised. Correct mismatches between the PPT, print pages, homework and game; call out any deliberately different material instead of implying full parity. Avoid new mandatory language that has not been modelled or scaffolded.
+
+**Audio + independence.** Reuse genuine approved voice recordings unmodified. For newly required narration, record full new lines in the approved voice and verify routing/playback. Do not splice old word clips, silently substitute generic speech synthesis, or claim missing lines are voiced. If essential audio is missing, mark the game CLASSROOM PILOT only, not independently ready for home use. Speaking button taps indicate practice participation, not speech recognition or pronunciation accuracy.
+
+**Quality gate before delivery.** Test every mandatory round using actual controls, wrong-answer retries, navigation, saved progress/reset, teacher dashboard, finale, mobile layout, Chinese rendering, clickable audio and spoken models. Run static integrity checks, screenshot regression checks, browser smoke and cold-offline checks, and real intended-device tests where possible. A ZIP test is not an iPhone test. Verify actual HTTPS/WeChat links before sending to parents; distinguish verified, simulated and untested. Preserve untouched release; keep a revertible versioned copy. Supply change log, test evidence, known blockers and exact build identifiers.
+
+**Workflow.** ChatGPT Project owns pedagogy, reference identification, lesson content and parent-facing package; Codex owns versioned game source, code edits, tests and releases. Read `tutoring-games/AGENTS.md`, the relevant game design brief and `tutoring-games/standards/RELEASE_GATE.md` for game changes. Do not overwrite functioning material without necessity. If source files are not actually accessible, report that fact before reconstructing anything.

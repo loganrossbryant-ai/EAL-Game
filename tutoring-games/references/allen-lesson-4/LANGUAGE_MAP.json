@@ -1,0 +1,1342 @@
+{
+  "SOUND": [
+    [
+      "soup",
+      "s",
+      "m",
+      "t"
+    ],
+    [
+      "noodles",
+      "n",
+      "m",
+      "d"
+    ],
+    [
+      "bread",
+      "br",
+      "tr",
+      "dr"
+    ],
+    [
+      "strawberry",
+      "st",
+      "sk",
+      "sw"
+    ],
+    [
+      "museum",
+      "m",
+      "n",
+      "s"
+    ],
+    [
+      "library",
+      "l",
+      "r",
+      "t"
+    ],
+    [
+      "drawing",
+      "dr",
+      "br",
+      "tr"
+    ],
+    [
+      "playground",
+      "pl",
+      "pr",
+      "bl"
+    ]
+  ],
+  "SYLLABLE": [
+    [
+      "soup",
+      1
+    ],
+    [
+      "noodles",
+      2
+    ],
+    [
+      "dumplings",
+      2
+    ],
+    [
+      "cheese",
+      1
+    ],
+    [
+      "library",
+      3
+    ],
+    [
+      "museum",
+      3
+    ],
+    [
+      "drawing",
+      2
+    ],
+    [
+      "bakery",
+      3
+    ]
+  ],
+  "SCAN": [
+    [
+      "food",
+      "soup"
+    ],
+    [
+      "places",
+      "library"
+    ],
+    [
+      "activities",
+      "drawing"
+    ],
+    [
+      "food",
+      "noodles"
+    ],
+    [
+      "places",
+      "aquarium"
+    ],
+    [
+      "activities",
+      "flying a kite"
+    ],
+    [
+      "food",
+      "dumplings"
+    ],
+    [
+      "places",
+      "museum"
+    ]
+  ],
+  "SORT": [
+    [
+      "cheese",
+      "food"
+    ],
+    [
+      "park",
+      "places"
+    ],
+    [
+      "reading",
+      "activities"
+    ],
+    [
+      "dumplings",
+      "food"
+    ],
+    [
+      "museum",
+      "places"
+    ],
+    [
+      "taking photos",
+      "activities"
+    ],
+    [
+      "soup",
+      "food"
+    ],
+    [
+      "library",
+      "places"
+    ]
+  ],
+  "PHRASES": [
+    [
+      "warm",
+      "soup"
+    ],
+    [
+      "delicious",
+      "noodles"
+    ],
+    [
+      "soft",
+      "dumplings"
+    ],
+    [
+      "salty",
+      "cheese"
+    ],
+    [
+      "quiet",
+      "library"
+    ],
+    [
+      "interesting",
+      "museum"
+    ],
+    [
+      "taking",
+      "photos"
+    ],
+    [
+      "doing",
+      "puzzles"
+    ]
+  ],
+  "HABITATS": [
+    [
+      "library",
+      "read books"
+    ],
+    [
+      "aquarium",
+      "see fish"
+    ],
+    [
+      "museum",
+      "see old things"
+    ],
+    [
+      "bakery",
+      "buy bread"
+    ],
+    [
+      "beach",
+      "play in the sand"
+    ],
+    [
+      "park",
+      "fly a kite"
+    ],
+    [
+      "farm",
+      "feed the animals"
+    ],
+    [
+      "restaurant",
+      "eat noodles"
+    ]
+  ],
+  "TRAINS": [
+    [
+      "I like",
+      "soup",
+      "because it is",
+      "warm."
+    ],
+    [
+      "I like",
+      "noodles",
+      "because they are",
+      "delicious."
+    ],
+    [
+      "I like",
+      "the library",
+      "because I can",
+      "read books."
+    ],
+    [
+      "I like",
+      "the museum",
+      "because I can",
+      "see old things."
+    ],
+    [
+      "I like",
+      "drawing",
+      "because I can",
+      "make pictures."
+    ],
+    [
+      "I like",
+      "flying a kite",
+      "because it is",
+      "exciting."
+    ],
+    [
+      "I like",
+      "dumplings",
+      "because they are",
+      "soft."
+    ],
+    [
+      "I like",
+      "the beach",
+      "because I can",
+      "play in the sand."
+    ]
+  ],
+  "GAP": [
+    [
+      "food",
+      "soup",
+      "I like soup because ____ warm.",
+      "it is",
+      [
+        "it is",
+        "they are",
+        "I can"
+      ]
+    ],
+    [
+      "food",
+      "noodles",
+      "I like noodles because ____ delicious.",
+      "they are",
+      [
+        "they are",
+        "it is",
+        "I can"
+      ]
+    ],
+    [
+      "places",
+      "library",
+      "I like the library because I can ____.",
+      "read books",
+      [
+        "read books",
+        "buy bread",
+        "see fish"
+      ]
+    ],
+    [
+      "places",
+      "museum",
+      "I like the museum because I can ____.",
+      "see old things",
+      [
+        "see old things",
+        "buy bread",
+        "play in the sand"
+      ]
+    ],
+    [
+      "activities",
+      "drawing",
+      "I like drawing because I can ____.",
+      "make pictures",
+      [
+        "make pictures",
+        "buy bread",
+        "see fish"
+      ]
+    ],
+    [
+      "activities",
+      "flying a kite",
+      "I like flying a kite because ____ exciting.",
+      "it is",
+      [
+        "it is",
+        "they are",
+        "I can"
+      ]
+    ],
+    [
+      "food",
+      "dumplings",
+      "I like dumplings because ____ soft.",
+      "they are",
+      [
+        "they are",
+        "it is",
+        "I can"
+      ]
+    ],
+    [
+      "places",
+      "beach",
+      "I like the beach because I can ____.",
+      "play in the sand",
+      [
+        "play in the sand",
+        "buy bread",
+        "read books"
+      ]
+    ]
+  ],
+  "BECAUSE": [
+    [
+      "I like the library because I can ____.",
+      "read books",
+      [
+        "read books",
+        "buy bread",
+        "see fossils"
+      ],
+      "library"
+    ],
+    [
+      "I like the aquarium because I can ____.",
+      "see fish",
+      [
+        "see fish",
+        "borrow books",
+        "buy bread"
+      ],
+      "aquarium"
+    ],
+    [
+      "I like soup because it is ____.",
+      "warm",
+      [
+        "warm",
+        "quiet",
+        "playful"
+      ],
+      "soup"
+    ],
+    [
+      "I like noodles because they are ____.",
+      "delicious",
+      [
+        "delicious",
+        "quiet",
+        "slow"
+      ],
+      "noodles"
+    ],
+    [
+      "I like drawing because I can ____.",
+      "make pictures",
+      [
+        "make pictures",
+        "buy bread",
+        "read books"
+      ],
+      "drawing"
+    ],
+    [
+      "I like the bakery because I can ____.",
+      "buy bread",
+      [
+        "buy bread",
+        "see fish",
+        "feed the animals"
+      ],
+      "bakery"
+    ],
+    [
+      "I like dumplings because they are ____.",
+      "soft",
+      [
+        "soft",
+        "quiet",
+        "fast"
+      ],
+      "dumplings"
+    ],
+    [
+      "I like flying a kite because it is ____.",
+      "exciting",
+      [
+        "exciting",
+        "salty",
+        "quiet"
+      ],
+      "flying a kite"
+    ]
+  ],
+  "CONTRAST": [
+    [
+      "I like soup because it is warm, ___ I like noodles because they are delicious.",
+      "and",
+      "and",
+      [
+        "and",
+        "but"
+      ]
+    ],
+    [
+      "I like cheese because it is salty, ___ I do not like sweet food.",
+      "but",
+      "but",
+      [
+        "and",
+        "but"
+      ]
+    ],
+    [
+      "I like the library because I can read books, ___ I like the museum because I can see old things.",
+      "and",
+      "and",
+      [
+        "and",
+        "but"
+      ]
+    ],
+    [
+      "I like the beach, ___ I do not like the noisy supermarket.",
+      "but",
+      "but",
+      [
+        "and",
+        "but"
+      ]
+    ],
+    [
+      "I like drawing because I can make pictures, ___ I like reading because I can learn.",
+      "and",
+      "and",
+      [
+        "and",
+        "but"
+      ]
+    ],
+    [
+      "I like taking photos, ___ I do not like playing video games.",
+      "but",
+      "but",
+      [
+        "and",
+        "but"
+      ]
+    ],
+    [
+      "I like dumplings because they are soft, ___ I like noodles because they are delicious.",
+      "and",
+      "and",
+      [
+        "and",
+        "but"
+      ]
+    ],
+    [
+      "I like the park because I can fly a kite, ___ I do not like the crowded restaurant.",
+      "but",
+      "but",
+      [
+        "and",
+        "but"
+      ]
+    ]
+  ],
+  "DRONE": [
+    [
+      "food",
+      "noodles"
+    ],
+    [
+      "food",
+      "soup"
+    ],
+    [
+      "food",
+      "dumplings"
+    ],
+    [
+      "places",
+      "library"
+    ],
+    [
+      "places",
+      "aquarium"
+    ],
+    [
+      "places",
+      "beach"
+    ],
+    [
+      "activities",
+      "drawing"
+    ],
+    [
+      "activities",
+      "flying a kite"
+    ]
+  ],
+  "READER": [
+    [
+      "Which warm food does Pip eat with a spoon?",
+      "soup",
+      [
+        "soup",
+        "cheese",
+        "bread"
+      ]
+    ],
+    [
+      "Which soft food does Pip like?",
+      "dumplings",
+      [
+        "dumplings",
+        "soup",
+        "watermelon"
+      ]
+    ],
+    [
+      "Which quiet place has many books?",
+      "library",
+      [
+        "library",
+        "bakery",
+        "museum"
+      ]
+    ],
+    [
+      "Where can Pip see old things?",
+      "museum",
+      [
+        "museum",
+        "aquarium",
+        "restaurant"
+      ]
+    ],
+    [
+      "Which activity uses pencils to make pictures?",
+      "drawing",
+      [
+        "drawing",
+        "reading",
+        "singing"
+      ]
+    ],
+    [
+      "Which activity needs wind?",
+      "flying a kite",
+      [
+        "flying a kite",
+        "doing puzzles",
+        "cooking"
+      ]
+    ],
+    [
+      "Why does Pip go to the library?",
+      "He can read books.",
+      [
+        "He can read books.",
+        "He can buy bread.",
+        "He can eat noodles."
+      ]
+    ],
+    [
+      "Which word contrasts two ideas in the museum clue?",
+      "but",
+      [
+        "but",
+        "and",
+        "because"
+      ]
+    ]
+  ],
+  "INTERVIEW": [
+    [
+      "food",
+      "food",
+      "soup",
+      "noodles"
+    ],
+    [
+      "places",
+      "place",
+      "library",
+      "museum"
+    ],
+    [
+      "activities",
+      "activity",
+      "drawing",
+      "reading"
+    ],
+    [
+      "food",
+      "food",
+      "dumplings",
+      "cheese"
+    ],
+    [
+      "places",
+      "place",
+      "beach",
+      "park"
+    ],
+    [
+      "activities",
+      "activity",
+      "flying a kite",
+      "taking photos"
+    ],
+    [
+      "food",
+      "food",
+      "watermelon",
+      "carrot"
+    ],
+    [
+      "places",
+      "place",
+      "aquarium",
+      "bakery"
+    ]
+  ],
+  "FINALE": [
+    {
+      "prompt": "Which food sentence has the correct reason?",
+      "zh": "哪一个食物句子的原因正确？",
+      "options": [
+        "I like soup because it is warm.",
+        "I like soup because they are warm.",
+        "I like soup because I can read it."
+      ],
+      "correct": "I like soup because it is warm."
+    },
+    {
+      "prompt": "What can Pip do at the library?",
+      "zh": "在图书馆可以做什么？",
+      "options": [
+        "He can read books.",
+        "He can buy bread.",
+        "He can see fish in a tank."
+      ],
+      "correct": "He can read books."
+    },
+    {
+      "prompt": "Which sentence uses \"they are\" correctly?",
+      "zh": "哪个句子正确使用 they are？",
+      "options": [
+        "I like dumplings because they are soft.",
+        "I like soup because they are soft.",
+        "I like drawing because they are soft."
+      ],
+      "correct": "I like dumplings because they are soft."
+    },
+    {
+      "prompt": "Choose two connected reasons that make sense.",
+      "zh": "找出两句意思合理、相连的句子。",
+      "options": [
+        "I like drawing because I can make pictures, and I like reading because I can learn.",
+        "I like drawing because it is soup, and I can buy a library.",
+        "I like the museum because noodles are books."
+      ],
+      "correct": "I like drawing because I can make pictures, and I like reading because I can learn."
+    },
+    {
+      "prompt": "Zig wants a place to see fish. Which answer explains WHY?",
+      "zh": "Zig 想看鱼；哪个回答解释了原因？",
+      "options": [
+        "I like the aquarium because I can see fish.",
+        "I like the aquarium because it is noodles.",
+        "I like the aquarium because they are delicious."
+      ],
+      "correct": "I like the aquarium because I can see fish."
+    }
+  ],
+  "ORAL": {
+    "beam": [
+      [
+        "The soup is warm.",
+        "I like soup because it is warm."
+      ],
+      [
+        "The noodles are delicious.",
+        "I like noodles because they are delicious."
+      ],
+      [
+        "I can buy bread.",
+        "I like the bakery because I can buy bread."
+      ],
+      [
+        "The strawberry is sweet.",
+        "I like strawberries because they are sweet."
+      ],
+      [
+        "The museum is interesting.",
+        "I like the museum because I can see old things."
+      ],
+      [
+        "The library is quiet.",
+        "I like the library because I can read books."
+      ],
+      [
+        "I like drawing.",
+        "I like drawing because I can make pictures."
+      ],
+      [
+        "I like the playground.",
+        "I like the playground because I can play with friends."
+      ]
+    ],
+    "sound": [
+      [
+        "The soup is warm.",
+        "I like soup because it is warm."
+      ],
+      [
+        "The noodles are delicious.",
+        "I like noodles because they are delicious."
+      ],
+      [
+        "I can buy bread.",
+        "I like the bakery because I can buy bread."
+      ],
+      [
+        "The strawberry is sweet.",
+        "I like strawberries because they are sweet."
+      ],
+      [
+        "The museum is interesting.",
+        "I like the museum because I can see old things."
+      ],
+      [
+        "The library is quiet.",
+        "I like the library because I can read books."
+      ],
+      [
+        "I like drawing.",
+        "I like drawing because I can make pictures."
+      ],
+      [
+        "I like the playground.",
+        "I like the playground because I can play with friends."
+      ]
+    ],
+    "syllable": [
+      [
+        "The soup is warm.",
+        "I like soup because it is warm."
+      ],
+      [
+        "The noodles are delicious.",
+        "I like noodles because they are delicious."
+      ],
+      [
+        "The dumplings are soft.",
+        "I like dumplings because they are soft."
+      ],
+      [
+        "The cheese is salty.",
+        "I like cheese because it is salty."
+      ],
+      [
+        "The library is quiet.",
+        "I like the library because I can read books."
+      ],
+      [
+        "The museum is interesting.",
+        "I like the museum because I can see old things."
+      ],
+      [
+        "I like drawing.",
+        "I like drawing because I can make pictures."
+      ],
+      [
+        "I can buy bread.",
+        "I like the bakery because I can buy bread."
+      ]
+    ],
+    "drone": [
+      [
+        "The noodles are delicious.",
+        "I like noodles because they are delicious."
+      ],
+      [
+        "The soup is warm.",
+        "I like soup because it is warm."
+      ],
+      [
+        "The dumplings are soft.",
+        "I like dumplings because they are soft."
+      ],
+      [
+        "The library is quiet.",
+        "I like the library because I can read books."
+      ],
+      [
+        "I can see fish.",
+        "I like the aquarium because I can see fish."
+      ],
+      [
+        "I can play in the sand.",
+        "I like the beach because I can play in the sand."
+      ],
+      [
+        "I like drawing.",
+        "I like drawing because I can make pictures."
+      ],
+      [
+        "I like flying a kite.",
+        "I like flying a kite because it is exciting."
+      ]
+    ],
+    "scanner": [
+      [
+        "The soup is warm.",
+        "I like soup because it is warm."
+      ],
+      [
+        "The library is quiet.",
+        "I like the library because I can read books."
+      ],
+      [
+        "I like drawing.",
+        "I like drawing because I can make pictures."
+      ],
+      [
+        "The noodles are delicious.",
+        "I like noodles because they are delicious."
+      ],
+      [
+        "I can see fish.",
+        "I like the aquarium because I can see fish."
+      ],
+      [
+        "I like flying a kite.",
+        "I like flying a kite because it is exciting."
+      ],
+      [
+        "The dumplings are soft.",
+        "I like dumplings because they are soft."
+      ],
+      [
+        "The museum is interesting.",
+        "I like the museum because I can see old things."
+      ]
+    ],
+    "cargo": [
+      [
+        "The cheese is salty.",
+        "I like cheese because it is salty."
+      ],
+      [
+        "I can fly a kite.",
+        "I like the park because I can fly a kite."
+      ],
+      [
+        "I like reading.",
+        "I like reading because I can learn new things."
+      ],
+      [
+        "The dumplings are soft.",
+        "I like dumplings because they are soft."
+      ],
+      [
+        "The museum is interesting.",
+        "I like the museum because I can see old things."
+      ],
+      [
+        "I like taking photos.",
+        "I like taking photos because I can make pictures."
+      ],
+      [
+        "The soup is warm.",
+        "I like soup because it is warm."
+      ],
+      [
+        "The library is quiet.",
+        "I like the library because I can read books."
+      ]
+    ],
+    "sort": [
+      [
+        "The cheese is salty.",
+        "I like cheese because it is salty."
+      ],
+      [
+        "I can fly a kite.",
+        "I like the park because I can fly a kite."
+      ],
+      [
+        "I like reading.",
+        "I like reading because I can learn new things."
+      ],
+      [
+        "The dumplings are soft.",
+        "I like dumplings because they are soft."
+      ],
+      [
+        "The museum is interesting.",
+        "I like the museum because I can see old things."
+      ],
+      [
+        "I like taking photos.",
+        "I like taking photos because I can make pictures."
+      ],
+      [
+        "The soup is warm.",
+        "I like soup because it is warm."
+      ],
+      [
+        "The library is quiet.",
+        "I like the library because I can read books."
+      ]
+    ],
+    "phrase": [
+      [
+        "The soup is warm.",
+        "I like soup because it is warm."
+      ],
+      [
+        "The noodles are delicious.",
+        "I like noodles because they are delicious."
+      ],
+      [
+        "The dumplings are soft.",
+        "I like dumplings because they are soft."
+      ],
+      [
+        "The cheese is salty.",
+        "I like cheese because it is salty."
+      ],
+      [
+        "The library is quiet.",
+        "I like the library because I can read books."
+      ],
+      [
+        "The museum is interesting.",
+        "I like the museum because I can see old things."
+      ],
+      [
+        "I like taking photos.",
+        "I like taking photos because I can make pictures."
+      ],
+      [
+        "I like doing puzzles.",
+        "I like doing puzzles because they are fun."
+      ]
+    ],
+    "reactor": [
+      [
+        "The soup is warm.",
+        "I like soup because it is warm."
+      ],
+      [
+        "The noodles are delicious.",
+        "I like noodles because they are delicious."
+      ],
+      [
+        "The dumplings are soft.",
+        "I like dumplings because they are soft."
+      ],
+      [
+        "The cheese is salty.",
+        "I like cheese because it is salty."
+      ],
+      [
+        "The library is quiet.",
+        "I like the library because I can read books."
+      ],
+      [
+        "The museum is interesting.",
+        "I like the museum because I can see old things."
+      ],
+      [
+        "I like taking photos.",
+        "I like taking photos because I can make pictures."
+      ],
+      [
+        "I like doing puzzles.",
+        "I like doing puzzles because they are fun."
+      ]
+    ],
+    "habitat": [
+      [
+        "I can read books.",
+        "I like the library because I can read books."
+      ],
+      [
+        "I can see fish.",
+        "I like the aquarium because I can see fish."
+      ],
+      [
+        "I can see old things.",
+        "I like the museum because I can see old things."
+      ],
+      [
+        "I can buy bread.",
+        "I like the bakery because I can buy bread."
+      ],
+      [
+        "I can play in the sand.",
+        "I like the beach because I can play in the sand."
+      ],
+      [
+        "I can fly a kite.",
+        "I like the park because I can fly a kite."
+      ],
+      [
+        "I can feed the animals.",
+        "I like the farm because I can feed the animals."
+      ],
+      [
+        "I can eat noodles.",
+        "I like the restaurant because I can eat noodles."
+      ]
+    ],
+    "rail": [
+      [
+        "I like soup.",
+        "I like soup because it is warm."
+      ],
+      [
+        "I like noodles.",
+        "I like noodles because they are delicious."
+      ],
+      [
+        "I like the library.",
+        "I like the library because I can read books."
+      ],
+      [
+        "I like the museum.",
+        "I like the museum because I can see old things."
+      ],
+      [
+        "I like drawing.",
+        "I like drawing because I can make pictures."
+      ],
+      [
+        "I like flying a kite.",
+        "I like flying a kite because it is exciting."
+      ],
+      [
+        "I like dumplings.",
+        "I like dumplings because they are soft."
+      ],
+      [
+        "I like the beach.",
+        "I like the beach because I can play in the sand."
+      ]
+    ],
+    "train": [
+      [
+        "I like soup.",
+        "I like soup because it is warm."
+      ],
+      [
+        "I like noodles.",
+        "I like noodles because they are delicious."
+      ],
+      [
+        "I like the library.",
+        "I like the library because I can read books."
+      ],
+      [
+        "I like the museum.",
+        "I like the museum because I can see old things."
+      ],
+      [
+        "I like drawing.",
+        "I like drawing because I can make pictures."
+      ],
+      [
+        "I like flying a kite.",
+        "I like flying a kite because it is exciting."
+      ],
+      [
+        "I like dumplings.",
+        "I like dumplings because they are soft."
+      ],
+      [
+        "I like the beach.",
+        "I like the beach because I can play in the sand."
+      ]
+    ],
+    "gap": [
+      [
+        "The soup is warm.",
+        "I like soup because it is warm."
+      ],
+      [
+        "The noodles are delicious.",
+        "I like noodles because they are delicious."
+      ],
+      [
+        "The library is quiet.",
+        "I like the library because I can read books."
+      ],
+      [
+        "The museum is interesting.",
+        "I like the museum because I can see old things."
+      ],
+      [
+        "I like drawing.",
+        "I like drawing because I can make pictures."
+      ],
+      [
+        "I like flying a kite.",
+        "I like flying a kite because it is exciting."
+      ],
+      [
+        "The dumplings are soft.",
+        "I like dumplings because they are soft."
+      ],
+      [
+        "I can play in the sand.",
+        "I like the beach because I can play in the sand."
+      ]
+    ],
+    "reader": [
+      [
+        "I think it is soup.",
+        "I think it is soup because it is warm and we use a spoon."
+      ],
+      [
+        "I think they are dumplings.",
+        "I think they are dumplings because they are soft and delicious."
+      ],
+      [
+        "I think it is the library.",
+        "I think it is the library because I can read books there."
+      ],
+      [
+        "I think it is the museum.",
+        "I think it is the museum because I can see old things there."
+      ],
+      [
+        "I think it is drawing.",
+        "I think it is drawing because I can make pictures."
+      ],
+      [
+        "I think it is flying a kite.",
+        "I think it is flying a kite because the wind helps."
+      ],
+      [
+        "Pip likes the library.",
+        "Pip likes the library because he can read books."
+      ],
+      [
+        "The ideas are different.",
+        "But joins two different ideas about the museum."
+      ]
+    ],
+    "bridge": [
+      [
+        "The library is quiet.",
+        "I like the library because I can read books."
+      ],
+      [
+        "I can see fish.",
+        "I like the aquarium because I can see fish."
+      ],
+      [
+        "The soup is warm.",
+        "I like soup because it is warm."
+      ],
+      [
+        "The noodles are delicious.",
+        "I like noodles because they are delicious."
+      ],
+      [
+        "I like drawing.",
+        "I like drawing because I can make pictures."
+      ],
+      [
+        "I can buy bread.",
+        "I like the bakery because I can buy bread."
+      ],
+      [
+        "The dumplings are soft.",
+        "I like dumplings because they are soft."
+      ],
+      [
+        "I like flying a kite.",
+        "I like flying a kite because it is exciting."
+      ]
+    ],
+    "because": [
+      [
+        "The library is quiet.",
+        "I like the library because I can read books."
+      ],
+      [
+        "I can see fish.",
+        "I like the aquarium because I can see fish."
+      ],
+      [
+        "The soup is warm.",
+        "I like soup because it is warm."
+      ],
+      [
+        "The noodles are delicious.",
+        "I like noodles because they are delicious."
+      ],
+      [
+        "I like drawing.",
+        "I like drawing because I can make pictures."
+      ],
+      [
+        "I can buy bread.",
+        "I like the bakery because I can buy bread."
+      ],
+      [
+        "The dumplings are soft.",
+        "I like dumplings because they are soft."
+      ],
+      [
+        "I like flying a kite.",
+        "I like flying a kite because it is exciting."
+      ]
+    ],
+    "contrast": [
+      [
+        "I like soup because it is warm.",
+        "I like soup because it is warm, and I like noodles because they are delicious."
+      ],
+      [
+        "I like cheese because it is salty.",
+        "I like cheese because it is salty, but I do not like sweet food."
+      ],
+      [
+        "I like the library because I can read books.",
+        "I like the library because I can read books, and I like the museum because I can see old things."
+      ],
+      [
+        "I like the beach.",
+        "I like the beach, but I do not like the noisy supermarket."
+      ],
+      [
+        "I like drawing because I can make pictures.",
+        "I like drawing because I can make pictures, and I like reading because I can learn."
+      ],
+      [
+        "I like taking photos.",
+        "I like taking photos, but I do not like playing video games."
+      ],
+      [
+        "I like dumplings because they are soft.",
+        "I like dumplings because they are soft, and I like noodles because they are delicious."
+      ],
+      [
+        "I like the park because I can fly a kite.",
+        "I like the park because I can fly a kite, but I do not like the crowded restaurant."
+      ]
+    ],
+    "interview": [
+      [
+        "I can say a favorite.",
+        "My favorite food is soup because it is warm."
+      ],
+      [
+        "I can say a favorite.",
+        "My favorite food is soup because it is warm."
+      ],
+      [
+        "I can say a favorite.",
+        "My favorite food is soup because it is warm."
+      ],
+      [
+        "I can say a favorite.",
+        "My favorite food is soup because it is warm."
+      ],
+      [
+        "I can say a favorite.",
+        "My favorite food is soup because it is warm."
+      ],
+      [
+        "I can say a favorite.",
+        "My favorite food is soup because it is warm."
+      ],
+      [
+        "I can say a favorite.",
+        "My favorite food is soup because it is warm."
+      ],
+      [
+        "I can say a favorite.",
+        "My favorite food is soup because it is warm."
+      ]
+    ]
+  }
+}

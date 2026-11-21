@@ -1,0 +1,17 @@
+{
+  "schema_version": "example-1",
+  "note": "Illustrative schema ONLY. This is not the current game's runtime schema; Codex must migrate carefully and test behavior before replacing existing banks.",
+  "item_id": "places_library_description",
+  "topic": "places",
+  "english": "library",
+  "chinese": "图书馆",
+  "level": "CORE",
+  "clues": ["It is a quiet place.", "There are many books.", "I can read stories there."],
+  "accepted_answers": ["library", "the library"],
+  "core_sentence": "I like the library because I can read books.",
+  "stretch_sentence": "I like the library because it is quiet, and I can learn new things.",
+  "spoken_model_required_for_home": true,
+  "audio": {"approved_voice": "Jesse", "voice_id": "rLl4PSDTzX3VHL4wjSFI", "exact_recording_path": null, "status": "MISSING"},
+  "lesson_alignment": {"ppt_slide": null, "print_page": null, "homework_day": null},
+  "author_review": {"answer_fairness": "PENDING", "chinese_verified": "PENDING", "student_independence": "PENDING"}
+}

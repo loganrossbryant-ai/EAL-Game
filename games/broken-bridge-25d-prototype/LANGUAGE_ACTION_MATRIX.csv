@@ -1,0 +1,17 @@
+mode,target_id,classification,core_or_stretch,english_form,zh_gloss,where_modelled,meaningful_action,assessment_evidence,scaffold,source_status
+elementary,E01,concrete_exposure,EXPOSURE,bridge,桥,bridge inspect lens,inspect broken crossing,clue viewed,picture and audio replay,ILLUSTRATIVE_NOT_TEXTBOOK_VERIFIED
+elementary,E02,concrete_exposure,EXPOSURE,river,河,ranger greeting and scene,locate and compare crossings,river clue viewed,picture and Chinese gloss,ILLUSTRATIVE_NOT_TEXTBOOK_VERIFIED
+elementary,E03,concrete_exposure,EXPOSURE,board,木板,tool rack and repair prompt,collect and position board,board placed,object preview and outline,ILLUSTRATIVE_NOT_TEXTBOOK_VERIFIED
+elementary,E04,sentence,CORE,The bridge is broken.,桥坏了。,ranger model then inspect,report the problem to ranger,selected or built statement,spoken rehearsal and large frame,ILLUSTRATIVE_NOT_TEXTBOOK_VERIFIED
+elementary,E05,question,CORE,Can you help me?,你能帮帮我吗？,ranger greeting,request directions,question selected or spoken practice logged,dialogue choices and audio model,ILLUSTRATIVE_NOT_TEXTBOOK_VERIFIED
+elementary,E06,sentence,CORE,I found a board.,我找到了一块木板。,tool rack then ranger,report collected evidence,supported sentence constructed,word bank and picture,ILLUSTRATIVE_NOT_TEXTBOOK_VERIFIED
+elementary,E07,reason,STRETCH,We should use the bridge because it is safe.,我们应该走桥，因为它是安全的。,route discussion,justify supported plan,reason saved,optional because frame,ILLUSTRATIVE_NOT_TEXTBOOK_VERIFIED
+elementary,E08,contrast,STRETCH,The bridge is broken but the path is safe.,桥坏了，但小路是安全的。,compare crossing scene,compare routes,optional contrast statement,connector bank,ILLUSTRATIVE_NOT_TEXTBOOK_VERIFIED
+middle,M01,concrete_exposure,EXPOSURE,depth marker,水深标尺,inspection tutorial,check measured river depth,marker inspected,visual diagram and pronunciation,ILLUSTRATIVE_NOT_TEXTBOOK_VERIFIED
+middle,M02,question,CORE,Where is the safe crossing?,安全的过河点在哪里？,ranger initial conversation,request useful location information,question chosen or typed,sentence frame and Chinese gloss,ILLUSTRATIVE_NOT_TEXTBOOK_VERIFIED
+middle,M03,comparison,CORE,The river is deeper here.,这里的河水更深。,two location depth markers,compare evidence in world,comparison selected with source,side-by-side accessible closeups,ILLUSTRATIVE_NOT_TEXTBOOK_VERIFIED
+middle,M04,recommendation,CORE,We should use the ford because the water is shallow.,我们应该走浅滩，因为水很浅。,ranger plan dialogue,justify ford route with evidence,recommendation and cited clue captured,word bank reason frame,ILLUSTRATIVE_NOT_TEXTBOOK_VERIFIED
+middle,M05,recommendation,CORE,We should repair the bridge because the boards fit.,我们应该修桥，因为木板尺寸合适。,ranger plan dialogue,justify repair route using measured gap and boards,recommendation and cited clue captured,optional phrase chunks,ILLUSTRATIVE_NOT_TEXTBOOK_VERIFIED
+middle,M06,revision,STRETCH,I changed my plan after checking the marker.,检查标尺之后，我改变了计划。,wrong or insufficient plan recovery,reconsider using newer evidence,revision retained,optional timeline and clause model,ILLUSTRATIVE_NOT_TEXTBOOK_VERIFIED
+middle,M07,consequence,STRETCH,If we mark the ford the ranger can cross safely.,如果我们标记浅滩，护林员就能安全地过河。,final outcome dialogue,explain consequence with evidence,extended explanation recorded,conditional frame and examples,ILLUSTRATIVE_NOT_TEXTBOOK_VERIFIED
+both,B01,speech_participation,NOT_GRADED,I practised speaking.,我练习了口语。,NPC conversation with replay button,student self-reports oral rehearsal,tap logged ONLY as participation,model audio and repeat option,ILLUSTRATIVE_NOT_TEXTBOOK_VERIFIED

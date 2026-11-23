@@ -1,0 +1,13 @@
+{
+  "name": "broken-bridge-25d-prototype",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test tests/state.test.mjs",
+    "build": "node package.mjs && python3 zip-package.py"
+  },
+  "dependencies": {
+    "phaser": "3.90.0"
+  }
+}

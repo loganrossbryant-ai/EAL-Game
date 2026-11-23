@@ -1,32 +1,47 @@
-# Tool Selection and Verification Record + prototype quality gate
-**Status:** Planning record; PASS is prohibited without an observable run. Created on separate branch. No paid tools executed.
+# The Broken Bridge v0.1.0 — tool selection and QA
 
-| Capability | Initial choice and rationale | Acceptance proof | Observed | Fallback / blocker |
-|---|---|---|---|---|
-| Canonical references | Local checkout + `scripts/restore_v6.py` and `verify_v8_setup.py`; Zig reference and tutoring rules from separate setup branch | Both v6 SHA-256 match; Zig archive validated; visual benchmark reviewed | NOT TESTED in this planning environment; scripts/manifests/instructions read | Must restore and inspect locally before gameplay changes; do not claim review of exact HTML |
-| Engine + 2.5D controls | Phaser 3 + DOM; `codex/signal-playable-demo` is engineering reference only | keyboard, mouse and actual touch movement, pause/modal behavior, 390px/landscape layouts, 30fps target | NOT TESTED | Implement lightweight Canvas fallback or reduce effects after device measurements |
-| Visuals | original layered environment + localized Phaser/CSS animation; emulate LAAS/Abyssal Garden atmosphere without adopting WebGPU | consistent before/after art, objects actually match evidence, screenshots at mobile/desktop, reduced-motion | NOT STARTED | reduce layers/texture size, not replace interactive scene with flat quiz image |
-| NPC and narrative | deterministic state-machine dialogues, authored English/Chinese strings; no live API | complete choices, correct/incorrect path, guarded states, NPC reacts later, no softlock | NOT STARTED | full transcript and on-screen guidance |
-| Language | two data profiles with shared world; `LANGUAGE_ACTION_MATRIX.csv` illustrative | each mandatory target modelled early and reused, meaning-changing actions, teacher export | PARTIAL: drafted illustrative map only; NOT textbook-aligned | Align to actual private lesson materials before teaching |
-| Narration | captions now; locally packaged verified voice performances before independent release | 100% required spoken lines exact files, routing/playback, offline, no robotic substitutes | NOT STARTED, zero voice generated | CLASSROOM PILOT at most if independence requires audio |
-| Offline delivery | Vite build with locally bundled JS/images/audio; evaluate single-file and PWA separately | no external requests; fresh install and cold offline restarts desktop and iPhone Safari/Home Screen | NOT TESTED | bundled offline ZIP for classroom use; never assume file:// equals iOS install |
-| QA | Playwright plus manual screenshot inspections; real target-device testing | all routes, retries, restore/reset, export, mobile layout, Chinese font, audio/mute, reduced-motion, offline | NOT TESTED | teacher preview until tests pass |
-| License/source lineage | MIT code allowed with preserved license notices; Godot Paper Town only design reference pending per-asset audit | provenance/asset manifest, per-source license notices | PARTIAL: repository licenses reviewed; no code copied | use original graphics and clean implementation |
+**Classification:** Playable teacher-review build. Curriculum alignment, approved narration and physical device gates remain open.
 
-## Required real test matrix
-- **Desktop:** Chrome and one other mainstream browser: keyboard, mouse, all state routes, save/reset, report export, wrong answer handling, backtrack, muted/reduced motion.
-- **Simulated mobile:** 390x844 portrait and 844x390 landscape, touch-mode, safe areas, overlay scroll, every clickable control and dialogue button in view. Cross-check screenshots.
-- **Physical iPhone:** Safari direct HTTPS, Home Screen installed PWA if used, WeChat browser -> external Safari, language rendering, tap/drag, audio unlock, save/resume, offline cold restart; record OS/device/browser. **Not yet available/tested.**
-- **Offline:** cold network denial after install or ZIP extraction, no remote scripts/fonts/API calls; verify actual artifact after reload and save data integrity.
-- **Cross-mode:** elementary and middle modes, each valid route, each failure/retry, language persistence, report differences; graded oral pronunciation is explicitly OUT.
-- **Audio:** every required line mapped to source asset and transcript before asserting student independence.
+## References and production decisions
 
-## Release status definitions
-DESIGN / WORKING = planning or incomplete engine. TEACHER PREVIEW = viewable without a complete path guarantee. CLASSROOM PILOT = verified browser path but missing device/voice gates with tutor present. HOME RELEASE = every tutoring release gate including voice and actual target device passed.
-Do not publish an HTTPS URL or claim the game is playable until deployment and opening are actually tested. Public deployment requires explicit approval.
+| Requirement | Choice, reason and observed evidence |
+|---|---|
+| Canonical visual baseline | **PASS** · Restored and hashed both v6 HTML files using the existing scripts. Opened both in Chromium, moved from map to first scene and inspected the rendered screenshots. The prototype carries forward contextual hotspots, motion controls, focus view and offline delivery. |
+| Tutoring standards and Zig | **PASS** · Read tutoring instructions, `RELEASE_GATE.md`, `QUALITY_STANDARD_V1.md` and the Zig approval/QA records at `f977a6c279650b8a385880c86bc00438b91910f8`. Ran the archived Zig validator and inspected its home screenshot. The validator confirms archival integrity. Zig gameplay and device readiness were outside this comparison. |
+| Engineering | **PASS** · Reviewed Signal at `f72194ddf5a135ff1a6f2e2b700e57fd770dc900`, including Phaser movement, DOM bridge, save/export, packaging and test limitations. Chose Phaser 3.90 in Canvas mode to match Signal's tested software-renderer path. The prototype uses native HTML dialogs and avoids a UI runtime dependency. WebGL and physical iPhone performance were unmeasured. |
+| Exploration and dialogue references | Reviewed REGOLITH's project overview and survey-to-mission loop at `f5f25ba6bf7477c612b408b265c9275a4fd1200d`. Reviewed Paper Town's proximity interaction and authored quest states at `5c890f8f7c468b85e9d204941a9fefb81c0ebbb4`. The prototype follows those principles with physical landmark visits and conditional Ranger Lin dialogue. No code or assets were copied. |
+| Art and motion | Original programmatic forest illustration, props and character art in `src/art.mjs` and `src/main.mjs`. Layered foliage, dusk lighting, localized current and reed motion, and camera parallax interpret the brief's atmosphere direction. No playable LAAS or Abyssal Garden source was identified in the supplied material. No external art or paid generation was used. |
+| Audio | The dialogue is furnished as readable text. All Ranger Lin speech, question models, evidence prompts, work instructions and outcome lines are pending approved voice recordings. The only audio is original optional oscillator feedback, muted by default. |
+| License and packaging | The build embeds Phaser 3.90 locally and includes its MIT license in the archive. Python creates a deterministic ZIP. No CDN, AI API, audio service, font download or runtime network dependency was found in the browser runs. |
 
-## Audit anchors
-- Main approved technical baseline: `AGENTS.md`, `GAME_BRIEF.md`, `docs/EAL_NEXT_GENERATION_GAME_QUALITY_STANDARD.md`, `reference/EAL_LIVING_ENVIRONMENTS_V6_APPROVED_REFERENCE.md`.
-- Separate tutoring standards: branch `codex/tutoring-game-setup`, `tutoring-games/standards/RELEASE_GATE.md` and `QUALITY_STANDARD_V1.md`.
-- Modular prototype candidate: `codex/signal-playable-demo`, `DEVELOPMENT.md`, `src/`, `tests/`, `demo/`.
-- Source branch from `main` commit `0790cb3be5c0e6340257594516e44e4913bc7777`; new branch commits logged in Github.
+## Browser and artifact checks
+
+Chromium 156 on Linux. Phone dimensions are touch emulation. Browser tests open ZIP-extracted HTML in offline contexts and reject every request except the document and optional same-origin favicon. A separate cold launch and reload used an actual loopback HTTP server with external requests blocked.
+
+| Check | Result | Evidence |
+|---|---|---|
+| State unit suite | **PASS** | 3 tests. Both routes require evidence, work order is enforced, partial progress persists, invalid versions and unsupported routes are rejected. |
+| Desktop, 1366 × 768 | **PASS** | Elementary bridge and middle school ford. Arrow walking, mouse interactions, evidence visits, both outcomes and player crossings, desktop board drag, NPC dialogue and return to the shelter. |
+| Phone portrait, 390 × 844 | **PASS** | Elementary ford. Tap movement, Chinese glyphs, depth comparison, rotation and marker placement, export and reset. |
+| Phone landscape, 844 × 390 | **PASS** | Middle school bridge. Tap movement, repair order and placement, scrollable dialog and export. |
+| Negative paths | **PASS** | Unsafe deep-water recommendation, missing evidence, hint, wrong target and premature rope/pack. Ford additionally recovers from a wrongly oriented marker. |
+| Persistence and teacher record | **PASS** | Reload mid-task and after completion, anonymous JSON export checked in all four runs. Valid backup restore and invalid backup recovery exercised on desktop. |
+| Motion and mute | **PASS** | Reduced-motion preference, explicit toggle, changing Canvas frames and a delayed start of the on-screen delivery, sound effects setting on/off. Hardware audibility was untested. |
+| Visual QA | **PASS** | Inspected 16 browser captures of the clearing, depth exhibit, work area and outcome for desktop, portrait and landscape. Touch layout required a camera framing and tap-target adjustment during testing. Recreate evidence with `python3 tests/browser.py`. |
+| Offline artifact | **PASS** | ZIP integrity, extracted HTML byte match, four offline playthroughs with reload, plus real loopback launch/reload. |
+| Second desktop browser | **NOT TESTED** | Firefox was unavailable. Playwright's official download hosts returned HTTP 403 (domain forbidden) in the cloud environment. |
+| Physical iPhone Safari, WeChat, Home Screen, target FPS | **NOT TESTED** | No physical iPhone was available. The ZIP runs through a local web server, and no PWA or hosted deployment was configured. |
+| Approved narration | **FAIL** for independent-home release | Recordings are absent. No voice playback, approved-voice routing, home-use or pronunciation claims. |
+| Current textbook alignment, learner timing and classroom usability | **NOT TESTED** | No current lesson or learner materials or real learner timing. The 10–15 minute target remains an estimate. |
+
+## Teacher key
+
+- **Bridge:** Two missing 90 cm boards, sound supports, two matching 90 cm boards on the rack. Seat both boards before securing the rope. The repaired deck opens and the ranger delivers over the bridge.
+- **Ford:** The ford is 16 cm against a posted 20 cm limit. Deep water at the bridge is 38 cm. The fallen sign maps the white stones. The near marker points northwest and the far marker points southeast. Both markers must be placed before moving the supply pack. The bridge remains closed.
+- The export identifies clue exposures, selected claims and citations, optional writing, hints, branch and completion. Its participation and reasoning fields are separate. Structured route checks provide feedback without grading language or pronunciation.
+
+## Artifact identity
+
+- Source branch `codex/broken-bridge-25d-prototype` · implementation base `c40d783d0bef50a4d8f09e4ecd1d13e46f8f1f4a`.
+- ZIP SHA-256 `1c970f76e177f2d198900379f32ec2f547c10ba896824d7c3ad2eb003b5730e4`.
+- HTML SHA-256 `e88e17f2ea5988a7055fe66faa80e23296b7c1b7c32ae494e1c7fa61d584f08a`.

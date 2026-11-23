@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>The Broken Bridge</title>
+<!-- CSS -->
+</head>
+<body>
+<main class="shell">
+  <header class="top">
+    <div class="brand"><span class="brand-icon" aria-hidden="true">◇</span><div><span class="station">ALDER RIVER STATION</span><h1>The Broken Bridge</h1></div></div>
+    <nav aria-label="Field tools"><button id="journal">Field log</button><button id="settings">Settings</button></nav>
+  </header>
+  <section id="stage" aria-label="Alder River forest">
+    <div id="world" aria-hidden="true"></div>
+    <div id="pins" aria-label="Nearby landmarks"></div>
+    <div class="location"><span></span><span id="location">Ranger clearing</span></div>
+    <div id="guide" class="mission"><span>FIELD ORDERS</span><strong id="objective"></strong><small id="instruction"></small></div>
+    <p class="toast" id="notice" role="status" hidden></p>
+    <button id="crossing" class="crossing" hidden>Walk the crossing</button>
+    <button id="near" class="near" hidden></button>
+  </section>
+  <footer class="bottom">
+    <div class="movement"><span aria-hidden="true">✥</span> <span>Tap the trail or use arrow keys <kbd>E</kbd> to interact</span></div>
+    <div id="progress" aria-label="Evidence collected">Evidence <strong id="count">0 / 4</strong></div>
+  </footer>
+</main>
+<dialog id="panel" aria-labelledby="panel-title">
+  <div class="panel-header"><div><span id="panel-kicker"></span><h2 id="panel-title"></h2></div><button id="close" aria-label="Close dialog">×</button></div>
+  <div id="panel-body"></div>
+</dialog>
+<!-- SCRIPTS -->
+</body>
+</html>

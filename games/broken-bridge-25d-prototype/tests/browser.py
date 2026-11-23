@@ -8,7 +8,7 @@ from playwright.sync_api import sync_playwright, expect
 ROOT = Path(__file__).resolve().parents[1]
 BUILD = ROOT / 'build'
 RESULTS = ROOT / 'test-results'
-URL = 'http://127.0.0.1:8127/Broken-Bridge-v0.1.0.html'
+URL = 'http://127.0.0.1:8127/Broken-Bridge-v0.2.0.html'
 RESULTS.mkdir(exist_ok=True)
 
 def play(browser, name, viewport, touch, mode, route):
@@ -52,6 +52,7 @@ def play(browser, name, viewport, touch, mode, route):
     press('Elementary · supported English' if mode == 'elementary' else 'Middle school · field investigation')
     expect(page.locator('#objective')).to_have_text('Meet Ranger Lin')
     expect(page.locator('canvas')).to_be_visible()
+    start_x = position()
     # Exercise real keyboard movement and touch walking before using landmarks.
     if touch:
         box = page.locator('canvas').bounding_box()
@@ -62,9 +63,10 @@ def play(browser, name, viewport, touch, mode, route):
         page.wait_for_timeout(330)
         page.keyboard.up('ArrowRight')
         page.wait_for_timeout(100)
-    assert position() > 252, (name, position(), errors)
+    assert position() > start_x + 12, (name, position(), errors)
     page.screenshot(path=RESULTS / f'{name}-clearing.png')
     pin('Ranger Lin')
+    page.screenshot(path=RESULTS / f'{name}-ranger.png')
     press('I practised speaking')
     expect(page.locator('#feedback')).to_contain_text('your own report')
     press('Can you help me?' if mode == 'elementary' else 'Where is the safe crossing?')
@@ -116,6 +118,8 @@ def play(browser, name, viewport, touch, mode, route):
     pin('Broken bridge')
     expect(page.locator('#panel-body')).to_contain_text('90 cm')
     press('Back to trail')
+    if not touch: page.mouse.move(0,0)
+    page.screenshot(path=RESULTS / f'{name}-broken.png')
     walk_right(778)
     pin('Depth marker')
     expect(page.locator('#panel-body')).to_contain_text('16 cm')
@@ -192,6 +196,7 @@ def play(browser, name, viewport, touch, mode, route):
     expect(page.locator('#location')).to_have_text('Lookout bank', timeout=9000)
     press('Return across the river')
     expect(button('Walk the crossing')).to_be_enabled(timeout=9000)
+    if not touch: page.mouse.move(0,0)
     page.screenshot(path=RESULTS / f'{name}-outcome.png')
     walk_left(246)
     pin('Ranger Lin')
@@ -232,6 +237,11 @@ def play(browser, name, viewport, touch, mode, route):
         expect(page.locator('#notice')).to_have_text('Mission restored.')
         expect(page.locator('#objective')).to_have_text('Supplies delivered')
         press('Settings')
+    if touch:
+        press('Focus view: off')
+        press('Close dialog')
+        page.screenshot(path=RESULTS / f'{name}-compact.png')
+        press('Settings')
     press('Reset progress / change guide')
     press('Reset this mission')
     expect(page.locator('#panel-title')).to_have_text('Choose your field guide')
@@ -240,10 +250,10 @@ def play(browser, name, viewport, touch, mode, route):
     context.close()
     print(f'PASS {name}: {mode}/{route}, offline journey, retries, resume, export, settings, reset',flush=True)
 
-with ZipFile(BUILD / 'Broken-Bridge-v0.1.0-Offline.zip') as package:
+with ZipFile(BUILD / 'Broken-Bridge-v0.2.0-Offline.zip') as package:
     assert package.testzip() is None
-    HTML = package.read('Broken-Bridge-v0.1.0.html')
-assert HTML == (BUILD / 'Broken-Bridge-v0.1.0.html').read_bytes()
+    HTML = package.read('Broken-Bridge-v0.2.0.html')
+assert HTML == (BUILD / 'Broken-Bridge-v0.2.0.html').read_bytes()
 with sync_playwright() as playwright:
     browser = playwright.chromium.launch(executable_path=os.getenv('CHROMIUM_PATH','/usr/bin/chromium'))
     for args in [

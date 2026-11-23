@@ -22,7 +22,8 @@ const workId = () => state?.route && repair[state.route].site;
 for (const [id,site] of Object.entries(sites)) {
   const pin = document.createElement('button');
   pin.className = 'pin';
-  pin.innerHTML = `<span class="glyph" aria-hidden="true">${site.icon}</span>${site.name}`;
+  pin.setAttribute('aria-label', site.name);
+  pin.innerHTML = `<span class="site-mark" aria-hidden="true"></span><span class="pin-label">${site.name}</span>`;
   pin.addEventListener('click', () => approach(id));
   $('pins').append(pin);
   pins[id] = pin;
@@ -139,6 +140,9 @@ function nearest() {
   }
   return best;
 }
+function landmarkName(id) {
+  return id==='bridge'&&state?.route==='bridge'&&state.delivered?'Repaired bridge':sites[id].name;
+}
 function placePins(world) {
   const id=nearest();
   $('near').hidden=!id||panel.open;
@@ -147,14 +151,19 @@ function placePins(world) {
   crossing.disabled=Boolean(world.goal?.crossing);
   crossing.textContent=world.onFarBank()?'Return across the river':'Walk the crossing';
   if(id) {
-    $('near').textContent=id==='ranger'?'Talk to Ranger Lin':'Inspect '+sites[id].name.toLowerCase();
+    $('near').textContent=id==='ranger'?'Talk to Ranger Lin':'Inspect '+landmarkName(id).toLowerCase();
     $('near').dataset.site=id;
   }
   for(const [key,pin] of Object.entries(pins)){
-    const site=sites[key], [x,y]=world.project(site.x,site.y-(key==='ranger'?35:6));
-    const margin=pin.offsetWidth/2 || 62;
+    const site=sites[key], [x,y]=world.project(site.x,site.y-(key==='ranger'?64:key==='bridge'?-10:14));
+    const margin=22;
     pin.hidden=!state||x<margin||x>stage.clientWidth-margin||y<57||y>stage.clientHeight-3;
     pin.style.left=Math.max(margin,Math.min(stage.clientWidth-margin,x))+'px'; pin.style.top=y+'px';
+    const label=landmarkName(key);
+    if(pin.getAttribute('aria-label')!==label){
+      pin.setAttribute('aria-label',label);
+      pin.querySelector('.pin-label').textContent=label;
+    }
     pin.dataset.seen=Boolean(state?.clues.includes(key)||key==='ranger'&&state?.question);
   }
   if(state){
@@ -164,15 +173,12 @@ function placePins(world) {
 $('near').addEventListener('click',()=>interact($('near').dataset.site));
 $('crossing').addEventListener('click',()=>{scene?.useCrossing();stage.focus({preventScroll:true});});
 
-const props = {
-  bridge: '<path d="M67 98L99 20M172 98L151 20" stroke="#d4b082" stroke-width="5"/><path d="M97 30h57m-63 15h66m-71 15h75m-87 27h95" stroke="#a38157" stroke-width="9"/><path d="M80 72h84m-88 8h90" stroke="#f1d397" stroke-dasharray="3 4"/>',
-  rack: '<path d="M53 35H174M53 52H174" stroke="#bf9764" stroke-width="10"/><path d="M61 65v20m101-20v20" stroke="#846349" stroke-width="8"/><circle cx="155" cy="72" r="13" fill="none" stroke="#d8ae73" stroke-width="5"/>',
-  depth: '<path d="M20 73h201M20 36h201" stroke="#4e9096" stroke-width="2"/><path d="M82 90V18m74 72V18" stroke="#e5d7a7" stroke-width="7"/><path d="M81 36h17m58 39h18" stroke="#f5c284" stroke-width="4"/><path d="M67 67h114" stroke="#b5d8ba" stroke-dasharray="3 4"/>',
-  sign: '<path d="M50 76l122-34m-94 45l-9-36" stroke="#ad885c" stroke-width="10"/><path d="M106 60l29-8m-10-4l10 4-7 8" stroke="#f2d7a2" stroke-width="3"/><path d="M150 81l20-10 17-10 17-10" stroke="#cbd3bb" stroke-width="6" stroke-dasharray="5 6"/>',
-  ranger: '<path d="M95 99v-24q25-27 50 0v24" fill="#bc884b"/><circle cx="120" cy="56" r="19" fill="#c99372"/><path d="M92 45h56m-42-2l5-20h19l7 20" stroke="#d0ac71" stroke-width="8" stroke-linejoin="round"/><path d="M113 54h1m12 0h1m-9 10q4 2 8 0" stroke="#493433" stroke-width="2"/><path d="M137 76v11" stroke="#edc881" stroke-width="5"/>',
-};
+const props = {bridge:'broken', rack:'rack-loaded', depth:'depth', sign:'sign', ranger:'ranger-portrait'};
 function prop(id) {
-  return `<svg class="prop" viewBox="0 0 240 104" aria-hidden="true"><path d="M0 95q60-22 120 0t120 0" fill="none" stroke="#284846"/>${props[id]}</svg>`;
+  const texture=id==='bridge' && state.delivered && state.route==='bridge'?'repaired':props[id];
+  const boards=texture==='broken'?['boardA','boardB'].map((piece,i)=>
+    `<img class="repair-layer" data-piece="${piece}" src="${ART['bridge-fill-'+i]}" alt="" ${state.pieces.includes(piece)?'':'hidden'}>`).join(''):'';
+  return `<div class="prop prop-${id}"><img src="${ART[texture]}" alt="">${boards}</div>`;
 }
 function interact(id) {
   if(panel.open || !id || !state) return;
@@ -272,7 +278,8 @@ function plan() {
 
 function workbench() {
   const route=state.route, sceneWork=repair[route], pieces=ROUTES[route].pieces;
-  const symbols=route==='bridge'?['▰','▰','⟲']:['⚑','⚑','▣'];
+  const icons=(route==='bridge'?['board','board','rope']:['flag-0','flag-1','supplies'])
+    .map(name=>`<img src="${ART[name]}" alt="">`);
   let carried=null;
   const headings=['↗ Northeast','↘ Southeast','↙ Southwest','↖ Northwest'];
   const turns=[0,0];
@@ -284,9 +291,10 @@ function workbench() {
       source.disabled=placed(i);
       source.setAttribute('aria-pressed',String(carried===i));
       target.classList.toggle('done',placed(i));
-      target.querySelector('.part-icon').textContent=placed(i)?symbols[i]:'·';
+      target.querySelector('.part-icon').innerHTML=placed(i)?icons[i]:'·';
       target.disabled=placed(i);
     }
+    for(const image of body.querySelectorAll('.repair-layer')) image.hidden=!state.pieces.includes(image.dataset.piece);
     const rotation=$('rotation');
     if(rotation){
       rotation.hidden=carried===null||carried===2;
@@ -314,11 +322,11 @@ function workbench() {
     }
     feedback(route==='bridge'?'The board is seated.':'The marker is in position. The flag points along the white stones.');
   };
-  const entries=(items,prefix,icons)=>items.map((item,i)=>
-    `<button data-action="${prefix}${i}" ${prefix==='pick'?'aria-pressed="false" draggable="true"':''}><span class="part-icon" aria-hidden="true">${icons[i]}</span>${item}</button>`).join('');
+  const entries=(items,prefix,images)=>items.map((item,i)=>
+    `<button data-action="${prefix}${i}" ${prefix==='pick'?'aria-pressed="false" draggable="true"':''}><span class="part-icon" aria-hidden="true">${images[i]}</span>${item}</button>`).join('');
   open(sceneWork.name, 'FIELD WORK',
     prop(sceneWork.site)+`<p>${sceneWork.guide}</p><p class="small">Drag a piece to its place, or tap the piece and then the target.</p>
-      <div class="workbench"><div class="tray" aria-label="Materials">${entries(sceneWork.parts,'pick',symbols)}</div>
+      <div class="workbench"><div class="tray" aria-label="Materials">${entries(sceneWork.parts,'pick',icons)}</div>
       <div class="targets" aria-label="Placement targets">${entries(sceneWork.targets,'place',['·','·','·'])}</div></div>`+
     (route==='ford'?'<p class="small">Trail map: near stone ↖ far stone. From the far stone, turn back ↘.</p><div id="rotation" class="actions" hidden><output aria-live="polite"></output><button data-action="rotate">Turn marker clockwise</button></div>':'')+
       feedbackBox+actions(button('Back to trail','close')),
@@ -345,7 +353,7 @@ function workbench() {
 }
 function download(backup = false) {
   const record={
-    game:'The Broken Bridge', build:'0.1.0', anonymousSession:state.id, languageMode:state.mode,
+    game:'The Broken Bridge', build:'0.2.0', anonymousSession:state.id, languageMode:state.mode,
     languageSource:'Illustrative. Current textbook alignment has not been verified.',
     evidence:state.clues.map(id=>({id, name:sites[id]?.name, observation:sites[id]?.clue})),
     observedAnswers:{openingQuestion:state.question, bridgeReport:state.report, recommendations:state.attempts},
@@ -430,6 +438,6 @@ window.addEventListener('pagehide',save);
 const preview=fresh();
 mountWorld(window.Phaser,$('world'),{
   state:()=>state??preview, paused:()=>panel.open||!state, motion,
-  near:nearest, placePins, interact, save, ready:world=>{scene=world;},
+  near:nearest, placePins, interact, save, conversation:()=>panel.open && $('panel-title').textContent==='Ranger Lin', ready:world=>{scene=world;},
 });
 if(state) updateMission(); else launch();

@@ -8,7 +8,7 @@ export function fresh(mode = 'elementary') {
     version: 1, id: globalThis.crypto?.randomUUID?.() ?? String(Date.now()),
     mode, clues: [], question: '', report: '', route: null, pieces: [], delivered: false,
     complete: false, attempts: [], hints: [], practiced: [], stretch: '', zh: mode === 'elementary',
-    mute: true, motion: null, x: 245, y: 397, draft: '',
+    mute: true, motion: null, x: 278, y: 449, draft: '',
   };
 }
 

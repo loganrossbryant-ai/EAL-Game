@@ -64,3 +64,24 @@ textarea{resize:vertical;min-height:62px}
 button{-webkit-tap-highlight-color:transparent}
 
 .crossing{position:absolute;bottom:14px;left:14px;background:#173432e8}
+
+/* Keep the authored scene readable. Landmark names appear on focus, hover, and approach. */
+.pin{width:44px;height:44px;min-width:44px;justify-content:center;transform:translate(-50%,-50%);padding:0;border:0;border-radius:50%;background:transparent;box-shadow:none}
+.pin:hover,.pin:focus-visible{background:#14272470}
+.site-mark{display:block;width:9px;height:9px;border:1px solid #fff2bd;background:#1a2c29b8;box-shadow:0 0 0 3px #1a2c2959;transform:rotate(45deg)}
+.pin[data-seen=true] .site-mark{border-color:#dcf2d4;background:#50705d}
+.pin-label{position:absolute;bottom:100%;max-width:145px;padding:4px 8px;border-radius:5px;background:#172723ed;color:#fff5df;line-height:1.35;white-space:normal;opacity:0;pointer-events:none}
+.pin:hover .pin-label,.pin:focus-visible .pin-label{opacity:1}
+.mission{max-width:min(232px,68%);padding:7px 10px;gap:2px;background:#18241fc9;box-shadow:none}
+.mission>span{display:none}
+.mission strong{font-size:1.03rem}
+.mission small{font-size:.73rem;color:#f1eddd}
+.location{background:#16231cbe;border-color:#ced6b75c}
+.prop{height:clamp(125px,26vh,208px);overflow:hidden;background:#101c19;display:grid;place-items:center}
+.prop img{height:91%;max-height:clamp(116px,24vh,188px);max-width:94%;object-fit:contain}
+.prop-ranger img{height:94%;align-self:end}
+@media(max-height:480px) and (orientation:landscape){.prop{height:104px}.prop img{max-height:96px}.prop-ranger img{height:94%}}
+
+.prop-bridge img{grid-area:1 / 1}
+
+.part-icon img{display:block;width:46px;height:27px;object-fit:contain;margin:0 auto 2px}

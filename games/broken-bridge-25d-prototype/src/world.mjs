@@ -1,12 +1,10 @@
 import {sites} from './content.mjs';
-import {figure, illustratedWorld, paintWorld} from './art.mjs';
+import {figure, illustratedWorld, loadArt, paintWorld} from './art.mjs';
 
 export function mountWorld(Phaser, host, app) {
   const clamp = Phaser.Math.Clamp;
-  const nearBank = [[0,339],[84,344],[155,364],[231,358],[306,362],[380,355],[458,346],[520,353],
-    [597,364],[689,380],[777,404],[858,421],[940,413],[1060,382]];
-  const farBank = [[0,245],[75,239],[130,251],[225,253],[340,244],[437,229],[540,243],
-    [641,251],[743,268],[863,294],[946,312],[1060,302]];
+  const nearBank = [[0,395],[125,396],[246,395],[440,395],[650,397],[850,402],[947,403],[1060,408]];
+  const farBank = [[0,288],[200,289],[335,292],[451,300],[650,308],[850,315],[1060,327]];
   const bankAt = (bank,x) => {
     const i = bank.findIndex(([edge]) => edge >= x);
     const [a,b] = [bank[i-1],bank[i]];
@@ -14,7 +12,7 @@ export function mountWorld(Phaser, host, app) {
   };
   const walkLimit = x => bankAt(nearBank,x)+8;
   const farLimit = x => bankAt(farBank,x)-5;
-  const routes = { bridge: [[438,371],[451,218]], ford: [[947,435],[910,284]] };
+  const routes = { bridge: [[450,417],[450,288]], ford: [[969,420],[829,299]] };
   const canWalk = (state,x,y) => {
     if(y>=walkLimit(x) && y<=489) return true;
     if(!state.delivered) return false;
@@ -24,9 +22,9 @@ export function mountWorld(Phaser, host, app) {
     return y>=fy && y<=ny && Math.abs(x-center)<(state.route==='bridge'?21:13);
   };
   class Forest extends Phaser.Scene {
+    preload() { loadArt(this); }
     create() {
       this.art = illustratedWorld(this);
-      this.people = this.add.graphics().setDepth(20);
       this.goal = null;
       this.face = 1;
       this.step = 0;
@@ -136,9 +134,8 @@ export function mountWorld(Phaser, host, app) {
         paintWorld(this.art,time,state);
         this.lastPaint=time; this.lastMotion=motion; this.lastFrame=worldState;
       }
-      this.people.clear();
       const ranger=sites.ranger;
-      let rx=ranger.x,ry=ranger.y,step=0,pack=!state.delivered;
+      let rx=ranger.x,ry=ranger.y,step=0;
       if(this.deliverySession!==state.id) {
         this.deliverySession=state.id;
         this.deliveryElapsed=state.delivered?4300:0;
@@ -148,16 +145,23 @@ export function mountWorld(Phaser, host, app) {
         const elapsed=this.deliveryElapsed;
         const outgoing=elapsed<2300;
         const p=outgoing?elapsed/2300:1-clamp((elapsed-2700)/1600,0,1);
-        const path=state.route==='bridge'?[[246,376],[440,373],[449,223]]:[[246,376],[940,437],[912,306]];
+        const path=[[ranger.x,ranger.y],...routes[state.route]];
         const section=p<.64?0:1;
         const ratio=section===0?p/.64:(p-.64)/.36;
         rx=Phaser.Math.Linear(path[section][0],path[section+1][0],ratio);
         ry=Phaser.Math.Linear(path[section][1],path[section+1][1],ratio);
-        pack=outgoing;
         step=(elapsed<2300||elapsed>2700&&elapsed<4300)?elapsed*.017:0;
       }
-      figure(this.people,rx,ry,{ranger:true,step,pack,face:Math.sign(state.x-rx)||1});
-      figure(this.people,state.x,state.y,{step:motion&&this.moving?this.step:0,face:this.face});
+      if(state.delivered){
+        if(motion&&!state.complete&&this.deliveryElapsed<2300) {
+          this.art.parcel.setPosition(rx+8,ry-21).setDepth(ry+.6).setDisplaySize(19,14);
+        } else {
+          const [x,y]=routes[state.route][1];
+          this.art.parcel.setPosition(x+19,y+1).setDepth(y+1).setDisplaySize(23,16);
+        }
+      } else this.art.parcel.setPosition(204,431).setDepth(431).setDisplaySize(30,21);
+      figure(this.art.ranger,rx,ry,{step,face:Math.sign(state.x-rx)||1,gesture:motion&&app.conversation()});
+      figure(this.art.scout,state.x,state.y,{step:motion&&this.moving&&!app.paused()?this.step:0,face:this.face,gesture:motion&&app.conversation()});
       app.placePins(this);
     }
   }

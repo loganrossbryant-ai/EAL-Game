@@ -1,6 +1,6 @@
 # The Broken Bridge
 
-**v0.1.0 · Playable teacher-review build**
+**v0.2.0 · Playable visual review candidate**
 
 A storm has damaged the bridge to Alder River lookout. Walk the riverbank, compare physical clues and report a plan to Ranger Lin. Fit two boards and secure their rope to reopen the bridge, or rotate and place markers along the white-stone ford and move the supply pack. The crossing you prepare becomes walkable and determines how the ranger delivers the supplies.
 
@@ -8,10 +8,13 @@ Elementary and middle school share the same forest, evidence and physical soluti
 
 ## Play locally
 
-1. Extract [Broken-Bridge-v0.1.0-Offline.zip](downloads/Broken-Bridge-v0.1.0-Offline.zip).
-2. From the extracted folder run `python3 -m http.server 8000 --bind 127.0.0.1`.
-3. Open `http://127.0.0.1:8000/Broken-Bridge-v0.1.0.html` in your browser. Keep the terminal open while playing. Internet access is unnecessary.
-4. Choose a language guide. Click or tap the trail and landmarks to move, or use the arrow keys or WASD. Press E near a landmark to interact. In the work area, drag a piece to its destination or select the piece and then the target.
+For future review builds, provide the standalone HTML first so the reviewer can open it directly in a browser. The ZIP is an optional companion.
+
+Download [Broken-Bridge-v0.2.0.html](downloads/Broken-Bridge-v0.2.0.html) and open it in your browser. If your browser blocks local files or restricts save storage, serve that same file locally.
+
+From the folder containing the HTML, run `python3 -m http.server 8000 --bind 127.0.0.1` and open `http://127.0.0.1:8000/Broken-Bridge-v0.2.0.html`. Internet access is unnecessary.
+
+Choose a language guide. Click or tap the trail and landmarks to move, or use the arrow keys or WASD. Press E near a landmark to interact. In the work area, drag a piece to its destination or select the piece and then the target.
 
 Use the same address and browser to resume. The Field log contains collected observations, landmark directions and the teacher JSON export. Settings offers save backups, restore, reset, Chinese support, focus view, reduced motion and optional sound effects. Approved narration is pending.
 
@@ -26,7 +29,7 @@ npm run build
 python3 tests/browser.py
 ```
 
-The browser suite uses Python Playwright and Chromium. Set `CHROMIUM_PATH` if Chromium is installed elsewhere. The build writes the single-file HTML and deterministic ZIP to `build/`. Browser screenshots land in `test-results/`. See [the QA record](TOOL_SELECTION_AND_QA.md) for test coverage and outstanding gates.
+The browser suite uses Python Playwright and Chromium. Set `CHROMIUM_PATH` if Chromium is installed elsewhere. The build writes the single-file HTML and deterministic ZIP to `build/`. Browser screenshots land in `test-results/`. See [visual QA and screenshots](visual-review/QA.md), [change log](visual-review/CHANGELOG.md), [asset provenance](visual-review/ASSET_PROVENANCE.md), and the [archived v0.1.0 test record](TOOL_SELECTION_AND_QA.md).
 
 ## Reusable systems
 

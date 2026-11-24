@@ -220,6 +220,7 @@ function placePins(world) {
       pin.setAttribute('aria-label',label);
       pin.querySelector('.pin-label').textContent=label;
     }
+    pin.dataset.context=Boolean(state&&Math.hypot(site.x-state.x,site.y-state.y)<105);
     pin.dataset.seen=Boolean(state?.clues.includes(key)||key==='ranger'&&state?.question);
   }
   if(state){
@@ -339,7 +340,7 @@ function plan() {
 
 function download(backup = false) {
   const record={
-    game:'The Broken Bridge', build:'0.4.0', anonymousSession:state.id, languageMode:state.mode,
+    game:'The Broken Bridge', build:'0.5.0', anonymousSession:state.id, languageMode:state.mode,
     languageSource:'Illustrative. Current textbook alignment has not been verified.',
     evidence:state.clues.map(id=>({id, name:sites[id]?.name, observation:sites[id]?.clue})),
     observedAnswers:{openingQuestion:state.question, bridgeReport:state.report, recommendations:reviewRecommendations(state.attempts)},

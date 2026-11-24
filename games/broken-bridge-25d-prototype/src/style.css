@@ -111,3 +111,8 @@ body:has(dialog.cinematic[open]) .mission,body:has(dialog.cinematic[open]) .loca
 .trail-stations span{display:block;color:var(--gold);}
 
 .toast{pointer-events:none;}
+
+.pin .site-mark { opacity: 0; transition: opacity 160ms ease; }
+.pin[data-context=true] .site-mark { opacity: .55; }
+.pin:hover .site-mark, .pin:focus-visible .site-mark { opacity: 1; }
+@media (prefers-reduced-motion: reduce) { .pin .site-mark { transition: none; } }

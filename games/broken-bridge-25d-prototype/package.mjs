@@ -2,7 +2,7 @@ import {readFile, writeFile, mkdir, copyFile, readdir} from 'node:fs/promises';
 import {lines} from './src/dialogue.mjs';
 import {instructionLines} from './src/instructions.mjs';
 const read = name => readFile(new URL(name, import.meta.url), 'utf8');
-const modules = ['state','content','language','dialogue','instructions','fieldwork','art','world','main'];
+const modules = ['state','content','language','dialogue','instructions','fieldwork','art','navigation','world','main'];
 const sources = await Promise.all(modules.map(name => read('./src/'+name+'.mjs')));
 const assets = await readdir(new URL('./assets/',import.meta.url));
 const art = Object.fromEntries(await Promise.all(assets.filter(name=>name.endsWith('.webp')).sort().map(async name=>{
@@ -38,6 +38,6 @@ const script = content => '<script>'+content.replace(/<\/script/gi,'<\\/script')
 const output = page.replace('<!-- CSS -->',()=>'<style>'+css+'</style>')
   .replace('<!-- SCRIPTS -->',()=>script(phaser)+script('(()=>{\n'+game+'\n})();'));
 await mkdir(new URL('./build/',import.meta.url),{recursive:true});
-await writeFile(new URL('./build/Broken-Bridge-v0.4.0.html',import.meta.url),output);
+await writeFile(new URL('./build/Broken-Bridge-v0.5.0.html',import.meta.url),output);
 await copyFile(new URL('./node_modules/phaser/LICENSE.md',import.meta.url),new URL('./build/PHASER-LICENSE.txt',import.meta.url));
 await copyFile(new URL('./OFFLINE-README.txt',import.meta.url),new URL('./build/OFFLINE-README.txt',import.meta.url));

@@ -1,9 +1,9 @@
-THE BROKEN BRIDGE • v0.4.0 • TEACHER REVIEW BUILD
+THE BROKEN BRIDGE • v0.5.0 • TEACHER REVIEW BUILD
 
 Extract the ZIP into a folder. From that folder run:
   python3 -m http.server 8000 --bind 127.0.0.1
 In a desktop browser open:
-  http://127.0.0.1:8000/Broken-Bridge-v0.4.0.html
+  http://127.0.0.1:8000/Broken-Bridge-v0.5.0.html
 
 Keep the terminal open while playing. No Internet connection is needed.
 Use the same browser and address when resuming locally saved progress.

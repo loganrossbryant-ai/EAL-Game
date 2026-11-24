@@ -1,6 +1,6 @@
 # The Broken Bridge
 
-**v0.4.0 · Playable teacher review candidate**
+**v0.5.0 · Playable teacher review candidate**
 
 A storm has damaged the bridge to Alder River lookout. Walk the riverbank, compare physical clues and report a plan to Ranger Lin. Fit two boards and secure their rope to reopen the bridge, or rotate and place markers along the white-stone ford and move the supply pack. The crossing you prepare becomes walkable and determines how the ranger delivers the supplies.
 
@@ -8,11 +8,11 @@ Elementary and middle school share the same forest, evidence and physical soluti
 
 ## Play locally
 
-For every updated Broken Bridge review build, put the standalone HTML and review ZIP on a separate review branch in this GitHub repository. Give the user direct raw GitHub download links for both files, with the HTML first.
+For every updated Broken Bridge review build, put the standalone HTML and review ZIP on a separate review branch in this GitHub repository. Give the user direct raw GitHub download links for both files, with instructions to unzip and double-click the HTML if GitHub displays source code.
 
-Download [Broken-Bridge-v0.4.0.html](downloads/Broken-Bridge-v0.4.0.html) and open it in your browser. If your browser blocks local files or restricts save storage, serve that same file locally.
+Download [Broken-Bridge-v0.5.0.html](downloads/Broken-Bridge-v0.5.0.html) and open it in your browser. If your browser blocks local files or restricts save storage, serve that same file locally.
 
-From the folder containing the HTML, run `python3 -m http.server 8000 --bind 127.0.0.1` and open `http://127.0.0.1:8000/Broken-Bridge-v0.4.0.html`. Internet access is unnecessary.
+From the folder containing the HTML, run `python3 -m http.server 8000 --bind 127.0.0.1` and open `http://127.0.0.1:8000/Broken-Bridge-v0.5.0.html`. Internet access is unnecessary.
 
 Choose a language guide. Click or tap the trail and landmarks to move, or use the arrow keys or WASD. Press E near an object to interact. After Lin authorizes the route, tap a piece and walk it to the matching socket or stone. The field action button provides a touch and keyboard alternative and walks you to the relevant anchor. Press R or use Turn marker clockwise to orient a flag.
 
@@ -27,15 +27,16 @@ npm ci --ignore-scripts
 npm test
 npm run build
 python3 tests/browser.py
+python3 tests/navigation_browser.py
 ```
 
-The browser suite uses Python Playwright and Chromium. Set `CHROMIUM_PATH` if Chromium is installed elsewhere. The build writes the single-file HTML and deterministic ZIP to `build/`. Browser screenshots land in `test-results/`. See [v0.4 review, animation recordings, and QA](visual-review/V040_QA.md), [change log](visual-review/CHANGELOG.md), [asset provenance](visual-review/ASSET_PROVENANCE.md), and the [archived v0.1.0 test record](TOOL_SELECTION_AND_QA.md).
+The browser suite uses Python Playwright and Chromium. Set `CHROMIUM_PATH` if Chromium is installed elsewhere. The build writes the single-file HTML and deterministic ZIP to `build/`. Browser screenshots land in `test-results/`. See [v0.5 review and QA](visual-review/V050_QA.md), [change log](visual-review/CHANGELOG.md), [asset provenance](visual-review/ASSET_PROVENANCE.md), and the [archived v0.1.0 test record](TOOL_SELECTION_AND_QA.md).
 
 ## Reusable systems
 
 | System | What carries forward |
 |---|---|
-| World controller | Phaser Canvas rendering, camera projection, keyboard and targeted touch walking, riverbank traversal limits, proximity interactions and DOM modal pause |
+| World controller | Phaser Canvas rendering, camera projection, keyboard and targeted touch walking, authored walkable regions and route-specific crossings, proximity interactions and DOM modal pause |
 | Content profiles | Authored clue records, language scaffolds and route requirements over a shared world |
 | Dialogue and evidence | Deterministic NPC responses, cited observations, recoverable plan rejection and hint progression |
 | Physical tasks | Ordered persistent pieces with drag and accessible select-then-place inputs, plus rotation checks |
@@ -47,3 +48,5 @@ The source handoff is in [CODEX_START_HERE.md](CODEX_START_HERE.md), [DESIGN_BRI
 The frozen [v0.2 standalone HTML](downloads/Broken-Bridge-v0.2.0.html) and its [visual QA](visual-review/QA.md) remain available for comparison.
 
 The frozen [v0.3 standalone HTML](downloads/Broken-Bridge-v0.3.0.html) and tag `broken-bridge-v0.3.0-baseline` preserve the previous clearing.
+
+The frozen [v0.4 standalone HTML](downloads/Broken-Bridge-v0.4.0.html) and [v0.4 evidence](visual-review/V040_QA.md) preserve the comparison baseline.

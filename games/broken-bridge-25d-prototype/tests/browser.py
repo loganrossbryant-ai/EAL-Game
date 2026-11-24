@@ -12,8 +12,8 @@ from playwright.sync_api import sync_playwright, expect
 
 ROOT = Path(__file__).resolve().parents[1]
 BUILD = ROOT / 'build'
-RESULTS = ROOT / 'test-results' / 'v040'
-ARTIFACT = 'Broken-Bridge-v0.4.0.html'
+RESULTS = ROOT / 'test-results' / 'v050'
+ARTIFACT = 'Broken-Bridge-v0.5.0.html'
 URL = f'http://127.0.0.1:8127/{ARTIFACT}'
 RESULTS.mkdir(parents=True, exist_ok=True)
 
@@ -502,7 +502,7 @@ def migrate(browser, version):
     assert record['outcome']['piecesPlaced'] == ['boardA']
     assert not unexpected, unexpected
     context.close()
-    print(f'PASS migration: live v{version} partial bridge save into cold v0.4.0; original production classified',flush=True)
+    print(f'PASS migration: live v{version} partial bridge save into cold v0.5.0; original production classified',flush=True)
 
 def encode_screencast(frames, path, duration):
     # CDP returns real composed screen frames only when the screen changes.
@@ -525,7 +525,7 @@ def encode_screencast(frames, path, duration):
 
 def record_motion(browser,name,viewport,touch):
     context = browser.new_context(viewport=viewport, is_mobile=touch, has_touch=touch,
-                                  offline=True, reduced_motion='reduce')
+                                  offline=True, reduced_motion='no-preference')
     external = []
 
     def serve(request):

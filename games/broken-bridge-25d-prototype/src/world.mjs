@@ -1,29 +1,12 @@
 import {sites} from './content.mjs';
+import {canTravel,canWalk,crossingPaths,onLookout,pathTo,recoverFoot,targetFoot} from './navigation.mjs';
 import {figure, illustratedWorld, loadArt, paintWorld} from './art.mjs';
 
 export const RANGER_DELIVERY_MS=5100;
 
 export function mountWorld(Phaser, host, app) {
   const clamp = Phaser.Math.Clamp;
-  const nearBank = [[0,395],[125,396],[246,395],[440,395],[650,397],[850,402],[947,403],[1060,408]];
-  const farBank = [[0,288],[200,289],[335,292],[451,300],[650,308],[850,315],[1060,327]];
-  const bankAt = (bank,x) => {
-    const i = bank.findIndex(([edge]) => edge >= x);
-    const [a,b] = [bank[i-1],bank[i]];
-    return a[1]+(b[1]-a[1])*(x-a[0])/(b[0]-a[0]);
-  };
-  const walkLimit = x => bankAt(nearBank,x)+8;
-  const farLimit = x => bankAt(farBank,x)-5;
-  const routes = { bridge: [[450,417],[450,288]], ford: [[969,420],[829,299]] };
-  const crossingOpen=state=>state.delivered || (state.route==='ford'&&state.pieces.includes('postA'));
-  const canWalk = (state,x,y) => {
-    if(y>=walkLimit(x) && y<=489) return true;
-    if(!crossingOpen(state)) return false;
-    if(y>=202 && y<=farLimit(x)) return true;
-    const [[nx,ny],[fx,fy]]=routes[state.route];
-    const center=nx+(fx-nx)*(ny-y)/(ny-fy);
-    return y>=fy && y<=ny && Math.abs(x-center)<(state.route==='bridge'?21:13);
-  };
+  const routes=crossingPaths;
   class Forest extends Phaser.Scene {
     preload() { loadArt(this); }
     create() {
@@ -50,32 +33,22 @@ export function mountWorld(Phaser, host, app) {
     }
     walk(x,y,id) {
       const state=app.state();
-      x=clamp(x,55,1005);y=clamp(y,202,489);
-      const far=crossingOpen(state) && y<=farLimit(x);
-      if(!far && !canWalk(state,x,y)) y=clamp(y,walkLimit(x),489);
-      const positions=[];
-      if(crossingOpen(state)) {
-        const onNear=state.y>=walkLimit(state.x), wantsNear=y>=walkLimit(x);
-        const onFar=state.y<=farLimit(state.x);
-        const [nearEdge,farEdge]=routes[state.route];
-        if(onNear && far) positions.push(nearEdge,farEdge);
-        else if(onFar && wantsNear) positions.push(farEdge,nearEdge);
-        else if(!onNear && !onFar && far) positions.push(farEdge);
-        else if(!onNear && !onFar && wantsNear) positions.push(nearEdge);
-      }
-      this.goal={id,positions:[...positions,[x,y]]};
+      const point=targetFoot(state,x,y);
+      const positions=pathTo(state,[state.x,state.y],point);
+      if(!positions)return false;
+      this.goal={id,positions};
+      return true;
     }
     onFarBank() {
       const state=app.state();
-      return crossingOpen(state) && state.y<=farLimit(state.x);
+      return onLookout(state,state.x,state.y);
     }
     useCrossing() {
       const state=app.state();
       if(!state.delivered)return;
-      const [nearEdge,farEdge]=routes[state.route];
-      const point=this.onFarBank()?nearEdge:farEdge;
-      this.walk(...point);
-      this.goal.crossing=true;
+      const crossing=routes[state.route];
+      const point=this.onFarBank()?crossing[0]:crossing.at(-1);
+      if(this.walk(...point)) this.goal.crossing=true;
     }
     project(x,y) {
       const camera=this.cameras.main;
@@ -89,13 +62,13 @@ export function mountWorld(Phaser, host, app) {
       const talking=app.conversation();
       const baseZoom=Math.min(Math.max(camera.height/540,camera.width/1060),camera.height/370);
       const closeBridge=state.route==='bridge'&&!state.delivered&&Math.abs(state.x-450)<57;
-      const desiredZoom=baseZoom*(talking?(portrait?1.22:1.36):closeBridge&&!portrait?1.12:1);
+      const desiredZoom=baseZoom*(talking?(portrait?1.22:1.36):closeBridge&&!portrait?1.19:1);
       const blend=app.motion()?Math.min(1,dt*7):1;
       const zoom=this.cameraReady?Phaser.Math.Linear(camera.zoom,desiredZoom,blend):desiredZoom;
       camera.setZoom(zoom);
       const half=camera.width/(2*zoom);
-      if(!canWalk(state,state.x,state.y)) state.y=walkLimit(state.x);
-      let dx=0,dy=0;
+      if(!canWalk(state,state.x,state.y)) [state.x,state.y]=recoverFoot(state,state.x,state.y);
+      let dx=0,dy=0,remaining=Infinity;
       if (!app.paused()) {
         const key=(a,b)=>this.keys.has(a)||this.keys.has(b);
         dx=Number(key('ArrowRight','KeyD'))-Number(key('ArrowLeft','KeyA'));
@@ -105,7 +78,7 @@ export function mountWorld(Phaser, host, app) {
           const [tx,ty]=this.goal.positions[0];
           const x=tx-state.x,y=ty-state.y;
           const distance=Math.hypot(x,y);
-          if(distance<5){
+          if(distance<.01){
             const {id,positions}=this.goal;
             positions.shift();
             if(!positions.length) {
@@ -113,20 +86,17 @@ export function mountWorld(Phaser, host, app) {
               if(id) app.interact(id);
             }
           } else {
-            dx=x/distance; dy=y/distance;
-            const look=clamp(state.x+dx*7,55,1005);
-            if(state.y>=walkLimit(state.x) && state.y<walkLimit(look) && ty>=walkLimit(tx) && Math.abs(x)>6) dy=Math.max(dy,.45);
-            if(state.delivered && state.y<=farLimit(state.x) && state.y>farLimit(look) && ty<=farLimit(tx) && Math.abs(x)>6) dy=Math.min(dy,-.45);
+            dx=x/distance; dy=y/distance; remaining=distance;
           }
         }
         if(dx||dy) {
           const len=Math.max(1,Math.hypot(dx,dy));
-          const speed=this.goal?194:152;
-          const nextX=clamp(state.x+dx*dt*speed/len,55,1005);
-          const nextY=clamp(state.y+dy*dt*speed/len,202,489);
-          if(canWalk(state,nextX,nextY)) {state.x=nextX;state.y=nextY;}
-          else if(canWalk(state,nextX,state.y)) state.x=nextX;
-          else if(canWalk(state,state.x,nextY)) state.y=nextY;
+          const step=Math.min(remaining,dt*(this.goal?194:152));
+          const nextX=clamp(state.x+dx*step/len,55,1005);
+          const nextY=clamp(state.y+dy*step/len,202,489);
+          if(canTravel(state,[state.x,state.y],[nextX,nextY])) {state.x=nextX;state.y=nextY;}
+          else if(canTravel(state,[state.x,state.y],[nextX,state.y])) state.x=nextX;
+          else if(canTravel(state,[state.x,state.y],[state.x,nextY])) state.y=nextY;
           this.face=dx?Math.sign(dx):this.face;
           this.moving=true;
           if (!this.savedAt || performance.now()-this.savedAt>175) {
@@ -172,16 +142,17 @@ export function mountWorld(Phaser, host, app) {
           1-clamp((elapsed-3630)/(RANGER_DELIVERY_MS-3630),0,1);
         if(inspection) rangerPose='inspect';
         if(handoff) rangerPose='handoff';
-        const section=phase<.64?0:1;
-        const ratio=section===0?phase/.64:(phase-.64)/.36;
+        const crossingProgress=clamp((phase-.64)/.36,0,1)*(path.length-2);
+        const section=phase<.64?0:Math.min(path.length-2,1+Math.floor(crossingProgress));
+        const ratio=section===0?phase/.64:crossingProgress-(section-1);
         rx=Phaser.Math.Linear(path[section][0],path[section+1][0],ratio);
         ry=Phaser.Math.Linear(path[section][1],path[section+1][1],ratio);
       }
       if(state.delivered){
         if(motion&&!state.complete&&this.deliveryElapsed<3370) {
-          this.art.parcel.setPosition(rx+8,ry-21).setDepth(ry+.6).setDisplaySize(19,14);
+          this.art.parcel.setPosition(rx+8,ry-26).setDepth(ry+.6).setDisplaySize(19,14);
         } else {
-          const [x,y]=routes[state.route][1];
+          const [x,y]=routes[state.route].at(-1);
           this.art.parcel.setPosition(x+19,y+1).setDepth(y+1).setDisplaySize(23,16);
         }
       } else this.art.parcel.setPosition(204,431).setDepth(431).setDisplaySize(30,21);
@@ -205,7 +176,7 @@ export function mountWorld(Phaser, host, app) {
         const shift=this.art.scout.gait&&['up','down'].includes(heading)?0:13*this.face;
         this.art.carry.setTexture(asset).setDisplaySize(height*this.textures.get(asset).getSourceImage().width/
           this.textures.get(asset).getSourceImage().height,height)
-          .setPosition(state.x+shift,state.y-29).setDepth(state.y+(heading==='up'?.18:.7))
+          .setPosition(state.x+shift,state.y-37).setDepth(state.y+(heading==='up'?.18:.7))
           .setAngle(carried.angle??(carried.item.bearing===undefined?0:carried.bearing*90)).setVisible(true);
       } else this.art.carry.setVisible(false);
       app.placePins(this);

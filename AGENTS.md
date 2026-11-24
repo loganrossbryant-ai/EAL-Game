@@ -29,3 +29,12 @@ Teacher signs off consequential curriculum/creative/cost changes and the first f
 ## Public-repository safeguard
 
 The repository may be public. Never commit identifiable student records, private classroom documents, copyrighted textbook scans, credentials, or other sensitive information. If a required source cannot be shared, record the blocker and request an authorized private source. Reference games remain approved exemplars only; do not edit them in place.
+
+
+## Canonical shared game-studio contract (2026-11-24)
+
+For **all** school EAL and tutoring game design, changes, audits, QA or releases: read `studio/README.md`, `studio/STUDIO_REGISTRY.md`, `studio/standards/PRODUCTION_CONTRACT.md` and `studio/standards/VISUAL_AND_INTERACTION_GATE.md`, plus the active game's exact source and scoped instructions (`tutoring-games/AGENTS.md` for tutoring). The existing v6 restoration and Section 9 governance requirements above remain in force. Do not assume all learners are secondary-school students.
+
+Start new games from `studio/START_NEW_GAME.md` and the curriculum/asset/audio/QA templates. Author original art in ChatGPT, **transfer the real assets** and provenance into the game source, and use locally packaged Kokoro for **new** dialogue; never replace existing approved Jesse or other voice recordings without permission. Visual acceptance requires actual running screenshots, continuous motion/navigation video and teacher creative approval, **not just tests passing**. Block on missing art or source instead of generating vector placeholders.
+
+**Broken Bridge:** use `studio/checkpoints/BROKEN_BRIDGE_CONTINUE.md` for “continue Broken Bridge” or “continue prototype.” Its v0.4 build is not approved; no reusable, released engine exists yet. Preserve all other releases and avoid paid generation/public deployment without authorization.

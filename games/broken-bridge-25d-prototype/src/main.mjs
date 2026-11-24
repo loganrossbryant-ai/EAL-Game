@@ -1,6 +1,9 @@
-import {fresh, restore, authorize, operate, ROUTES, SAVE_KEY} from './state.mjs';
+import {fresh, restore, authorize, ROUTES, SAVE_KEY} from './state.mjs';
 import {language, repair, sites} from './content.mjs';
 import {mountWorld} from './world.mjs';
+import {createFieldwork} from './fieldwork.mjs';
+import {recommendationFields, wireRecommendation, readRecommendation, reviewRecommendations} from './language.mjs';
+import {lines} from './dialogue.mjs';
 
 const $ = id => document.getElementById(id);
 const panel = $('panel'), body = $('panel-body'), stage = $('stage');
@@ -9,7 +12,7 @@ const read = () => {
   try { return restore(localStorage.getItem(SAVE_KEY)); } catch { return null; }
 };
 let state = read();
-let scene, active, toastTimer, audio, output;
+let scene, active, toastTimer, audio, output, speakingClip, voiceNonce=0;
 const pins = {};
 const motion = () => state?.motion ?? !preferredMotion.matches;
 const profile = () => language[state.mode];
@@ -18,6 +21,44 @@ const zh = text => state.zh ? ` <span lang="zh-Hans" class="zh">${text}</span>` 
 const button = (text, action, cls = '') => `<button data-action="${action}" class="${cls}">${text}</button>`;
 const actions = (...buttons) => `<div class="actions">${buttons.join('')}</div>`;
 const workId = () => state?.route && repair[state.route].site;
+const fieldwork=createFieldwork({
+  stage, texture:ART, state:()=>state, paused:()=>panel.open,
+  walk:(x,y,id)=>{scene?.walk(x,y,id);stage.focus({preventScroll:true});},
+  notify,
+  onPlaced:()=>{save();updateMission();audioFeedback(430);},
+  onDelivered:crossingReady,
+});
+
+function stopVoice() {
+  voiceNonce++;
+  speakingClip?.pause();
+  speakingClip=null;
+}
+function replayVoice(id) {
+  if(!VOICE[id]) return;
+  stopVoice();
+  const clip=new Audio(VOICE[id]);
+  speakingClip=clip;
+  const nonce=voiceNonce;
+  clip.play().catch(()=>{
+    if(nonce===voiceNonce) notify('Audio could not play. The full caption is on screen.');
+  });
+}
+function caption(id) {
+  return `<div class="voiced-line"><p class="speech">${lines[id]}</p>${
+    VOICE[id]?button('Replay Ranger Lin','voice-'+id,'voice-replay'):''}</div>`;
+}
+function voicedFeedback(id, prefix='') {
+  feedback(prefix+lines[id]);
+  if(VOICE[id]) $('feedback').insertAdjacentHTML('beforeend',button('Replay Ranger Lin','voice-'+id,'voice-replay'));
+}
+function crossingReady() {
+  const bridge=state.route==='bridge';
+  open(bridge?'The bridge is open':'The ford is marked','CROSSING READY',
+    `<p>${bridge?'The deck is repaired. Ranger Lin is taking the supplies over the bridge.':
+      'Your flags mark the safe line. Ranger Lin is taking the supplies along the white stones.'}</p>`+
+    actions(button('Watch the crossing','close','primary')),close);
+}
 
 for (const [id,site] of Object.entries(sites)) {
   const pin = document.createElement('button');
@@ -63,7 +104,7 @@ function updateMission() {
   }
   if(state.route) {
     objective = repair[state.route].name;
-    instruction = state.route === 'bridge' ? 'Return to the bridge and fit the two boards and rope.'
+    instruction = state.route === 'bridge' ? 'Collect a board at the rack, carry it to the bridge, and fit it into a socket.'
       : 'Return to the fallen sign and mark both ends of the white-stone path.';
   }
   if(state.delivered) {
@@ -81,7 +122,9 @@ function updateMission() {
 }
 
 function open(title, kicker, html, onAction, type='') {
+  stopVoice();
   active={onAction,type};
+  panel.classList.toggle('cinematic',type==='conversation');
   $('panel-title').textContent=title;
   $('panel-kicker').textContent=kicker;
   body.innerHTML=html;
@@ -109,11 +152,12 @@ const feedbackBox='<p id="feedback" role="status" hidden></p>';
 
 body.addEventListener('click',event=>{
   const action=event.target.closest('button[data-action]')?.dataset.action;
+  if(action?.startsWith('voice-')) return replayVoice(action.slice(6));
   if(action) active?.onAction(action);
 });
 $('close').addEventListener('click',close);
 panel.addEventListener('cancel',event=>{event.preventDefault();close();});
-panel.addEventListener('close',()=>{active=null; stage.focus({preventScroll:true});});
+panel.addEventListener('close',()=>{stopVoice();active=null; stage.focus({preventScroll:true});});
 stage.tabIndex=-1;
 
 function launch() {
@@ -128,7 +172,7 @@ function launch() {
 function approach(id) {
   if (!scene || panel.open || !state || !sites[id]) return;
   const site=sites[id];
-  scene.walk(site.x,site.y+9,id);
+  scene.walk(site.x+(id==='ranger'?29:0),site.y+(id==='ranger'?16:9),id);
   stage.focus({preventScroll:true});
 }
 function nearest() {
@@ -144,6 +188,7 @@ function landmarkName(id) {
   return id==='bridge'&&state?.route==='bridge'&&state.delivered?'Repaired bridge':sites[id].name;
 }
 function placePins(world) {
+  fieldwork.render(world);
   const id=nearest();
   $('near').hidden=!id||panel.open;
   const crossing=$('crossing');
@@ -173,17 +218,18 @@ function placePins(world) {
 $('near').addEventListener('click',()=>interact($('near').dataset.site));
 $('crossing').addEventListener('click',()=>{scene?.useCrossing();stage.focus({preventScroll:true});});
 
-const props = {bridge:'broken', rack:'rack-loaded', depth:'depth', sign:'sign', ranger:'ranger-portrait'};
+const props = {bridge:'bridge-damaged-v3', rack:'rack-loaded', depth:'depth', sign:'sign', ranger:'ranger-v3-portrait'};
 function prop(id) {
-  const texture=id==='bridge' && state.delivered && state.route==='bridge'?'repaired':props[id];
-  const boards=texture==='broken'?['boardA','boardB'].map((piece,i)=>
-    `<img class="repair-layer" data-piece="${piece}" src="${ART['bridge-fill-'+i]}" alt="" ${state.pieces.includes(piece)?'':'hidden'}>`).join(''):'';
+  const texture=id==='bridge' && state.delivered && state.route==='bridge'?'bridge-restored-v3':props[id];
+  const boards=texture==='bridge-damaged-v3'?['boardA','boardB'].map((piece,i)=>
+    `<img class="repair-layer" data-piece="${piece}" src="${ART['bridge-patch-v3-'+i]}" alt="" ${state.pieces.includes(piece)?'':'hidden'}>`).join(''):'';
   return `<div class="prop prop-${id}"><img src="${ART[texture]}" alt="">${boards}</div>`;
 }
 function interact(id) {
   if(panel.open || !id || !state) return;
+  if(fieldwork.interact(id)) return;
   if(id==='ranger') return ranger();
-  if(id===workId() && !state.delivered) return workbench();
+  if(id===workId() && !state.delivered) return fieldwork.inspect();
   const site=sites[id];
   if(!state.clues.includes(id)) state.clues.push(id);
   save(); updateMission(); audioFeedback(510);
@@ -195,25 +241,24 @@ function ranger() {
   if(state.delivered) {
     if(motion() && !state.complete && scene?.deliveryElapsed<4300) {
       return open('Ranger Lin is on the trail','DELIVERY IN PROGRESS',
-        '<p>Watch the crossing. Meet the ranger here when the delivery walk is finished.</p>'+
+        caption('deliveryInProgress')+
         actions(button('Back to trail','close','primary')),close);
     }
     state.complete=true; save(); updateMission();
-    const result=state.route==='bridge'?'The two boards held. The bridge is open and the supply pack reached the lookout.'
-      :'Your flags traced the white stones. The supplies reached the lookout by the ford. The bridge is still closed.';
-    return open('Report from the lookout','MISSION COMPLETE',prop('ranger')+`<p class="speech">${result}</p>`+
+    const result=state.route==='bridge'?'endingBridge':'endingFord';
+    return open('Report from the lookout','MISSION COMPLETE',prop('ranger')+caption(result)+
       actions(button('Export progress','export','primary'),button('Field log','journal'),button('Back to trail','close')),
-      action=>{if(action==='export') download(); if(action==='journal') journal(); if(action==='close') close();});
+      action=>{if(action==='export') download(); if(action==='journal') journal(); if(action==='close') close();},'conversation');
   }
-  if(state.route) return open('Ranger Lin','CROSSING AUTHORIZED',prop('ranger')+`<p>${repair[state.route].guide}</p>`+
-    actions(button('Back to trail','close','primary')),close);
+  if(state.route) return open('Ranger Lin','CROSSING AUTHORIZED',prop('ranger')+caption(state.route==='bridge'?'authorizedBridge':'authorizedFord')+
+    actions(button('Back to trail','close','primary')),close,'conversation');
   const opening = !state.question;
   const words=state.mode==='elementary'
     ? `<p>Bridge ${zh('桥')} · River ${zh('河')} · Board ${zh('木板')} · Ford ${zh('浅滩')}</p>`
     : `<p class="small">Standing order: compare the depth to the posted limit, or check the size of the missing boards.</p>`;
-  open('Ranger Lin',opening?'RANGER SHELTER':'FIELD CONVERSATION',prop('ranger')+
-    `<p class="speech">${opening?'The lookout needs supplies. A crossing must be made safe before we go.':
-      'Tell me what you saw. The bridge and the ford each need a different safety check.'}</p>`+words+
+  const response=opening?'opening':state.clues.includes('depth')?'returnFord':
+    state.clues.includes('bridge')?'returnBridge':'returnBasic';
+  open('Ranger Lin',opening?'RANGER SHELTER':'FIELD CONVERSATION',prop('ranger')+caption(response)+words+
     (opening?`<div class="stack">${profile().questions.map((q,i)=>button(q,'ask'+i,'primary')).join('')}</div>`:
       actions(button('Report the damaged bridge','report'),button('Discuss a crossing plan','plan','primary')))+
     actions(button('I practised speaking','speak'),button('Back to trail','close'))+feedbackBox,
@@ -221,10 +266,9 @@ function ranger() {
       if(action.startsWith('ask')) {
         const index=Number(action.slice(3));
         state.question=profile().questions[index]; save(); updateMission(); audioFeedback(560);
-        const answer=index===0?'The ford is downstream. Look for white stones and check the water depth.'
-          :'Check the bridge gap and the board lengths at the tool rack. The inspection tag tells you about the supports.';
-        open('Ranger Lin','DIRECTIONS',`<p class="speech">${answer}</p><p class="small">You asked: ${state.question}</p>`+
-          actions(button('Explore the riverbank','close','primary')),close);
+        const answer=index===0?'directionFord':'directionBridge';
+        open('Ranger Lin','DIRECTIONS',caption(answer)+`<p class="small">You asked: ${state.question}</p>`+
+          actions(button('Explore the riverbank','close','primary')),close,'conversation');
       }
       if(action==='plan') plan();
       if(action==='close') close();
@@ -233,22 +277,20 @@ function ranger() {
         state.report=state.clues.includes('bridge')?'The bridge is broken.':'I need to check the bridge.';
         if(state.clues.includes('rack')) state.report+=' I found a board.';
         save();
-        feedback(state.report+' '+(state.clues.includes('bridge')?'Correct. The supports are sound. Now tell me which crossing you recommend.':'Go to the north edge of the clearing and look for the missing boards.'));
+        voicedFeedback(state.clues.includes('bridge')?'reportBridge':'reportMissing',state.report+' ');
       }
-    });
+    },'conversation');
 }
 function plan() {
-  const p=profile();
   const clueInputs=Object.entries(sites).filter(([id])=>id!=='ranger').map(([id,site])=>
-    `<label><input type="checkbox" name="evidence" value="${id}" ${state.clues.includes(id)?'':'disabled'}>${site.name}${zh(site.zh)}${state.clues.includes(id)?'':' · not yet inspected'}</label>`).join('');
+    `<label><input type="checkbox" name="evidence" value="${id}" ${state.clues.includes(id)?'':'disabled'}>${site.name}${zh(site.zh)}${state.clues.includes(id)
+      ?`<small class="cited-observation">${state.mode==='elementary'?site.simple:site.clue}</small>`:' · not yet inspected'}</label>`).join('');
   open('Recommend a crossing','TALK TO RANGER LIN',
-    `<p>Choose what you’ll say and attach the two field observations that support it.</p>
-    <label for="recommend">Your recommendation</label>
-    <select id="recommend"><option value="">Choose a plan</option><option value="bridge">${p.bridge}</option><option value="ford">${p.ford}</option><option value="unsafe">${p.wrong}</option></select>
-    <div class="checks">${clueInputs}</div>
-    <label for="draft">${state.mode==='elementary'?'Optional: I saw…':'Optional STRETCH: compare the readings or explain a revision'}</label>
-    <textarea id="draft" maxlength="1500">${esc(state.draft)}</textarea>
-    <p class="small">${p.stretch}${zh('用证据说明你的选择。')}</p>`+feedbackBox+
+    `<p>Choose a route, cite two observations, and tell Lin your own reason.</p>
+    <label for="recommend">Your route</label>
+    <select id="recommend"><option value="">Choose a plan</option><option value="bridge">Repair the bridge</option><option value="ford">Mark the ford</option><option value="unsafe">Cross beside the bridge</option></select>
+    <div class="checks">${clueInputs}</div>`+
+    recommendationFields({mode:state.mode,draft:state.draft,escape:esc,chinese:state.zh})+feedbackBox+
       actions(button('Tell Ranger Lin','send','primary'),button('Hint','hint'),button('Back','back')),
     action=>{
       if(action==='back') return ranger();
@@ -261,104 +303,35 @@ function plan() {
         state.hints.push('route evidence');save();return;
       }
       if(!route) return feedback('Choose a recommendation, then add observations.');
+      const student=readRecommendation(body,state.mode);
       if(route==='unsafe') {
-        state.attempts.push({route,cited:selected,message:p.wrong,accepted:false});save();
-        return feedback('Ranger Lin: Wait. The water at the bridge is 38 cm. Look downstream and compare the ford to its limit.');
+        state.attempts.push({route,cited:selected,message:student.message,production:student.production,accepted:false});save();
+        return voicedFeedback('unsafe');
       }
-      if(!authorize(state,route,selected,p[route])) {
-        save();return feedback('Ranger Lin: I need both observations for that plan. Check your field evidence and try again.');
+      const supporting=ROUTES[route].clues.every(id=>state.clues.includes(id)&&selected.includes(id));
+      if(!supporting) {
+        state.attempts.push({route,cited:selected,message:student.message,production:student.production,accepted:false});save();
+        return voicedFeedback('retryEvidence');
       }
-      state.stretch=state.draft; save(); updateMission(); audioFeedback(680);
-      open('Crossing authorized','RANGER LIN',`<p class="speech">${route==='bridge'?'Those measurements match. I’ll release the boards and rope.':
-        'The ford is within the posted limit. I’ll release the markers and the supply pack.'}</p><p>${repair[route].guide}</p>`+
-        actions(button('Back to trail','close','primary')),close);
-    });
-  $('draft').addEventListener('input',event=>{state.draft=event.target.value;save();});
+      if(!student.ok) return feedback(student.feedback);
+      if(!authorize(state,route,selected,student.message)) return feedback('This route could not be authorized. Revisit your observations.');
+      state.attempts.at(-1).production=student.production;
+      state.stretch=''; save(); updateMission(); audioFeedback(680);
+      open('Crossing authorized','RANGER LIN',caption(route==='bridge'?'authorizedBridge':'authorizedFord')+
+        actions(button('Back to trail','close','primary')),close,'conversation');
+    },'conversation');
+  wireRecommendation(body,draft=>{state.draft=draft;save();});
 }
 
-function workbench() {
-  const route=state.route, sceneWork=repair[route], pieces=ROUTES[route].pieces;
-  const icons=(route==='bridge'?['board','board','rope']:['flag-0','flag-1','supplies'])
-    .map(name=>`<img src="${ART[name]}" alt="">`);
-  let carried=null;
-  const headings=['↗ Northeast','↘ Southeast','↙ Southwest','↖ Northwest'];
-  const turns=[0,0];
-  const placed=index=>state.pieces.includes(pieces[index]);
-  const update=()=>{
-    for(let i=0;i<3;i++){
-      const source=body.querySelector(`[data-action="pick${i}"]`);
-      const target=body.querySelector(`[data-action="place${i}"]`);
-      source.disabled=placed(i);
-      source.setAttribute('aria-pressed',String(carried===i));
-      target.classList.toggle('done',placed(i));
-      target.querySelector('.part-icon').innerHTML=placed(i)?icons[i]:'·';
-      target.disabled=placed(i);
-    }
-    for(const image of body.querySelectorAll('.repair-layer')) image.hidden=!state.pieces.includes(image.dataset.piece);
-    const rotation=$('rotation');
-    if(rotation){
-      rotation.hidden=carried===null||carried===2;
-      if(!rotation.hidden) rotation.querySelector('output').textContent=headings[turns[carried]];
-    }
-  };
-  const apply=index=>{
-    if (carried===null) return feedback('Pick up a piece from the tray first.');
-    if (index!==carried) return feedback(route==='bridge'
-      ?'That piece won’t fit there. The boards go in their matching sockets, and the rope goes on the cleat.'
-      :'Try the matching stone for that marker. The pack belongs at the loading spot.');
-    if(route==='ford' && index<2 && turns[index]!==[3,1][index]) {
-      return feedback(index===0?'The near flag must point northwest, toward the far white stone.'
-        :'The far flag must point southeast, back toward the near white stone.');
-    }
-    if (!operate(state,pieces[index])) return feedback(route==='bridge'
-      ?'Fit both boards before securing the rope.' : 'Place both markers before moving the supply pack.');
-    carried=null;
-    update(); save(); updateMission(); audioFeedback(index===2?790:430);
-    if(state.delivered) {
-      const result=route==='bridge'?'The deck is repaired. Ranger Lin is taking the supplies over the bridge.'
-        :'Your flags mark the safe line. Ranger Lin is taking the supplies along the white stones.';
-      return open(route==='bridge'?'The bridge is open':'The ford is marked','CROSSING READY',
-        `<p>${result}</p>`+actions(button('Watch the crossing','close','primary')),close);
-    }
-    feedback(route==='bridge'?'The board is seated.':'The marker is in position. The flag points along the white stones.');
-  };
-  const entries=(items,prefix,images)=>items.map((item,i)=>
-    `<button data-action="${prefix}${i}" ${prefix==='pick'?'aria-pressed="false" draggable="true"':''}><span class="part-icon" aria-hidden="true">${images[i]}</span>${item}</button>`).join('');
-  open(sceneWork.name, 'FIELD WORK',
-    prop(sceneWork.site)+`<p>${sceneWork.guide}</p><p class="small">Drag a piece to its place, or tap the piece and then the target.</p>
-      <div class="workbench"><div class="tray" aria-label="Materials">${entries(sceneWork.parts,'pick',icons)}</div>
-      <div class="targets" aria-label="Placement targets">${entries(sceneWork.targets,'place',['·','·','·'])}</div></div>`+
-    (route==='ford'?'<p class="small">Trail map: near stone ↖ far stone. From the far stone, turn back ↘.</p><div id="rotation" class="actions" hidden><output aria-live="polite"></output><button data-action="rotate">Turn marker clockwise</button></div>':'')+
-      feedbackBox+actions(button('Back to trail','close')),
-    action=>{
-      if(action==='close') return close();
-      if(action==='rotate' && carried!==null && carried<2) {
-        turns[carried]=(turns[carried]+1)%4;update();return;
-      }
-      const index=Number(action.slice(-1));
-      if(action.startsWith('pick')) {carried=index;update();feedback('Holding '+sceneWork.parts[index].toLowerCase()+'.');}
-      if(action.startsWith('place')) apply(index);
-    });
-  for(const node of body.querySelectorAll('.tray button')){
-    node.addEventListener('dragstart',event=>{
-      carried=Number(node.dataset.action.slice(-1)); event.dataTransfer.setData('text/plain',node.dataset.action);
-      event.dataTransfer.effectAllowed='move'; update();
-    });
-  }
-  for(const node of body.querySelectorAll('.targets button')){
-    node.addEventListener('dragover',event=>event.preventDefault());
-    node.addEventListener('drop',event=>{event.preventDefault();apply(Number(node.dataset.action.slice(-1)));});
-  }
-  update();
-}
 function download(backup = false) {
   const record={
-    game:'The Broken Bridge', build:'0.2.0', anonymousSession:state.id, languageMode:state.mode,
+    game:'The Broken Bridge', build:'0.3.0', anonymousSession:state.id, languageMode:state.mode,
     languageSource:'Illustrative. Current textbook alignment has not been verified.',
     evidence:state.clues.map(id=>({id, name:sites[id]?.name, observation:sites[id]?.clue})),
-    observedAnswers:{openingQuestion:state.question, bridgeReport:state.report, recommendations:state.attempts},
+    observedAnswers:{openingQuestion:state.question, bridgeReport:state.report, recommendations:reviewRecommendations(state.attempts)},
     selfReportedSpeakingPractice:state.practiced,
     ungradedReasoning:state.stretch||state.draft,
+    legacyOptionalDraft:state.stretch, unsentDraft:state.route?'':state.draft,
     hintsUsed:state.hints, outcome:{route:state.route, piecesPlaced:state.pieces, suppliesDelivered:state.delivered, fieldReportComplete:state.complete},
     exportedAt:new Date().toISOString(),
   };
@@ -384,7 +357,7 @@ function journal() {
 }
 function settings() {
   open('Field settings','ALDER RIVER STATION',
-    `<p class="small">English dialogue is available as text. Approved voice recordings are pending.</p><div class="stack">
+    `<p class="small">English captions stay on screen. Ranger Lin’s local dialogue can be replayed with its own button.</p><div class="stack">
       ${button('Sound effects: '+(state.mute?'off':'on'),'mute')}
       ${button('Environmental motion: '+(motion()?'on':'reduced'),'motion')}
       ${button('Simplified Chinese support: '+(state.zh?'on':'off'),'zh')}
@@ -438,6 +411,10 @@ window.addEventListener('pagehide',save);
 const preview=fresh();
 mountWorld(window.Phaser,$('world'),{
   state:()=>state??preview, paused:()=>panel.open||!state, motion,
-  near:nearest, placePins, interact, save, conversation:()=>panel.open && $('panel-title').textContent==='Ranger Lin', ready:world=>{scene=world;},
+  near:nearest, placePins, interact, save, fieldworkKey:()=>{const id=fieldwork.near();return id?fieldwork.interact(id):false;},
+  fieldworkTurn:()=>fieldwork.turn(), carry:()=>fieldwork.carriedPose?.()??null,
+  conversation:()=>panel.open && active?.type==='conversation',
+  voicePlaying:()=>speakingClip&&!speakingClip.paused&&!speakingClip.ended,
+  ready:world=>{scene=world;},
 });
 if(state) updateMission(); else launch();

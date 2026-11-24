@@ -53,7 +53,8 @@ export function restore(raw) {
       && typeof attempt.accepted === 'boolean' && Array.isArray(attempt.cited)
       && ['bridge','ford','unsafe'].includes(attempt.route))
       .map(attempt => ({ route:attempt.route, message:attempt.message.slice(0,1500), accepted:attempt.accepted,
-        cited:attempt.cited.filter(id => safe.clues.includes(id)).slice(0,4) }));
+        cited:attempt.cited.filter(id => safe.clues.includes(id)).slice(0,4),
+        ...(['supported-elementary','student-written'].includes(attempt.production)?{production:attempt.production}:{}) }));
     safe.hints = safe.hints.filter(entry => typeof entry === 'string');
     safe.practiced = safe.practiced.filter(entry => typeof entry === 'string');
     if (Object.hasOwn(ROUTES, saved.route) && safe.question && ROUTES[saved.route].clues.every(id=>safe.clues.includes(id))) {

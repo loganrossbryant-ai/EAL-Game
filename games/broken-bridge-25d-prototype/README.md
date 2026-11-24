@@ -1,6 +1,6 @@
 # The Broken Bridge
 
-**v0.2.0 · Playable visual review candidate**
+**v0.3.0 · Playable teacher review candidate**
 
 A storm has damaged the bridge to Alder River lookout. Walk the riverbank, compare physical clues and report a plan to Ranger Lin. Fit two boards and secure their rope to reopen the bridge, or rotate and place markers along the white-stone ford and move the supply pack. The crossing you prepare becomes walkable and determines how the ranger delivers the supplies.
 
@@ -10,13 +10,13 @@ Elementary and middle school share the same forest, evidence and physical soluti
 
 For future review builds, provide the standalone HTML first so the reviewer can open it directly in a browser. The ZIP is an optional companion.
 
-Download [Broken-Bridge-v0.2.0.html](downloads/Broken-Bridge-v0.2.0.html) and open it in your browser. If your browser blocks local files or restricts save storage, serve that same file locally.
+Download [Broken-Bridge-v0.3.0.html](downloads/Broken-Bridge-v0.3.0.html) and open it in your browser. If your browser blocks local files or restricts save storage, serve that same file locally.
 
-From the folder containing the HTML, run `python3 -m http.server 8000 --bind 127.0.0.1` and open `http://127.0.0.1:8000/Broken-Bridge-v0.2.0.html`. Internet access is unnecessary.
+From the folder containing the HTML, run `python3 -m http.server 8000 --bind 127.0.0.1` and open `http://127.0.0.1:8000/Broken-Bridge-v0.3.0.html`. Internet access is unnecessary.
 
-Choose a language guide. Click or tap the trail and landmarks to move, or use the arrow keys or WASD. Press E near a landmark to interact. In the work area, drag a piece to its destination or select the piece and then the target.
+Choose a language guide. Click or tap the trail and landmarks to move, or use the arrow keys or WASD. Press E near an object to interact. After Lin authorizes the route, tap a piece and walk it to the matching socket or stone. The field action button provides a touch and keyboard alternative and walks you to the relevant anchor. Press R or use Turn marker clockwise to orient a flag.
 
-Use the same address and browser to resume. The Field log contains collected observations, landmark directions and the teacher JSON export. Settings offers save backups, restore, reset, Chinese support, focus view, reduced motion and optional sound effects. Approved narration is pending.
+Use the same address and browser to resume. The Field log contains collected observations, landmark directions and the teacher JSON export. Settings offers save backups, restore, reset, Chinese support, focus view, reduced motion and optional sound effects. Use Replay Ranger Lin to hear locally bundled Kokoro dialogue. Captions remain visible. See the [audio manifest and evaluation](audio/README.md).
 
 ## Develop and verify
 
@@ -29,7 +29,7 @@ npm run build
 python3 tests/browser.py
 ```
 
-The browser suite uses Python Playwright and Chromium. Set `CHROMIUM_PATH` if Chromium is installed elsewhere. The build writes the single-file HTML and deterministic ZIP to `build/`. Browser screenshots land in `test-results/`. See [visual QA and screenshots](visual-review/QA.md), [change log](visual-review/CHANGELOG.md), [asset provenance](visual-review/ASSET_PROVENANCE.md), and the [archived v0.1.0 test record](TOOL_SELECTION_AND_QA.md).
+The browser suite uses Python Playwright and Chromium. Set `CHROMIUM_PATH` if Chromium is installed elsewhere. The build writes the single-file HTML and deterministic ZIP to `build/`. Browser screenshots land in `test-results/`. See [v0.3 visual QA and screenshots](visual-review/V030_QA.md), [change log](visual-review/CHANGELOG.md), [asset provenance](visual-review/ASSET_PROVENANCE.md), and the [archived v0.1.0 test record](TOOL_SELECTION_AND_QA.md).
 
 ## Reusable systems
 
@@ -43,3 +43,5 @@ The browser suite uses Python Playwright and Chromium. Set `CHROMIUM_PATH` if Ch
 | Offline build | Single embedded HTML, reproducible ZIP and browser tests against the exact extracted bytes |
 
 The source handoff is in [CODEX_START_HERE.md](CODEX_START_HERE.md), [DESIGN_BRIEF.md](DESIGN_BRIEF.md) and the [language-action matrix](LANGUAGE_ACTION_MATRIX.csv).
+
+The frozen [v0.2 standalone HTML](downloads/Broken-Bridge-v0.2.0.html) and its [visual QA](visual-review/QA.md) remain available for comparison.

@@ -13,9 +13,10 @@ export function mountWorld(Phaser, host, app) {
   const walkLimit = x => bankAt(nearBank,x)+8;
   const farLimit = x => bankAt(farBank,x)-5;
   const routes = { bridge: [[450,417],[450,288]], ford: [[969,420],[829,299]] };
+  const crossingOpen=state=>state.delivered || (state.route==='ford'&&state.pieces.includes('postA'));
   const canWalk = (state,x,y) => {
     if(y>=walkLimit(x) && y<=489) return true;
-    if(!state.delivered) return false;
+    if(!crossingOpen(state)) return false;
     if(y>=202 && y<=farLimit(x)) return true;
     const [[nx,ny],[fx,fy]]=routes[state.route];
     const center=nx+(fx-nx)*(ny-y)/(ny-fy);
@@ -39,7 +40,8 @@ export function mountWorld(Phaser, host, app) {
         if (['ArrowLeft','ArrowRight','ArrowUp','ArrowDown','KeyA','KeyD','KeyW','KeyS'].includes(event.code)) {
           event.preventDefault(); this.keys.add(event.code);
         }
-        if (event.code === 'KeyE') app.interact(app.near());
+        if (event.code === 'KeyE' && !app.fieldworkKey()) app.interact(app.near());
+        if (event.code === 'KeyR') app.fieldworkTurn();
       });
       this.input.keyboard.on('keyup', event => this.keys.delete(event.code));
       window.addEventListener('blur', () => this.keys.clear());
@@ -48,10 +50,10 @@ export function mountWorld(Phaser, host, app) {
     walk(x,y,id) {
       const state=app.state();
       x=clamp(x,55,1005);y=clamp(y,202,489);
-      const far=state.delivered && y<=farLimit(x);
+      const far=crossingOpen(state) && y<=farLimit(x);
       if(!far && !canWalk(state,x,y)) y=clamp(y,walkLimit(x),489);
       const positions=[];
-      if(state.delivered) {
+      if(crossingOpen(state)) {
         const onNear=state.y>=walkLimit(state.x), wantsNear=y>=walkLimit(x);
         const onFar=state.y<=farLimit(state.x);
         const [nearEdge,farEdge]=routes[state.route];
@@ -64,7 +66,7 @@ export function mountWorld(Phaser, host, app) {
     }
     onFarBank() {
       const state=app.state();
-      return state.delivered && state.y<=farLimit(state.x);
+      return crossingOpen(state) && state.y<=farLimit(state.x);
     }
     useCrossing() {
       const state=app.state();
@@ -82,7 +84,13 @@ export function mountWorld(Phaser, host, app) {
       const state=app.state();
       const dt=Math.min(delta,40)/1000;
       const camera=this.cameras.main;
-      const zoom=Math.min(Math.max(camera.height/540, camera.width/1060),camera.height/370);
+      const portrait=camera.width<camera.height;
+      const talking=app.conversation();
+      const baseZoom=Math.min(Math.max(camera.height/540,camera.width/1060),camera.height/370);
+      const closeBridge=state.route==='bridge'&&!state.delivered&&Math.abs(state.x-450)<57;
+      const desiredZoom=baseZoom*(talking?(portrait?1.22:1.36):closeBridge&&!portrait?1.12:1);
+      const blend=app.motion()?Math.min(1,dt*7):1;
+      const zoom=this.cameraReady?Phaser.Math.Linear(camera.zoom,desiredZoom,blend):desiredZoom;
       camera.setZoom(zoom);
       const half=camera.width/(2*zoom);
       if(!canWalk(state,state.x,state.y)) state.y=walkLimit(state.x);
@@ -126,7 +134,14 @@ export function mountWorld(Phaser, host, app) {
           }
         } else if(this.moving) { this.moving=false; app.save(); }
       }
-      camera.centerOn(half>=530?530:clamp(state.x,half,1060-half),camera.height/zoom<540?540-camera.height/(2*zoom):270);
+      const opening=portrait&&!state.question&&state.x<375;
+      const centerX=talking?(portrait?sites.ranger.x:sites.ranger.x+115):
+        opening?Math.max(355,state.x):state.x;
+      const centerY=talking&&portrait?533:camera.height/zoom<540?540-camera.height/(2*zoom):270;
+      const targetX=half>=530?530:clamp(centerX,half,1060-half);
+      camera.centerOn(this.cameraReady?Phaser.Math.Linear(camera.midPoint.x,targetX,blend):targetX,
+        this.cameraReady?Phaser.Math.Linear(camera.midPoint.y,centerY,blend):centerY);
+      this.cameraReady=true;
       const motion=app.motion();
       const time=motion?performance.now()/1000:0;
       const worldState=state.id+':'+state.pieces.join(',');
@@ -135,7 +150,12 @@ export function mountWorld(Phaser, host, app) {
         this.lastPaint=time; this.lastMotion=motion; this.lastFrame=worldState;
       }
       const ranger=sites.ranger;
-      let rx=ranger.x,ry=ranger.y,step=0;
+      const greeting=talking&&!state.delivered&&Math.hypot(state.x-ranger.x,state.y-ranger.y)<48;
+      const dxToScout=Math.sign(state.x-ranger.x)||1;
+      const mark=greeting?dxToScout*6:0;
+      const oldShift=this.rangerShift??0;
+      this.rangerShift=Phaser.Math.Linear(oldShift,mark,blend);
+      let rx=ranger.x+this.rangerShift,ry=ranger.y,step=Math.abs(oldShift-mark)>1&&app.motion()?time*16:0;
       if(this.deliverySession!==state.id) {
         this.deliverySession=state.id;
         this.deliveryElapsed=state.delivered?4300:0;
@@ -160,8 +180,18 @@ export function mountWorld(Phaser, host, app) {
           this.art.parcel.setPosition(x+19,y+1).setDepth(y+1).setDisplaySize(23,16);
         }
       } else this.art.parcel.setPosition(204,431).setDepth(431).setDisplaySize(30,21);
-      figure(this.art.ranger,rx,ry,{step,face:Math.sign(state.x-rx)||1,gesture:motion&&app.conversation()});
-      figure(this.art.scout,state.x,state.y,{step:motion&&this.moving&&!app.paused()?this.step:0,face:this.face,gesture:motion&&app.conversation()});
+      figure(this.art.ranger,rx,ry,{step,face:Math.sign(state.x-rx)||1,gesture:talking&&(!motion||app.voicePlaying()||Math.sin(time*2.3)>.19)});
+      figure(this.art.scout,state.x,state.y,{step:motion&&this.moving&&!app.paused()?this.step:0,face:talking?Math.sign(rx-state.x)||this.face:this.face,gesture:motion&&talking});
+      const carried=app.carry();
+      this.art.parcel.setVisible(state.delivered||carried?.item.id!=='pack');
+      if(carried){
+        const asset=carried.item.asset;
+        const height=asset.startsWith('flag-')?35:asset==='rope'?14:18;
+        this.art.carry.setTexture(asset).setDisplaySize(height*this.textures.get(asset).getSourceImage().width/
+          this.textures.get(asset).getSourceImage().height,height)
+          .setPosition(state.x+13*this.face,state.y-29).setDepth(state.y+.7)
+          .setAngle(carried.item.bearing===undefined?0:carried.bearing*90).setVisible(true);
+      } else this.art.carry.setVisible(false);
       app.placePins(this);
     }
   }

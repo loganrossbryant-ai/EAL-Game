@@ -1,0 +1,104 @@
+{
+  "character": "Ranger Lin",
+  "engine": "Kokoro-ONNX 0.6.1",
+  "source_release": "https://github.com/thewh1teagle/kokoro-onnx/releases/tag/model-files-v1.0",
+  "voice": "af_heart",
+  "language": "en-us",
+  "speed": 0.91,
+  "model_files_sha256": {
+    "kokoro-v1.0.onnx": "7d5df8ecf7d4b1878015a32686053fd0eebe2bc377234608764cc0ef3636a6c5",
+    "voices-v1.0.bin": "bca610b8308e8d99f32e6fe4197e7ec01679264efed0cac9140fe9c29f1fbf7d"
+  },
+  "clips": {
+    "opening": {
+      "file": "opening.mp3",
+      "caption": "The lookout needs supplies. A crossing must be made safe before we go.",
+      "sha256": "56358c2ab4ddc49daba04c34073fcd8e99a62fe67d6e13447a0b5e008825645c",
+      "duration_seconds": 4.584
+    },
+    "returnBasic": {
+      "file": "returnBasic.mp3",
+      "caption": "Tell me what you saw. The bridge and the ford each need a different safety check.",
+      "sha256": "7718750c146620b6bde0f5fb026ac8aac2d5f28bb643d1130cddd18c1c8b6a28",
+      "duration_seconds": 4.728
+    },
+    "returnBridge": {
+      "file": "returnBridge.mp3",
+      "caption": "You found the damaged deck. Check the rack as well. Are the spare boards the same length as the gap?",
+      "sha256": "a3d59c84b6bd1cf9d05e92f65b2ea8bc9ccd8e91aa30a2eb7922593c2bbfca72",
+      "duration_seconds": 6.144
+    },
+    "returnFord": {
+      "file": "returnFord.mp3",
+      "caption": "You checked the water. Compare your reading with the posted limit, then show me where the stones lead.",
+      "sha256": "c1ea2241f837871cd189b269df4279c4f1f58a34eb2acf2f262ae15bced6d2e5",
+      "duration_seconds": 6.024
+    },
+    "directionFord": {
+      "file": "directionFord.mp3",
+      "caption": "The ford is downstream. Look for white stones and check the water depth.",
+      "sha256": "7f20a7df37e2578019faf2537a08f2888153c039650ea46913b35cb53d238fcd",
+      "duration_seconds": 4.56
+    },
+    "directionBridge": {
+      "file": "directionBridge.mp3",
+      "caption": "Measure the gap in the bridge. Check the spare boards on the tool rack. The inspection tag tells you about the supports.",
+      "sha256": "84673e4a0200fb61d434915f0dc3c1dd07875348345a0889600509ae1b9c8f40",
+      "duration_seconds": 7.368
+    },
+    "authorizedBridge": {
+      "file": "authorizedBridge.mp3",
+      "caption": "Those measurements match. Collect the two boards from the tool rack. Then fetch the rope and secure it on the bridge.",
+      "sha256": "5c9df8c60f08dab80c01ff665f0ab5666b36dcb174bf3ffa02f4fb2bdb914c56",
+      "duration_seconds": 7.08
+    },
+    "authorizedFord": {
+      "file": "authorizedFord.mp3",
+      "caption": "The ford is within the posted limit. I will release the markers and the supply pack.",
+      "sha256": "8ec72b55e9b780c95467e57109dcf059933182cb6b7d22f3c9b0594916fc2138",
+      "duration_seconds": 5.424
+    },
+    "retryEvidence": {
+      "file": "retryEvidence.mp3",
+      "caption": "I need both observations for that plan. Check your field evidence and try again.",
+      "sha256": "d12855b7195b3f07a4ee9b557cfb7f279735733a7c9117e646b235b2752a17a8",
+      "duration_seconds": 5.232
+    },
+    "unsafe": {
+      "file": "unsafe.mp3",
+      "caption": "Stop here. The water at the bridge is thirty-eight centimetres deep. Look downstream and compare the ford to its limit.",
+      "sha256": "6ad80a6dd5c2e6420898cccd809943af4059bb89bba7a19f0a81ba94df348436",
+      "duration_seconds": 7.416
+    },
+    "reportBridge": {
+      "file": "reportBridge.mp3",
+      "caption": "The supports are sound. Now tell me which crossing you recommend.",
+      "sha256": "3c2584a857fe7e554c374e69ef5050363b87650606f8f406c050ef68fce64dc4",
+      "duration_seconds": 3.912
+    },
+    "reportMissing": {
+      "file": "reportMissing.mp3",
+      "caption": "Go to the north edge of the clearing and look for the missing boards.",
+      "sha256": "f3aeca9c1e50415246fa61ed0ff6861046ee20c74a82ef2aaf555592224c3cf1",
+      "duration_seconds": 3.696
+    },
+    "deliveryInProgress": {
+      "file": "deliveryInProgress.mp3",
+      "caption": "Watch the crossing. Meet me here when I have delivered the pack.",
+      "sha256": "4b86ff9efe7e5109c0952924194451e216934aea72e9338256a4ac49415ed1d0",
+      "duration_seconds": 3.768
+    },
+    "endingBridge": {
+      "file": "endingBridge.mp3",
+      "caption": "The bridge is open. Your two boards are secure. The supply pack is now at the lookout.",
+      "sha256": "f0526ca6c24d21df63c574f0316fd095554e576cd7d97758c9e8cb2f598c17e2",
+      "duration_seconds": 5.712
+    },
+    "endingFord": {
+      "file": "endingFord.mp3",
+      "caption": "Your flags mark the white stones. The supplies are at the lookout. The bridge is still closed.",
+      "sha256": "a3347091b8851562eab277983bd32ff60b32ca91575e05b4158631f4680ecad4",
+      "duration_seconds": 6.096
+    }
+  }
+}

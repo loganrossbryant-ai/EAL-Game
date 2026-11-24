@@ -6,6 +6,8 @@ on:
       - 'studio/**'
       - 'tutoring-games/**'
       - 'scripts/check_studio_contract.py'
+      - 'scripts/bootstrap_game.py'
+      - 'scripts/test_bootstrap_game.py'
       - 'AGENTS.md'
       - '.github/workflows/studio-contract.yml'
   pull_request:
@@ -13,6 +15,8 @@ on:
       - 'studio/**'
       - 'tutoring-games/**'
       - 'scripts/check_studio_contract.py'
+      - 'scripts/bootstrap_game.py'
+      - 'scripts/test_bootstrap_game.py'
       - 'AGENTS.md'
       - '.github/workflows/studio-contract.yml'
   workflow_dispatch:
@@ -24,4 +28,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Validate standards and starter schemas (NOT visual/gameplay QA)
-        run: python3 scripts/check_studio_contract.py
+        run: |
+          python3 scripts/check_studio_contract.py
+          python3 scripts/test_bootstrap_game.py

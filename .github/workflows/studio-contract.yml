@@ -1,0 +1,27 @@
+name: EAL Studio contract integrity
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'studio/**'
+      - 'tutoring-games/**'
+      - 'scripts/check_studio_contract.py'
+      - 'AGENTS.md'
+      - '.github/workflows/studio-contract.yml'
+  pull_request:
+    paths:
+      - 'studio/**'
+      - 'tutoring-games/**'
+      - 'scripts/check_studio_contract.py'
+      - 'AGENTS.md'
+      - '.github/workflows/studio-contract.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  check-studio-structure:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate standards and starter schemas (NOT visual/gameplay QA)
+        run: python3 scripts/check_studio_contract.py

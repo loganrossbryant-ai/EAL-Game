@@ -1,0 +1,53 @@
+{
+  "schema_version": "concept-only-v1",
+  "status": "ILLUSTRATIVE_NOT_RUNTIME",
+  "warning": "This is a narrative/content example only. Not a tested parser or reusable engine.",
+  "game_id": "sample_adventure",
+  "audience": {
+    "profile": "learner-specific",
+    "level": "to_be_verified"
+  },
+  "scene_ids": [
+    "clearing",
+    "river_crossing"
+  ],
+  "npc_dialogue": [
+    {
+      "node_id": "ranger_greeting",
+      "npc_id": "ranger",
+      "english": "Can you help me?",
+      "zh": "你能帮帮我吗？",
+      "line_audio_id": "",
+      "choices": [
+        {
+          "id": "inspect",
+          "label": "I will look at the bridge.",
+          "requires": [
+            "bridge_seen"
+          ],
+          "effect": "inspect_bridge"
+        }
+      ]
+    }
+  ],
+  "interaction_actions": [
+    {
+      "id": "inspect_bridge",
+      "verb": "inspect",
+      "preconditions": [],
+      "world_effect": "clue_revealed",
+      "language_target": "sample_only"
+    }
+  ],
+  "teacher_evidence_schema": [
+    "target_id",
+    "hint_use",
+    "choice",
+    "constructed_output",
+    "self_reported_speaking"
+  ],
+  "audio": {
+    "new_voice_default": "Kokoro",
+    "offline_required": true
+  }
+}

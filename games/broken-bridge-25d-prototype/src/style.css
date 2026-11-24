@@ -98,3 +98,16 @@ dialog.cinematic .prop-ranger{height:clamp(72px,18vh,145px);background:#142522;}
 @media(max-height:480px) and (orientation:landscape){dialog.cinematic .prop-ranger{height:76px;}}
 body:has(dialog.cinematic[open]) .mission,body:has(dialog.cinematic[open]) .location{visibility:hidden;}
 .cited-observation{display:block;color:var(--muted);padding-left:28px;line-height:1.35;margin-top:2px;}
+
+.site-mark{display:grid;place-items:center;width:22px;height:22px;transform:none;border-radius:50%;
+  color:#fff4ce;font:600 15px/1 system-ui;background:#192b2deb;box-shadow:0 0 0 2px #192b2d85;}
+.trail-map{margin:16px 0 12px;padding:10px 11px;background:#142b2c;border:1px solid #57746a;border-radius:10px;}
+.trail-map figcaption{font-weight:650;font-size:.84rem;margin:0 0 7px;}
+.trail-track{position:relative;height:7px;border-radius:8px;background:#54736b;margin:10px 8px 11px;}
+.trail-track i{position:absolute;top:50%;width:14px;height:14px;background:var(--gold);
+ transform:translate(-50%,-50%);border:2px solid #223330;border-radius:50%;}
+.trail-stations{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:4px;}
+.trail-stations button{padding:4px;font-size:.73rem;line-height:1.2;}
+.trail-stations span{display:block;color:var(--gold);}
+
+.toast{pointer-events:none;}

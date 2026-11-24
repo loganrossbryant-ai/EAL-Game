@@ -21,6 +21,8 @@ export const FIELD_ITEMS = {
   ],
 };
 const BEARINGS = ['↗ Northeast','↘ Southeast','↙ Southwest','↖ Northwest'];
+const BOARD_ANGLES = ['Across the deck', 'Skewed clockwise', 'Along the deck', 'Skewed counterclockwise'];
+const ROPE_CLEAT = {name:'Tension cleat', anchor:[467,351], stand:[468,416]};
 const actionId = (type, index) => `field-${type}${index}`;
 const distanceTo = (current, [x,y]) => Math.hypot(current.x-x,current.y-y);
 
@@ -44,7 +46,8 @@ function createMarker(layer,type,item,index,texture,activate) {
   return marker;
 }
 
-export function createFieldwork({stage,state,paused,walk,notify,onPlaced,onDelivered,texture}) {
+export function createFieldwork({stage,state,paused,walk,notify,onPlaced,onDelivered,texture,
+  motion=()=>true,onActivity=()=>{},onGuideVoice}) {
   const layer=document.createElement('div');
   layer.className='field-layer';
   layer.setAttribute('aria-label','Work on the crossing');
@@ -56,19 +59,42 @@ export function createFieldwork({stage,state,paused,walk,notify,onPlaced,onDeliv
   carrySprite.draggable=true;
   carrySprite.hidden=true;
   layer.append(carrySprite);
+  function preview(className) {
+    const image=document.createElement('img');
+    image.className='field-preview '+className;
+    image.alt='';
+    image.hidden=true;
+    layer.append(image);
+    return image;
+  }
+  const ghost=preview('field-ghost');
+  const hooked=preview('field-hooked');
+  const glide=preview('field-glide');
+  const tension=document.createElement('button');
+  tension.type='button';
+  tension.dataset.action='tension';
+  tension.className='field-marker field-tension';
+  tension.setAttribute('aria-label','Tension the rope');
+  tension.innerHTML='<span class="field-socket-dot" aria-hidden="true"></span>';
+  tension.hidden=true;
+  layer.append(tension);
 
   const belt=document.createElement('section');
   belt.className='field-belt';
   belt.setAttribute('aria-label','Work equipment and directions');
   belt.innerHTML=`
-    <span class="field-belt-copy"><strong id="field-holding"></strong><small id="field-instruction"></small></span>
-    <button type="button" id="field-guide" class="field-control"></button>
+    <span class="field-belt-brief">
+      <span class="field-belt-copy"><strong id="field-holding"></strong><small id="field-instruction"></small></span>
+      <button type="button" id="field-listen" class="field-control" aria-label="Hear instructions" title="Hear instructions" ${onGuideVoice?'':'hidden'}>▶</button>
+    </span>
+    <button type="button" id="field-guide" class="field-control" title="Use guided assistance"></button>
     <button type="button" id="field-rotate" class="field-control" hidden>Turn marker clockwise</button>
     <button type="button" id="field-drop" class="field-control" hidden>Return material</button>`;
   layer.append(belt);
   stage.append(layer);
 
   let carriedIndex=null, markedRoute=null, actorState=null, bearing=0;
+  let ropeHooked=false, hookAssisted=false, moving=null, queued=null, rejected=null, dragPoint=null, contactUntil=0;
   let markers=[];
   const holding=belt.querySelector('#field-holding');
   const instruction=belt.querySelector('#field-instruction');
@@ -78,7 +104,9 @@ export function createFieldwork({stage,state,paused,walk,notify,onPlaced,onDeliv
   const items=()=>FIELD_ITEMS[state()?.route]??[];
   const isActive=()=>Boolean(state()?.route && !state().delivered);
   const carried=()=>carriedIndex===null?null:items()[carriedIndex]??null;
-  const carriedPose=()=>carried()?{item:carried(),bearing}:null;
+  const isBoard=item=>item?.asset==='board';
+  const angleOf=item=>isBoard(item)?bearing*45:item?.bearing===undefined?0:bearing*90;
+  const carriedPose=()=>carried()&&!moving&&!ropeHooked?{item:carried(),bearing,angle:angleOf(carried())}:null;
   const isPlaced=item=>state().pieces.includes(item.id);
   const setText=(node, text)=>{ if(node.textContent!==text) node.textContent=text; };
 
@@ -86,6 +114,7 @@ export function createFieldwork({stage,state,paused,walk,notify,onPlaced,onDeliv
     if(state()===actorState && state()?.route===markedRoute)return;
     actorState=state(); markedRoute=state()?.route;
     carriedIndex=null; bearing=0;
+    ropeHooked=false;hookAssisted=false;moving=null;queued=null;rejected=null;dragPoint=null;contactUntil=0;
     for(const {pick,target} of markers){pick.remove();target.remove();}
     markers=items().map((item,index)=>{
       const pick=createMarker(layer,'pick',item,index,texture,activate);
@@ -93,13 +122,16 @@ export function createFieldwork({stage,state,paused,walk,notify,onPlaced,onDeliv
       target.addEventListener('dragover',event=>{if(carried())event.preventDefault();});
       target.addEventListener('drop',event=>{
         event.preventDefault();
-        if(event.dataTransfer.getData('text/plain')===carried()?.id) activate(actionId('place',index));
+        event.stopPropagation();
+        dragPoint=null;
+        if(event.dataTransfer.getData('text/plain')===carried()?.id) activate(actionId('place',index),'drag');
       });
       return {pick,target};
     });
   }
 
   function describe(id) {
+    if(id==='field-tension')return 'Tension the rope';
     const match=/^field-(pick|place)([0-2])$/.exec(id??'');
     const item=match&&items()[Number(match[2])];
     if(!item)return '';
@@ -108,29 +140,60 @@ export function createFieldwork({stage,state,paused,walk,notify,onPlaced,onDeliv
   }
 
   function available(type,index,item) {
-    if(isPlaced(item))return false;
-    return type==='pick'?carriedIndex!==index:carriedIndex!==null;
+    if(isPlaced(item)||moving)return false;
+    if(type==='pick')return !ropeHooked&&carriedIndex!==index;
+    return !ropeHooked&&carriedIndex!==null;
   }
   const mismatch=(item)=>`The ${carried().name.toLowerCase()} does not fit the ${item.target.toLowerCase()}. Try the matching position.`;
+  function report(action,item,method,assisted) {
+    onActivity({action,piece:item.id,method,assisted,route:state().route});
+  }
+  function reject(item,message,method,assisted,targetIndex) {
+    rejected={index:targetIndex,until:performance.now()+660};
+    report('contact-rejected',item,method,assisted);
+    notify(message);
+  }
 
-  function activate(id) {
-    if(!isActive()||paused())return;
+  function activate(id,method='tap') {
+    if(!isActive()||paused()||moving)return;
+    if(id==='field-tension'){
+      if(!ropeHooked)return;
+      const auto=distanceTo(state(),ROPE_CLEAT.stand)>17;
+      const access={method,assisted:method==='guide'||auto};
+      if(auto){queued={id,...access};walk(...ROPE_CLEAT.stand,id);}
+      else interact(id,access);
+      return;
+    }
     const match=/^field-(pick|place)([0-2])$/.exec(id);
     if(!match)return;
     const [, type, index]=match, item=items()[Number(index)];
     if(!item||!available(type,Number(index),item))return;
     if(type==='place'&&item.id==='postB'&&!state().pieces.includes('postA')) {
-      notify(carriedIndex!==Number(index)?mismatch(item):'Plant the near marker first. It marks the safe entrance to the stones.');
+      reject(carried(),carriedIndex!==Number(index)?mismatch(item):'Plant the near marker first. It marks the safe entrance to the stones.',
+        method,method==='guide',Number(index));
       return;
     }
     const point=type==='pick'?item.pickup:item.stand;
-    if(distanceTo(state(),point)>17)walk(...point,id);
-    else interact(id);
+    const auto=distanceTo(state(),point)>17;
+    const access={method,assisted:method==='guide'||auto};
+    if(auto){queued={id,...access};walk(...point,id);}
+    else interact(id,access);
   }
 
-  function interact(id) {
+  function interact(id,access) {
     if(!id?.startsWith('field-'))return false;
-    if(!isActive()||paused())return true;
+    if(!isActive()||paused()||moving)return true;
+    const {method='keyboard',assisted=false}=access??(queued?.id===id?queued:{});
+    queued=null;
+    if(id==='field-tension') {
+      if(!ropeHooked||distanceTo(state(),ROPE_CLEAT.stand)>19)return true;
+      const rope=carried();
+      snap(rope,items()[2].anchor,ROPE_CLEAT.anchor,()=>{
+        report('rope-tensioned',rope,method,assisted||hookAssisted);
+        complete(rope,method,assisted||hookAssisted);
+      });
+      return true;
+    }
     const match=/^field-(pick|place)([0-2])$/.exec(id);
     if(!match)return true;
     const [, type, rawIndex]=match, index=Number(rawIndex), item=items()[index];
@@ -142,35 +205,63 @@ export function createFieldwork({stage,state,paused,walk,notify,onPlaced,onDeliv
       // A two-handed carry takes one piece. The previous item goes back to
       // its supply point, so a wrong pickup cannot strand the puzzle.
       carriedIndex=index; bearing=0;
+      report('collected',item,method,assisted);
       notify(previous
         ?`Returned ${previous.name.toLowerCase()}. Carrying ${item.name.toLowerCase()}.`
         :`Carrying ${item.name.toLowerCase()}.`);
       return true;
     }
     if(carriedIndex!==index) {
-      notify(mismatch(item));
+      reject(carried(),mismatch(item),method,assisted,index);
       return true;
     }
     if(item.id==='postB'&&!state().pieces.includes('postA')) {
-      notify('Plant the near marker first to mark the safe entrance.');
+      reject(item,'Plant the near marker first to mark the safe entrance.',method,assisted,index);
       return true;
     }
     if(item.bearing!==undefined&&bearing!==item.bearing) {
-      notify(item.bearing===3
+      reject(item,item.bearing===3
         ?'Turn the near marker northwest, toward the far white stone.'
-        :'Turn the far marker southeast, back toward the near white stone.');
+        :'Turn the far marker southeast, back toward the near white stone.',method,assisted,index);
       return true;
     }
-    if(!operate(state(),item.id)) {
-      notify(state().route==='bridge'?'Fit both boards before securing the rope.':'Plant both markers before delivering the pack.');
+    if(isBoard(item)&&bearing!==0) {
+      reject(item,'Turn the board across the deck to line it up with both sockets.',method,assisted,index);
       return true;
     }
+    if(index===2&&state().pieces.length!==2) {
+      reject(item,state().route==='bridge'?'Fit both boards before securing the rope.':'Plant both markers before delivering the pack.',method,assisted,index);
+      return true;
+    }
+    const from=[state().x, state().y-28];
+    if(item.id==='rope') {
+      snap(item,from,item.anchor,()=>{
+        ropeHooked=true;hookAssisted=assisted;
+        report('rope-hooked',item,method,assisted);
+        notify('Rope hooked. Pull it to the second cleat to tension it.');
+      });
+      return true;
+    }
+    snap(item,from,item.anchor,()=>complete(item,method,assisted));
+    return true;
+  }
+
+  function complete(item,method,assisted) {
+    if(!operate(state(),item.id))return;
     carriedIndex=null;
     bearing=0;
+    ropeHooked=false;
+    hookAssisted=false;
+    report('placed',item,method,assisted);
     onPlaced(item);
     if(state().delivered)onDelivered();
     else notify(state().route==='bridge'?'Board seated.':'Marker planted.');
-    return true;
+  }
+
+  function snap(item,from,to,finish) {
+    const now=performance.now();
+    if(!motion()){contactUntil=now+170;finish();return;}
+    moving={item,from,to,angle:angleOf(item),finish,started:now};
   }
 
   function next() {
@@ -181,6 +272,7 @@ export function createFieldwork({stage,state,paused,walk,notify,onPlaced,onDeliv
 
   function near() {
     if(!isActive()||paused())return null;
+    if(ropeHooked)return distanceTo(state(),ROPE_CLEAT.stand)<18?'field-tension':null;
     const held=carried();
     if(held && distanceTo(state(),held.stand)<18)return actionId('place',carriedIndex);
     let best=null, distance=18;
@@ -194,13 +286,27 @@ export function createFieldwork({stage,state,paused,walk,notify,onPlaced,onDeliv
   }
 
   guide.addEventListener('click',()=>{
+    if(ropeHooked){activate('field-tension','guide');return;}
     const command=next();
-    if(command)activate(actionId(...command));
+    if(command)activate(actionId(...command),'guide');
+  });
+  belt.querySelector('#field-listen').addEventListener('click',()=>{
+    if(!isActive()||paused())return;
+    const nextItem=items()[next()?.[1]];
+    const id=state().route==='ford'?'guideFord':nextItem?.id==='rope'?'guideRope':'guideBoard';
+    onGuideVoice?.(id);
+  });
+  tension.addEventListener('click',()=>activate('field-tension'));
+  tension.addEventListener('dragover',event=>{if(ropeHooked)event.preventDefault();});
+  tension.addEventListener('drop',event=>{
+    event.preventDefault();event.stopPropagation();dragPoint=null;
+    if(event.dataTransfer.getData('text/plain')==='rope')activate('field-tension','drag');
   });
   function turn() {
-    if(!isActive()||paused()||carried()?.bearing===undefined)return false;
+    const item=carried();
+    if(!isActive()||paused()||moving||(!isBoard(item)&&item?.bearing===undefined))return false;
     bearing=(bearing+1)%4;
-    notify('Marker points '+BEARINGS[bearing]+'.');
+    notify(isBoard(item)?'Board alignment: '+BOARD_ANGLES[bearing]+'.':'Marker points '+BEARINGS[bearing]+'.');
     return true;
   }
   rotate.addEventListener('click',turn);
@@ -210,10 +316,28 @@ export function createFieldwork({stage,state,paused,walk,notify,onPlaced,onDeliv
     event.dataTransfer.setData('text/plain',item.id);
     event.dataTransfer.effectAllowed='move';
   });
+  carrySprite.addEventListener('dragend',()=>{dragPoint=null;});
+  stage.addEventListener('dragover',event=>{
+    if(!carried()||paused()||moving)return;
+    event.preventDefault();
+    const rect=stage.getBoundingClientRect();
+    const target=event.target.closest?.('.field-place');
+    dragPoint=[event.clientX-rect.left,event.clientY-rect.top,target?Number(target.dataset.action.at(-1)):null];
+  });
+  stage.addEventListener('dragleave',event=>{
+    if(!(event.relatedTarget instanceof Node)||!stage.contains(event.relatedTarget))dragPoint=null;
+  });
+  stage.addEventListener('drop',event=>{
+    if(!dragPoint||event.dataTransfer.getData('text/plain')!==carried()?.id)return;
+    event.preventDefault();dragPoint=null;
+    notify(ropeHooked?'The rope stays hooked. Pull it to the lit second cleat.'
+      :'The material stays in your hands. Aim for a lit socket.');
+  });
   drop.addEventListener('click',()=>{
     const item=carried();
-    if(!item)return;
+    if(!item||moving)return;
     carriedIndex=null; bearing=0;
+    ropeHooked=false;hookAssisted=false;
     notify('Returned '+item.name.toLowerCase()+'.');
   });
 
@@ -229,33 +353,44 @@ export function createFieldwork({stage,state,paused,walk,notify,onPlaced,onDeliv
 
   function render(world) {
     resetIfNeeded();
+    const now=performance.now();
+    if(moving&&now-moving.started>=250&&!paused()) {
+      const {finish}=moving;
+      moving=null;
+      finish();
+    }
     layer.hidden=!isActive()||paused();
     if(layer.hidden)return;
 
     const item=carried();
-    setText(holding,item?'Carrying '+item.name.toLowerCase():'Crossing materials');
-    setText(instruction,item
-      ?item.bearing===undefined?'Walk to '+item.target.toLowerCase()+'.':'Turn the flag, then plant it at '+item.target.toLowerCase()+'.'
+    setText(holding,ropeHooked?'Rope hooked':item?'Carrying '+item.name.toLowerCase():'Crossing materials');
+    setText(instruction,ropeHooked?'Use the second cleat to tension the rope.':item
+      ?isBoard(item)?BOARD_ANGLES[bearing]+'. Aim for the lit socket.'
+        :item.bearing===undefined?'Walk to '+item.target.toLowerCase()+'.':'Turn the flag, then plant it at '+item.target.toLowerCase()+'.'
       :state().route==='bridge'?'Collect and carry one piece at a time.':'Collect the flags and mark the crossing.');
     const command=next();
     const suggested=command&&items()[command[1]];
-    if(suggested){
+    if(ropeHooked)setText(guide,'Tension the rope');
+    else if(suggested){
       const close=distanceTo(state(),command[0]==='pick'?suggested.pickup:suggested.stand)<=17;
       setText(guide,command[0]==='pick'
         ?(close?'Pick up ':'Walk to ')+suggested.name.toLowerCase()
         :close?(suggested.id==='rope'?'Secure rope':'Place '+suggested.name.toLowerCase())
           :'Walk to '+suggested.target.toLowerCase());
     }
-    rotate.hidden=item?.bearing===undefined;
-    drop.hidden=!item;
+    guide.disabled=Boolean(moving);
+    rotate.hidden=!isBoard(item)&&item?.bearing===undefined;
+    setText(rotate,isBoard(item)?'Turn board clockwise':'Turn marker clockwise');
+    drop.hidden=!item;drop.disabled=Boolean(moving);
 
     markers.forEach(({pick,target},index)=>{
       const fieldItem=items()[index];
       if(available('pick',index,fieldItem)) project(pick,world,fieldItem.at); else pick.hidden=true;
       if(available('place',index,fieldItem)) project(target,world,fieldItem.anchor); else target.hidden=true;
       target.dataset.compatible=String(carriedIndex===index);
+      target.dataset.rejected=String(rejected?.index===index&&now<rejected.until);
     });
-    if(item){
+    if(item&&!moving&&!ropeHooked){
       carrySprite.dataset.asset=item.asset;
       const x=state().x+13*(world.face||1), y=state().y-29;
       const [screenX,screenY]=world.project(x,y);
@@ -267,7 +402,39 @@ export function createFieldwork({stage,state,paused,walk,notify,onPlaced,onDeliv
       // Keep the center of each socket tap-through while the scout's hand
       // is directly over it. The small drag handle stays on the held sprite.
       project(carrySprite,world,[x,overlaps?y-14:y]);
-    } else carrySprite.hidden=true;
+    } else if(ropeHooked&&!moving)project(carrySprite,world,items()[2].anchor);
+    else carrySprite.hidden=true;
+    renderPreview(world,item,now);
+  }
+
+  function putImage(node,item,angle) {
+    if(node.dataset.asset!==item.asset){node.dataset.asset=item.asset;node.src=texture[item.asset];}
+    node.style.setProperty('--field-angle',angle+'deg');
+  }
+
+  function renderPreview(world,item,now) {
+    ghost.hidden=true;hooked.hidden=true;glide.hidden=true;tension.hidden=true;
+    if(ropeHooked) {
+      putImage(hooked,item,0);
+      project(hooked,world,items()[2].anchor);
+      if(!moving)project(tension,world,ROPE_CLEAT.anchor);
+    }
+    if(moving) {
+      const p=Math.min((now-moving.started)/250,1), ease=1-(1-p)**3;
+      putImage(glide,moving.item,moving.angle*(1-ease));
+      project(glide,world,moving.from.map((start,i)=>start+(moving.to[i]-start)*ease));
+    } else if(item&&(!ropeHooked||dragPoint)) {
+      putImage(ghost,item,angleOf(item));
+      if(dragPoint){
+        ghost.style.left=dragPoint[0]+'px';
+        ghost.style.top=dragPoint[1]+'px';
+        ghost.hidden=false;
+      } else if(distanceTo(state(),item.stand)<31) {
+        project(ghost,world,item.anchor);
+      }
+      const aligned=isBoard(item)?bearing===0:item.bearing===undefined||bearing===item.bearing;
+      ghost.dataset.aligned=String(aligned&&(dragPoint?.[2]==null||dragPoint[2]===carriedIndex));
+    }
   }
   function inspect() {
     if(!isActive()||paused())return false;
@@ -275,5 +442,6 @@ export function createFieldwork({stage,state,paused,walk,notify,onPlaced,onDeliv
     return true;
   }
 
-  return {render,interact,near,describe,carriedPose,inspect,isActive,turn};
+  return {render,interact,near,describe,carriedPose,inspect,isActive,turn,
+    installing:()=>Boolean(moving)||performance.now()<contactUntil};
 }

@@ -1,0 +1,34 @@
+{
+  "walk-right": [
+    "scout-v4-right-0",
+    "scout-v4-right-1",
+    "scout-v4-right-2",
+    "scout-v4-right-3",
+    "scout-v4-right-4",
+    "scout-v4-right-5"
+  ],
+  "walk-left": [
+    "scout-v4-left-0",
+    "scout-v4-left-1",
+    "scout-v4-left-2",
+    "scout-v4-left-3",
+    "scout-v4-left-4",
+    "scout-v4-left-5"
+  ],
+  "carry-right": [
+    "scout-v4-right-0",
+    "scout-v4-right-1",
+    "scout-v4-right-2",
+    "scout-v4-right-3",
+    "scout-v4-right-4",
+    "scout-v4-right-5"
+  ],
+  "carry-left": [
+    "scout-v4-left-0",
+    "scout-v4-left-1",
+    "scout-v4-left-2",
+    "scout-v4-left-3",
+    "scout-v4-left-4",
+    "scout-v4-left-5"
+  ]
+}

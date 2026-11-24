@@ -28,7 +28,7 @@ export function illustratedWorld(scene) {
   const actor = (role, height) => ({
     image: add(role+'-v3-0',0,0,height*160/192,height,20,.5,188/192),
     shadow: scene.add.ellipse(0,0,22,6,0x171b15,.35),
-    role,height,
+    role,height, gait:0, direction:'right',
   });
   const carry=add('board',0,0,1,1,20,.5,.5).setVisible(false);
   return {current,frontLeft,frontRight,canopy,debris,lamp,bridge,fill,rack,flags,parcel,carry,
@@ -50,10 +50,29 @@ export function paintWorld(art,time,state) {
   art.flags.forEach((flag,i)=>flag.setVisible(state.pieces.includes(['postA','postB'][i])));
 }
 
-export function figure(actor,x,y,{step=0,face=1,gesture=false}={}) {
-  const frame=gesture?3:step?[0,1,0,2][Math.floor(step/2)%4]:0;
+export function figure(actor,x,y,{face=1,gesture=false,pose='',carrying=false}={}) {
+  const dx=x-(actor.x??x),dy=y-(actor.y??y);
+  const distance=Math.hypot(dx,dy);
+  const moving=distance>.065&&distance<35;
   const scale=.83+(y-300)*.00118;
-  actor.image.setTexture(actor.role+'-v3-'+frame).setPosition(x,y)
-    .setDisplaySize(actor.height*160/192*scale,actor.height*scale).setDepth(y+.3).setFlipX(face<0);
-  actor.shadow.setPosition(x+4,y).setDisplaySize(24*scale,6*scale).setDepth(y);
+  if(moving) {
+    const direction=Math.abs(dy)>Math.abs(dx)*.68?(dy<0?'up':'down'):(dx<0?'left':'right');
+    if(direction!==actor.direction) {actor.gait=0;actor.direction=direction;}
+    actor.gait=(actor.gait+distance/(63*scale))%1;
+  } else actor.gait=0;
+  actor.x=x;actor.y=y;
+  const frame=Math.floor(actor.gait*6);
+  const cycle=actor.role+'-v4-'+actor.direction+'-'+frame;
+  const posed=actor.role+'-v4-'+(pose||(carrying?'hold':''));
+  const resolvedPose=(pose||(!moving&&carrying))&&actor.image.scene.textures.exists(posed);
+  const walking=moving&&actor.image.scene.textures.exists(cycle);
+  const key=resolvedPose?posed:walking?cycle:actor.role+'-v3-'+(gesture?3:0);
+  actor.key=key;
+  actor.action=carrying?'carry':moving?'walk':pose|| (gesture?'gesture':'idle');
+  actor.image.setTexture(key).setPosition(x,y)
+    .setDisplaySize(actor.height*160/192*scale,actor.height*scale).setDepth(y+.3)
+    .setFlipX(!walking&&face<0);
+  const footShift=walking?Math.cos(frame*Math.PI/3)*2:0;
+  actor.shadow.setPosition(x+footShift,y).setDisplaySize(24*scale,6*scale).setDepth(y)
+    .setAlpha(walking?(frame%3===0?.93:.76):1);
 }

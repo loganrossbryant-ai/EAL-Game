@@ -1,9 +1,10 @@
 import {fresh, restore, authorize, ROUTES, SAVE_KEY} from './state.mjs';
 import {language, repair, sites} from './content.mjs';
-import {mountWorld} from './world.mjs';
+import {mountWorld, RANGER_DELIVERY_MS} from './world.mjs';
 import {createFieldwork} from './fieldwork.mjs';
 import {recommendationFields, wireRecommendation, readRecommendation, reviewRecommendations} from './language.mjs';
 import {lines} from './dialogue.mjs';
+import {instructionLines} from './instructions.mjs';
 
 const $ = id => document.getElementById(id);
 const panel = $('panel'), body = $('panel-body'), stage = $('stage');
@@ -21,8 +22,11 @@ const zh = text => state.zh ? ` <span lang="zh-Hans" class="zh">${text}</span>` 
 const button = (text, action, cls = '') => `<button data-action="${action}" class="${cls}">${text}</button>`;
 const actions = (...buttons) => `<div class="actions">${buttons.join('')}</div>`;
 const workId = () => state?.route && repair[state.route].site;
+const allLines={...lines,...instructionLines};
 const fieldwork=createFieldwork({
-  stage, texture:ART, state:()=>state, paused:()=>panel.open,
+  stage, texture:ART, state:()=>state, paused:()=>panel.open, motion,
+  onActivity:event=>{state.fieldActions=[...(state.fieldActions??[]),event].slice(-100);save();},
+  onGuideVoice:replayVoice,
   walk:(x,y,id)=>{scene?.walk(x,y,id);stage.focus({preventScroll:true});},
   notify,
   onPlaced:()=>{save();updateMission();audioFeedback(430);},
@@ -40,16 +44,23 @@ function replayVoice(id) {
   const clip=new Audio(VOICE[id]);
   speakingClip=clip;
   const nonce=voiceNonce;
+  if(id.startsWith('guide')&&!panel.open) {
+    const show=()=>{if(nonce===voiceNonce)notify(allLines[id],Math.max(7000,clip.duration*1000));};
+    clip.addEventListener('loadedmetadata',show,{once:true});
+  }
   clip.play().catch(()=>{
     if(nonce===voiceNonce) notify('Audio could not play. The full caption is on screen.');
   });
 }
 function caption(id) {
-  return `<div class="voiced-line"><p class="speech">${lines[id]}</p>${
+  return `<div class="voiced-line"><p class="speech">${allLines[id]}</p>${
     VOICE[id]?button('Replay Ranger Lin','voice-'+id,'voice-replay'):''}</div>`;
 }
+function guideVoice(id) {
+  return VOICE[id]?`<p class="small">${allLines[id]}</p>`+button('Hear instructions','voice-'+id,'voice-replay'):'';
+}
 function voicedFeedback(id, prefix='') {
-  feedback(prefix+lines[id]);
+  feedback(prefix+allLines[id]);
   if(VOICE[id]) $('feedback').insertAdjacentHTML('beforeend',button('Replay Ranger Lin','voice-'+id,'voice-replay'));
 }
 function crossingReady() {
@@ -64,7 +75,7 @@ for (const [id,site] of Object.entries(sites)) {
   const pin = document.createElement('button');
   pin.className = 'pin';
   pin.setAttribute('aria-label', site.name);
-  pin.innerHTML = `<span class="site-mark" aria-hidden="true"></span><span class="pin-label">${site.name}</span>`;
+  pin.innerHTML = `<span class="site-mark" aria-hidden="true">${site.icon}</span><span class="pin-label">${site.name}</span>`;
   pin.addEventListener('click', () => approach(id));
   $('pins').append(pin);
   pins[id] = pin;
@@ -136,12 +147,12 @@ function open(title, kicker, html, onAction, type='') {
   if(scene) scene.goal=null;
 }
 function close() { if(active?.type!=='start') panel.close(); }
-function notify(message) {
+function notify(message,duration=3600) {
   const notice=$('notice');
   notice.textContent=message;
   notice.hidden=false;
   clearTimeout(toastTimer);
-  toastTimer=setTimeout(()=>{notice.hidden=true;},3600);
+  toastTimer=setTimeout(()=>{notice.hidden=true;},duration);
 }
 function feedback(message) {
   const node=$('feedback');
@@ -239,7 +250,7 @@ function interact(id) {
 }
 function ranger() {
   if(state.delivered) {
-    if(motion() && !state.complete && scene?.deliveryElapsed<4300) {
+    if(motion() && !state.complete && scene?.deliveryElapsed<RANGER_DELIVERY_MS) {
       return open('Ranger Lin is on the trail','DELIVERY IN PROGRESS',
         caption('deliveryInProgress')+
         actions(button('Back to trail','close','primary')),close);
@@ -290,7 +301,7 @@ function plan() {
     <label for="recommend">Your route</label>
     <select id="recommend"><option value="">Choose a plan</option><option value="bridge">Repair the bridge</option><option value="ford">Mark the ford</option><option value="unsafe">Cross beside the bridge</option></select>
     <div class="checks">${clueInputs}</div>`+
-    recommendationFields({mode:state.mode,draft:state.draft,escape:esc,chinese:state.zh})+feedbackBox+
+    guideVoice(state.mode==='elementary'?'guideElementary':'guideMiddle')+button('Hear evidence instructions','voice-guideEvidence','voice-replay')+recommendationFields({mode:state.mode,draft:state.draft,escape:esc,chinese:state.zh})+feedbackBox+
       actions(button('Tell Ranger Lin','send','primary'),button('Hint','hint'),button('Back','back')),
     action=>{
       if(action==='back') return ranger();
@@ -303,19 +314,22 @@ function plan() {
         state.hints.push('route evidence');save();return;
       }
       if(!route) return feedback('Choose a recommendation, then add observations.');
-      const student=readRecommendation(body,state.mode);
+      const student=readRecommendation(body,state.mode,route);
       if(route==='unsafe') {
-        state.attempts.push({route,cited:selected,message:student.message,production:student.production,accepted:false});save();
+        state.attempts.push({route,cited:selected,message:student.message,production:student.production,fact:student.fact,inference:student.inference,accepted:false});save();
         return voicedFeedback('unsafe');
       }
       const supporting=ROUTES[route].clues.every(id=>state.clues.includes(id)&&selected.includes(id));
       if(!supporting) {
-        state.attempts.push({route,cited:selected,message:student.message,production:student.production,accepted:false});save();
+        state.attempts.push({route,cited:selected,message:student.message,production:student.production,fact:student.fact,inference:student.inference,accepted:false});save();
         return voicedFeedback('retryEvidence');
       }
-      if(!student.ok) return feedback(student.feedback);
-      if(!authorize(state,route,selected,student.message)) return feedback('This route could not be authorized. Revisit your observations.');
-      state.attempts.at(-1).production=student.production;
+      if(!student.ok) {
+        state.attempts.push({route,cited:selected,message:student.message,production:student.production,fact:student.fact,inference:student.inference,accepted:false});
+        save();
+        return feedback(student.feedback);
+      }
+      if(!authorize(state,route,selected,student.message,{fact:student.fact,inference:student.inference})) return feedback('This route could not be authorized. Revisit your observations.');
       state.stretch=''; save(); updateMission(); audioFeedback(680);
       open('Crossing authorized','RANGER LIN',caption(route==='bridge'?'authorizedBridge':'authorizedFord')+
         actions(button('Back to trail','close','primary')),close,'conversation');
@@ -325,19 +339,35 @@ function plan() {
 
 function download(backup = false) {
   const record={
-    game:'The Broken Bridge', build:'0.3.0', anonymousSession:state.id, languageMode:state.mode,
+    game:'The Broken Bridge', build:'0.4.0', anonymousSession:state.id, languageMode:state.mode,
     languageSource:'Illustrative. Current textbook alignment has not been verified.',
     evidence:state.clues.map(id=>({id, name:sites[id]?.name, observation:sites[id]?.clue})),
     observedAnswers:{openingQuestion:state.question, bridgeReport:state.report, recommendations:reviewRecommendations(state.attempts)},
     selfReportedSpeakingPractice:state.practiced,
     ungradedReasoning:state.stretch||state.draft,
     legacyOptionalDraft:state.stretch, unsentDraft:state.route?'':state.draft,
-    hintsUsed:state.hints, outcome:{route:state.route, piecesPlaced:state.pieces, suppliesDelivered:state.delivered, fieldReportComplete:state.complete},
+    hintsUsed:state.hints, physicalActions:state.fieldActions??[], outcome:{route:state.route, piecesPlaced:state.pieces, suppliesDelivered:state.delivered, fieldReportComplete:state.complete},
     exportedAt:new Date().toISOString(),
   };
   const url=URL.createObjectURL(new Blob([JSON.stringify(backup?state:record,null,2)],{type:'application/json'}));
   const link=document.createElement('a'); link.href=url;link.download=backup?'broken-bridge-save.json':'broken-bridge-progress.json';
   document.body.append(link);link.click();link.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);
+}
+function trailMap() {
+  const position= Math.round(state.x/1060*100);
+  const order=['rack','ranger','bridge','depth','sign'];
+  return `<figure class="trail-map">
+    <figcaption>Trail map · You are at ${$('location').textContent}</figcaption>
+    <div class="trail-track" aria-hidden="true"><i style="left:${position}%"></i></div>
+    <div class="trail-stations">${order.map(id=>button(
+      '<span aria-hidden="true">'+sites[id].icon+'</span> '+sites[id].name,'walk-'+id)).join('')}</div>
+  </figure>`;
+}
+function fieldSummary() {
+  const placements=(state.fieldActions??[]).filter(event=>event.action==='placed');
+  if(!placements.length)return '';
+  const guided=placements.filter(event=>event.assisted).length;
+  return `<p class="small">Materials placed: ${placements.length}. With the field guide: ${guided}. Direct placement: ${placements.length-guided}.</p>`;
 }
 function journal() {
   const entries=Object.entries(sites).filter(([id])=>id!=='ranger').map(([id,site])=>
@@ -346,8 +376,7 @@ function journal() {
     `<p>${state.complete?'The lookout has its supplies.':state.route?repair[state.route].guide:'Revisit any recorded clue before recommending a route.'}</p>
     <ul class="log-list">${entries}</ul>
     <p class="small">${save()?'Progress is saved in this browser.':'Browser storage is unavailable. Export your progress before closing.'}</p>`+
-    '<p class="small">Trail map · Tool rack → Shelter → Bridge → Depth marker → Ford</p>'+
-    actions(...Object.entries(sites).map(([id,site])=>button('Walk to '+site.name,'walk-'+id)))+
+    trailMap()+fieldSummary()+guideVoice('guideControls')+
     actions(button('Export progress','export','primary'),button('Back to trail','close')),
     action=>{
       if(action==='export') return download();
@@ -411,9 +440,10 @@ window.addEventListener('pagehide',save);
 const preview=fresh();
 mountWorld(window.Phaser,$('world'),{
   state:()=>state??preview, paused:()=>panel.open||!state, motion,
-  near:nearest, placePins, interact, save, fieldworkKey:()=>{const id=fieldwork.near();return id?fieldwork.interact(id):false;},
+  near:nearest, placePins, interact, save, fieldworkKey:()=>{const id=fieldwork.near();return id?fieldwork.interact(id,{method:'keyboard'}):false;},
   fieldworkTurn:()=>fieldwork.turn(), carry:()=>fieldwork.carriedPose?.()??null,
   conversation:()=>panel.open && active?.type==='conversation',
+  installing:()=>Boolean(fieldwork.installing?.()),
   voicePlaying:()=>speakingClip&&!speakingClip.paused&&!speakingClip.ended,
   ready:world=>{scene=world;},
 });

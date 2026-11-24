@@ -1,6 +1,6 @@
 # The Broken Bridge
 
-**v0.3.0 · Playable teacher review candidate**
+**v0.4.0 · Playable teacher review candidate**
 
 A storm has damaged the bridge to Alder River lookout. Walk the riverbank, compare physical clues and report a plan to Ranger Lin. Fit two boards and secure their rope to reopen the bridge, or rotate and place markers along the white-stone ford and move the supply pack. The crossing you prepare becomes walkable and determines how the ranger delivers the supplies.
 
@@ -10,9 +10,9 @@ Elementary and middle school share the same forest, evidence and physical soluti
 
 For future review builds, provide the standalone HTML first so the reviewer can open it directly in a browser. The ZIP is an optional companion.
 
-Download [Broken-Bridge-v0.3.0.html](downloads/Broken-Bridge-v0.3.0.html) and open it in your browser. If your browser blocks local files or restricts save storage, serve that same file locally.
+Download [Broken-Bridge-v0.4.0.html](downloads/Broken-Bridge-v0.4.0.html) and open it in your browser. If your browser blocks local files or restricts save storage, serve that same file locally.
 
-From the folder containing the HTML, run `python3 -m http.server 8000 --bind 127.0.0.1` and open `http://127.0.0.1:8000/Broken-Bridge-v0.3.0.html`. Internet access is unnecessary.
+From the folder containing the HTML, run `python3 -m http.server 8000 --bind 127.0.0.1` and open `http://127.0.0.1:8000/Broken-Bridge-v0.4.0.html`. Internet access is unnecessary.
 
 Choose a language guide. Click or tap the trail and landmarks to move, or use the arrow keys or WASD. Press E near an object to interact. After Lin authorizes the route, tap a piece and walk it to the matching socket or stone. The field action button provides a touch and keyboard alternative and walks you to the relevant anchor. Press R or use Turn marker clockwise to orient a flag.
 
@@ -29,7 +29,7 @@ npm run build
 python3 tests/browser.py
 ```
 
-The browser suite uses Python Playwright and Chromium. Set `CHROMIUM_PATH` if Chromium is installed elsewhere. The build writes the single-file HTML and deterministic ZIP to `build/`. Browser screenshots land in `test-results/`. See [v0.3 visual QA and screenshots](visual-review/V030_QA.md), [change log](visual-review/CHANGELOG.md), [asset provenance](visual-review/ASSET_PROVENANCE.md), and the [archived v0.1.0 test record](TOOL_SELECTION_AND_QA.md).
+The browser suite uses Python Playwright and Chromium. Set `CHROMIUM_PATH` if Chromium is installed elsewhere. The build writes the single-file HTML and deterministic ZIP to `build/`. Browser screenshots land in `test-results/`. See [v0.4 review, animation recordings, and QA](visual-review/V040_QA.md), [change log](visual-review/CHANGELOG.md), [asset provenance](visual-review/ASSET_PROVENANCE.md), and the [archived v0.1.0 test record](TOOL_SELECTION_AND_QA.md).
 
 ## Reusable systems
 
@@ -45,3 +45,5 @@ The browser suite uses Python Playwright and Chromium. Set `CHROMIUM_PATH` if Ch
 The source handoff is in [CODEX_START_HERE.md](CODEX_START_HERE.md), [DESIGN_BRIEF.md](DESIGN_BRIEF.md) and the [language-action matrix](LANGUAGE_ACTION_MATRIX.csv).
 
 The frozen [v0.2 standalone HTML](downloads/Broken-Bridge-v0.2.0.html) and its [visual QA](visual-review/QA.md) remain available for comparison.
+
+The frozen [v0.3 standalone HTML](downloads/Broken-Bridge-v0.3.0.html) and tag `broken-bridge-v0.3.0-baseline` preserve the previous clearing.

@@ -1,6 +1,8 @@
 import {sites} from './content.mjs';
 import {figure, illustratedWorld, loadArt, paintWorld} from './art.mjs';
 
+export const RANGER_DELIVERY_MS=5100;
+
 export function mountWorld(Phaser, host, app) {
   const clamp = Phaser.Math.Clamp;
   const nearBank = [[0,395],[125,396],[246,395],[440,395],[650,397],[850,402],[947,403],[1060,408]];
@@ -28,8 +30,7 @@ export function mountWorld(Phaser, host, app) {
       this.art = illustratedWorld(this);
       this.goal = null;
       this.face = 1;
-      this.step = 0;
-      this.deliveryElapsed = app.state().delivered ? 4300 : 0;
+      this.deliveryElapsed = app.state().delivered ? RANGER_DELIVERY_MS : 0;
       this.deliverySession = app.state().id;
       this.keys = new Set();
       this.input.on('pointerdown', pointer => {
@@ -127,7 +128,6 @@ export function mountWorld(Phaser, host, app) {
           else if(canWalk(state,nextX,state.y)) state.x=nextX;
           else if(canWalk(state,state.x,nextY)) state.y=nextY;
           this.face=dx?Math.sign(dx):this.face;
-          this.step+=dt*17;
           this.moving=true;
           if (!this.savedAt || performance.now()-this.savedAt>175) {
             this.savedAt=performance.now(); app.save();
@@ -155,42 +155,58 @@ export function mountWorld(Phaser, host, app) {
       const mark=greeting?dxToScout*6:0;
       const oldShift=this.rangerShift??0;
       this.rangerShift=Phaser.Math.Linear(oldShift,mark,blend);
-      let rx=ranger.x+this.rangerShift,ry=ranger.y,step=Math.abs(oldShift-mark)>1&&app.motion()?time*16:0;
+      let rx=ranger.x+this.rangerShift,ry=ranger.y,rangerPose='';
       if(this.deliverySession!==state.id) {
         this.deliverySession=state.id;
-        this.deliveryElapsed=state.delivered?4300:0;
+        this.deliveryElapsed=state.delivered?RANGER_DELIVERY_MS:0;
       }
       if(state.delivered&&!state.complete&&motion) {
-        if(!app.paused()) this.deliveryElapsed=Math.min(this.deliveryElapsed+dt*1000,4300);
+        if(!app.paused()) this.deliveryElapsed=Math.min(this.deliveryElapsed+dt*1000,RANGER_DELIVERY_MS);
         const elapsed=this.deliveryElapsed;
-        const outgoing=elapsed<2300;
-        const p=outgoing?elapsed/2300:1-clamp((elapsed-2700)/1600,0,1);
         const path=[[ranger.x,ranger.y],...routes[state.route]];
-        const section=p<.64?0:1;
-        const ratio=section===0?p/.64:(p-.64)/.36;
+        // Pause at the abutment for the inspection before committing to the deck.
+        const inspection=elapsed>=1320&&elapsed<1760;
+        const handoff=elapsed>=3060&&elapsed<3630;
+        const phase=elapsed<1320?elapsed/1320*.64:elapsed<1760?.64:
+          elapsed<3060?.64+(elapsed-1760)/1300*.36:elapsed<3630?1:
+          1-clamp((elapsed-3630)/(RANGER_DELIVERY_MS-3630),0,1);
+        if(inspection) rangerPose='inspect';
+        if(handoff) rangerPose='handoff';
+        const section=phase<.64?0:1;
+        const ratio=section===0?phase/.64:(phase-.64)/.36;
         rx=Phaser.Math.Linear(path[section][0],path[section+1][0],ratio);
         ry=Phaser.Math.Linear(path[section][1],path[section+1][1],ratio);
-        step=(elapsed<2300||elapsed>2700&&elapsed<4300)?elapsed*.017:0;
       }
       if(state.delivered){
-        if(motion&&!state.complete&&this.deliveryElapsed<2300) {
+        if(motion&&!state.complete&&this.deliveryElapsed<3370) {
           this.art.parcel.setPosition(rx+8,ry-21).setDepth(ry+.6).setDisplaySize(19,14);
         } else {
           const [x,y]=routes[state.route][1];
           this.art.parcel.setPosition(x+19,y+1).setDepth(y+1).setDisplaySize(23,16);
         }
       } else this.art.parcel.setPosition(204,431).setDepth(431).setDisplaySize(30,21);
-      figure(this.art.ranger,rx,ry,{step,face:Math.sign(state.x-rx)||1,gesture:talking&&(!motion||app.voicePlaying()||Math.sin(time*2.3)>.19)});
-      figure(this.art.scout,state.x,state.y,{step:motion&&this.moving&&!app.paused()?this.step:0,face:talking?Math.sign(rx-state.x)||this.face:this.face,gesture:motion&&talking});
       const carried=app.carry();
+      const speaking=talking&&app.voicePlaying();
+      figure(this.art.ranger,rx,ry,{face:Math.sign(state.x-rx)||1,
+        pose:rangerPose|| (talking&&!speaking?'listen':''),gesture:speaking});
+      figure(this.art.scout,state.x,state.y,{face:talking?Math.sign(rx-state.x)||this.face:this.face,
+        pose:app.installing()?'fit':'',gesture:talking,carrying:Boolean(carried)});
+      for(const actor of [this.art.scout,this.art.ranger]) {
+        const data=this.game.canvas.dataset, prefix=actor.role;
+        if(data[prefix+'Frame']!==actor.key) data[prefix+'Frame']=actor.key;
+        if(data[prefix+'Action']!==actor.action) data[prefix+'Action']=actor.action;
+        if(data[prefix+'Direction']!==actor.direction) data[prefix+'Direction']=actor.direction;
+      }
       this.art.parcel.setVisible(state.delivered||carried?.item.id!=='pack');
       if(carried){
         const asset=carried.item.asset;
         const height=asset.startsWith('flag-')?35:asset==='rope'?14:18;
+        const heading=this.art.scout.direction;
+        const shift=this.art.scout.gait&&['up','down'].includes(heading)?0:13*this.face;
         this.art.carry.setTexture(asset).setDisplaySize(height*this.textures.get(asset).getSourceImage().width/
           this.textures.get(asset).getSourceImage().height,height)
-          .setPosition(state.x+13*this.face,state.y-29).setDepth(state.y+.7)
-          .setAngle(carried.item.bearing===undefined?0:carried.bearing*90).setVisible(true);
+          .setPosition(state.x+shift,state.y-29).setDepth(state.y+(heading==='up'?.18:.7))
+          .setAngle(carried.angle??(carried.item.bearing===undefined?0:carried.bearing*90)).setVisible(true);
       } else this.art.carry.setVisible(false);
       app.placePins(this);
     }

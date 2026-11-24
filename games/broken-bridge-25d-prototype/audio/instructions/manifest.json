@@ -1,0 +1,56 @@
+{
+  "character": "Ranger Lin",
+  "engine": "Kokoro-ONNX 0.6.1",
+  "source_release": "https://github.com/thewh1teagle/kokoro-onnx/releases/tag/model-files-v1.0",
+  "voice": "af_heart",
+  "language": "en-us",
+  "speed": 0.91,
+  "model_files_sha256": {
+    "kokoro-v1.0.onnx": "7d5df8ecf7d4b1878015a32686053fd0eebe2bc377234608764cc0ef3636a6c5",
+    "voices-v1.0.bin": "bca610b8308e8d99f32e6fe4197e7ec01679264efed0cac9140fe9c29f1fbf7d"
+  },
+  "clips": {
+    "guideControls": {
+      "file": "guideControls.mp3",
+      "caption": "Use the arrow keys or tap the trail to walk. Tap an object to approach it, or press E when you are close.",
+      "sha256": "fe4eb5929ffc6b51d0988ceab024f26ecd77e59c1d1dd889cc43a16d98aabf51",
+      "duration_seconds": 7.008
+    },
+    "guideBoard": {
+      "file": "guideBoard.mp3",
+      "caption": "Pick up one board at the rack. Carry it to its matching socket. Set it in place, then go back for the next board.",
+      "sha256": "9dcd4315f72688dc7b9e3a2b01e714656641865a72c931f899ed128a5a72f361",
+      "duration_seconds": 7.008
+    },
+    "guideRope": {
+      "file": "guideRope.mp3",
+      "caption": "Hook the rope on the anchor. Walk to the second cleat, then pull it tight.",
+      "sha256": "7c88eec1c3262495f5b45c4a596765cdb1c9a64afb8e4a8e9f9329917ac24d0b",
+      "duration_seconds": 4.344
+    },
+    "guideFord": {
+      "file": "guideFord.mp3",
+      "caption": "Turn the near flag northwest and the far flag southeast. Plant them by the white stones. Then carry the pack to the loading spot.",
+      "sha256": "cbbc788eb255efb6ffe4f133e62ebb7e8f20314431a4b175ae477eb36daba60d",
+      "duration_seconds": 8.328
+    },
+    "guideEvidence": {
+      "file": "guideEvidence.mp3",
+      "caption": "Inspect both clues for your route. Choose a route, then select the observations that support it.",
+      "sha256": "913b508f547ba5bc2f20cb9a36087857f6da4b43036adbfb1b626901eb7145e1",
+      "duration_seconds": 6.024
+    },
+    "guideElementary": {
+      "file": "guideElementary.mp3",
+      "caption": "Use the word bank or type your own words. Finish a short sentence that tells the ranger what you saw.",
+      "sha256": "5b0ef75de1302b733df4d0a17d615d3a0a0dfa8bed3ebb8766fd38a4d5b2918d",
+      "duration_seconds": 6.528
+    },
+    "guideMiddle": {
+      "file": "guideMiddle.mp3",
+      "caption": "Write a short recommendation. Give one specific detail that you found at the scene.",
+      "sha256": "99726793e6332b8fc7acde3127f2bb586096f4ba6f4719f6ec09e713fe4317b7",
+      "duration_seconds": 5.232
+    }
+  }
+}

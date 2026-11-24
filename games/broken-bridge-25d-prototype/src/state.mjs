@@ -1,3 +1,5 @@
+import { checkRecommendation, cleanClaim } from './language.mjs';
+
 export const ROUTES = {
   bridge: { clues: ['bridge', 'rack'], pieces: ['boardA', 'boardB', 'rope'] },
   ford: { clues: ['depth', 'sign'], pieces: ['postA', 'postB', 'pack'] },
@@ -7,17 +9,21 @@ export function fresh(mode = 'elementary') {
   return {
     version: 1, id: globalThis.crypto?.randomUUID?.() ?? String(Date.now()),
     mode, clues: [], question: '', report: '', route: null, pieces: [], delivered: false,
-    complete: false, attempts: [], hints: [], practiced: [], stretch: '', zh: mode === 'elementary',
+    complete: false, attempts: [], fieldActions: [], hints: [], practiced: [], stretch: '', zh: mode === 'elementary',
     mute: true, motion: null, x: 278, y: 449, draft: '',
   };
 }
 
-export function authorize(state, route, cited, message) {
-  const policy = ROUTES[route];
+export function authorize(state, route, cited, message, claim) {
   if (!Object.hasOwn(ROUTES, route) || state.route) return false;
-  const accepted = Boolean(state.question && message.trim() &&
-    policy.clues.every(id => state.clues.includes(id) && cited.includes(id)));
-  state.attempts.push({ route, cited, message, accepted });
+  const production=checkRecommendation(state.mode,message,{...claim,route});
+  const evidence=Array.isArray(cited)?[...new Set(cited.filter(id=>state.clues.includes(id)))]:[];
+  const accepted=Boolean(state.question&&production.ok&&ROUTES[route].clues.every(id=>evidence.includes(id)));
+  state.attempts.push({
+    route,cited:evidence,message:production.message,accepted,
+    ...(production.production?{production:production.production}:{}),
+    ...cleanClaim(route,production),
+  });
   if (accepted) state.route = route;
   return accepted;
 }
@@ -54,7 +60,16 @@ export function restore(raw) {
       && ['bridge','ford','unsafe'].includes(attempt.route))
       .map(attempt => ({ route:attempt.route, message:attempt.message.slice(0,1500), accepted:attempt.accepted,
         cited:attempt.cited.filter(id => safe.clues.includes(id)).slice(0,4),
-        ...(['supported-elementary','student-written'].includes(attempt.production)?{production:attempt.production}:{}) }));
+        ...(['supported-elementary','student-written'].includes(attempt.production)?{production:attempt.production}:{}),
+        ...cleanClaim(attempt.route,attempt) }));
+    if(Array.isArray(saved.fieldActions)) {
+      const actions=['collected','contact-rejected','rope-hooked','rope-tensioned','placed'];
+      const methods=['tap','drag','guide','keyboard'];
+      safe.fieldActions=saved.fieldActions.filter(record=>record&&Object.hasOwn(ROUTES,record.route)
+        &&ROUTES[record.route].pieces.includes(record.piece)&&actions.includes(record.action)
+        &&methods.includes(record.method)&&typeof record.assisted==='boolean').slice(-100)
+        .map(({action,piece,route,assisted,method})=>({action,piece,route,assisted,method}));
+    }
     safe.hints = safe.hints.filter(entry => typeof entry === 'string');
     safe.practiced = safe.practiced.filter(entry => typeof entry === 'string');
     if (Object.hasOwn(ROUTES, saved.route) && safe.question && ROUTES[saved.route].clues.every(id=>safe.clues.includes(id))) {

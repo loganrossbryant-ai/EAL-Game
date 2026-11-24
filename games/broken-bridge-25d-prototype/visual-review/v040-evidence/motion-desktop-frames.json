@@ -1,0 +1,50 @@
+{
+  "walk-right": [
+    "scout-v4-right-0",
+    "scout-v4-right-1",
+    "scout-v4-right-2",
+    "scout-v4-right-3",
+    "scout-v4-right-4",
+    "scout-v4-right-5"
+  ],
+  "walk-left": [
+    "scout-v4-left-0",
+    "scout-v4-left-1",
+    "scout-v4-left-2",
+    "scout-v4-left-3",
+    "scout-v4-left-4",
+    "scout-v4-left-5"
+  ],
+  "walk-up": [
+    "scout-v4-up-0",
+    "scout-v4-up-1",
+    "scout-v4-up-2",
+    "scout-v4-up-3",
+    "scout-v4-up-4",
+    "scout-v4-up-5"
+  ],
+  "walk-down": [
+    "scout-v4-down-0",
+    "scout-v4-down-1",
+    "scout-v4-down-2",
+    "scout-v4-down-3",
+    "scout-v4-down-4",
+    "scout-v4-down-5"
+  ],
+  "carry-right": [
+    "scout-v4-right-0",
+    "scout-v4-right-1",
+    "scout-v4-right-2",
+    "scout-v4-right-3",
+    "scout-v4-right-4",
+    "scout-v4-right-5"
+  ],
+  "carry-left": [
+    "scout-v4-left-0",
+    "scout-v4-left-1",
+    "scout-v4-left-2",
+    "scout-v4-left-3",
+    "scout-v4-left-4",
+    "scout-v4-left-5"
+  ]
+}

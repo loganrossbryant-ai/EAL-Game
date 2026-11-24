@@ -8,7 +8,7 @@ Elementary and middle school share the same forest, evidence and physical soluti
 
 ## Play locally
 
-For future review builds, provide the standalone HTML first so the reviewer can open it directly in a browser. The ZIP is an optional companion.
+For every updated Broken Bridge review build, put the standalone HTML and review ZIP on a separate review branch in this GitHub repository. Give the user direct raw GitHub download links for both files, with the HTML first.
 
 Download [Broken-Bridge-v0.4.0.html](downloads/Broken-Bridge-v0.4.0.html) and open it in your browser. If your browser blocks local files or restricts save storage, serve that same file locally.
 

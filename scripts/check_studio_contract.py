@@ -10,7 +10,7 @@ required = [
     "AGENTS.md", "GAME_BRIEF.md",
     "docs/EAL_NEXT_GENERATION_GAME_QUALITY_STANDARD.md",
     "reference/EAL_LIVING_ENVIRONMENTS_V6_APPROVED_REFERENCE.md",
-    "scripts/restore_v6.py",
+    "scripts/restore_v6.py", "scripts/bootstrap_game.py",
     "studio/README.md", "studio/STUDIO_REGISTRY.md", "studio/START_NEW_GAME.md",
     "studio/checkpoints/BROKEN_BRIDGE_CONTINUE.md",
     "studio/standards/PRODUCTION_CONTRACT.md",

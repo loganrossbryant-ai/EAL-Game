@@ -13,3 +13,6 @@
 > **CRITICAL:** If no APPROVED engine is listed in the registry, STOP claiming engine reuse. Work on the current Broken Bridge engine proof instead, or explicitly propose a scoped new experiment. Do not invent or silently substitute approved reusable code.
 
 Current state: no accepted engine yet; for “continue Broken Bridge/prototype” read `studio/checkpoints/BROKEN_BRIDGE_CONTINUE.md` instead.
+
+## Safe, no-overwrite scaffold command (after sources audited)
+Codex may run `python3 scripts/bootstrap_game.py --slug <new-slug> --title "Game Title" --audience school --create` (or `--audience tutoring`). Omit `--create` to preview. This only copies planning templates to a new folder; it **does not create a playable engine, guarantee visual quality, or approve a release**. Existing paths are never overwritten. Verify the game title and private source handling before a public commit.

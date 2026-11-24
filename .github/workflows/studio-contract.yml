@@ -24,4 +24,4 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Validate standards and starter schemas (NOT visual/gameplay QA)
-        run: python3 scripts/check_studio_contract.py
+        run: |\n          python3 scripts/check_studio_contract.py\n          python3 scripts/test_bootstrap_game.py

@@ -20,7 +20,7 @@ LEGACY_MEDIA = ('visual-review/screenshots/', 'visual-review/v030-screenshots/',
 
 
 def source_entries(commit):
-    data = subprocess.check_output(['git','archive','--format=tar',commit,GAME_PATH],cwd=PROJECT)
+    data = subprocess.check_output(['git','archive','--format=tar',commit,GAME_PATH],cwd=PROJECT.parents[1])
     with tarfile.open(fileobj=BytesIO(data)) as archive:
         for item in archive:
             if not item.isfile():

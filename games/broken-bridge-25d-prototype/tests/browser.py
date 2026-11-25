@@ -12,8 +12,8 @@ from playwright.sync_api import sync_playwright, expect
 
 ROOT = Path(__file__).resolve().parents[1]
 BUILD = ROOT / 'build'
-RESULTS = ROOT / 'test-results' / 'v050'
-ARTIFACT = 'Broken-Bridge-v0.5.0.html'
+RESULTS = ROOT / 'test-results' / 'v060'
+ARTIFACT = 'Broken-Bridge-v0.6.0.html'
 URL = f'http://127.0.0.1:8127/{ARTIFACT}'
 RESULTS.mkdir(parents=True, exist_ok=True)
 
@@ -147,6 +147,8 @@ def play(browser, name, viewport, touch, mode, route):
     expect(page.locator('canvas')).to_be_visible()
     expect(page.locator('#pins').get_by_role('button', name='Ranger Lin', exact=True)).to_be_visible()
     page.screenshot(path=RESULTS / f'{name}-opening.png')
+    press('Enable sound')
+    expect(button('Mute sound')).to_be_visible()
     start_x = position()
     # Exercise real keyboard movement and touch walking before using landmarks.
     if touch:
@@ -155,8 +157,10 @@ def play(browser, name, viewport, touch, mode, route):
         page.wait_for_timeout(550)
     else:
         page.keyboard.down('ArrowRight')
-        page.wait_for_timeout(330)
-        page.keyboard.up('ArrowRight')
+        try:
+            page.wait_for_function("x => JSON.parse(localStorage.getItem('broken-bridge-v1')).x > x+12", arg=start_x)
+        finally:
+            page.keyboard.up('ArrowRight')
         page.wait_for_timeout(100)
     assert position() > start_x + 12, (name, position(), errors)
     page.screenshot(path=RESULTS / f'{name}-clearing.png')
@@ -194,7 +198,50 @@ def play(browser, name, viewport, touch, mode, route):
     page.screenshot(path=RESULTS / f'{name}-broken.png')
     walk_right(778)
     pin('Depth marker')
-    expect(page.locator('#panel-body')).to_contain_text('16 cm')
+    expect(page.locator('#panel-kicker')).to_have_text('RIVER SURVEY')
+    press('Log reading')
+    expect(page.locator('#feedback')).to_contain_text('touches the riverbed')
+    press('Hint')
+    expect(page.locator('#feedback')).to_contain_text('weight touches')
+    probe = page.locator('#probe-length')
+
+    def drive_range(control, fraction):
+        if touch:
+            control.evaluate("element => element.scrollIntoView({block:'center'})")
+            box = control.bounding_box()
+            assert 0<=box['y']<=viewport['height']-box['height'],box
+            page.touchscreen.tap(box['x']+box['width']*fraction, box['y']+box['height']*.5)
+        else:
+            control.press('End' if fraction>.95 else 'Home')
+            if fraction<=.95:
+                for _ in range(round(float(control.get_attribute('max'))*fraction)):
+                    page.keyboard.press('ArrowRight')
+
+    drive_range(probe,.98)
+    expect(page.locator('#probe-status')).to_have_text('Bed contact · 38 cm')
+    press('White stones')
+    expect(page.locator('#feedback')).to_contain_text('Raise the probe')
+    press('Log reading')
+    assert saved()['survey']['readings']=={'bridge':38}
+    if name=='desktop-bridge':
+        press('Back to trail')
+        page.reload()
+        pin('Depth marker')
+        expect(page.locator('#sounding-record')).to_contain_text('38 cm')
+    press('Raise probe')
+    press('White stones')
+    drive_range(probe,.98)
+    expect(page.locator('#probe-status')).to_have_text('Bed contact · 16 cm')
+    page.screenshot(path=RESULTS / f'{name}-sounding-in-use.png')
+    press('Log reading')
+    page.locator('#ford-station').select_option('bridge')
+    page.locator('#ford-relation').select_option('below')
+    press('Log comparison')
+    expect(page.locator('#feedback')).to_contain_text('shallower')
+    assert 'depth' not in saved()['clues']
+    page.locator('#ford-station').select_option('ford')
+    press('Log comparison')
+    expect(page.locator('#feedback')).to_contain_text('16 cm, below')
     page.screenshot(path=RESULTS / f'{name}-evidence.png')
     press('Back to trail')
     walk_right(934)
@@ -205,6 +252,31 @@ def play(browser, name, viewport, touch, mode, route):
     pin('Ranger Lin')
     press('Report the damaged bridge')
     expect(page.locator('#feedback')).to_contain_text('The bridge is broken. I found a board.')
+    press('Ask about the old ford notice')
+    press('When did you check the ford?')
+    expect(page.locator('#panel-body')).to_contain_text('26 cm')
+    click(page.locator('label:has(input[name=notice-source][value=log])'))
+    click(page.locator('label:has(input[name=notice-source][value=rack])'))
+    page.locator('#notice-correction').fill('Today the ford is 16 cm, below 20 cm.')
+    press('Show the two records')
+    expect(page.locator('#feedback')).to_contain_text('dated log and today')
+    click(page.locator('label:has(input[name=notice-source][value=rack])'))
+    click(page.locator('label:has(input[name=notice-source][value=sounding])'))
+    page.locator('#notice-correction').fill('Today the water is 26 cm, below 20 cm.')
+    press('Show the two records')
+    expect(page.locator('#feedback')).to_contain_text('Name today’s reading')
+    if mode=='elementary':
+        press('Hint')
+    correction = ('Today it is 16 cm. That is below 20 cm.' if mode=='elementary' else
+        'Yesterday the ford was 26 cm. Today it is 16 cm, which is below the limit of 20 cm.')
+    page.locator('#notice-correction').fill(correction)
+    press('Show the two records')
+    expect(page.locator('#panel-kicker')).to_have_text('NOTICE REVISED')
+    if AUDIO_PACKAGED:
+        voice_replay(button('Replay Ranger Lin'))
+    page.screenshot(path=RESULTS / f'{name}-notice-revised.png')
+    press('Watch Lin turn the notice')
+    pin('Ranger Lin')
     press('Discuss a crossing plan')
     page.locator('#recommend').select_option(route)
     for clue in (['bridge','rack'] if route=='bridge' else ['depth','sign']):
@@ -328,6 +400,30 @@ def play(browser, name, viewport, touch, mode, route):
             assert page.evaluate("window.actorDraws.some(entry => entry.asset === 'scout-v4-fit')")
         assert saved()['pieces'] == pieces[:2]
         click(layer.locator('[data-action=tension]'))
+        expect(page.locator('#panel-title')).to_have_text('Bridge rigging')
+        press('Far cleat')
+        expect(page.locator('#feedback')).to_contain_text('Feed the rope')
+        press('Outer edge')
+        press('Far cleat')
+        press('Lock and test')
+        expect(page.locator('#feedback')).to_contain_text('rubs the broken edge')
+        press('Inner guide')
+        press('Lock and test')
+        expect(page.locator('#feedback')).to_contain_text('far end is loose')
+        press('Far cleat')
+        press('Lock and test')
+        expect(page.locator('#feedback')).to_contain_text('still moves')
+        load = page.locator('#rig-load')
+        drive_range(load,.98)
+        press('Lock and test')
+        expect(page.locator('#feedback')).to_contain_text('strained')
+        assert saved()['pieces'] == pieces[:2]
+        if touch:
+            press('Hint')
+        drive_range(load,.67)
+        expect(page.locator('#rig-status')).to_contain_text('in the safe band')
+        page.screenshot(path=RESULTS / f'{name}-rig.png')
+        press('Lock and test')
     if name=='desktop-bridge':
         # Take time to read the modal. The ranger must wait before starting the crossing.
         page.wait_for_timeout(4500)
@@ -358,10 +454,24 @@ def play(browser, name, viewport, touch, mode, route):
     walk_left(246)
     pin('Ranger Lin')
     expect(page.locator('#panel-title')).to_have_text('Report from the lookout')
+    consequence = 'The repaired deck is open.' if route=='bridge' else 'Visitors stay here because only the ford is marked.'
+    page.locator('#consequence').fill(consequence)
     with page.expect_download() as pending:
         press('Export progress')
     record = json.loads(Path(pending.value.path()).read_text())
     assert record['languageMode']==mode
+    assert record['fieldInstruments']['soundingsCm']=={'bridge':38,'ford':16}
+    assert record['safetyInterview']['noticeRevised']
+    checks=record['safetyInterview']['attempts']
+    assert [attempt['accepted'] for attempt in checks]==[False,False,True]
+    assert checks[-1]['note']==correction and checks[-1]['assisted']==(mode=='elementary')
+    assert record['observedAnswers']['consequence']['text']==consequence
+    trials=record['bridgeLoadTrials']
+    if route=='bridge':
+        assert [trial['result'] for trial in trials]==['edge','cleat','slack','strain','secure']
+        assert trials[-1]['assisted']==touch
+    else:
+        assert not trials
     assert record['outcome']=={'route':route,'piecesPlaced':(['boardA','boardB','rope'] if route=='bridge' else ['postA','postB','pack']),
                                'suppliesDelivered':True,'fieldReportComplete':True}
     assert len(record['evidence'])==4
@@ -391,8 +501,12 @@ def play(browser, name, viewport, touch, mode, route):
         page.screenshot(path=RESULTS / f'{name}-trail-map.png')
         press('Close dialog')
     press('Settings')
-    press('Sound effects: off')
     press('Sound effects: on')
+    press('Sound effects: off')
+    press('Voice: on')
+    press('Voice: off')
+    press('Ambience: on')
+    press('Ambience: off')
     if name=='desktop-bridge':
         press('Environmental motion: on')
         press('Environmental motion: reduced')
@@ -411,6 +525,7 @@ def play(browser, name, viewport, touch, mode, route):
         press('Restore this mission')
         expect(page.locator('#notice')).to_have_text('Mission restored.')
         expect(page.locator('#objective')).to_have_text('Supplies delivered')
+        assert saved()['survey']['corrected'] and saved()['rigTrials'][-1]['result']=='secure'
         press('Settings')
     if touch:
         press('Focus view: off')
@@ -471,6 +586,10 @@ def migrate(browser, version):
     page.locator('input[value=rack]').check()
     if version=='0.3.0':
         page.locator('#draft').fill('The 90 cm boards fill the gap.')
+    if version=='0.5.0':
+        page.locator('#claim-fact').select_option('matching-boards')
+        page.locator('#claim-link').select_option('fill-sockets')
+        page.locator('#draft').fill('The 90 cm boards fill the gap.')
     press('Tell Ranger Lin')
     expect(page.locator('#panel-title')).to_have_text('Crossing authorized')
     press('Back to trail')
@@ -485,7 +604,7 @@ def migrate(browser, version):
         page.locator('#field-guide').click()
         expect(page.locator('#notice')).to_contain_text('Board seated')
 
-    page.goto(URL)
+    page.goto(URL,timeout=20000)
     expect(page.locator('.field-layer')).to_be_visible()
     state = page.evaluate("JSON.parse(localStorage.getItem('broken-bridge-v1'))")
     assert state['route']=='bridge' and state['pieces']==['boardA']
@@ -502,7 +621,7 @@ def migrate(browser, version):
     assert record['outcome']['piecesPlaced'] == ['boardA']
     assert not unexpected, unexpected
     context.close()
-    print(f'PASS migration: live v{version} partial bridge save into cold v0.5.0; original production classified',flush=True)
+    print(f'PASS migration: live v{version} partial bridge save into cold v0.6.0; original production classified',flush=True)
 
 def encode_screencast(frames, path, duration):
     # CDP returns real composed screen frames only when the screen changes.
@@ -549,7 +668,7 @@ def record_motion(browser,name,viewport,touch):
         }))});
     """)
     page = context.new_page()
-    page.goto(URL)
+    page.goto(URL,timeout=20000)
     expect(page.locator('.field-layer')).to_be_visible()
     canvas = page.locator('#world canvas')
     expect(canvas).to_be_visible()
@@ -628,28 +747,33 @@ for asset, source in re.findall(rb'"([^"]+)":"(data:image/webp;base64,[A-Za-z0-9
         signature = f'{len(source)}|{source[-64:].decode()}'
         assert signature not in DRAW_KEYS, f'Duplicate frame texture {name!r}: {DRAW_KEYS.get(signature)}'
         DRAW_KEYS[signature] = name
-with sync_playwright() as playwright:
-    browser = playwright.chromium.launch(executable_path=os.getenv('CHROMIUM_PATH','/usr/bin/chromium'))
-    cases = [
-        ('desktop-bridge',{'width':1366,'height':768},False,'elementary','bridge'),
-        ('desktop-ford',{'width':1366,'height':768},False,'middle','ford'),
-        ('iphone-portrait-ford',{'width':390,'height':844},True,'elementary','ford'),
-        ('iphone-landscape-bridge',{'width':844,'height':390},True,'middle','bridge'),
-    ]
-    selection = os.getenv('BRIDGE_TEST_CASE')
-    selected = [args for args in cases if not selection or selection==args[0]]
-    motion_cases = [
-        ('motion-desktop',{'width':1366,'height':768},False),
-        ('motion-portrait',{'width':390,'height':844},True),
-        ('motion-landscape',{'width':844,'height':390},True),
-    ]
-    motion_selected = [args for args in motion_cases if selection==args[0] or selection=='motion']
-    assert selected or motion_selected or selection=='migration', f'Unknown BRIDGE_TEST_CASE {selection!r}'
-    for args in selected:
-        play(browser,*args)
-    if not selection or selection=='migration':
-        for version in ('0.2.0','0.3.0'):
-            migrate(browser, version)
-    for args in motion_selected:
-        record_motion(browser,*args)
-    browser.close()
+def main():
+    with sync_playwright() as playwright:
+        browser = playwright.chromium.launch(executable_path=os.getenv('CHROMIUM_PATH','/usr/bin/chromium'))
+        cases = [
+            ('desktop-bridge',{'width':1366,'height':768},False,'elementary','bridge'),
+            ('desktop-ford',{'width':1920,'height':1080},False,'middle','ford'),
+            ('iphone-portrait-ford',{'width':390,'height':844},True,'elementary','ford'),
+            ('iphone-landscape-bridge',{'width':844,'height':390},True,'middle','bridge'),
+        ]
+        selection = os.getenv('BRIDGE_TEST_CASE')
+        selected = [args for args in cases if not selection or selection==args[0]]
+        motion_cases = [
+            ('motion-desktop',{'width':1366,'height':768},False),
+            ('motion-portrait',{'width':390,'height':844},True),
+            ('motion-landscape',{'width':844,'height':390},True),
+        ]
+        motion_selected = [args for args in motion_cases if selection==args[0] or selection=='motion']
+        assert selected or motion_selected or selection=='migration', f'Unknown BRIDGE_TEST_CASE {selection!r}'
+        for args in selected:
+            play(browser,*args)
+        if not selection or selection=='migration':
+            for version in ('0.2.0','0.3.0','0.5.0'):
+                migrate(browser, version)
+        for args in motion_selected:
+            record_motion(browser,*args)
+        browser.close()
+
+
+if __name__ == '__main__':
+    main()

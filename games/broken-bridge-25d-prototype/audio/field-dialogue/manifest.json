@@ -1,0 +1,50 @@
+{
+  "character": "Ranger Lin",
+  "engine": "Kokoro-ONNX 0.6.1",
+  "source_release": "https://github.com/thewh1teagle/kokoro-onnx/releases/tag/model-files-v1.0",
+  "voice": "af_heart",
+  "language": "en-us",
+  "speed": 0.91,
+  "model_files_sha256": {
+    "kokoro-v1.0.onnx": "7d5df8ecf7d4b1878015a32686053fd0eebe2bc377234608764cc0ef3636a6c5",
+    "voices-v1.0.bin": "bca610b8308e8d99f32e6fe4197e7ec01679264efed0cac9140fe9c29f1fbf7d"
+  },
+  "clips": {
+    "gaugeGuide": {
+      "file": "gaugeGuide.mp3",
+      "caption": "Raise the probe before moving to another station. Lower it until it touches bottom, and log the reading.",
+      "sha256": "af116b50d9cccce13a46ef2016f49cf0c44850e67dd5a8232e1468973014df3e",
+      "duration_seconds": 6.792
+    },
+    "oldNotice": {
+      "file": "oldNotice.mp3",
+      "caption": "I closed the ford yesterday. The water at the white stones was twenty-six centimetres deep. What does your sounding say today?",
+      "sha256": "03f5b57a854d5bcfa792cdeefed3c56e70b3d319655a29a99e1c41e04c37095f",
+      "duration_seconds": 7.872
+    },
+    "revisedNotice": {
+      "file": "revisedNotice.mp3",
+      "caption": "I checked your reading against my log. The river has fallen. I will turn the notice around. We can mark a foot crossing, or reopen the bridge for everyone.",
+      "sha256": "d070affae715997eb3a72495b137eec8edacc8f26103d583c21b24b843a424e3",
+      "duration_seconds": 9.912
+    },
+    "rigGuide": {
+      "file": "rigGuide.mp3",
+      "caption": "Feed the rope through the inner guide. Hook the far cleat, then pull until the load is in the safe band.",
+      "sha256": "60a0355b3373e93c821f79d1f6cc2ba3c7f61ac5287d67d1b680565df75aa93c",
+      "duration_seconds": 6.336
+    },
+    "bridgeHandoff": {
+      "file": "bridgeHandoff.mp3",
+      "caption": "The deck is secure. I can carry the pack across the bridge and open the trail to visitors.",
+      "sha256": "c13505d6b020700d3eadf956be783abfc99b952c574525f6acc71cf45d5458c3",
+      "duration_seconds": 5.808
+    },
+    "fordHandoff": {
+      "file": "fordHandoff.mp3",
+      "caption": "I will follow your flags to the lookout. The bridge stays closed. Keep visitors on this bank for now.",
+      "sha256": "18bb846924e34ca9293ce424086f9bf298e290e7c4987f03b5794e16b504844b",
+      "duration_seconds": 6.408
+    }
+  }
+}

@@ -1,0 +1,110 @@
+.station-panel #panel-body { padding-top: 10px; }
+.station-panel .speech { font-size: .9rem; }
+.station-controls { display: flex; gap: 8px; flex-wrap: wrap; }
+.station-controls > button { flex: 1 1 120px; }
+.station-controls button[aria-pressed=true], .rig-scene button[aria-pressed=true] {
+  border-color: #edc38d;
+  color: #fff1cd;
+  background: #435842;
+}
+.sounding-scene, .rig-scene {
+  position: relative;
+  isolation: isolate;
+  min-height: 143px;
+  margin: 9px 0 12px;
+  overflow: hidden;
+  border: 1px solid #657d6d;
+  border-radius: 8px;
+  background: #172c28;
+}
+.sounding-scene { --payout: 0; --bed: .86; }
+.sounding-water {
+  position: absolute;
+  inset: 35% 0 0;
+  background: linear-gradient(0deg,#10252890,transparent), var(--sounding-water) center / cover;
+}
+.sounding-scene img { position: absolute; inset: -2% auto auto 2%; width: 49%; height: 94%; object-fit: contain; opacity: .90; }
+.sounding-scale {
+  position: absolute;
+  top: 35%;
+  height: 57%;
+  left: 71%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 0 7px;
+  border-left: 1px solid #e3c08f;
+  color: #fff1cb;
+  font: 600 .69rem system-ui;
+}
+.sounding-scale i { font-style: normal; line-height: .65; }
+.sounding-line {
+  position: absolute;
+  top: 35%;
+  left: 62%;
+  width: 2px;
+  height: calc(61% * var(--payout));
+  background: #edcba4;
+}
+.sounding-line::after {
+  content: "";
+  position: absolute;
+  width: 8px;
+  height: 9px;
+  left: -3px;
+  bottom: -6px;
+  border-radius: 3px 3px 5px 5px;
+  background: #ecbd7d;
+  box-shadow: 1px 1px 2px #142521;
+}
+.sounding-bed { position: absolute; top: calc(36% + 61% * var(--bed)); left: 53%; width: 16%; border-bottom: 1px dashed #fff0c382; }
+.sounding-scene[data-contact=true] .sounding-line::after { background: #d6f7be; }
+.station-panel input[type=range] { width: 100%; min-height: 44px; display: block; margin: 0; accent-color: #eaca98; }
+#probe-status, #rig-status { min-height: 24px; color: #e2efcc; margin-bottom: 4px; }
+#sounding-record { margin-top: 8px; }
+.comparison-controls { display: grid; grid-template-columns: minmax(0,1.12fr) minmax(0,1fr); gap: 8px; margin-bottom: 7px; }
+.station-panel select { min-height: 44px; }
+.rig-scene { min-height: 175px; }
+.rig-scene img { position: absolute; width: 100%; height: 100%; inset: 0; object-fit: fill; opacity: .68; }
+.rig-scene svg { position: absolute; width: 100%; height: 100%; pointer-events: none; }
+.rig-line { fill: none; stroke: #ffd891; stroke-width: 4.5; stroke-linecap: round; filter: drop-shadow(1px 2px 1px #2d2219); }
+.rig-line[data-load=strain] { stroke: #ef8864; }
+.rig-line[data-load=band] { stroke: #d8e6a6; }
+.rig-scene button { position: absolute; min-width: 44px; padding: 5px 7px; line-height: 1.08; font-size: .75rem; background: #203734ee; }
+.rig-inner { left: 31%; top: 24%; }
+.rig-outer { left: 34%; top: 72%; }
+.rig-cleat { right: 4%; top: 13%; }
+.load-scale { background: linear-gradient(90deg,transparent 59%,#8cb49635 59% 75%,transparent 75%); }
+.field-slip { padding: 7px 10px; border-left: 2px solid #bba46b; background: #203936; }
+#audio-tip { color: #e0efcb; margin-bottom: 9px; }
+#audio-tip button { margin-left: 7px; }
+.trail-overview { position: relative; aspect-ratio: 4.55; overflow: hidden; border-radius: 5px; }
+.trail-overview img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.trail-overview svg { position:absolute;inset:0;width:100%;height:100%; }
+.trail-overview i { position: absolute; transform: translate(-50%,-50%); border: 2px solid #fff5cc; background: #5a3718; box-shadow: 0 0 0 2px #122220; width: 12px; height: 12px; border-radius: 50%; }
+@media (max-width: 430px) {
+  .top{gap:5px}
+  .top nav{gap:4px}
+  .top button{padding-inline:6px;font-size:.72rem;line-height:1.13;max-width:66px}
+  .brand h1{font-size:1.13rem}
+}
+@media (max-height:480px) and (orientation:landscape) {
+  dialog.station-panel { width: min(528px,62vw); }
+  .station-panel .instrument-frame {
+    display: grid;
+    grid-template-columns: minmax(0,1.2fr) minmax(0,1fr);
+    align-items: center;
+    gap: 9px;
+  }
+  .station-panel .instrument-commands { font-size: .82rem; }
+  .station-panel .instrument-commands button { flex: 1 1 78px; padding-inline: 5px; }
+  .station-panel .sounding-scene { min-height: 130px; }
+  .station-panel .rig-scene { min-height: 139px; }
+  .rig-outer { top: 64%; }
+  .rig-inner { left: 24%; }
+  .rig-cleat { right: 2%; }
+}
+@media (max-width: 640px) and (max-height: 480px) and (orientation:landscape) {
+  dialog.station-panel { width: min(528px,calc(100% - 24px)); }
+}

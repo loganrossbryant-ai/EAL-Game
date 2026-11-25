@@ -1,52 +1,40 @@
 # The Broken Bridge
 
-**v0.5.0 · Playable teacher review candidate**
+**v0.6.0 · Teacher preview · Illustrative language practice**
 
-A storm has damaged the bridge to Alder River lookout. Walk the riverbank, compare physical clues and report a plan to Ranger Lin. Fit two boards and secure their rope to reopen the bridge, or rotate and place markers along the white-stone ford and move the supply pack. The crossing you prepare becomes walkable and determines how the ranger delivers the supplies.
+A storm damaged the bridge to Alder River lookout. Sound the river at two stations, compare the readings with the ford limit, and show Ranger Lin why yesterday’s notice needs correcting. Repair and load-test the bridge for visitor access, or mark the ford for the supply run and leave the bridge closed. Both routes stay within the same clearing.
 
-Elementary and middle school share the same forest, evidence and physical solutions. Elementary offers shorter supported English and Simplified Chinese glosses. Middle school asks for a contextual question, an evidence-backed recommendation and optional comparative reasoning. The language matrix is illustrative. Speaking practice is self-reported participation.
+## Play offline
 
-## Play locally
+Download the versioned **Play ZIP** or **Review ZIP** from the GitHub review branch. Extract it and double-click `Broken-Bridge-v0.6.0.html`. The Review ZIP places it in `play/` with the screenshots, videos, QA, and editable project in adjacent folders.
 
-For every updated Broken Bridge review build, put the standalone HTML and review ZIP on a separate review branch in this GitHub repository. Give the user direct raw GitHub download links for both files, with instructions to unzip and double-click the HTML if GitHub displays source code.
+If your browser restricts local files, run `python3 -m http.server 8000 --bind 127.0.0.1` from the folder containing the HTML. Open `http://127.0.0.1:8000/Broken-Bridge-v0.6.0.html`. Internet access is unnecessary. Use the same address and browser when resuming a save.
 
-Download [Broken-Bridge-v0.5.0.html](downloads/Broken-Bridge-v0.5.0.html) and open it in your browser. If your browser blocks local files or restricts save storage, serve that same file locally.
+Tap the trail to walk or use the arrow keys and WASD. Tap landmarks to approach, or press E nearby. Turn flags or boards with R or the field belt. The belt offers guided travel. In the bridge rig, the player must still thread, fasten and load-test the rope. **Enable sound** starts the world mix after a click or tap. Voice, ambience and effects each have a setting. Dialogue also has captions and replay.
 
-From the folder containing the HTML, run `python3 -m http.server 8000 --bind 127.0.0.1` and open `http://127.0.0.1:8000/Broken-Bridge-v0.5.0.html`. Internet access is unnecessary.
+The Field log includes a route map and an anonymous teacher JSON export. Settings provides save backup and restore, reset, Chinese support, focus view and reduced motion. Earlier saves retain their original progression rules and may resume where they left off.
 
-Choose a language guide. Click or tap the trail and landmarks to move, or use the arrow keys or WASD. Press E near an object to interact. After Lin authorizes the route, tap a piece and walk it to the matching socket or stone. The field action button provides a touch and keyboard alternative and walks you to the relevant anchor. Press R or use Turn marker clockwise to orient a flag.
+## Reproduce
 
-Use the same address and browser to resume. The Field log contains collected observations, landmark directions and the teacher JSON export. Settings offers save backups, restore, reset, Chinese support, focus view, reduced motion and optional sound effects. Use Replay Ranger Lin to hear locally bundled Kokoro dialogue. Captions remain visible. See the [audio manifest and evaluation](audio/README.md).
-
-## Develop and verify
-
-From this folder, with Node.js and Python 3:
+From `games/broken-bridge-25d-prototype/`, use Node.js 24 and Python 3.12. The lockfile pins Phaser 3.90.0 and eventemitter3 5.0.4. Chromium, Python Playwright and FFmpeg/ffprobe are needed for browser QA and recordings.
 
 ```sh
-npm ci --ignore-scripts
+npm ci --ignore-scripts --no-audit --no-fund
 npm test
 npm run build
+python3 -m pip install -r tests/requirements.txt
 python3 tests/browser.py
+BRIDGE_TEST_CASE=motion python3 tests/browser.py
 python3 tests/navigation_browser.py
+python3 tests/evidence.py
 ```
 
-The browser suite uses Python Playwright and Chromium. Set `CHROMIUM_PATH` if Chromium is installed elsewhere. The build writes the single-file HTML and deterministic ZIP to `build/`. Browser screenshots land in `test-results/`. See [v0.5 review and QA](visual-review/V050_QA.md), [change log](visual-review/CHANGELOG.md), [asset provenance](visual-review/ASSET_PROVENANCE.md), and the [archived v0.1.0 test record](TOOL_SELECTION_AND_QA.md).
+The build writes the standalone HTML and deterministic offline ZIP to `build/`. The browser scripts test the exact HTML extracted from that ZIP and write evidence to `test-results/v060/`. Set `CHROMIUM_PATH` if Chromium is installed outside `/usr/bin/chromium`. The Review ZIP supplies the matching npm tarballs and offline rebuild instructions.
 
-## Reusable systems
+[Design, changes and tool verification](visual-review/V060_HANDOFF.md) · [Art and sound provenance](visual-review/V060_ASSETS.md) · [Language-action matrix](LANGUAGE_ACTION_MATRIX.csv)
 
-| System | What carries forward |
-|---|---|
-| World controller | Phaser Canvas rendering, camera projection, keyboard and targeted touch walking, authored walkable regions and route-specific crossings, proximity interactions and DOM modal pause |
-| Content profiles | Authored clue records, language scaffolds and route requirements over a shared world |
-| Dialogue and evidence | Deterministic NPC responses, cited observations, recoverable plan rejection and hint progression |
-| Physical tasks | Ordered persistent pieces with drag and accessible select-then-place inputs, plus rotation checks |
-| Learning records | Versioned local save, portable backup/restore and a separate anonymous teacher export |
-| Offline build | Single embedded HTML, reproducible ZIP and browser tests against the exact extracted bytes |
+## Rollback and project scope
 
-The source handoff is in [CODEX_START_HERE.md](CODEX_START_HERE.md), [DESIGN_BRIEF.md](DESIGN_BRIEF.md) and the [language-action matrix](LANGUAGE_ACTION_MATRIX.csv).
+The v0.5 source is pinned to `58fa3490a720a2676b3d86d2c5033280ac97a1d5`. Its [standalone HTML](downloads/Broken-Bridge-v0.5.0.html) and [QA record](visual-review/V050_QA.md) remain available. Prior builds in `downloads/` support live save migration tests.
 
-The frozen [v0.2 standalone HTML](downloads/Broken-Bridge-v0.2.0.html) and its [visual QA](visual-review/QA.md) remain available for comparison.
-
-The frozen [v0.3 standalone HTML](downloads/Broken-Bridge-v0.3.0.html) and tag `broken-bridge-v0.3.0-baseline` preserve the previous clearing.
-
-The frozen [v0.4 standalone HTML](downloads/Broken-Bridge-v0.4.0.html) and [v0.4 evidence](visual-review/V040_QA.md) preserve the comparison baseline.
+The field survey, evidence interview, rigging, pathfinding, sound mix and local packaging are implemented for this story. Native iPhone testing, textbook alignment, creative approval and reuse on another title require separate review.

@@ -1,4 +1,5 @@
 import { checkRecommendation, cleanClaim } from './language.mjs';
+import {checkRig, newSurvey, readyForPermit, restoreSurvey} from './survey.mjs';
 
 export const ROUTES = {
   bridge: { clues: ['bridge', 'rack'], pieces: ['boardA', 'boardB', 'rope'] },
@@ -8,9 +9,9 @@ export const SAVE_KEY = 'broken-bridge-v1';
 export function fresh(mode = 'elementary') {
   return {
     version: 1, id: globalThis.crypto?.randomUUID?.() ?? String(Date.now()),
-    mode, clues: [], question: '', report: '', route: null, pieces: [], delivered: false,
-    complete: false, attempts: [], fieldActions: [], hints: [], practiced: [], stretch: '', zh: mode === 'elementary',
-    mute: true, motion: null, x: 278, y: 449, draft: '',
+    mode, fieldEdition:6, survey:newSurvey(), clues: [], question: '', report: '', route: null, pieces: [], delivered: false,
+    complete: false, consequence:'', rigTrials:[], attempts: [], fieldActions: [], hints: [], practiced: [], stretch: '', zh: mode === 'elementary',
+    mute: true, motion: null, sound: {enabled:false, voice:true, ambience:true, effects:true}, x: 278, y: 449, draft: '',
   };
 }
 
@@ -18,7 +19,7 @@ export function authorize(state, route, cited, message, claim) {
   if (!Object.hasOwn(ROUTES, route) || state.route) return false;
   const production=checkRecommendation(state.mode,message,{...claim,route});
   const evidence=Array.isArray(cited)?[...new Set(cited.filter(id=>state.clues.includes(id)))]:[];
-  const accepted=Boolean(state.question&&production.ok&&ROUTES[route].clues.every(id=>evidence.includes(id)));
+  const accepted=Boolean(state.question&&readyForPermit(state)&&production.ok&&ROUTES[route].clues.every(id=>evidence.includes(id)));
   state.attempts.push({
     route,cited:evidence,message:production.message,accepted,
     ...(production.production?{production:production.production}:{}),
@@ -43,7 +44,13 @@ export function restore(raw) {
     if (saved?.version !== 1 || !['elementary', 'middle'].includes(saved.mode)) return null;
     const initial = fresh(saved.mode);
     const safe = { ...initial };
-    for (const name of ['id','question','report','draft','stretch']) {
+    safe.fieldEdition=saved.fieldEdition===6?6:5;
+    safe.survey=restoreSurvey(saved.survey);
+    if(safe.fieldEdition===5&&typeof saved.mute==='boolean')safe.sound.effects=!saved.mute;
+    for(const key of Object.keys(safe.sound)) {
+      if(typeof saved.sound?.[key]==='boolean')safe.sound[key]=saved.sound[key];
+    }
+    for (const name of ['id','question','report','draft','stretch','consequence']) {
       if (typeof saved[name] === 'string') safe[name] = saved[name].slice(0, 1500);
     }
     for (const name of ['clues','attempts','hints','practiced']) {
@@ -69,6 +76,11 @@ export function restore(raw) {
         &&ROUTES[record.route].pieces.includes(record.piece)&&actions.includes(record.action)
         &&methods.includes(record.method)&&typeof record.assisted==='boolean').slice(-100)
         .map(({action,piece,route,assisted,method})=>({action,piece,route,assisted,method}));
+    }
+    if(Array.isArray(saved.rigTrials)) {
+      safe.rigTrials=saved.rigTrials.filter(trial=>trial&&['','inner','outer'].includes(trial.path)
+        &&typeof trial.cleat==='boolean'&&Number.isInteger(trial.load)&&trial.load>=0&&trial.load<=100).slice(-30)
+        .map(({path,cleat,load,assisted})=>({path,cleat,load,result:checkRig(path,cleat,load),assisted:assisted===true}));
     }
     safe.hints = safe.hints.filter(entry => typeof entry === 'string');
     safe.practiced = safe.practiced.filter(entry => typeof entry === 'string');

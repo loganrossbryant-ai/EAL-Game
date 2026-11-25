@@ -1,10 +1,14 @@
 import {fresh, restore, authorize, ROUTES, SAVE_KEY} from './state.mjs';
 import {language, repair, sites} from './content.mjs';
-import {mountWorld, RANGER_DELIVERY_MS} from './world.mjs';
+import {mountWorld, rangerDeliveryDuration} from './world.mjs';
 import {createFieldwork} from './fieldwork.mjs';
 import {recommendationFields, wireRecommendation, readRecommendation, reviewRecommendations} from './language.mjs';
 import {lines} from './dialogue.mjs';
 import {instructionLines} from './instructions.mjs';
+import {fieldLines} from './field-dialogue.mjs';
+import {readyForPermit} from './survey.mjs';
+import {showSounding, showInterview, showRig} from './field-stations.mjs';
+import {createSoundscape} from './soundscape.mjs';
 
 const $ = id => document.getElementById(id);
 const panel = $('panel'), body = $('panel-body'), stage = $('stage');
@@ -13,7 +17,7 @@ const read = () => {
   try { return restore(localStorage.getItem(SAVE_KEY)); } catch { return null; }
 };
 let state = read();
-let scene, active, toastTimer, audio, output, speakingClip, voiceNonce=0;
+let scene, active, toastTimer, voiceNonce=0;
 const pins = {};
 const motion = () => state?.motion ?? !preferredMotion.matches;
 const profile = () => language[state.mode];
@@ -22,35 +26,72 @@ const zh = text => state.zh ? ` <span lang="zh-Hans" class="zh">${text}</span>` 
 const button = (text, action, cls = '') => `<button data-action="${action}" class="${cls}">${text}</button>`;
 const actions = (...buttons) => `<div class="actions">${buttons.join('')}</div>`;
 const workId = () => state?.route && repair[state.route].site;
-const allLines={...lines,...instructionLines};
+const allLines={...lines,...instructionLines,...fieldLines};
+const soundscape=createSoundscape({bank:WORLD_AUDIO, voices:VOICE,
+  onUnavailable:()=>soundNotice('Audio is unavailable. The captions are on screen.')});
+const activityCues={
+  'rope-hooked':'rope-handle','rope-tensioned':'rope-tension',
+  picked:{board:'board-pickup',rope:'rope-handle',post:'gear-handoff',pack:'gear-handoff'},
+  placed:{board:'board-place',post:'probe-contact',pack:'gear-handoff'},
+};
 const fieldwork=createFieldwork({
   stage, texture:ART, state:()=>state, paused:()=>panel.open, motion,
-  onActivity:event=>{state.fieldActions=[...(state.fieldActions??[]),event].slice(-100);save();},
+  onActivity:recordFieldActivity,
   onGuideVoice:replayVoice,
   walk:(x,y,id)=>{scene?.walk(x,y,id);stage.focus({preventScroll:true});},
   notify,
-  onPlaced:()=>{save();updateMission();audioFeedback(430);},
+  onPlaced:()=>{save();updateMission();},
+  onRig:finish=>showRig(stationKit,state,finish),
   onDelivered:crossingReady,
 });
 
 function stopVoice() {
   voiceNonce++;
-  speakingClip?.pause();
-  speakingClip=null;
+  soundscape.stopVoice();
+}
+function soundNotice(message, canEnable=false) {
+  if(!panel.open)return notify(message);
+  let tip=body.querySelector('#audio-tip');
+  if(!tip){
+    tip=document.createElement('div');
+    tip.id='audio-tip';tip.setAttribute('role','status');
+    const anchor=body.querySelector('.voice-replay');
+    if(anchor)anchor.after(tip);else body.prepend(tip);
+  }
+  tip.textContent=message;
+  if(canEnable)tip.insertAdjacentHTML('beforeend',button('Enable sound','enable-sound'));
+}
+function toggleSound(enabled) {
+  state.sound.enabled=enabled;
+  syncSound();
+  save();
+  if(enabled)void soundscape.unlock();
+}
+function syncSound() {
+  $('sound-toggle').hidden=!state;
+  if(!state)return;
+  $('sound-toggle').textContent=state.sound.enabled?'Mute sound':'Enable sound';
+  soundscape.update(state.sound);
 }
 function replayVoice(id) {
-  if(!VOICE[id]) return;
-  stopVoice();
-  const clip=new Audio(VOICE[id]);
-  speakingClip=clip;
-  const nonce=voiceNonce;
-  if(id.startsWith('guide')&&!panel.open) {
+  if(!VOICE[id])return;
+  if(!state.sound.enabled)return soundNotice('Sound is off.',true);
+  if(!state.sound.voice)return soundNotice('Voice is off. Turn it on in field settings.');
+  body.querySelector('#audio-tip')?.remove();
+  const nonce=++voiceNonce;
+  const clip=soundscape.playVoice(id,sites.ranger.x);
+  if(clip&&id.startsWith('guide')&&!panel.open){
     const show=()=>{if(nonce===voiceNonce)notify(allLines[id],Math.max(7000,clip.duration*1000));};
     clip.addEventListener('loadedmetadata',show,{once:true});
   }
-  clip.play().catch(()=>{
-    if(nonce===voiceNonce) notify('Audio could not play. The full caption is on screen.');
-  });
+}
+function recordFieldActivity(event) {
+  state.fieldActions=[...state.fieldActions,event].slice(-100);
+  const kind=event.piece.replace(/[AB]$/,'');
+  const id=event.action==='collected'?activityCues.picked[kind]:
+    event.action==='placed'?activityCues.placed[kind]:activityCues[event.action];
+  if(id)soundscape.cue(id,state.x);
+  save();
 }
 function caption(id) {
   return `<div class="voiced-line"><p class="speech">${allLines[id]}</p>${
@@ -66,6 +107,7 @@ function voicedFeedback(id, prefix='') {
 function crossingReady() {
   const bridge=state.route==='bridge';
   open(bridge?'The bridge is open':'The ford is marked','CROSSING READY',
+    (state.fieldEdition===6?caption(bridge?'bridgeHandoff':'fordHandoff'):'')+
     `<p>${bridge?'The deck is repaired. Ranger Lin is taking the supplies over the bridge.':
       'Your flags mark the safe line. Ranger Lin is taking the supplies along the white stones.'}</p>`+
     actions(button('Watch the crossing','close','primary')),close);
@@ -85,33 +127,15 @@ function save() {
   if (!state) return false;
   try { localStorage.setItem(SAVE_KEY, JSON.stringify(state)); return true; } catch { return false; }
 }
-function audioFeedback(note = 420) {
-  if (!state || state.mute) return;
-  try {
-    const Audio = window.AudioContext || window.webkitAudioContext;
-    audio ??= new Audio();
-    void audio.resume().catch(() => {});
-    if(!output){output=audio.createGain();output.connect(audio.destination);}
-    output.gain.value = .24;
-    const tone = audio.createOscillator(), envelope = audio.createGain();
-    tone.type = 'sine';
-    tone.frequency.setValueAtTime(note, audio.currentTime);
-    tone.frequency.exponentialRampToValueAtTime(note*.69, audio.currentTime+.18);
-    envelope.gain.setValueAtTime(.13, audio.currentTime);
-    envelope.gain.exponentialRampToValueAtTime(.001, audio.currentTime+.22);
-    tone.connect(envelope); envelope.connect(output);
-    tone.onended = () => { tone.disconnect(); envelope.disconnect(); };
-    tone.start(); tone.stop(audio.currentTime+.23);
-  } catch { /* Audio is optional. */ }
-}
-
 function updateMission() {
   if(!state) return;
   let objective = 'Meet Ranger Lin';
   let instruction = 'A storm took out the bridge. Supplies must reach the lookout.';
   if(state.question) {
     objective = 'Find a way across';
-    instruction = 'Inspect the bridge and tool rack, or compare the depth marker and fallen sign. Then report back.';
+    instruction = state.fieldEdition===6&&!state.survey.corrected
+      ? 'Take two soundings at the depth marker. Ask Lin about her old ford notice.'
+      : 'Inspect the bridge and tool rack, or compare the depth marker and fallen sign. Then report back.';
   }
   if(state.route) {
     objective = repair[state.route].name;
@@ -135,7 +159,8 @@ function updateMission() {
 function open(title, kicker, html, onAction, type='') {
   stopVoice();
   active={onAction,type};
-  panel.classList.toggle('cinematic',type==='conversation');
+  panel.classList.toggle('cinematic',type==='conversation'||type==='depth'||type==='rig');
+  panel.classList.toggle('station-panel',type==='depth'||type==='rig');
   $('panel-title').textContent=title;
   $('panel-kicker').textContent=kicker;
   body.innerHTML=html;
@@ -163,6 +188,7 @@ const feedbackBox='<p id="feedback" role="status" hidden></p>';
 
 body.addEventListener('click',event=>{
   const action=event.target.closest('button[data-action]')?.dataset.action;
+  if(action==='enable-sound'){toggleSound(true);body.querySelector('#audio-tip')?.remove();return;}
   if(action?.startsWith('voice-')) return replayVoice(action.slice(6));
   if(action) active?.onAction(action);
 });
@@ -174,9 +200,10 @@ stage.tabIndex=-1;
 function launch() {
   open('Choose your field guide','ALDER RIVER STATION',
     '<p>Last night the river rose. The lookout is running low on supplies, and Ranger Lin needs your help finding a way across.</p>'+
+    '<p class="small">Illustrative language practice · textbook alignment not verified</p>'+
     `<div class="stack">${button('Elementary · supported English','elementary','primary')}${button('Middle school · field investigation','middle')}</div>`,
     mode=>{
-      state=fresh(mode); active.type=''; close(); save(); updateMission();
+      state=fresh(mode); active.type=''; close(); syncSound();save();updateMission();
       stage.focus({preventScroll:true});
     },'start');
 }
@@ -242,25 +269,34 @@ function interact(id) {
   if(fieldwork.interact(id)) return;
   if(id==='ranger') return ranger();
   if(id===workId() && !state.delivered) return fieldwork.inspect();
+  if(id==='depth'&&state.fieldEdition===6)return showSounding(stationKit,state);
   const site=sites[id];
   if(!state.clues.includes(id)) state.clues.push(id);
-  save(); updateMission(); audioFeedback(510);
+  save(); updateMission();
   const label=id==='depth'?'<p class="small">Bridge: <strong>38 cm</strong> · Ford: <strong>16 cm</strong> · Limit: <strong>20 cm</strong></p>':'';
   open(site.name,'FIELD EVIDENCE',prop(id)+`<p>${state.mode==='elementary'?site.simple:site.clue}${zh(site.zh)}</p>`+label+
     actions(button('Back to trail','close','primary')),close);
 }
 function ranger() {
   if(state.delivered) {
-    if(motion() && !state.complete && scene?.deliveryElapsed<RANGER_DELIVERY_MS) {
+    if(motion() && !state.complete && scene?.deliveryElapsed<rangerDeliveryDuration(state.route)) {
       return open('Ranger Lin is on the trail','DELIVERY IN PROGRESS',
         caption('deliveryInProgress')+
         actions(button('Back to trail','close','primary')),close);
     }
     state.complete=true; save(); updateMission();
     const result=state.route==='bridge'?'endingBridge':'endingFord';
-    return open('Report from the lookout','MISSION COMPLETE',prop('ranger')+caption(result)+
-      actions(button('Export progress','export','primary'),button('Field log','journal'),button('Back to trail','close')),
+    open('Report from the lookout','MISSION COMPLETE',prop('ranger')+caption(result)+
+      (state.fieldEdition===6?`<label for="consequence">How did your choice change the trail?</label>
+        <p class="small">${state.mode==='elementary'?'Now the ___ is open / closed.':'Because we chose ___, visitors can / cannot ___.'}</p>
+        <textarea id="consequence" maxlength="350"></textarea>`:'')+actions(button('Export progress','export','primary'),button('Field log','journal'),button('Back to trail','close')),
       action=>{if(action==='export') download(); if(action==='journal') journal(); if(action==='close') close();},'conversation');
+    const note=$('consequence');
+    if(note){
+      note.value=state.consequence;
+      note.addEventListener('input',()=>{state.consequence=note.value;save();});
+    }
+    return;
   }
   if(state.route) return open('Ranger Lin','CROSSING AUTHORIZED',prop('ranger')+caption(state.route==='bridge'?'authorizedBridge':'authorizedFord')+
     actions(button('Back to trail','close','primary')),close,'conversation');
@@ -272,17 +308,20 @@ function ranger() {
     state.clues.includes('bridge')?'returnBridge':'returnBasic';
   open('Ranger Lin',opening?'RANGER SHELTER':'FIELD CONVERSATION',prop('ranger')+caption(response)+words+
     (opening?`<div class="stack">${profile().questions.map((q,i)=>button(q,'ask'+i,'primary')).join('')}</div>`:
-      actions(button('Report the damaged bridge','report'),button('Discuss a crossing plan','plan','primary')))+
+      actions(
+        state.fieldEdition===6?button(state.survey.corrected?'Read the revised notice':'Ask about the old ford notice','interview'):'',
+        button('Report the damaged bridge','report'),button('Discuss a crossing plan','plan','primary')))+
     actions(button('I practised speaking','speak'),button('Back to trail','close'))+feedbackBox,
     action=>{
       if(action.startsWith('ask')) {
         const index=Number(action.slice(3));
-        state.question=profile().questions[index]; save(); updateMission(); audioFeedback(560);
+        state.question=profile().questions[index]; save(); updateMission();
         const answer=index===0?'directionFord':'directionBridge';
         open('Ranger Lin','DIRECTIONS',caption(answer)+`<p class="small">You asked: ${state.question}</p>`+
           actions(button('Explore the riverbank','close','primary')),close,'conversation');
       }
       if(action==='plan') plan();
+      if(action==='interview') showInterview(stationKit,state);
       if(action==='close') close();
       if(action==='speak') {state.practiced.push('Ranger conversation');save();feedback('Speaking practice recorded as your own report.');}
       if(action==='report') {
@@ -330,20 +369,51 @@ function plan() {
         save();
         return feedback(student.feedback);
       }
+      if(!readyForPermit(state)){
+        return feedback('Lin needs today’s sounding and yesterday’s log before she can authorize either route. Ask her about the old notice.');
+      }
       if(!authorize(state,route,selected,student.message,{fact:student.fact,inference:student.inference})) return feedback('This route could not be authorized. Revisit your observations.');
-      state.stretch=''; save(); updateMission(); audioFeedback(680);
+      state.stretch=''; save(); updateMission();
       open('Crossing authorized','RANGER LIN',caption(route==='bridge'?'authorizedBridge':'authorizedFord')+
         actions(button('Back to trail','close','primary')),close,'conversation');
     },'conversation');
   wireRecommendation(body,draft=>{state.draft=draft;save();});
 }
 
+const stationKit={
+  open,body,button,caption,zh,feedback,feedbackBox,close,save,plan,
+  portrait:()=>prop('ranger'), fx:soundscape.cue,
+  hint:(survey,key,hints)=>{
+    const seen=survey.hints.filter(id=>id===key).length;
+    feedback(hints[Math.min(seen,hints.length-1)]);
+    survey.hints.push(key);
+    survey.hints=survey.hints.slice(-30);
+    save();
+  },
+  onSurvey:()=>{
+    if(!state.clues.includes('depth'))state.clues.push('depth');
+    save();updateMission();
+  },
+  onCorrection:()=>{scene?.stageNotice();save();updateMission();},
+  rigTrial:(path,cleat,load,result)=>{
+    state.rigTrials=[...state.rigTrials,{path,cleat,load,result,assisted:state.survey.hints.includes('rig')}].slice(-30);
+    save();
+  },
+};
+
 function download(backup = false) {
   const record={
-    game:'The Broken Bridge', build:'0.5.0', anonymousSession:state.id, languageMode:state.mode,
+    game:'The Broken Bridge', build:'0.6.0', anonymousSession:state.id, languageMode:state.mode,
     languageSource:'Illustrative. Current textbook alignment has not been verified.',
     evidence:state.clues.map(id=>({id, name:sites[id]?.name, observation:sites[id]?.clue})),
-    observedAnswers:{openingQuestion:state.question, bridgeReport:state.report, recommendations:reviewRecommendations(state.attempts)},
+    observedAnswers:{openingQuestion:state.question, openingMode:'selected', bridgeReport:state.report,
+      recommendations:reviewRecommendations(state.attempts),
+      consequence:{text:state.consequence, output:state.consequence?'constructed':'empty', languageReview:'teacher-review'}},
+    fieldInstruments:{soundingsCm:state.survey.readings, comparedWithLimit:state.survey.compared,
+      hintUsed:state.survey.hints.includes('survey')},
+    safetyInterview:{datedQuestionAsked:state.survey.asked, noticeRevised:state.survey.corrected,
+      attempts:state.survey.interview, languageReview:'teacher-review'},
+    bridgeLoadTrials:state.rigTrials, stationHints:state.survey.hints,
     selfReportedSpeakingPractice:state.practiced,
     ungradedReasoning:state.stretch||state.draft,
     legacyOptionalDraft:state.stretch, unsentDraft:state.route?'':state.draft,
@@ -355,11 +425,19 @@ function download(backup = false) {
   document.body.append(link);link.click();link.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);
 }
 function trailMap() {
-  const position= Math.round(state.x/1060*100);
+  const position=Math.round(state.x/1060*100);
+  const height=Math.max(4,Math.min(96,(state.y-244)/232*100));
+  const track=`<div class="trail-overview" aria-hidden="true">
+    <img src="${ART['trail-overview']}" alt="">
+    <svg viewBox="0 0 100 23" preserveAspectRatio="none"><path d="M6 20 L94 20 M25 4 L91 6"
+      fill="none" stroke="#f9dfab" stroke-width=".26" opacity=".85"/>
+      <path d="M42.4 20 V4.4 M91 19.7 L78.2 5.5" fill="none" stroke="#edce92"
+       stroke-width=".33" stroke-dasharray=".7 .47"/></svg>
+    <i style="left:${position}%;top:${height}%"></i></div>`;
   const order=['rack','ranger','bridge','depth','sign'];
   return `<figure class="trail-map">
     <figcaption>Trail map · You are at ${$('location').textContent}</figcaption>
-    <div class="trail-track" aria-hidden="true"><i style="left:${position}%"></i></div>
+    ${track}
     <div class="trail-stations">${order.map(id=>button(
       '<span aria-hidden="true">'+sites[id].icon+'</span> '+sites[id].name,'walk-'+id)).join('')}</div>
   </figure>`;
@@ -388,7 +466,10 @@ function journal() {
 function settings() {
   open('Field settings','ALDER RIVER STATION',
     `<p class="small">English captions stay on screen. Ranger Lin’s local dialogue can be replayed with its own button.</p><div class="stack">
-      ${button('Sound effects: '+(state.mute?'off':'on'),'mute')}
+      ${button(state.sound.enabled?'Mute sound':'Enable sound','master')}
+      ${button('Voice: '+(state.sound.voice?'on':'off'),'voice')}
+      ${button('Ambience: '+(state.sound.ambience?'on':'off'),'ambience')}
+      ${button('Sound effects: '+(state.sound.effects?'on':'off'),'effects')}
       ${button('Environmental motion: '+(motion()?'on':'reduced'),'motion')}
       ${button('Simplified Chinese support: '+(state.zh?'on':'off'),'zh')}
       ${button('Back up save','backup')}
@@ -400,7 +481,12 @@ function settings() {
       if(action==='reset') return confirmReset();
       if(action==='backup') return download(true);
       if(action==='restore') return restorePanel();
-      if(action==='mute') {state.mute=!state.mute;if(state.mute&&output)output.gain.value=0;else audioFeedback();}
+      if(action==='master')toggleSound(!state.sound.enabled);
+      if(['voice','ambience','effects'].includes(action)){
+        state.sound[action]=!state.sound[action];
+        if(action==='effects')state.mute=!state.sound.effects;
+        syncSound();
+      }
       if(action==='motion') state.motion=!motion();
       if(action==='zh') state.zh=!state.zh;
       if(action==='focus') stage.classList.toggle('focus-view');
@@ -421,7 +507,7 @@ function restorePanel() {
       try { imported=restore(await file.text()); } catch { /* Invalid or unreadable backup. */ }
       if(active?.type!=='restore') return;
       if(!imported) return feedback('This file is not a Broken Bridge save backup. Current progress is intact.');
-      state=imported;save();updateMission();close();notify('Mission restored.');
+      state=imported;syncSound();save();updateMission();close();notify('Mission restored.');
     },'restore');
 }
 function confirmReset() {
@@ -432,9 +518,18 @@ function confirmReset() {
       if(action==='export') return download();
       if(action==='close') return close();
       try { localStorage.removeItem(SAVE_KEY); } catch { /* Storage is optional. */ }
-      state=null; launch();
+      state=null;soundscape.update({enabled:false});syncSound();launch();
     });
 }
+$('sound-toggle').addEventListener('click',()=>{
+  if(state)toggleSound(!state.sound.enabled);
+  stage.focus({preventScroll:true});
+});
+function unlockOptedInSound(){
+  if(state?.sound.enabled)void soundscape.unlock({quiet:true});
+}
+document.addEventListener('pointerdown',unlockOptedInSound,{capture:true});
+document.addEventListener('keydown',unlockOptedInSound,{capture:true});
 $('journal').addEventListener('click',()=>{if(state)journal();});
 $('settings').addEventListener('click',()=>{if(state)settings();});
 window.addEventListener('pagehide',save);
@@ -445,7 +540,10 @@ mountWorld(window.Phaser,$('world'),{
   fieldworkTurn:()=>fieldwork.turn(), carry:()=>fieldwork.carriedPose?.()??null,
   conversation:()=>panel.open && active?.type==='conversation',
   installing:()=>Boolean(fieldwork.installing?.()),
-  voicePlaying:()=>speakingClip&&!speakingClip.paused&&!speakingClip.ended,
+  voicePlaying:soundscape.voicePlaying,
+  focus:()=>panel.open?active?.type:'',
+  soundAt:soundscape.at, worldSound:soundscape.cue, soundFoot:soundscape.foot,
   ready:world=>{scene=world;},
 });
+syncSound();
 if(state) updateMission(); else launch();

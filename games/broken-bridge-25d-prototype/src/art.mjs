@@ -8,14 +8,38 @@ export function illustratedWorld(scene) {
     scene.add.image(x,y,key).setOrigin(originX,originY).setDisplaySize(width,height).setDepth(depth);
   add('scenery-distance',-45,0,1150,540,-2).setScrollFactor(.91,1);
   add('scenery-bank',0,0,1060,540,0);
-  const canopy=add('storm-canopy',-39,-38,425,165,582).setScrollFactor(1.08,1);
+  add('storm-canopy',-39,-38,425,165,582).setScrollFactor(1.08,1);
   add('storm-boulder',332,474,71,43,474,.5,1);
   const debris=add('storm-debris',397,430,81,31,428,.5,1);
-  const current=add('current',209,272,596,137,1).setAlpha(.16);
+  add('front-left',0,445,266,95,550).setScrollFactor(1.035,1);
+  add('front-right',830,450,230,90,550).setScrollFactor(1.035,1);
+  // The pivot is at each plant's attachment point. Roots and trunks remain grounded.
+  const plant=(id,x,y,w,h,depth,ox,oy,phase,strength,hz,scroll=1)=>({
+    image:add('wind-'+id,x,y,w,h,depth,ox,oy).setScrollFactor(scroll,1),phase,strength,hz,
+  });
+  const wind=[
+    plant('fern',74,532,139,117,562,.49,.96,0,.10,.23,1.035),
+    plant('fern',992,544,172,145,565,.51,.95,2.4,.10,.17,1.043),
+    plant('reed',520,401,42,63,400,.50,.99,1.6,.15,.33),
+    plant('reed',737,405,42,66,405,.49,.98,3.1,.17,.26),
+    plant('reed',823,478,43,68,492,.50,.98,5.1,.12,.19),
+    plant('fir',1078,22,260,169,580,.97,.05,4.5,.085,.13,1.04),
+    plant('cedar',278,25,156,139,64,.02,.035,3.6,.070,.21,.97),
+  ];
+  const mist=[
+    {image:add('ridge-mist',432,145,305,71,-.5).setScrollFactor(.97,1),x:432,y:145,phase:1,speed:.64},
+    {image:add('ridge-mist',670,191,320,64,-.4).setScrollFactor(.99,1),x:670,y:191,phase:3,speed:.47},
+    {image:add('ridge-mist',561,257,232,37,1).setScrollFactor(1,1),x:561,y:257,phase:4.4,speed:.53},
+  ];
+  const streams=[
+    {image:add('stream-amber',212,317,104,27,1),x:209,y:311,span:89,speed:.27,phase:.11},
+    {image:add('stream-jade',482,322,82,22,1),x:478,y:315,span:61,speed:.24,phase:.31},
+    {image:add('stream-wake',668,347,106,21,1),x:655,y:344,span:124,speed:.32,phase:.68},
+    {image:add('stream-jade',730,327,92,20,1),x:690,y:321,span:108,speed:.25,phase:.76},
+    {image:add('stream-jade',834,372,60,19,1),x:800,y:367,span:46,speed:.29,phase:.41},
+  ];
   const water=scene.add.graphics().setDepth(2);
-  const atmosphere=scene.add.graphics().setDepth(3);
-  const frontLeft=add('front-left',0,445,266,95,550).setScrollFactor(1.035,1);
-  const frontRight=add('front-right',830,450,230,90,550).setScrollFactor(1.035,1);
+  const rings=scene.add.graphics().setDepth(330);
   const lamp=scene.add.ellipse(70,287,67,50,0xffb250,.014).setDepth(2);
   const bridge=add('bridge-damaged-v3',450,416,139,125,4,.5,1);
   const fill=[0,1].map(i=>add('bridge-patch-v3-'+i,450,416,139,125,5,.5,1).setVisible(false));
@@ -23,6 +47,8 @@ export function illustratedWorld(scene) {
   const parcel=add('supplies',204,431,30,21,431,.5,1);
   add('depth',778,414,39,51,414,.5,1);
   add('sign',934,449,58,32,449,.5,1);
+  const notice=add('sign',316,423,42,24,423,.43,.88);
+  const caution=add('flag-0',317,422,15,26,424,.48,1);
   const flags=[
     add('flag-0',954,415,21,40,415,.5,1).setFlipX(true),
     add('flag-1',857,310,18,34,310,.5,1),
@@ -34,40 +60,55 @@ export function illustratedWorld(scene) {
     role,height, gait:0, direction:'right',
   });
   const carry=add('board',0,0,1,1,20,.5,.5).setVisible(false);
-  return {current,water,atmosphere,frontLeft,frontRight,canopy,debris,lamp,bridge,fill,rack,flags,parcel,carry,
+  return {wind,mist,streams,water,rings,notice,caution,debris,lamp,bridge,fill,rack,flags,parcel,carry,
     ranger:actor('ranger',88), scout:actor('scout',81)};
 }
 
-export function paintWorld(art,time,state) {
-  art.current.x=209+Math.sin(time*.78)*11;
-  art.current.alpha=.12+.055*Math.sin(time*1.2);
-  art.frontLeft.x=Math.sin(time*.82)*3;
-  art.frontRight.x=830+Math.sin(time*.66)*3;
-  art.frontLeft.rotation=Math.sin(time*.68)*.005;
-  art.frontRight.rotation=Math.sin(time*.79)*.007;
-  art.lamp.fillAlpha=.014+.008*Math.sin(time*1.9);
-  art.canopy.setRotation(Math.sin(time*.64)*.013);
+export function paintWorld(art,time,state,splashes,noticeMode) {
+  // Separate wind, mist and current clocks keep the view alive while the camera holds.
+  for(const {image,phase,strength,hz} of art.wind){
+    const beat=time*hz*Math.PI*2;
+    image.rotation=strength*(Math.sin(beat+phase)+.24*Math.sin(beat*2.3+phase));
+  }
+  for(const {image,x,y,phase,speed} of art.mist){
+    image.x=x+Math.sin(time*speed+phase)*29;
+    image.y=y+Math.sin(time*speed*.61+phase)*7;
+    image.alpha=.51+.21*Math.sin(time*speed*.77+phase);
+  }
+  for(const {image,x,y,span,speed,phase} of art.streams){
+    const progress=(time*speed+phase)%1;
+    image.x=x+progress*span;
+    image.y=y+Math.sin(time*.72+phase)*2;
+    image.alpha=.72*Math.sin(progress*Math.PI)**2;
+  }
+  art.lamp.fillAlpha=.034+.016*Math.sin(time*3.1)+.007*Math.sin(time*5.5);
   art.water.clear();
-  // Glints stay on individual open-water reaches, clear of stones and shore.
-  const reaches=[[218,322,374,351],[231,351,421,377],[492,321,565,351],
-    [504,371,769,385],[686,324,813,349],[721,351,869,369],[548,339,560,360]];
-  reaches.forEach(([left,top,right,bottom],reach)=>{
-    for(let i=0;i<7;i++){
-      const phase=(time*(.19+reach*.01)+i*.143+reach*.061)%1;
-      const x=right-phase*(right-left), y=top+((i*13+reach*7)%21)/21*(bottom-top);
+  // Separate short crests behind obstacles; the moving painted textures are below.
+  const runs=[[210,318,347,340],[271,352,417,376],[487,316,559,342],
+    [501,367,754,385],[667,326,810,343],[707,349,854,369],[949,330,1042,360]];
+  runs.forEach(([left,top,right,bottom],run)=>{
+    for(let i=0;i<6;i++){
+      const phase=(time*(.24+run*.008)+i*.167+run*.058)%1;
+      const x=left+phase*(right-left), y=top+((i*13+run*7)%21)/21*(bottom-top);
       const light=Math.sin(phase*Math.PI);
-      const length=(6+i%4*4)*light;
-      art.water.lineStyle(1.15,reach<2?0xffdcb1:0xc6ede3,.31*light)
-        .beginPath().moveTo(x,y).lineTo(x+length*.58,y+.8).lineTo(x+length,y+.15).strokePath();
+      const length=(8+i%4*5)*light;
+      art.water.lineStyle(1.25,run<2?0xffdcb1:0xc6ede3,.42*light)
+        .beginPath().moveTo(x,y).lineTo(x+length*.58,y+1).lineTo(x+length,y+.25).strokePath();
     }
   });
-  art.atmosphere.clear();
-  for(let i=0;i<17;i++){
-    const drift=(time*(3+i%3)+i*26)%158;
-    const x=151+drift+(i%3)*19, y=150+i*13+Math.sin(time*.64+i)*6;
-    const alpha=Math.sin(drift/158*Math.PI)*(.15+i%3*.065);
-    art.atmosphere.fillStyle(0xffe2ae,alpha).fillCircle(x,y,.65+i%3*.38);
+  art.rings.clear();
+  for(const {x,y,at} of splashes){
+    const age=time-at;
+    if(age<0||age>.76)continue;
+    art.rings.lineStyle(.95,0xe4f0d5,(1-age/.76)*.61)
+      .strokeEllipse(x+age*8,y+2,7+age*33,3+age*11);
   }
+  const noticeClosed=state.fieldEdition===6&&!state.survey.corrected||noticeMode==='pending';
+  art.notice.setVisible(state.fieldEdition===6).setAngle(noticeClosed?-14:10).setFlipX(noticeClosed);
+  art.caution.setVisible(noticeClosed);
+  const visualKey=state.id+'|'+state.route+'|'+state.pieces.join('|');
+  if(art.visualKey===visualKey)return;
+  art.visualKey=visualKey;
   const repaired=state.delivered&&state.route==='bridge';
   art.debris.setVisible(!repaired);
   art.bridge.setTexture(repaired?'bridge-restored-v3':'bridge-damaged-v3').setDisplaySize(139,125);

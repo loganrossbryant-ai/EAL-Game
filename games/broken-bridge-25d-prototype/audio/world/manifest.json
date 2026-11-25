@@ -1,0 +1,140 @@
+{
+  "origin": "Original offline DSP synthesis and authored foley layers for The Broken Bridge",
+  "source": "../produce_soundscape.py",
+  "format": "Mono PCM WAV, 22050 Hz, 16-bit",
+  "license": "Original project audio, distributable with this game",
+  "clips": {
+    "river": {
+      "file": "river.wav",
+      "loop": true,
+      "seconds": 18.0,
+      "sha256": "aae64cd95945ddbaf3240062602f57052fa9c1198a30c8f4b7ead3e5c40a2eb9"
+    },
+    "breeze": {
+      "file": "breeze.wav",
+      "loop": true,
+      "seconds": 16.0,
+      "sha256": "ac644d16dd7bca40b107fe8e84b54c6d0702a24c5a14d51538475e23de2ef744"
+    },
+    "wildlife": {
+      "file": "wildlife.wav",
+      "loop": true,
+      "seconds": 22.0,
+      "sha256": "46cd7ef775fa79a40ca5362a8640b705c9d78a49f9c43a46392410cce59d67e9"
+    },
+    "cabin": {
+      "file": "cabin.wav",
+      "loop": true,
+      "seconds": 14.0,
+      "sha256": "28cb4fe21758d90ddebad7f2765cda380a29576ed0c13ea67107dea67a897ad8"
+    },
+    "step-gravel-1": {
+      "file": "step-gravel-1.wav",
+      "loop": false,
+      "seconds": 0.28,
+      "sha256": "6893a492d0f37167c5cce2c5bafb26214183cc9353895567a7b31cf22a588057"
+    },
+    "step-gravel-2": {
+      "file": "step-gravel-2.wav",
+      "loop": false,
+      "seconds": 0.28,
+      "sha256": "0b66e0ff2f6ad8bc588d3eeeff27a63682b3e13fb4dc2b21d1b1c901998944cf"
+    },
+    "step-gravel-3": {
+      "file": "step-gravel-3.wav",
+      "loop": false,
+      "seconds": 0.28,
+      "sha256": "58a12198ee4625aba0bac798d945befbeb77fa57525a080c1e4e91dcefc34888"
+    },
+    "step-wood-1": {
+      "file": "step-wood-1.wav",
+      "loop": false,
+      "seconds": 0.28,
+      "sha256": "d8bf7493fc392a3d8cd60647fd20f65cbe9506fad2e3822b2770034b456b3301"
+    },
+    "step-wood-2": {
+      "file": "step-wood-2.wav",
+      "loop": false,
+      "seconds": 0.28,
+      "sha256": "09c6f25741ada7e16b600fa05277f30edbdea1b48e480886aaf8c7d074d7d053"
+    },
+    "step-wood-3": {
+      "file": "step-wood-3.wav",
+      "loop": false,
+      "seconds": 0.28,
+      "sha256": "1e0bb426c3244871625494d4702f0ea61bc6412d28ea331c37478daeffb2f861"
+    },
+    "step-stone-1": {
+      "file": "step-stone-1.wav",
+      "loop": false,
+      "seconds": 0.28,
+      "sha256": "ce2b931eeed7a03899a3c57744f5702174a27bc55adee06c78526a0ac6807f9c"
+    },
+    "step-stone-2": {
+      "file": "step-stone-2.wav",
+      "loop": false,
+      "seconds": 0.28,
+      "sha256": "583478154e931b0621208e6cb4ea9fe6b657bd58d6ccd28e68d818878b548c25"
+    },
+    "step-stone-3": {
+      "file": "step-stone-3.wav",
+      "loop": false,
+      "seconds": 0.28,
+      "sha256": "34ec1e813d329ac166f45087eeb176108e2e7a533adc89fed4e6a8a1661af39f"
+    },
+    "board-pickup": {
+      "file": "board-pickup.wav",
+      "loop": false,
+      "seconds": 0.49,
+      "sha256": "1ffc0ae44f990942623d7958429a58006626c40f78766389e259b3dc574e4825"
+    },
+    "board-place": {
+      "file": "board-place.wav",
+      "loop": false,
+      "seconds": 0.46,
+      "sha256": "461fc5516196cc8d01054ae1d523b675b1aabb3deb1a38f5e51f479df80e0497"
+    },
+    "rope-handle": {
+      "file": "rope-handle.wav",
+      "loop": false,
+      "seconds": 0.64,
+      "sha256": "21f75e8427788123cb1e141e8b4df28382e652332e8ce887a7862a6392169fd0"
+    },
+    "rope-tension": {
+      "file": "rope-tension.wav",
+      "loop": false,
+      "seconds": 0.92,
+      "sha256": "c6d84d274a99a02ce84436621e65df964def4dfdc63f52a602ae3b2b93e6a407"
+    },
+    "bridge-creak": {
+      "file": "bridge-creak.wav",
+      "loop": false,
+      "seconds": 1.05,
+      "sha256": "0e4fe41e181c841a7dfb1e5ea7c083aa3c1a052e2fdea7008a9ba1df87cc5631"
+    },
+    "splash": {
+      "file": "splash.wav",
+      "loop": false,
+      "seconds": 0.65,
+      "sha256": "afb3fcb1b4f9e6966d9ee378277744d83a93da574f6d1007aa32e8160cdd2728"
+    },
+    "gear-handoff": {
+      "file": "gear-handoff.wav",
+      "loop": false,
+      "seconds": 0.62,
+      "sha256": "f64ada6eeee7486005d73eb78077f845c608005be1ded238e5cb1b9397ed0800"
+    },
+    "probe-contact": {
+      "file": "probe-contact.wav",
+      "loop": false,
+      "seconds": 0.43,
+      "sha256": "c401ed0c210180c8c5064066f0f8840881385371375ddab1ab93cdf0fcc8aa13"
+    },
+    "notice-turn": {
+      "file": "notice-turn.wav",
+      "loop": false,
+      "seconds": 0.6,
+      "sha256": "88249d52a1c4bc393f13bdc2ceb6bd72ec1073a7cac102b7f7e88b47e49ae773"
+    }
+  }
+}

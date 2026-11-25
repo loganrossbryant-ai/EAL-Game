@@ -2,6 +2,16 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {fresh, authorize, operate, restore} from '../src/state.mjs';
 
+import {compareDepth, recordDepth, reviewLog} from '../src/survey.mjs';
+
+function recordedPermit(state) {
+  recordDepth(state.survey,'bridge',40);
+  recordDepth(state.survey,'ford',20);
+  compareDepth(state.survey,'ford','below');
+  state.survey.asked=true;
+  reviewLog(state.survey,['log','sounding'],'Today it is 16 cm, below 20 cm.');
+}
+
 const bridgeClaim={fact:'matching-boards',inference:'fill-sockets'};
 const fordClaim={fact:'ford-depth',inference:'use-shallows'};
 for (const [route, clues, pieces, message, claim] of [
@@ -10,6 +20,7 @@ for (const [route, clues, pieces, message, claim] of [
 ]) {
   test(route + ' requires evidence and ordered physical work', () => {
     const state = fresh('middle');
+    recordedPermit(state);
     assert.equal(authorize(state, route, clues, message, claim), false);
     state.question = 'Where is the safe crossing?';
     state.clues = clues;
@@ -29,6 +40,7 @@ for (const [route, clues, pieces, message, claim] of [
 test('direct authorization rejects the audit nonsense and missing claim', () => {
   for(const [mode,text] of [['elementary','Cat dog tree'],['middle','Cat dog tree fish bird']]) {
     const state=fresh(mode);
+    recordedPermit(state);
     state.question='Where is the safe crossing?';
     state.clues=['bridge','rack'];
     assert.equal(authorize(state,'bridge',state.clues,text,bridgeClaim),false);

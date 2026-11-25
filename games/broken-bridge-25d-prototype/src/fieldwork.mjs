@@ -47,7 +47,7 @@ function createMarker(layer,type,item,index,texture,activate) {
 }
 
 export function createFieldwork({stage,state,paused,walk,notify,onPlaced,onDelivered,texture,
-  motion=()=>true,onActivity=()=>{},onGuideVoice}) {
+  motion=()=>true,onActivity=()=>{},onGuideVoice,onRig}) {
   const layer=document.createElement('div');
   layer.className='field-layer';
   layer.setAttribute('aria-label','Work on the crossing');
@@ -188,10 +188,12 @@ export function createFieldwork({stage,state,paused,walk,notify,onPlaced,onDeliv
     if(id==='field-tension') {
       if(!ropeHooked||distanceTo(state(),ROPE_CLEAT.stand)>19)return true;
       const rope=carried();
-      snap(rope,items()[2].anchor,ROPE_CLEAT.anchor,()=>{
-        report('rope-tensioned',rope,method,assisted||hookAssisted);
-        complete(rope,method,assisted||hookAssisted);
+      const tensionRope=(rigAssisted=false)=>snap(rope,items()[2].anchor,ROPE_CLEAT.anchor,()=>{
+        report('rope-tensioned',rope,method,assisted||hookAssisted||rigAssisted);
+        complete(rope,method,assisted||hookAssisted||rigAssisted);
       });
+      if(state().fieldEdition===6&&onRig)onRig(tensionRope);
+      else tensionRope();
       return true;
     }
     const match=/^field-(pick|place)([0-2])$/.exec(id);

@@ -403,7 +403,7 @@ const stationKit={
 
 function download(backup = false) {
   const record={
-    game:'The Broken Bridge', build:'0.6.0', anonymousSession:state.id, languageMode:state.mode,
+    game:'The Broken Bridge', build:'0.6.1', anonymousSession:state.id, languageMode:state.mode,
     languageSource:'Illustrative. Current textbook alignment has not been verified.',
     evidence:state.clues.map(id=>({id, name:sites[id]?.name, observation:sites[id]?.clue})),
     observedAnswers:{openingQuestion:state.question, openingMode:'selected', bridgeReport:state.report,

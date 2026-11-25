@@ -1,3 +1,5 @@
+import {makeRiver} from './river.mjs';
+
 // All primary scenery, characters and inspectable objects are authored raster assets.
 export function loadArt(scene) {
   Object.entries(ART).forEach(([name, url]) => scene.load.image(name, url));
@@ -31,15 +33,7 @@ export function illustratedWorld(scene) {
     {image:add('ridge-mist',670,191,320,64,-.4).setScrollFactor(.99,1),x:670,y:191,phase:3,speed:.47},
     {image:add('ridge-mist',561,257,232,37,1).setScrollFactor(1,1),x:561,y:257,phase:4.4,speed:.53},
   ];
-  const streams=[
-    {image:add('stream-amber',212,317,104,27,1),x:209,y:311,span:89,speed:.27,phase:.11},
-    {image:add('stream-jade',482,322,82,22,1),x:478,y:315,span:61,speed:.24,phase:.31},
-    {image:add('stream-wake',668,347,106,21,1),x:655,y:344,span:124,speed:.32,phase:.68},
-    {image:add('stream-jade',730,327,92,20,1),x:690,y:321,span:108,speed:.25,phase:.76},
-    {image:add('stream-jade',834,372,60,19,1),x:800,y:367,span:46,speed:.29,phase:.41},
-  ];
-  const water=scene.add.graphics().setDepth(2);
-  const rings=scene.add.graphics().setDepth(330);
+  const paintRiver=makeRiver(scene);
   const lamp=scene.add.ellipse(70,287,67,50,0xffb250,.014).setDepth(2);
   const bridge=add('bridge-damaged-v3',450,416,139,125,4,.5,1);
   const fill=[0,1].map(i=>add('bridge-patch-v3-'+i,450,416,139,125,5,.5,1).setVisible(false));
@@ -60,7 +54,7 @@ export function illustratedWorld(scene) {
     role,height, gait:0, direction:'right',
   });
   const carry=add('board',0,0,1,1,20,.5,.5).setVisible(false);
-  return {wind,mist,streams,water,rings,notice,caution,debris,lamp,bridge,fill,rack,flags,parcel,carry,
+  return {wind,mist,paintRiver,notice,caution,debris,lamp,bridge,fill,rack,flags,parcel,carry,
     ranger:actor('ranger',88), scout:actor('scout',81)};
 }
 
@@ -75,34 +69,8 @@ export function paintWorld(art,time,state,splashes,noticeMode) {
     image.y=y+Math.sin(time*speed*.61+phase)*7;
     image.alpha=.51+.21*Math.sin(time*speed*.77+phase);
   }
-  for(const {image,x,y,span,speed,phase} of art.streams){
-    const progress=(time*speed+phase)%1;
-    image.x=x+progress*span;
-    image.y=y+Math.sin(time*.72+phase)*2;
-    image.alpha=.72*Math.sin(progress*Math.PI)**2;
-  }
+  art.paintRiver(time,splashes);
   art.lamp.fillAlpha=.034+.016*Math.sin(time*3.1)+.007*Math.sin(time*5.5);
-  art.water.clear();
-  // Separate short crests behind obstacles; the moving painted textures are below.
-  const runs=[[210,318,347,340],[271,352,417,376],[487,316,559,342],
-    [501,367,754,385],[667,326,810,343],[707,349,854,369],[949,330,1042,360]];
-  runs.forEach(([left,top,right,bottom],run)=>{
-    for(let i=0;i<6;i++){
-      const phase=(time*(.24+run*.008)+i*.167+run*.058)%1;
-      const x=left+phase*(right-left), y=top+((i*13+run*7)%21)/21*(bottom-top);
-      const light=Math.sin(phase*Math.PI);
-      const length=(8+i%4*5)*light;
-      art.water.lineStyle(1.25,run<2?0xffdcb1:0xc6ede3,.42*light)
-        .beginPath().moveTo(x,y).lineTo(x+length*.58,y+1).lineTo(x+length,y+.25).strokePath();
-    }
-  });
-  art.rings.clear();
-  for(const {x,y,at} of splashes){
-    const age=time-at;
-    if(age<0||age>.76)continue;
-    art.rings.lineStyle(.95,0xe4f0d5,(1-age/.76)*.61)
-      .strokeEllipse(x+age*8,y+2,7+age*33,3+age*11);
-  }
   const noticeClosed=state.fieldEdition===6&&!state.survey.corrected||noticeMode==='pending';
   art.notice.setVisible(state.fieldEdition===6).setAngle(noticeClosed?-14:10).setFlipX(noticeClosed);
   art.caution.setVisible(noticeClosed);

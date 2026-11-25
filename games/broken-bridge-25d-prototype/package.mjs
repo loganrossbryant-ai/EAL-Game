@@ -9,10 +9,12 @@ const read = name => readFile(path(name), 'utf8');
 const dataUrl=(bytes,type)=>'data:'+type+';base64,'+bytes.toString('base64');
 const {version}=JSON.parse(await read('./package.json'));
 const modules=['survey','state','content','language','dialogue','instructions','field-dialogue',
-  'field-stations','fieldwork','art','navigation','world','soundscape','main'];
+  'field-stations','fieldwork','river','art','navigation','world','soundscape','main'];
 const sources=await Promise.all(modules.map(name=>read('./src/'+name+'.mjs')));
 const assets=await readdir(path('./assets/'));
-const art=Object.fromEntries(await Promise.all(assets.filter(name=>name.endsWith('.webp')).sort().map(async name=>{
+// The archived moving strips stay with their original release source.
+const retiredStreams=new Set(['stream-amber.webp','stream-jade.webp','stream-wake.webp']);
+const art=Object.fromEntries(await Promise.all(assets.filter(name=>name.endsWith('.webp')&&!retiredStreams.has(name)).sort().map(async name=>{
   const bytes=await readFile(path('./assets/'+name));
   return [name.slice(0,-5),dataUrl(bytes,'image/webp')];
 })));
@@ -24,7 +26,7 @@ for(const role of ['scout','ranger']){
   }
 }
 for(const name of ['wind-fern','wind-reed','wind-fir','wind-cedar','survey-winch','bridge-rig',
-  'survey-water','trail-overview','ridge-mist','stream-amber','stream-jade','stream-wake']){
+  'survey-water','trail-overview','ridge-mist','scenery-bank']){
   if(!art[name])throw new Error('Missing field art: '+name);
 }
 

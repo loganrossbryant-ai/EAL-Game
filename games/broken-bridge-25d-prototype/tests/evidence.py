@@ -57,13 +57,15 @@ AUDIO_TAP = """
 })();
 """
 
-def start_game(browser, save=None, reduced=False, audio=False):
+def start_game(browser, save=None, reduced=False, audio=False, *, html=HTML,
+               viewport=None, touch=False, audio_trace=''):
     external = []
-    context = browser.new_context(viewport={'width':1366,'height':768}, offline=True,
+    context = browser.new_context(viewport=viewport or {'width':1366,'height':768}, offline=True,
+                                  is_mobile=touch, has_touch=touch,
                                   reduced_motion='reduce' if reduced else 'no-preference')
     def serve(route):
         if route.request.url == URL:
-            route.fulfill(status=200, body=HTML, content_type='text/html')
+            route.fulfill(status=200, body=html, content_type='text/html')
         elif route.request.url == PORT+'favicon.ico':
             route.fulfill(status=204)
         else:
@@ -73,7 +75,7 @@ def start_game(browser, save=None, reduced=False, audio=False):
     if save:
         context.add_init_script(f"localStorage.setItem('broken-bridge-v1', {json.dumps(json.dumps(save))})")
     if audio:
-        context.add_init_script(AUDIO_TAP)
+        context.add_init_script(AUDIO_TAP + audio_trace)
     observe_actor_draws(context)
     page=context.new_page()
     errors=[]

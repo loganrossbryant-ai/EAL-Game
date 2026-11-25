@@ -27,6 +27,7 @@ const button = (text, action, cls = '') => `<button data-action="${action}" clas
 const actions = (...buttons) => `<div class="actions">${buttons.join('')}</div>`;
 const workId = () => state?.route && repair[state.route].site;
 const allLines={...lines,...instructionLines,...fieldLines};
+const audioLabels={master:'Master',voice:'Voice',ambience:'Ambience',effects:'Sound effects',music:'Music'};
 const soundscape=createSoundscape({bank:WORLD_AUDIO, voices:VOICE,
   onUnavailable:()=>soundNotice('Audio is unavailable. The captions are on screen.')});
 const activityCues={
@@ -70,13 +71,18 @@ function toggleSound(enabled) {
 function syncSound() {
   $('sound-toggle').hidden=!state;
   if(!state)return;
-  $('sound-toggle').textContent=state.sound.enabled?'Mute sound':'Enable sound';
+  const toggle=$('sound-toggle');
+  const label=audioButtonText('master');
+  if(toggle.textContent!==label)toggle.textContent=label;
   soundscape.update(state.sound);
 }
 function replayVoice(id) {
   if(!VOICE[id])return;
-  if(!state.sound.enabled)return soundNotice('Sound is off.',true);
+  if(!state.sound.enabled)return soundNotice('Sound is off.',!body.querySelector('.audio-mixer'));
   if(!state.sound.voice)return soundNotice('Voice is off. Turn it on in field settings.');
+  if(state.sound.volumes.master===0||state.sound.volumes.voice===0){
+    return soundNotice('Master or voice volume is at 0%. You can raise it in field settings.');
+  }
   body.querySelector('#audio-tip')?.remove();
   const nonce=++voiceNonce;
   const clip=soundscape.playVoice(id,sites.ranger.x);
@@ -403,7 +409,7 @@ const stationKit={
 
 function download(backup = false) {
   const record={
-    game:'The Broken Bridge', build:'0.6.1', anonymousSession:state.id, languageMode:state.mode,
+    game:'The Broken Bridge', build:'0.6.2', anonymousSession:state.id, languageMode:state.mode,
     languageSource:'Illustrative. Current textbook alignment has not been verified.',
     evidence:state.clues.map(id=>({id, name:sites[id]?.name, observation:sites[id]?.clue})),
     observedAnswers:{openingQuestion:state.question, openingMode:'selected', bridgeReport:state.report,
@@ -463,13 +469,31 @@ function journal() {
       if(action.startsWith('walk-')) approach(action.slice(5));
     });
 }
+function audioButtonText(channel) {
+  if(channel==='master')return state.sound.enabled?'Mute sound':'Enable sound';
+  return audioLabels[channel]+(state.sound[channel]?': on':': off');
+}
+function audioControl(channel,label) {
+  const volume=state.sound.volumes[channel];
+  const id='volume-'+channel;
+  return `<div class="audio-channel">
+    <div class="audio-level">
+      <div class="audio-level-label"><label for="${id}">${label} volume</label>
+        <output aria-hidden="true" for="${id}">${volume}%</output></div>
+      <input type="range" id="${id}" data-volume="${channel}" min="0" max="100" step="1"
+        value="${volume}" aria-valuetext="${volume}%">
+    </div>
+    ${button(audioButtonText(channel),channel,'audio-switch')}
+  </div>`;
+}
 function settings() {
+  const controls=Object.entries(audioLabels).map(([channel,label])=>audioControl(channel,label)).join('');
   open('Field settings','ALDER RIVER STATION',
-    `<p class="small">English captions stay on screen. Ranger Lin’s local dialogue can be replayed with its own button.</p><div class="stack">
-      ${button(state.sound.enabled?'Mute sound':'Enable sound','master')}
-      ${button('Voice: '+(state.sound.voice?'on':'off'),'voice')}
-      ${button('Ambience: '+(state.sound.ambience?'on':'off'),'ambience')}
-      ${button('Sound effects: '+(state.sound.effects?'on':'off'),'effects')}
+    `<fieldset class="audio-mixer">
+      <legend>Audio</legend>
+      ${controls}
+      ${button('Preview Ranger Lin','voice-opening','voice-replay')}
+    </fieldset><div class="stack">
       ${button('Environmental motion: '+(motion()?'on':'reduced'),'motion')}
       ${button('Simplified Chinese support: '+(state.zh?'on':'off'),'zh')}
       ${button('Back up save','backup')}
@@ -481,11 +505,17 @@ function settings() {
       if(action==='reset') return confirmReset();
       if(action==='backup') return download(true);
       if(action==='restore') return restorePanel();
-      if(action==='master')toggleSound(!state.sound.enabled);
-      if(['voice','ambience','effects'].includes(action)){
-        state.sound[action]=!state.sound[action];
-        if(action==='effects')state.mute=!state.sound.effects;
-        syncSound();
+      if(Object.hasOwn(audioLabels,action)){
+        if(action==='master')toggleSound(!state.sound.enabled);
+        else{
+          state.sound[action]=!state.sound[action];
+          if(action==='effects')state.mute=!state.sound.effects;
+          syncSound();
+          save();
+        }
+        body.querySelector(`[data-action="${action}"]`).textContent=audioButtonText(action);
+        body.querySelector('#audio-tip')?.remove();
+        return;
       }
       if(action==='motion') state.motion=!motion();
       if(action==='zh') state.zh=!state.zh;
@@ -493,6 +523,16 @@ function settings() {
       save(); settings();
       body.querySelector(`[data-action="${action}"]`).focus();
     });
+  for(const control of body.querySelectorAll('[data-volume]')){
+    control.addEventListener('input',()=>{
+      state.sound.volumes[control.dataset.volume]=control.valueAsNumber;
+      const label=control.value+'%';
+      control.closest('.audio-level').querySelector('output').textContent=label;
+      control.setAttribute('aria-valuetext',label);
+      syncSound();
+    });
+    control.addEventListener('change',save);
+  }
 }
 function restorePanel() {
   open('Restore a saved mission','LOCAL SAVE',

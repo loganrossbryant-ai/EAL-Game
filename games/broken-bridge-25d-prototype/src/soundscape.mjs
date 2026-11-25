@@ -5,10 +5,28 @@ const ambientSources = {
   cabin: {x:78, y:409, near:.40, falloff:150, base:0},
 };
 
+const defaults={master:100, voice:100, ambience:22, effects:65, music:24};
+const channelCeilings={voice:1.04, ambience:.82, effects:.80, music:.65};
+const duckLevels={ambience:.16, effects:.34, music:.14};
+const musicTrack='clearing-music';
+
+export function soundPreferences(saved, legacyEffects=true) {
+  const result={enabled:false, voice:true, ambience:true, effects:legacyEffects, music:false};
+  for(const key of Object.keys(result)){
+    if(typeof saved?.[key]==='boolean')result[key]=saved[key];
+  }
+  result.volumes={...defaults};
+  for(const key of Object.keys(defaults)){
+    const value=saved?.volumes?.[key];
+    if(Number.isFinite(value))result.volumes[key]=Math.round(Math.max(0,Math.min(100,value)));
+  }
+  return result;
+}
+
 export function createSoundscape({bank, voices, onUnavailable}) {
   let context, master, voice, sceneX=278, sceneY=449, lastMix=-1, stepIndex=0, loaded=false;
-  let preferences={enabled:false, voice:true, ambience:true, effects:true};
-  const buses={}, buffers=new Map(), loops=new Map();
+  let preferences=soundPreferences(), ducking=false, musicRequested=false;
+  const buses={}, duckers={}, buffers=new Map(), loops=new Map();
 
   function routeGain(destination, level) {
     const gain=context.createGain();
@@ -31,9 +49,11 @@ export function createSoundscape({bank, voices, onUnavailable}) {
     limiter.ratio.value=5;
     limiter.connect(context.destination);
     master=routeGain(limiter,0);
-    buses.voice=routeGain(master,.86);
-    buses.ambience=routeGain(master,1);
-    buses.effects=routeGain(master,.80);
+    for(const name of Object.keys(channelCeilings)){
+      const destination=Object.hasOwn(duckLevels,name) ? routeGain(master,1) : master;
+      buses[name]=routeGain(destination,0);
+      if(destination!==master)duckers[name]=destination;
+    }
   }
 
   function decode(id) {
@@ -70,14 +90,45 @@ export function createSoundscape({bank, voices, onUnavailable}) {
     automate(voice?.pan.pan,voice?balance(voice.x)*.50:0,.15);
   }
 
+  function applyDucking() {
+    const next=Boolean(voice&&preferences.enabled&&preferences.voice&&preferences.volumes.voice>0);
+    if(next===ducking)return;
+    ducking=next;
+    for(const [name,volume] of Object.entries(duckLevels)){
+      automate(duckers[name].gain,ducking?volume:1,ducking ? .026 : .20);
+    }
+  }
+
+  function loopSample(buffer,destination) {
+    const source=context.createBufferSource();
+    source.buffer=buffer;
+    source.loop=true;
+    source.connect(destination);
+    source.start();
+  }
+
+  function ensureMusic() {
+    if(musicRequested||!unlocked()||!preferences.enabled||!preferences.music||preferences.volumes.music===0)return;
+    musicRequested=true;
+    decode(musicTrack).then(buffer=>{
+      if(!preferences.enabled||!preferences.music||preferences.volumes.music===0){
+        musicRequested=false;
+        return;
+      }
+      loopSample(buffer,buses.music);
+    }).catch(()=>onUnavailable());
+  }
+
   function update(next) {
-    preferences={...next};
+    preferences=soundPreferences(next);
     if(!context)return;
     if(!preferences.enabled||!preferences.voice)stopVoice();
-    automate(master.gain,preferences.enabled&&!document.hidden?1:0,.025);
-    automate(buses.voice.gain,preferences.voice ? .86 : 0,.035);
-    automate(buses.ambience.gain,preferences.ambience?(voice ? .55 : 1):0,.12);
-    automate(buses.effects.gain,preferences.effects ? .80 : 0,.04);
+    automate(master.gain,preferences.enabled&&!document.hidden?preferences.volumes.master/100:0,.025);
+    for(const [name,ceiling] of Object.entries(channelCeilings)){
+      automate(buses[name].gain,preferences[name]?ceiling*preferences.volumes[name]/100:0,.035);
+    }
+    applyDucking();
+    ensureMusic();
   }
 
   async function unlock({quiet=false}={}) {
@@ -90,6 +141,7 @@ export function createSoundscape({bank, voices, onUnavailable}) {
       if(loaded)return true;
       loaded=true;
       for(const id of Object.keys(bank)){
+        if(id===musicTrack)continue;
         const buffer=decode(id);
         if(!Object.hasOwn(ambientSources,id)){buffer.catch(()=>onUnavailable());continue;}
         if(loops.has(id))continue;
@@ -97,11 +149,7 @@ export function createSoundscape({bank, voices, onUnavailable}) {
         const gain=routeGain(pan,0);
         loops.set(id,{gain,pan});
         buffer.then(value=>{
-          const source=context.createBufferSource();
-          source.buffer=value;
-          source.loop=true;
-          source.connect(gain);
-          source.start();
+          loopSample(value,gain);
           spatialMix();
         }).catch(()=>onUnavailable());
       }
@@ -119,7 +167,7 @@ export function createSoundscape({bank, voices, onUnavailable}) {
     current.audio.pause();
     current.source.disconnect();
     current.pan.disconnect();
-    automate(buses.ambience.gain,preferences.ambience?1:0,.12);
+    applyDucking();
   }
 
   function playVoice(id,x) {
@@ -134,7 +182,7 @@ export function createSoundscape({bank, voices, onUnavailable}) {
       source.connect(pan);
       voice={audio,source,pan,x:x??sceneX};
       spatialMix();
-      update(preferences);
+      applyDucking();
       audio.addEventListener('ended',()=>{if(voice?.audio===audio)stopVoice();},{once:true});
       audio.play().catch(()=>{
         if(voice?.audio!==audio)return;
@@ -155,9 +203,9 @@ export function createSoundscape({bank, voices, onUnavailable}) {
   }
 
   function cue(id,x=sceneX,level=.60) {
-    if(!unlocked()||!preferences.enabled||!preferences.effects||!Object.hasOwn(bank,id))return;
+    if(!unlocked()||!preferences.enabled||!preferences.effects||preferences.volumes.effects===0||!Object.hasOwn(bank,id))return;
     decode(id).then(buffer=>{
-      if(!preferences.enabled||!preferences.effects)return;
+      if(!preferences.enabled||!preferences.effects||preferences.volumes.effects===0)return;
       const source=context.createBufferSource();
       const pan=positionNode(buses.effects);
       if(pan.pan)pan.pan.value=balance(x);

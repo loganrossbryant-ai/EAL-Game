@@ -1,4 +1,5 @@
 import { checkRecommendation, cleanClaim } from './language.mjs';
+import {soundPreferences} from './soundscape.mjs';
 import {checkRig, newSurvey, readyForPermit, restoreSurvey} from './survey.mjs';
 
 export const ROUTES = {
@@ -11,7 +12,7 @@ export function fresh(mode = 'elementary') {
     version: 1, id: globalThis.crypto?.randomUUID?.() ?? String(Date.now()),
     mode, fieldEdition:6, survey:newSurvey(), clues: [], question: '', report: '', route: null, pieces: [], delivered: false,
     complete: false, consequence:'', rigTrials:[], attempts: [], fieldActions: [], hints: [], practiced: [], stretch: '', zh: mode === 'elementary',
-    mute: true, motion: null, sound: {enabled:false, voice:true, ambience:true, effects:true}, x: 278, y: 449, draft: '',
+    mute: true, motion: null, sound: soundPreferences(), x: 278, y: 449, draft: '',
   };
 }
 
@@ -46,10 +47,8 @@ export function restore(raw) {
     const safe = { ...initial };
     safe.fieldEdition=saved.fieldEdition===6?6:5;
     safe.survey=restoreSurvey(saved.survey);
-    if(safe.fieldEdition===5&&typeof saved.mute==='boolean')safe.sound.effects=!saved.mute;
-    for(const key of Object.keys(safe.sound)) {
-      if(typeof saved.sound?.[key]==='boolean')safe.sound[key]=saved.sound[key];
-    }
+    const legacyEffects=safe.fieldEdition===5&&typeof saved.mute==='boolean' ? !saved.mute : true;
+    safe.sound=soundPreferences(saved.sound,legacyEffects);
     for (const name of ['id','question','report','draft','stretch','consequence']) {
       if (typeof saved[name] === 'string') safe[name] = saved[name].slice(0, 1500);
     }

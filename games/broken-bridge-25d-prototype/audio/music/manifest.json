@@ -1,0 +1,14 @@
+{
+  "origin": "Alder River Clearing, original score synthesized for The Broken Bridge",
+  "source": "../compose_music.py",
+  "format": "Mono PCM WAV, 22050 Hz, 16-bit",
+  "license": "Original project audio, distributable with this game",
+  "clips": {
+    "clearing-music": {
+      "file": "clearing-music.wav",
+      "loop": true,
+      "seconds": 50.0,
+      "sha256": "3284f218ad94968dea990114e7dcf15b62619f05bb14ae3c7def8c11a0465e92"
+    }
+  }
+}

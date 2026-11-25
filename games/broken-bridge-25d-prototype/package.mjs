@@ -50,7 +50,14 @@ const voiceEntries=(await Promise.all([
 ])).flat();
 const voices=Object.fromEntries(voiceEntries);
 if(Object.keys(voices).length!==voiceEntries.length)throw new Error('Duplicate voice line IDs');
-const soundBank=Object.fromEntries(await loadBank('./audio/world/','audio/wav'));
+const soundEntries=(await Promise.all([
+  loadBank('./audio/world/','audio/wav'),
+  loadBank('./audio/music/','audio/wav'),
+])).flat();
+const soundBank=Object.fromEntries(soundEntries);
+if(Object.keys(soundBank).length!==soundEntries.length||!soundBank['clearing-music']){
+  throw new Error('Invalid world sound or music bank');
+}
 
 const game='const ART='+JSON.stringify(art)+';\nconst VOICE='+JSON.stringify(voices)+
   ';\nconst WORLD_AUDIO='+JSON.stringify(soundBank)+';\n'+

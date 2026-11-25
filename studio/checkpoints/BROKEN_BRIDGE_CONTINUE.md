@@ -1,6 +1,21 @@
 # CONTINUE BROKEN BRIDGE — durable handoff checkpoint
 
-**Saved:** 2026-11-24. **Latest review:** v0.4.0, **NOT approved**. Use this when the teacher says **“continue Broken Bridge”** or **“continue prototype.”**
+**Saved:** 2026-11-25. **Latest review:** v0.5.0, **NOT approved**. Use this when the teacher says **“continue Broken Bridge”** or **“continue prototype.”**
+
+## Latest independent audit — v0.5.0 (2026-11-25)
+- **Current review branch:** `codex/broken-bridge-v0.5.0-review` at observed GitHub head `7e66cdd6150dba329338b8787ea60c4e92785213`. Review ZIP root contains `Broken-Bridge-v0.5.0-Review.zip` and compiled `Broken-Bridge-v0.5.0.html`; game folder exposes planning documents, not reproducible editable `src/` and test suite. **Source-to-build parity and 14 claimed unit tests NOT independently reproduced.**
+- **Review ZIP:** 30 entries (HTML, evidence screenshots/videos, README/license). Embedded HTML SHA-256 `5ecb11dd066102f7c96d51dc4dea5f62d38d26a376a5c63ef3a9c739ee4ac240` matches supplied START-HERE. Local Chromium navigation was blocked by administrator policy; reported browser runs are not independent verification.
+- **Voice/audio:** 22 distinct decodable MP3 narration clips (3.7–8.3s); no ongoing forest/river/wind ambience, authentic footsteps/rope/bridge SFX or music layer identified. SFX disabled by default; voice plays only by replay buttons. Current 'Sound effects' setting does not control narration. Supplied 3 gameplay videos have **no audio stream** and cannot establish the sound gate.
+- **Motion:** `paintWorld` moves current/glints, two foreground sprites ~3 world units, a canopy overlay by ~0.013 rad, motes and light pulse. Forest and much ground remain flattened/static. In supplied same-camera ambient pair only ~0.86% of total pixels change >12 channel values (limited two-frame measurement). User reports the scene still feels lifeless.
+- **Puzzle variety:** four clue inspections + evidence-backed route recommendation + bridge (two boards/rope) or ford (two markers/pack); both reuse collect/orient/place sequencing. This is **not yet a demonstrated reusable puzzle library**, nor varied mystery, instrument, mechanism, testimony or system-reconfiguration play.
+- **Other missing:** meaningful NPC/world reactivity beyond scripted crossing; story complication/decision trade-off; multiple genuine language functions throughout, rather than one recommendation and prewritten reports; connected spatial discovery; mobile camera navigation.
+- **Navigation:** v0.5 introduced authored near/far ground regions and provided test evidence addressing v0.4 sky walking. Do not treat this as still broken without new reproduction. Physical iPhone/WeChat and current-textbook alignment remain NOT TESTED.
+- **v0.6 priority:** (1) commit reproducible modular game source/tests and protect v0.5 baseline; (2) integrated offline audio mixer and actual **audible** action/ambience demo; (3) original independently animated forest/river/near foliage with stationary-camera video and reduced motion; (4) THREE distinct *mechanic families* (evidence/instrument, spatial/mechanical manipulation, investigation/NPC communication) with meaningful EAL action and fair retries; (5) stronger NPC story/camera/mobile; (6) separate visual/audio/gameplay/device PASS/FAIL/NOT TESTED.
+- Detailed external handoff created in the user's conversation: `Broken_Bridge_v050_Independent_Audit_and_v060_Codex_Handoff.md`. Not automatically attached to GitHub; inspect it when user supplies it. Do not invent that the file was committed.
+- **No new game, no engine approval, no public deployment and no paid generation** pending teacher creative review. Preserve all previous releases, saves and approved voice assets.
+
+## Historical checkpoint — v0.4.0
+The section below preserves the previous detailed v0.4 findings and source locations for rollback. Its 'latest' references refer to the historical review, not the current working version.
 
 ## Locate correct source and preserve it
 - Repo: `loganrossbryant-ai/EAL-Game`
